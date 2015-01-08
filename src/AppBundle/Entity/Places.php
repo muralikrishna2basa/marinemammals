@@ -75,4 +75,175 @@ class Places
     private $pceSeqno;
 
 
+
+    /**
+     * Set creDat
+     *
+     * @param \DateTime $creDat
+     * @return Places
+     */
+    public function setCreDat($creDat)
+    {
+        $this->creDat = $creDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get creDat
+     *
+     * @return \DateTime 
+     */
+    public function getCreDat()
+    {
+        return $this->creDat;
+    }
+
+    /**
+     * Set creUser
+     *
+     * @param string $creUser
+     * @return Places
+     */
+    public function setCreUser($creUser)
+    {
+        $this->creUser = $creUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get creUser
+     *
+     * @return string 
+     */
+    public function getCreUser()
+    {
+        return $this->creUser;
+    }
+
+    /**
+     * Set modDat
+     *
+     * @param \DateTime $modDat
+     * @return Places
+     */
+    public function setModDat($modDat)
+    {
+        $this->modDat = $modDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get modDat
+     *
+     * @return \DateTime 
+     */
+    public function getModDat()
+    {
+        return $this->modDat;
+    }
+
+    /**
+     * Set modUser
+     *
+     * @param string $modUser
+     * @return Places
+     */
+    public function setModUser($modUser)
+    {
+        $this->modUser = $modUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get modUser
+     *
+     * @return string 
+     */
+    public function getModUser()
+    {
+        return $this->modUser;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Places
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Places
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Get seqno
+     *
+     * @return integer 
+     */
+    public function getSeqno()
+    {
+        return $this->seqno;
+    }
+
+    /**
+     * Set pceSeqno
+     *
+     * @param \AppBundle\Entity\Places $pceSeqno
+     * @return Places
+     */
+    public function setPceSeqno(\AppBundle\Entity\Places $pceSeqno = null)
+    {
+        $this->pceSeqno = $pceSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Get pceSeqno
+     *
+     * @return \AppBundle\Entity\Places 
+     */
+    public function getPceSeqno()
+    {
+        return $this->pceSeqno;
+    }
 }

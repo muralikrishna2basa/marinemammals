@@ -110,4 +110,290 @@ class Stations
     private $pceSeqno;
 
 
+
+    /**
+     * Set areaType
+     *
+     * @param string $areaType
+     * @return Stations
+     */
+    public function setAreaType($areaType)
+    {
+        $this->areaType = $areaType;
+    
+        return $this;
+    }
+
+    /**
+     * Get areaType
+     *
+     * @return string 
+     */
+    public function getAreaType()
+    {
+        return $this->areaType;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Stations
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set creDat
+     *
+     * @param \DateTime $creDat
+     * @return Stations
+     */
+    public function setCreDat($creDat)
+    {
+        $this->creDat = $creDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get creDat
+     *
+     * @return \DateTime 
+     */
+    public function getCreDat()
+    {
+        return $this->creDat;
+    }
+
+    /**
+     * Set creUser
+     *
+     * @param string $creUser
+     * @return Stations
+     */
+    public function setCreUser($creUser)
+    {
+        $this->creUser = $creUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get creUser
+     *
+     * @return string 
+     */
+    public function getCreUser()
+    {
+        return $this->creUser;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Stations
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param string $latitude
+     * @return Stations
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return string 
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set latDeg
+     *
+     * @param string $latDeg
+     * @return Stations
+     */
+    public function setLatDeg($latDeg)
+    {
+        $this->latDeg = $latDeg;
+    
+        return $this;
+    }
+
+    /**
+     * Get latDeg
+     *
+     * @return string 
+     */
+    public function getLatDeg()
+    {
+        return $this->latDeg;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param string $longitude
+     * @return Stations
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return string 
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set lonDeg
+     *
+     * @param string $lonDeg
+     * @return Stations
+     */
+    public function setLonDeg($lonDeg)
+    {
+        $this->lonDeg = $lonDeg;
+    
+        return $this;
+    }
+
+    /**
+     * Get lonDeg
+     *
+     * @return string 
+     */
+    public function getLonDeg()
+    {
+        return $this->lonDeg;
+    }
+
+    /**
+     * Set modDat
+     *
+     * @param \DateTime $modDat
+     * @return Stations
+     */
+    public function setModDat($modDat)
+    {
+        $this->modDat = $modDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get modDat
+     *
+     * @return \DateTime 
+     */
+    public function getModDat()
+    {
+        return $this->modDat;
+    }
+
+    /**
+     * Set modUser
+     *
+     * @param string $modUser
+     * @return Stations
+     */
+    public function setModUser($modUser)
+    {
+        $this->modUser = $modUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get modUser
+     *
+     * @return string 
+     */
+    public function getModUser()
+    {
+        return $this->modUser;
+    }
+
+    /**
+     * Get seqno
+     *
+     * @return integer 
+     */
+    public function getSeqno()
+    {
+        return $this->seqno;
+    }
+
+    /**
+     * Set pceSeqno
+     *
+     * @param \AppBundle\Entity\Places $pceSeqno
+     * @return Stations
+     */
+    public function setPceSeqno(\AppBundle\Entity\Places $pceSeqno = null)
+    {
+        $this->pceSeqno = $pceSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Get pceSeqno
+     *
+     * @return \AppBundle\Entity\Places 
+     */
+    public function getPceSeqno()
+    {
+        return $this->pceSeqno;
+    }
 }

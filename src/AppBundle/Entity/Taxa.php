@@ -58,4 +58,129 @@ class Taxa
     private $seqno;
 
 
+
+    /**
+     * Set canonicalName
+     *
+     * @param string $canonicalName
+     * @return Taxa
+     */
+    public function setCanonicalName($canonicalName)
+    {
+        $this->canonicalName = $canonicalName;
+    
+        return $this;
+    }
+
+    /**
+     * Get canonicalName
+     *
+     * @return string 
+     */
+    public function getCanonicalName()
+    {
+        return $this->canonicalName;
+    }
+
+    /**
+     * Set idodId
+     *
+     * @param integer $idodId
+     * @return Taxa
+     */
+    public function setIdodId($idodId)
+    {
+        $this->idodId = $idodId;
+    
+        return $this;
+    }
+
+    /**
+     * Get idodId
+     *
+     * @return integer 
+     */
+    public function getIdodId()
+    {
+        return $this->idodId;
+    }
+
+    /**
+     * Set scientificNameAuthorship
+     *
+     * @param string $scientificNameAuthorship
+     * @return Taxa
+     */
+    public function setScientificNameAuthorship($scientificNameAuthorship)
+    {
+        $this->scientificNameAuthorship = $scientificNameAuthorship;
+    
+        return $this;
+    }
+
+    /**
+     * Get scientificNameAuthorship
+     *
+     * @return string 
+     */
+    public function getScientificNameAuthorship()
+    {
+        return $this->scientificNameAuthorship;
+    }
+
+    /**
+     * Set taxonrank
+     *
+     * @param string $taxonrank
+     * @return Taxa
+     */
+    public function setTaxonrank($taxonrank)
+    {
+        $this->taxonrank = $taxonrank;
+    
+        return $this;
+    }
+
+    /**
+     * Get taxonrank
+     *
+     * @return string 
+     */
+    public function getTaxonrank()
+    {
+        return $this->taxonrank;
+    }
+
+    /**
+     * Set vernacularNameEn
+     *
+     * @param string $vernacularNameEn
+     * @return Taxa
+     */
+    public function setVernacularNameEn($vernacularNameEn)
+    {
+        $this->vernacularNameEn = $vernacularNameEn;
+    
+        return $this;
+    }
+
+    /**
+     * Get vernacularNameEn
+     *
+     * @return string 
+     */
+    public function getVernacularNameEn()
+    {
+        return $this->vernacularNameEn;
+    }
+
+    /**
+     * Get seqno
+     *
+     * @return integer 
+     */
+    public function getSeqno()
+    {
+        return $this->seqno;
+    }
 }

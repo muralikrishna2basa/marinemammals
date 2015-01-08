@@ -96,4 +96,231 @@ class EventStates
         $this->scnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * Set creDat
+     *
+     * @param \DateTime $creDat
+     * @return EventStates
+     */
+    public function setCreDat($creDat)
+    {
+        $this->creDat = $creDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get creDat
+     *
+     * @return \DateTime 
+     */
+    public function getCreDat()
+    {
+        return $this->creDat;
+    }
+
+    /**
+     * Set creUser
+     *
+     * @param string $creUser
+     * @return EventStates
+     */
+    public function setCreUser($creUser)
+    {
+        $this->creUser = $creUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get creUser
+     *
+     * @return string 
+     */
+    public function getCreUser()
+    {
+        return $this->creUser;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return EventStates
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set eventDatetime
+     *
+     * @param \DateTime $eventDatetime
+     * @return EventStates
+     */
+    public function setEventDatetime($eventDatetime)
+    {
+        $this->eventDatetime = $eventDatetime;
+    
+        return $this;
+    }
+
+    /**
+     * Get eventDatetime
+     *
+     * @return \DateTime 
+     */
+    public function getEventDatetime()
+    {
+        return $this->eventDatetime;
+    }
+
+    /**
+     * Set eventDatetimeFlag
+     *
+     * @param string $eventDatetimeFlag
+     * @return EventStates
+     */
+    public function setEventDatetimeFlag($eventDatetimeFlag)
+    {
+        $this->eventDatetimeFlag = $eventDatetimeFlag;
+    
+        return $this;
+    }
+
+    /**
+     * Get eventDatetimeFlag
+     *
+     * @return string 
+     */
+    public function getEventDatetimeFlag()
+    {
+        return $this->eventDatetimeFlag;
+    }
+
+    /**
+     * Set modDat
+     *
+     * @param \DateTime $modDat
+     * @return EventStates
+     */
+    public function setModDat($modDat)
+    {
+        $this->modDat = $modDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get modDat
+     *
+     * @return \DateTime 
+     */
+    public function getModDat()
+    {
+        return $this->modDat;
+    }
+
+    /**
+     * Set modUser
+     *
+     * @param string $modUser
+     * @return EventStates
+     */
+    public function setModUser($modUser)
+    {
+        $this->modUser = $modUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get modUser
+     *
+     * @return string 
+     */
+    public function getModUser()
+    {
+        return $this->modUser;
+    }
+
+    /**
+     * Get seqno
+     *
+     * @return integer 
+     */
+    public function getSeqno()
+    {
+        return $this->seqno;
+    }
+
+    /**
+     * Set clnSeqno
+     *
+     * @param \AppBundle\Entity\ContainerLocalizations $clnSeqno
+     * @return EventStates
+     */
+    public function setClnSeqno(\AppBundle\Entity\ContainerLocalizations $clnSeqno = null)
+    {
+        $this->clnSeqno = $clnSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Get clnSeqno
+     *
+     * @return \AppBundle\Entity\ContainerLocalizations 
+     */
+    public function getClnSeqno()
+    {
+        return $this->clnSeqno;
+    }
+
+    /**
+     * Add scnSeqno
+     *
+     * @param \AppBundle\Entity\Specimens $scnSeqno
+     * @return EventStates
+     */
+    public function addScnSeqno(\AppBundle\Entity\Specimens $scnSeqno)
+    {
+        $this->scnSeqno[] = $scnSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Remove scnSeqno
+     *
+     * @param \AppBundle\Entity\Specimens $scnSeqno
+     */
+    public function removeScnSeqno(\AppBundle\Entity\Specimens $scnSeqno)
+    {
+        $this->scnSeqno->removeElement($scnSeqno);
+    }
+
+    /**
+     * Get scnSeqno
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getScnSeqno()
+    {
+        return $this->scnSeqno;
+    }
 }
