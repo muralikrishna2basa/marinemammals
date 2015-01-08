@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Persons
  *
- * @ORM\Table(name="PERSONS", uniqueConstraints={@ORM\UniqueConstraint(name="psn_email_uk", columns={"EMAIL"}), @ORM\UniqueConstraint(name="psn_uk", columns={"FIRST_NAME", "LAST_NAME"})}, indexes={@ORM\Index(name="psn_ite_fk_i", columns={"ITE_SEQNO"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PersonsRepository")
+ * @ORM\Table(name="PERSONS", uniqueConstraints={@ORM\UniqueConstraint(name="psn_uk", columns={"FIRST_NAME", "LAST_NAME"}), @ORM\UniqueConstraint(name="psn_email_uk", columns={"EMAIL"})}, indexes={@ORM\Index(name="psn_ite_fk_i", columns={"ITE_SEQNO"})})
+ * @ORM\Entity
  */
 class Persons
 {
@@ -130,7 +130,7 @@ class Persons
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="PERSONS_SEQ", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="PERSONS_SEQNO_seq", allocationSize=1, initialValue=1)
      */
     private $seqno;
 

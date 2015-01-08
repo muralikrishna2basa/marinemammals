@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Medias
  *
- * @ORM\Table(name="MEDIAS", indexes={@ORM\Index(name="mda_ese_fk_i", columns={"ESE_SEQNO"}), @ORM\Index(name="mda_psn_fk_i", columns={"PSN_SEQNO"}), @ORM\Index(name="mda_oln_fk_i", columns={"OLN_NCY_ESE_SEQNO", "OLN_LTE_OGN_CODE", "OLN_LTE_SEQNO"})})
+ * @ORM\Table(name="MEDIAS", indexes={@ORM\Index(name="mda_oln_fk_i", columns={"OLN_NCY_ESE_SEQNO", "OLN_LTE_OGN_CODE", "OLN_LTE_SEQNO"}), @ORM\Index(name="mda_psn_fk_i", columns={"PSN_SEQNO"}), @ORM\Index(name="mda_ese_fk_i", columns={"ESE_SEQNO"})})
  * @ORM\Entity
  */
 class Medias

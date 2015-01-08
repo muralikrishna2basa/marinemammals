@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Platforms
+ * Sources
  *
- * @ORM\Table(name="PLATFORMS", uniqueConstraints={@ORM\UniqueConstraint(name="platforms_uk", columns={"NAME"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PlatformsRepository")
+ * @ORM\Table(name="SOURCES", uniqueConstraints={@ORM\UniqueConstraint(name="name_uk", columns={"NAME"})})
+ * @ORM\Entity
  */
-class Platforms
+class Sources
 {
     /**
      * @var \DateTime
@@ -43,16 +43,16 @@ class Platforms
     /**
      * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=200, nullable=false)
+     * @ORM\Column(name="NAME", type="string", length=100, nullable=false)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="PFM_TYPE", type="string", length=1, nullable=true)
+     * @ORM\Column(name="TYPE", type="string", length=50, nullable=true)
      */
-    private $pfmType;
+    private $type;
 
     /**
      * @var integer
@@ -60,17 +60,31 @@ class Platforms
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="PLATFORMS_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="SOURCES_SEQNO_seq", allocationSize=1, initialValue=1)
      */
     private $seqno;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Observations", mappedBy="sreSeqno")
+     */
+    private $osnSeqno;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->osnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
      * Set creDat
      *
      * @param \DateTime $creDat
-     * @return Platforms
+     * @return Sources
      */
     public function setCreDat($creDat)
     {
@@ -93,7 +107,7 @@ class Platforms
      * Set creUser
      *
      * @param string $creUser
-     * @return Platforms
+     * @return Sources
      */
     public function setCreUser($creUser)
     {
@@ -116,7 +130,7 @@ class Platforms
      * Set modDat
      *
      * @param \DateTime $modDat
-     * @return Platforms
+     * @return Sources
      */
     public function setModDat($modDat)
     {
@@ -139,7 +153,7 @@ class Platforms
      * Set modUser
      *
      * @param string $modUser
-     * @return Platforms
+     * @return Sources
      */
     public function setModUser($modUser)
     {
@@ -162,7 +176,7 @@ class Platforms
      * Set name
      *
      * @param string $name
-     * @return Platforms
+     * @return Sources
      */
     public function setName($name)
     {
@@ -182,26 +196,26 @@ class Platforms
     }
 
     /**
-     * Set pfmType
+     * Set type
      *
-     * @param string $pfmType
-     * @return Platforms
+     * @param string $type
+     * @return Sources
      */
-    public function setPfmType($pfmType)
+    public function setType($type)
     {
-        $this->pfmType = $pfmType;
+        $this->type = $type;
     
         return $this;
     }
 
     /**
-     * Get pfmType
+     * Get type
      *
      * @return string 
      */
-    public function getPfmType()
+    public function getType()
     {
-        return $this->pfmType;
+        return $this->type;
     }
 
     /**
@@ -212,5 +226,38 @@ class Platforms
     public function getSeqno()
     {
         return $this->seqno;
+    }
+
+    /**
+     * Add osnSeqno
+     *
+     * @param \AppBundle\Entity\Observations $osnSeqno
+     * @return Sources
+     */
+    public function addOsnSeqno(\AppBundle\Entity\Observations $osnSeqno)
+    {
+        $this->osnSeqno[] = $osnSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Remove osnSeqno
+     *
+     * @param \AppBundle\Entity\Observations $osnSeqno
+     */
+    public function removeOsnSeqno(\AppBundle\Entity\Observations $osnSeqno)
+    {
+        $this->osnSeqno->removeElement($osnSeqno);
+    }
+
+    /**
+     * Get osnSeqno
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOsnSeqno()
+    {
+        return $this->osnSeqno;
     }
 }

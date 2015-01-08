@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Platforms
+ * Event2persons
  *
- * @ORM\Table(name="PLATFORMS", uniqueConstraints={@ORM\UniqueConstraint(name="platforms_uk", columns={"NAME"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PlatformsRepository")
+ * @ORM\Table(name="EVENT2PERSONS", indexes={@ORM\Index(name="IDX_B3DFBBA574D02126", columns={"ESE_SEQNO"}), @ORM\Index(name="IDX_B3DFBBA5908072E2", columns={"PSN_SEQNO"})})
+ * @ORM\Entity
  */
-class Platforms
+class Event2persons
 {
     /**
      * @var \DateTime
@@ -43,26 +43,35 @@ class Platforms
     /**
      * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=200, nullable=false)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="PFM_TYPE", type="string", length=1, nullable=true)
-     */
-    private $pfmType;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="SEQNO", type="integer")
+     * @ORM\Column(name="E2P_TYPE", type="string", length=2)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="PLATFORMS_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $seqno;
+    private $e2pType;
+
+    /**
+     * @var \AppBundle\Entity\Persons
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Persons")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO")
+     * })
+     */
+    private $psnSeqno;
+
+    /**
+     * @var \AppBundle\Entity\EventStates
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO")
+     * })
+     */
+    private $eseSeqno;
 
 
 
@@ -70,7 +79,7 @@ class Platforms
      * Set creDat
      *
      * @param \DateTime $creDat
-     * @return Platforms
+     * @return Event2persons
      */
     public function setCreDat($creDat)
     {
@@ -93,7 +102,7 @@ class Platforms
      * Set creUser
      *
      * @param string $creUser
-     * @return Platforms
+     * @return Event2persons
      */
     public function setCreUser($creUser)
     {
@@ -116,7 +125,7 @@ class Platforms
      * Set modDat
      *
      * @param \DateTime $modDat
-     * @return Platforms
+     * @return Event2persons
      */
     public function setModDat($modDat)
     {
@@ -139,7 +148,7 @@ class Platforms
      * Set modUser
      *
      * @param string $modUser
-     * @return Platforms
+     * @return Event2persons
      */
     public function setModUser($modUser)
     {
@@ -159,58 +168,71 @@ class Platforms
     }
 
     /**
-     * Set name
+     * Set e2pType
      *
-     * @param string $name
-     * @return Platforms
+     * @param string $e2pType
+     * @return Event2persons
      */
-    public function setName($name)
+    public function setE2pType($e2pType)
     {
-        $this->name = $name;
+        $this->e2pType = $e2pType;
     
         return $this;
     }
 
     /**
-     * Get name
+     * Get e2pType
      *
      * @return string 
      */
-    public function getName()
+    public function getE2pType()
     {
-        return $this->name;
+        return $this->e2pType;
     }
 
     /**
-     * Set pfmType
+     * Set psnSeqno
      *
-     * @param string $pfmType
-     * @return Platforms
+     * @param \AppBundle\Entity\Persons $psnSeqno
+     * @return Event2persons
      */
-    public function setPfmType($pfmType)
+    public function setPsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
     {
-        $this->pfmType = $pfmType;
+        $this->psnSeqno = $psnSeqno;
     
         return $this;
     }
 
     /**
-     * Get pfmType
+     * Get psnSeqno
      *
-     * @return string 
+     * @return \AppBundle\Entity\Persons 
      */
-    public function getPfmType()
+    public function getPsnSeqno()
     {
-        return $this->pfmType;
+        return $this->psnSeqno;
     }
 
     /**
-     * Get seqno
+     * Set eseSeqno
      *
-     * @return integer 
+     * @param \AppBundle\Entity\EventStates $eseSeqno
+     * @return Event2persons
      */
-    public function getSeqno()
+    public function setEseSeqno(\AppBundle\Entity\EventStates $eseSeqno)
     {
-        return $this->seqno;
+        $this->eseSeqno = $eseSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Get eseSeqno
+     *
+     * @return \AppBundle\Entity\EventStates 
+     */
+    public function getEseSeqno()
+    {
+        return $this->eseSeqno;
     }
 }

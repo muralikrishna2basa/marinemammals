@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Platforms
+ * Places
  *
- * @ORM\Table(name="PLATFORMS", uniqueConstraints={@ORM\UniqueConstraint(name="platforms_uk", columns={"NAME"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PlatformsRepository")
+ * @ORM\Table(name="PLACES", uniqueConstraints={@ORM\UniqueConstraint(name="pl_uk_name", columns={"NAME"})}, indexes={@ORM\Index(name="IDX_E57ABD3EE3C1733", columns={"PCE_SEQNO"})})
+ * @ORM\Entity
  */
-class Platforms
+class Places
 {
     /**
      * @var \DateTime
@@ -43,16 +43,16 @@ class Platforms
     /**
      * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=200, nullable=false)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="PFM_TYPE", type="string", length=1, nullable=true)
+     * @ORM\Column(name="TYPE", type="string", length=20, nullable=true)
      */
-    private $pfmType;
+    private $type;
 
     /**
      * @var integer
@@ -60,9 +60,19 @@ class Platforms
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="PLATFORMS_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="PLACES_SEQNO_seq", allocationSize=1, initialValue=1)
      */
     private $seqno;
+
+    /**
+     * @var \AppBundle\Entity\Places
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Places")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="PCE_SEQNO", referencedColumnName="SEQNO")
+     * })
+     */
+    private $pceSeqno;
 
 
 
@@ -70,7 +80,7 @@ class Platforms
      * Set creDat
      *
      * @param \DateTime $creDat
-     * @return Platforms
+     * @return Places
      */
     public function setCreDat($creDat)
     {
@@ -93,7 +103,7 @@ class Platforms
      * Set creUser
      *
      * @param string $creUser
-     * @return Platforms
+     * @return Places
      */
     public function setCreUser($creUser)
     {
@@ -116,7 +126,7 @@ class Platforms
      * Set modDat
      *
      * @param \DateTime $modDat
-     * @return Platforms
+     * @return Places
      */
     public function setModDat($modDat)
     {
@@ -139,7 +149,7 @@ class Platforms
      * Set modUser
      *
      * @param string $modUser
-     * @return Platforms
+     * @return Places
      */
     public function setModUser($modUser)
     {
@@ -162,7 +172,7 @@ class Platforms
      * Set name
      *
      * @param string $name
-     * @return Platforms
+     * @return Places
      */
     public function setName($name)
     {
@@ -182,26 +192,26 @@ class Platforms
     }
 
     /**
-     * Set pfmType
+     * Set type
      *
-     * @param string $pfmType
-     * @return Platforms
+     * @param string $type
+     * @return Places
      */
-    public function setPfmType($pfmType)
+    public function setType($type)
     {
-        $this->pfmType = $pfmType;
+        $this->type = $type;
     
         return $this;
     }
 
     /**
-     * Get pfmType
+     * Get type
      *
      * @return string 
      */
-    public function getPfmType()
+    public function getType()
     {
-        return $this->pfmType;
+        return $this->type;
     }
 
     /**
@@ -212,5 +222,28 @@ class Platforms
     public function getSeqno()
     {
         return $this->seqno;
+    }
+
+    /**
+     * Set pceSeqno
+     *
+     * @param \AppBundle\Entity\Places $pceSeqno
+     * @return Places
+     */
+    public function setPceSeqno(\AppBundle\Entity\Places $pceSeqno = null)
+    {
+        $this->pceSeqno = $pceSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Get pceSeqno
+     *
+     * @return \AppBundle\Entity\Places 
+     */
+    public function getPceSeqno()
+    {
+        return $this->pceSeqno;
     }
 }

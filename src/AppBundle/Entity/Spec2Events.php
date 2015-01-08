@@ -204,3 +204,4 @@ class Spec2Events
         return $this->eseSeqno;
     }
 }
+

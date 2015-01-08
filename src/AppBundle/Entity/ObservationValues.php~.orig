@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SpecimenValues
+ * ObservationValues
  *
- * @ORM\Table(name="SPECIMEN_VALUES", indexes={@ORM\Index(name="sve_s2e_fk_i", columns={"S2E_SCN_SEQNO", "S2E_ESE_SEQNO"}), @ORM\Index(name="sve_pmd_fk_i", columns={"PMD_SEQNO"}), @ORM\Index(name="sve_ese_i", columns={"S2E_ESE_SEQNO"})})
+ * @ORM\Table(name="OBSERVATION_VALUES", indexes={@ORM\Index(name="IDX_4746664D74D02126", columns={"ESE_SEQNO"}), @ORM\Index(name="IDX_4746664D5DC10EB5", columns={"PMD_SEQNO"})})
  * @ORM\Entity
  */
-class SpecimenValues
+class ObservationValues
 {
     /**
      * @var \DateTime
@@ -25,13 +25,6 @@ class SpecimenValues
      * @ORM\Column(name="CRE_USER", type="string", length=30, nullable=true)
      */
     private $creUser;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="DESCRIPTION", type="string", length=250, nullable=true)
-     */
-    private $description;
 
     /**
      * @var \DateTime
@@ -67,20 +60,9 @@ class SpecimenValues
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="SPECIMEN_VALUES_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="OBSERVATION_VALUES_SEQNO_seq", allocationSize=1, initialValue=1)
      */
     private $seqno;
-
-    /**
-     * @var \AppBundle\Entity\Spec2events
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2events")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="S2E_SCN_SEQNO", referencedColumnName="SCN_SEQNO"),
-     *   @ORM\JoinColumn(name="S2E_ESE_SEQNO", referencedColumnName="ESE_SEQNO")
-     * })
-     */
-    private $s2eScnSeqno;
 
     /**
      * @var \AppBundle\Entity\ParameterMethods
@@ -91,6 +73,16 @@ class SpecimenValues
      * })
      */
     private $pmdSeqno;
+
+    /**
+     * @var \AppBundle\Entity\Observations
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="ESE_SEQNO")
+     * })
+     */
+    private $eseSeqno;
 
 
 }
