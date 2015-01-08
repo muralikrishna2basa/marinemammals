@@ -100,4 +100,254 @@ class Menus
         $this->grpName = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * Set creDat
+     *
+     * @param \DateTime $creDat
+     * @return Menus
+     */
+    public function setCreDat($creDat)
+    {
+        $this->creDat = $creDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get creDat
+     *
+     * @return \DateTime 
+     */
+    public function getCreDat()
+    {
+        return $this->creDat;
+    }
+
+    /**
+     * Set creUser
+     *
+     * @param string $creUser
+     * @return Menus
+     */
+    public function setCreUser($creUser)
+    {
+        $this->creUser = $creUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get creUser
+     *
+     * @return string 
+     */
+    public function getCreUser()
+    {
+        return $this->creUser;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Menus
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set display
+     *
+     * @param string $display
+     * @return Menus
+     */
+    public function setDisplay($display)
+    {
+        $this->display = $display;
+    
+        return $this;
+    }
+
+    /**
+     * Get display
+     *
+     * @return string 
+     */
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
+     * Set displayOrder
+     *
+     * @param integer $displayOrder
+     * @return Menus
+     */
+    public function setDisplayOrder($displayOrder)
+    {
+        $this->displayOrder = $displayOrder;
+    
+        return $this;
+    }
+
+    /**
+     * Get displayOrder
+     *
+     * @return integer 
+     */
+    public function getDisplayOrder()
+    {
+        return $this->displayOrder;
+    }
+
+    /**
+     * Set modDat
+     *
+     * @param \DateTime $modDat
+     * @return Menus
+     */
+    public function setModDat($modDat)
+    {
+        $this->modDat = $modDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get modDat
+     *
+     * @return \DateTime 
+     */
+    public function getModDat()
+    {
+        return $this->modDat;
+    }
+
+    /**
+     * Set modUser
+     *
+     * @param string $modUser
+     * @return Menus
+     */
+    public function setModUser($modUser)
+    {
+        $this->modUser = $modUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get modUser
+     *
+     * @return string 
+     */
+    public function getModUser()
+    {
+        return $this->modUser;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Menus
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set script
+     *
+     * @param string $script
+     * @return Menus
+     */
+    public function setScript($script)
+    {
+        $this->script = $script;
+    
+        return $this;
+    }
+
+    /**
+     * Get script
+     *
+     * @return string 
+     */
+    public function getScript()
+    {
+        return $this->script;
+    }
+
+    /**
+     * Get seqno
+     *
+     * @return integer 
+     */
+    public function getSeqno()
+    {
+        return $this->seqno;
+    }
+
+    /**
+     * Add grpName
+     *
+     * @param \AppBundle\Entity\Groups $grpName
+     * @return Menus
+     */
+    public function addGrpName(\AppBundle\Entity\Groups $grpName)
+    {
+        $this->grpName[] = $grpName;
+    
+        return $this;
+    }
+
+    /**
+     * Remove grpName
+     *
+     * @param \AppBundle\Entity\Groups $grpName
+     */
+    public function removeGrpName(\AppBundle\Entity\Groups $grpName)
+    {
+        $this->grpName->removeElement($grpName);
+    }
+
+    /**
+     * Get grpName
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGrpName()
+    {
+        return $this->grpName;
+    }
 }

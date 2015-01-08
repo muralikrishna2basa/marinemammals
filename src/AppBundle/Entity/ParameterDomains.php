@@ -69,4 +69,165 @@ class ParameterDomains
     private $pmdSeqno;
 
 
+
+    /**
+     * Set creDat
+     *
+     * @param \DateTime $creDat
+     * @return ParameterDomains
+     */
+    public function setCreDat($creDat)
+    {
+        $this->creDat = $creDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get creDat
+     *
+     * @return \DateTime 
+     */
+    public function getCreDat()
+    {
+        return $this->creDat;
+    }
+
+    /**
+     * Set creUser
+     *
+     * @param string $creUser
+     * @return ParameterDomains
+     */
+    public function setCreUser($creUser)
+    {
+        $this->creUser = $creUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get creUser
+     *
+     * @return string 
+     */
+    public function getCreUser()
+    {
+        return $this->creUser;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return ParameterDomains
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set modDat
+     *
+     * @param \DateTime $modDat
+     * @return ParameterDomains
+     */
+    public function setModDat($modDat)
+    {
+        $this->modDat = $modDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get modDat
+     *
+     * @return \DateTime 
+     */
+    public function getModDat()
+    {
+        return $this->modDat;
+    }
+
+    /**
+     * Set modUser
+     *
+     * @param string $modUser
+     * @return ParameterDomains
+     */
+    public function setModUser($modUser)
+    {
+        $this->modUser = $modUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get modUser
+     *
+     * @return string 
+     */
+    public function getModUser()
+    {
+        return $this->modUser;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return ParameterDomains
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set pmdSeqno
+     *
+     * @param \AppBundle\Entity\ParameterMethods $pmdSeqno
+     * @return ParameterDomains
+     */
+    public function setPmdSeqno(\AppBundle\Entity\ParameterMethods $pmdSeqno)
+    {
+        $this->pmdSeqno = $pmdSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Get pmdSeqno
+     *
+     * @return \AppBundle\Entity\ParameterMethods 
+     */
+    public function getPmdSeqno()
+    {
+        return $this->pmdSeqno;
+    }
 }

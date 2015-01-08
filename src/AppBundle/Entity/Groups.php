@@ -67,13 +67,6 @@ class Groups
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Persons", mappedBy="grpName")
-     */
-    private $psnSeqno;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ParameterMethods", mappedBy="grpName")
      */
     private $pmdSeqno;
@@ -86,13 +79,267 @@ class Groups
     private $mnuSeqno;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Persons", mappedBy="grpName")
+     */
+    private $psnSeqno;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->psnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
         $this->pmdSeqno = new \Doctrine\Common\Collections\ArrayCollection();
         $this->mnuSeqno = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->psnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * Set accessLevel
+     *
+     * @param integer $accessLevel
+     * @return Groups
+     */
+    public function setAccessLevel($accessLevel)
+    {
+        $this->accessLevel = $accessLevel;
+    
+        return $this;
+    }
+
+    /**
+     * Get accessLevel
+     *
+     * @return integer 
+     */
+    public function getAccessLevel()
+    {
+        return $this->accessLevel;
+    }
+
+    /**
+     * Set creDat
+     *
+     * @param \DateTime $creDat
+     * @return Groups
+     */
+    public function setCreDat($creDat)
+    {
+        $this->creDat = $creDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get creDat
+     *
+     * @return \DateTime 
+     */
+    public function getCreDat()
+    {
+        return $this->creDat;
+    }
+
+    /**
+     * Set creUser
+     *
+     * @param string $creUser
+     * @return Groups
+     */
+    public function setCreUser($creUser)
+    {
+        $this->creUser = $creUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get creUser
+     *
+     * @return string 
+     */
+    public function getCreUser()
+    {
+        return $this->creUser;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Groups
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set modDat
+     *
+     * @param \DateTime $modDat
+     * @return Groups
+     */
+    public function setModDat($modDat)
+    {
+        $this->modDat = $modDat;
+    
+        return $this;
+    }
+
+    /**
+     * Get modDat
+     *
+     * @return \DateTime 
+     */
+    public function getModDat()
+    {
+        return $this->modDat;
+    }
+
+    /**
+     * Set modUser
+     *
+     * @param string $modUser
+     * @return Groups
+     */
+    public function setModUser($modUser)
+    {
+        $this->modUser = $modUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get modUser
+     *
+     * @return string 
+     */
+    public function getModUser()
+    {
+        return $this->modUser;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add pmdSeqno
+     *
+     * @param \AppBundle\Entity\ParameterMethods $pmdSeqno
+     * @return Groups
+     */
+    public function addPmdSeqno(\AppBundle\Entity\ParameterMethods $pmdSeqno)
+    {
+        $this->pmdSeqno[] = $pmdSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Remove pmdSeqno
+     *
+     * @param \AppBundle\Entity\ParameterMethods $pmdSeqno
+     */
+    public function removePmdSeqno(\AppBundle\Entity\ParameterMethods $pmdSeqno)
+    {
+        $this->pmdSeqno->removeElement($pmdSeqno);
+    }
+
+    /**
+     * Get pmdSeqno
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPmdSeqno()
+    {
+        return $this->pmdSeqno;
+    }
+
+    /**
+     * Add mnuSeqno
+     *
+     * @param \AppBundle\Entity\Menus $mnuSeqno
+     * @return Groups
+     */
+    public function addMnuSeqno(\AppBundle\Entity\Menus $mnuSeqno)
+    {
+        $this->mnuSeqno[] = $mnuSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mnuSeqno
+     *
+     * @param \AppBundle\Entity\Menus $mnuSeqno
+     */
+    public function removeMnuSeqno(\AppBundle\Entity\Menus $mnuSeqno)
+    {
+        $this->mnuSeqno->removeElement($mnuSeqno);
+    }
+
+    /**
+     * Get mnuSeqno
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMnuSeqno()
+    {
+        return $this->mnuSeqno;
+    }
+
+    /**
+     * Add psnSeqno
+     *
+     * @param \AppBundle\Entity\Persons $psnSeqno
+     * @return Groups
+     */
+    public function addPsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
+    {
+        $this->psnSeqno[] = $psnSeqno;
+    
+        return $this;
+    }
+
+    /**
+     * Remove psnSeqno
+     *
+     * @param \AppBundle\Entity\Persons $psnSeqno
+     */
+    public function removePsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
+    {
+        $this->psnSeqno->removeElement($psnSeqno);
+    }
+
+    /**
+     * Get psnSeqno
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPsnSeqno()
+    {
+        return $this->psnSeqno;
+    }
 }
