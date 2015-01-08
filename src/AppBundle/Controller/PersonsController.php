@@ -24,7 +24,7 @@ class PersonsController extends Controller
         $institutes = $em->getRepository('AppBundle:Institutes')
             ->getAllInstitutes();
         $institute=new Institutes();
-        $iform   = $this->createForm(new InstitutesType(), $institute);
+        $iform   = $this->createForm( new InstitutesType(), $institute);
 
         return $this->render('AppBundle:Page:add-persons.html.twig',array(
             'persons' => $persons,

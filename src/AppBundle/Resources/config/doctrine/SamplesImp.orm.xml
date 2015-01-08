@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\SamplesImp" table="SAMPLES_IMP">
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="containerTypesBox" type="string" column="CONTAINER_TYPES__BOX" length="100" nullable="true"/>
+    <field name="containerTypesInstitute" type="string" column="CONTAINER_TYPES__INSTITUTE" length="100" nullable="true"/>
+    <field name="containerTypesRank" type="string" column="CONTAINER_TYPES__RANK" length="100" nullable="true"/>
+    <field name="country" type="string" column="COUNTRY" length="100" nullable="true"/>
+    <field name="necropsiesSubref" type="string" column="NECROPSIES_SUBREF" length="100" nullable="true"/>
+    <field name="necropsiesProgram" type="string" column="NECROPSIES__PROGRAM" length="100" nullable="true"/>
+    <field name="necropsiesRefAut" type="string" column="NECROPSIES__REF_AUT" length="100" nullable="true"/>
+    <field name="necropsiesRefLabo" type="string" column="NECROPSIES__REF_LABO" length="100" nullable="true"/>
+    <field name="organsCode" type="string" column="ORGANS__CODE" length="100" nullable="true"/>
+    <field name="organLesionsDescription" type="string" column="ORGAN_LESIONS__DESCRIPTION" length="4000" nullable="true"/>
+    <field name="samplesAnalyzeDest" type="string" column="SAMPLES__ANALYZE_DEST" length="100" nullable="true"/>
+    <field name="samplesConservationMode" type="string" column="SAMPLES__CONSERVATION_MODE" length="100" nullable="true"/>
+    <field name="samplesSpeType" type="string" column="SAMPLES__SPE_TYPE" length="100" nullable="true"/>
+    <field name="seqnoTemp" type="integer" column="SEQNO_TEMP" nullable="true"/>
+    <field name="specimensIdodSeqno" type="integer" column="SPECIMENS__IDOD_SEQNO" nullable="true"/>
+    <field name="specimensTaxa" type="string" column="SPECIMENS__TAXA" length="300" nullable="true"/>
+  </entity>
+</doctrine-mapping>

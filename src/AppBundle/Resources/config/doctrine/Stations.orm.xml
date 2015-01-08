@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Stations" table="STATIONS">
+    <indexes>
+      <index name="IDX_61C4E9A5EE3C1733" columns="PCE_SEQNO"/>
+    </indexes>
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="areaType" type="string" column="AREA_TYPE" length="100" nullable="true"/>
+    <field name="code" type="string" column="CODE" length="50" nullable="true"/>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="description" type="string" column="DESCRIPTION" length="4000" nullable="true"/>
+    <field name="latitude" type="string" column="LATITUDE" length="20" nullable="true"/>
+    <field name="latDeg" type="decimal" column="LAT_DEG" precision="25" scale="12" nullable="true"/>
+    <field name="longitude" type="string" column="LONGITUDE" length="20" nullable="true"/>
+    <field name="lonDeg" type="decimal" column="LON_DEG" precision="25" scale="15" nullable="true"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <many-to-one field="pceSeqno" target-entity="Places">
+      <join-columns>
+        <join-column name="PCE_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

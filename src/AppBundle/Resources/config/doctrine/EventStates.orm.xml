@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\EventStates" table="EVENT_STATES">
+    <indexes>
+      <index name="IDX_59D47093A0562FD1" columns="CLN_SEQNO"/>
+    </indexes>
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="description" type="string" column="DESCRIPTION" length="4000" nullable="true"/>
+    <field name="eventDatetime" type="datetime" column="EVENT_DATETIME" nullable="false"/>
+    <field name="eventDatetimeFlag" type="string" column="EVENT_DATETIME_FLAG" length="1" nullable="false"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <many-to-one field="clnSeqno" target-entity="ContainerLocalizations">
+      <join-columns>
+        <join-column name="CLN_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="scnSeqno" target-entity="Specimens" mapped-by="eseSeqno"/>
+  </entity>
+</doctrine-mapping>

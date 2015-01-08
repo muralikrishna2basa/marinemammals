@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\ParameterMethods" table="PARAMETER_METHODS">
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="description" type="string" column="DESCRIPTION" length="4000" nullable="false"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <field name="name" type="string" column="NAME" length="70" nullable="false"/>
+    <field name="origin" type="string" column="ORIGIN" length="3" nullable="false"/>
+    <field name="unit" type="string" column="UNIT" length="10" nullable="false"/>
+    <many-to-many field="grpName" target-entity="Groups" mapped-by="pmdSeqno"/>
+  </entity>
+</doctrine-mapping>

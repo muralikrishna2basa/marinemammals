@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Necropsies" table="NECROPSIES">
+    <id name="eseSeqno" association-key="true"/>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <field name="program" type="string" column="PROGRAM" length="50" nullable="true"/>
+    <field name="refAut" type="string" column="REF_AUT" length="30" nullable="true"/>
+    <field name="refLabo" type="string" column="REF_LABO" length="30" nullable="true"/>
+    <one-to-one field="eseSeqno" target-entity="EventStates">
+      <join-columns>
+        <join-column name="ESE_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </one-to-one>
+    <many-to-many field="lteOgnCode" target-entity="LesionTypes" mapped-by="ncyEseSeqno"/>
+  </entity>
+</doctrine-mapping>

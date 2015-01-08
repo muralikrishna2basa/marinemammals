@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Medias" table="MEDIAS">
+    <indexes>
+      <index name="mda_oln_fk_i" columns="OLN_NCY_ESE_SEQNO,OLN_LTE_OGN_CODE,OLN_LTE_SEQNO"/>
+      <index name="mda_psn_fk_i" columns="PSN_SEQNO"/>
+      <index name="mda_ese_fk_i" columns="ESE_SEQNO"/>
+    </indexes>
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="confidentiality" type="boolean" column="CONFIDENTIALITY" nullable="true"/>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="description" type="string" column="DESCRIPTION" length="4000" nullable="false"/>
+    <field name="display" type="string" column="DISPLAY" length="1" nullable="true"/>
+    <field name="location" type="string" column="LOCATION" length="200" nullable="false"/>
+    <field name="mdaType" type="string" column="MDA_TYPE" length="3" nullable="false"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <many-to-one field="psnSeqno" target-entity="Persons">
+      <join-columns>
+        <join-column name="PSN_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="olnNcyEseSeqno" target-entity="OrganLesions">
+      <join-columns>
+        <join-column name="OLN_NCY_ESE_SEQNO" referenced-column-name="NCY_ESE_SEQNO"/>
+        <join-column name="OLN_LTE_OGN_CODE" referenced-column-name="LTE_OGN_CODE"/>
+        <join-column name="OLN_LTE_SEQNO" referenced-column-name="LTE_SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="eseSeqno" target-entity="EventStates">
+      <join-columns>
+        <join-column name="ESE_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
