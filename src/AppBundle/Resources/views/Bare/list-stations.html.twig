@@ -1,0 +1,26 @@
+    <h2>List of stations</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>code</th>
+            <th>area type</th>
+            <th>description</th>
+            <th>latitude</th>
+            <th>longitude</th>
+            <th>place</th>
+        </tr>
+        </thead>
+        {% for station in stations %}
+            <tr>
+                <td>{{station.code}}</td>
+                <td>{{station.areaType}}</td>
+                <td>{{station.description}}</td>
+                <td>{{station.latDeg}}</td>
+                <td>{{station.lonDeg}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>No stations found.</td>
+            </tr>
+        {% endfor %}
+    </table>

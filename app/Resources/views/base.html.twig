@@ -1,0 +1,204 @@
+<!-- app/Resources/views/base.html.twig -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset=utf-8 " />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Marine Mammals">
+<meta name="author" content="Thomas Vandenberghe">
+<title>{% block title %}{% endblock %}Marine Mammals</title>
+<link rel="shortcut icon"
+	href="http://www.odnature.be/assets/nav/logos/logo32x32.ico" />
+<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+{% stylesheets
+    'http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic|Patua+One|Yanone+Kaffeesatz'
+    'http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css'
+    'http://www.odnature.be/css/odnature.css'
+	'css/mm.css'%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+</head>
+<body>
+	<div class="container">
+		<header>
+			<div class="top-links">
+				<a href="http://www.naturalsciences.be/">museum</a><span class="sep">&#187;</span>
+				<a href="http://www.naturalsciences.be/en/science/home">science</a><span
+					class="sep">&#187;</span> <a
+					href="http://www.naturalsciences.be/en/science/do/98">od nature</a><span
+					class="sep">&#187;</span> <a href="http://www.odnature.be/">scientific
+					web sites and applications</a>
+			</div>
+			<div class="top-links">
+				<form class="form-inline top-search" role="form">
+					<div class="form-group"></div>
+				</form>
+			</div>
+			<div class="branding-main">
+				<div class="branding-logo">
+					<img src="http://www.odnature.be/assets/nav/logos/museum.png" alt="logo" />
+				</div>
+				<div class="branding-text">
+					<span class="institution">Royal Belgian Institute of Natural
+						Sciences</span>
+					<p class="directorate">
+						Operational Directorate Natural Environment<br /> <span
+							class="swap-branding">scientific web sites and applications</span>
+					</p>
+				</div>
+			</div>
+			<div class="navmenu">
+			 <nav class="navbar navbar-default" role="navigation">
+				{% block navigation %}
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#navbar-collapse">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/index">Marine Mammals &#187;</a>
+				</div>
+
+				<div class="collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/about">About</a></li>
+						<li><a href="/remsem/ecosystem-modelling">Browse observations</a></li>
+						<li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Management<span
+								class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header">Observations</li>
+								<li><a href="/remsem/software-and-data/turbid-water-software">Browse</a></li>
+								<li><a href="/remsem/software-and-data/similarity-spectrum">Create
+										new</a></li>
+								<li><a href="/remsem/software-and-data/total-suspended-matter">Update
+										existing</a></li>
+								<li><a href="/remsem/software-and-data/total-suspended-matter">Batch
+										import</a></li>
+								<li class="divider"></li>
+								<li class="dropdown-header">Necropsies</li>
+								<li><a href="/remsem/software-and-data/turbid-water-software">Browse</a></li>
+								<li><a href="/remsem/software-and-data/similarity-spectrum">Create
+										new</a></li>
+								<li><a href="/remsem/software-and-data/total-suspended-matter">Update
+										existing</a></li>
+								<li class="divider"></li>
+								<li class="dropdown-header">Manage lists</li>
+								<li><a href="/taxa/add">Species</a></li>
+								<li><a href="/stations/add">Stations</a></li>
+								<li><a href="/platforms/add">Platforms</a></li>
+								<li><a href="/persons/add">Persons</a></li>
+								<li><a href="/sources/add">Sources</a></li>
+							</ul></li>
+						<li><a href="/remsem/contact">Contact</a></li>
+					</ul>
+				</div>
+				{% endblock %}
+			</nav>
+			</div>
+			<div class="showcase hidden-print">
+    			<img src="{{ asset('img/seals.jpg') }}" alt="photo banner" />
+				<div class="tagline">
+					<span class="acronym">Belgian Marine Mammals</span>
+					<p class="description">OD Nature Belgian Marine Data Center</p>
+				</div>
+			</div>
+			<div class="showcase-mobile">
+				<span class="acronym">Belgian Marine Mammals</span>
+				<p class="description">OD Nature Belgian Marine Data Center</p>
+			</div>
+		</header>
+
+		<div class="main-content">
+		{% block main_content %}{% endblock %}
+		</div>
+</div>
+		<footer>
+			{% block footer %}
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-6">
+						<strong>Marine Mammals &mdash; <span>OD Nature Belgian Marine Data
+								Center</span></strong><br /> <span class="titles">Contributor(s):
+						</span> <br /> <a href="mailto:j.haelters@mumm.ac.be">j.haelters@mumm.ac.be</a>
+						<br /> <a href="mailto:t.jauniaux@ulg.ac.be">t.jauniaux@ulg.ac.be</a>
+						<br /> <span class="titles">Designed and developed by: </span><br />
+						<a href="http://www.odnature.be/bmdc">BMDC</a><br />
+					</div>
+					<div class="col-md-2">
+						<span class="titles">Social media: </span><br> <span
+							class="subtitles">Follow <strong>RBINS</strong> on:
+						</span><br> <a
+							href="http://www.facebook.com/pages/Museum-voor-Natuurwetenschappen-Mus%C3%A9um-des-Sciences-naturelles/62974540902"><i
+							class="fa fa-facebook fa-lg"></i></a> <a
+							href="http://twitter.com/RBINSmuseum"><i
+							class="fa fa-twitter fa-lg"></i></a> <a
+							href="http://plus.google.com/106005649553321310507"><i
+							class="fa fa-google-plus fa-lg"></i></a> <a
+							href="http://pinterest.com/source/natuurwetenschappen.be"><i
+							class="fa fa-pinterest fa-lg"></i></a> <a
+							href="http://www.youtube.com/user/Naturalsciences"><i
+							class="fa fa-youtube fa-lg"></i></a><br>
+
+					</div>
+					<div class="col-md-4">
+						<p>
+							<span class="titles">Research within our Institute: </span><br> <span
+								class="subtitles">Scientific research: </span><br> <span
+								class="sublinks"><a
+								href='http://www.naturalsciences.be/en/science/directional--operations'>Research</a>,
+								<a href='http://www.naturalsciences.be/en/science/collections'>Collections</a>,
+								<a
+								href='http://www.naturalsciences.be/en/science/scientific-support'>Scientific
+									expertise</a>, <a
+								href='http://www.naturalsciences.be/en/science/publications-home'>Publications</a>,
+								<a
+								href='http://www.naturalsciences.be/en/science/museum-library'>Library</a></span><br>
+							<span class="subtitles">Operational Directorates: </span><br> <span
+								class="sublinks"><a
+								href='http://www.naturalsciences.be/en/science/do/98'>Natural
+									Environment</a>, <a
+								href='http://www.naturalsciences.be/en/science/do/94'>Earth
+									&amp; History of Life</a>, <a
+								href='http://www.naturalsciences.be/en/science/do/97'>Taxonomy
+									&amp; Philogeny</a></span><br>
+						</p>
+						<p>
+							<span class="titles">You are now visiting: </span><br> <span
+								class="sublinks"> <a
+								href="http://www.naturalsciences.be/en/science/do/98">OD Nature</a>
+								&#187; <a href="http://www.odnature.be/">Scientific web sites
+									and applications</a> &#187; <a
+								href="http://www.odnature.be/remsem/">REMSEM</a>
+							</span>
+						</p>
+					</div>
+				</div>
+
+				<div class="row copyright-row">
+					<div class="col-md-12">
+						&copy; <a href="http://www.naturalsciences.be/">RBINS</a> 2014
+						&#187; Operational Directorate Natural Environment
+					</div>
+				</div>
+			</div>
+			{% endblock %}
+		</footer>
+	<a href="#" class="scrollup">Scroll</a> {% block javascripts %}
+	<script type="text/javascript"
+		src="http://www.odnature.be/js/jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js"></script>
+	<script type="text/javascript"
+		src="http://www.odnature.be/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="http://www.odnature.be/js/odnature/global.js"></script>
+	{% endblock %}
+</body>
+</html>
+
+
+

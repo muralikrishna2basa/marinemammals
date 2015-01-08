@@ -1,0 +1,9 @@
+{# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig  #}
+{% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block main_content %}
+    <div class="col-lg-6">
+        {{ include('AppBundle:Bare:add-persons.html.twig') }}
+        {{ include('AppBundle:Bare:add-institutes.html.twig') }}
+       </div>
+    <div class="col-lg-6">    {{ include('AppBundle:Bare:list-persons.html.twig') }}</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+<h2>Add new place</h2>
+{{ form_start(pform, {'method': 'POST','action': path('mm_persons_add_create')}) }}
+<ul class="formelements">
+    <li>{{ form_row(pform.name,{'label':'Name'}) }}</li>
+    <li>{{ form_row(pform.type,{'label':'Type'}) }}</li>
+    <li>{{ form_row(pform.pceSeqno, {'label':'Place' }) }}</li>
+</ul>
+<p>
+    <input type="submit" value="Submit">
+</p>
+{{ form_end(pform) }}
+

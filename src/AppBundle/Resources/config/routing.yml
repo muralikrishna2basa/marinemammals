@@ -1,0 +1,83 @@
+mm_homepage:
+    pattern:  /
+    defaults: { _controller: AppBundle:Page:index }
+    requirements:
+        _method:  GET
+        
+mm_about:
+    pattern:  /about
+    defaults: { _controller: AppBundle:Page:about }
+    requirements:
+        _method:  GET
+
+mm_taxa_index:
+    pattern:  /taxa
+    defaults: { _controller: TaxaBundle:Page:index }
+    requirements:
+        _method:  GET
+
+mm_observations_index:
+    pattern:  /observations
+    defaults: { _controller: AppBundle:Observations:index }
+    requirements:
+        _method:  GET
+
+mm_taxa_add_new:
+    pattern:  /taxa/add
+    defaults: { _controller: TaxaBundle:Page:new }
+    requirements:
+        _method:  GET
+
+mm_taxa_add_create:
+    pattern:  /taxa/add
+    defaults: { _controller: TaxaBundle:Page:create }
+    requirements:
+        _method:  POST
+
+mm_persons_add_new:
+    pattern:  /persons/add
+    defaults: { _controller: AppBundle:Persons:new }
+    requirements:
+        _method:  GET
+
+mm_persons_add_create:
+    pattern:  /persons/add
+    defaults: { _controller: AppBundle:Persons:create }
+    requirements:
+        _method:  POST
+
+mm_stations_add_new:
+    pattern:  /stations/add
+    defaults: { _controller: AppBundle:Stations:new }
+    requirements:
+        _method:  GET
+
+mm_stations_add_create:
+    pattern:  /stations/add
+    defaults: { _controller: AppBundle:Stations:create }
+    requirements:
+        _method:  POST
+
+mm_platforms_add_new:
+    pattern:  /platforms/add
+    defaults: { _controller: AppBundle:Platforms:new }
+    requirements:
+        _method:  GET
+
+mm_platforms_add_create:
+    pattern:  /platforms/add
+    defaults: { _controller: AppBundle:Platforms:create }
+    requirements:
+        _method:  POST
+
+mm_sources_add_new:
+    pattern:  /sources/add
+    defaults: { _controller: AppBundle:Sources:new }
+    requirements:
+        _method:  GET
+
+mm_sources_add_create:
+    pattern:  /sources/add
+    defaults: { _controller: AppBundle:Sources:create }
+    requirements:
+        _method:  POST

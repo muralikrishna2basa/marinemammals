@@ -1,0 +1,21 @@
+    <h2>List of taxa</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Species</th>
+            <th>Vernacular name</th>
+            <th>Idod id</th>
+        </tr>
+        </thead>
+        {% for taxon in taxa %}
+            <tr>
+                <td>{{taxon.canonicalName}}</td>
+                <td>{{taxon.vernacularNameEn}}</td>
+                <td>{{taxon.idodId}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>No taxa found.</td>
+            </tr>
+        {% endfor %}
+    </table>

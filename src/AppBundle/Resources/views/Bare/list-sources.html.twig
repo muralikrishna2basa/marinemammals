@@ -1,0 +1,19 @@
+    <h2>List of sources</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>type</th>
+        </tr>
+        </thead>
+        {% for s in sources %}
+            <tr>
+                <td>{{s.name}}</td>
+                <td>{{s.type}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>No sources found.</td>
+            </tr>
+        {% endfor %}
+    </table>

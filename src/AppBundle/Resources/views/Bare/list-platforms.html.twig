@@ -1,0 +1,19 @@
+    <h2>List of platforms</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>type</th>
+        </tr>
+        </thead>
+        {% for p in platforms %}
+            <tr>
+                <td>{{p.name}}</td>
+                <td>{{p.pfmType}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>No platforms found.</td>
+            </tr>
+        {% endfor %}
+    </table>

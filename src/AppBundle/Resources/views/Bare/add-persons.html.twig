@@ -1,0 +1,20 @@
+<h2>Add new person</h2>
+{{ form_start(pform, {'method': 'POST','action': path('mm_persons_add_create')}) }}
+<ul class="formelements">
+    <li>{{ form_row(pform.firstName,{'label':'First name'}) }}</li>
+    <li>{{ form_row(pform.lastName,{'label':'Last name'}) }}</li>
+    <li>{{ form_row(pform.address, {'label':'Address', 'attr': {'placeholder': '<street> <streetnumber>, <postal code> <municipality>'} }) }}</li>
+    <li>{{ form_row(pform.iteSeqno, {'label':'Institute'}) }}</li>
+    <li>{{ form_row(pform.phoneNumber, {'label':'Phone number', 'attr': {'placeholder': 'dd(d)(d)/dddddd(d)'} }) }}</li>
+    <li>{{ form_row(pform.email, {'label':'mail'}) }}</li>
+    <li>{{ form_row(pform.sex, {'label':'Sex'}) }}</li>
+    <li>{{ form_row(pform.title, {'label':'Title'}) }}</li>
+    <li>{{ form_row(pform.idodId, {'label':'IDOD id', 'attr': {'placeholder': 'verify in IDOD, add there if needed'} }) }}</li>
+</ul>
+<p>
+    <input type="submit" value="Submit">
+</p>
+{{ form_end(pform) }}
+{#<form action="{{ path('mm_persons_add_create')}}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+</form>#}

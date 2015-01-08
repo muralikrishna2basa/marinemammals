@@ -1,0 +1,42 @@
+<div style=" margin-top:2em;border:2px solid darkorange;">
+    <h2>Observation</h2>
+{{ form_start(iform, {'method': 'POST','action': path('mm_events_add_create')}) }}
+    <ul class="formelements" id="observation_elements">
+        <li>
+            <h3>Date and time</h3>
+            <ul>
+                <li><label for="f_date">Date</label><input type="text" id="f_date"/>
+                    <label for="f_time">Time</label>
+                    <input type="text" id="f_time"/>
+                    <label for="f_datetime_flag">Date flag</label>
+                    <select id="f_datetime_flag">
+                        <option>Select or leave empty...</option>
+                        <option>reference unknown</option>
+                        <option>time unknown</option>
+                        <option>replaced</option>
+                        <option>date suspect</option>
+                        <option>time suspect</option>
+                        <option>missing</option>
+                    </select></li>
+            </ul>
+        </li>
+        <li>
+            <h3>Observation comments</h3>
+            <ul>
+                <li><label for="f_event_description">Observation description</label>
+                    <input type="text" id="f_event_description"/></li>
+                <li><label for="f_webcomments_en">Web Comments: English</label>
+                    <input type="text" id="f_webcomments_en"/>
+                    <label for="f_webcomments_nl">Web Comments: Dutch</label>
+                    <input type="text" id="f_webcomments_nl"/>
+                    <label for="f_webcomments_fr">Web Comments: French</label>
+                    <input type="text" id="f_webcomments_fr"/></li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        <input type="submit" value="Submit">
+    </p>
+</div>
+
+{{ form_end(iform) }}

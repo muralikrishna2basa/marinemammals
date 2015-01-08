@@ -1,0 +1,10 @@
+<h2>Add new institute</h2>
+{{ form_start(iform, {'method': 'POST','action': path('mm_persons_add_create')}) }}
+<ul class="formelements">
+    <li>{{ form_row(iform.name, {'label':'Name'}) }}</li>
+    <li>{{ form_row(iform.code, {'label':'Code'}) }}</li>
+</ul>
+<p>
+    <input type="submit" value="Submit">
+</p>
+{{ form_end(iform) }}

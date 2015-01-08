@@ -1,0 +1,45 @@
+<div style=" margin-top:2em;border:2px solid darkorange;">
+    <h2>Observation</h2>
+{{ form_start(iform, {'method': 'POST','action': path('mm_observations_add_create')}) }}
+    <ul class="formelements" id="observation_elements">
+        <li>
+            <h3>Location</h3>
+            <ul>
+                <li><h4>Exact Coordinates</h4>
+                <ul><li>{{ form_row(form.latDeg, {'label':'Angular latitude', 'attr': {'placeholder': 'deg°min*sec**'} }) }}
+                    {{ form_row(form.lonDeg, {'label':'Angular longitude', 'attr': {'placeholder': 'deg°min*sec**'} }) }}
+                    {{ form_row(form.precisionFlag, {'label':'Location precision'}) }}</li></ul>
+                <li>
+                    <h4>Station</h4>
+                    <ul>
+                        <li>{{ form_row(form.precisionFlag, {'label':'Station'}) }}</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h3>Observation type</h3>
+            <p>qsdfsdf</p>
+            <ul>
+                <li> <li>{{ form_row(form.confidentiality, {'label':'Confidential observation'}) }}</li>
+                <li>{{ form_row(form.osnType, {'label':'Observation type'}) }}
+                    {{ form_row(form.samplingeffort, {'label':'Effort Related Survey?'}) }}
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h3>Observation conditions</h3>
+            <label for="f_wind_direction">Wind Direction</label>
+            <input type="text" id="f_wind_direction"/>
+            <label for="f_seastate">Seastate</label>
+            <input type="text" id="f_seastate"/>
+            <label for="f_wind_speed">Wind Speed (Bft)</label>
+            <input type="text" id="f_wind_speed"/>
+        </li>
+    </ul>
+    <p>
+        <input type="submit" value="Submit">
+    </p>
+</div>
+
+{{ form_end(iform) }}

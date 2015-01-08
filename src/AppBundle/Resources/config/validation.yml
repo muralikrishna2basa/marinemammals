@@ -1,0 +1,6 @@
+#AppBundle\Entity\Stations:
+#    properties:
+#        areaType:
+#            - Choice:
+#                choices:  [0,1,2,At sea, Beach, Harbourg, Inland waters, zegfegd, rsqgdgr, ghrthyn]
+#                message:  Choose a valid areaType.

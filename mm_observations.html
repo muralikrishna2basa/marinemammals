@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic|Patua+One|Yanone+Kaffeesatz'
+          rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://www.odnature.be/css/odnature.css" rel="stylesheet">
+</head>
+<body>
+<div style=" margin-top:2em;border:2px solid darkorange;">
+    <h2>Observation</h2>
+    <ul class="formelements" id="observation_elements">
+        <li>
+            <h3>Date and time</h3>
+            <ul>
+                <li><label for="f_date">Date</label><input type="text" id="f_date"/>
+                    <label for="f_time">Time</label>
+                    <input type="text" id="f_time"/>
+                    <label for="f_datetime_flag">Date flag</label>
+                    <select id="f_datetime_flag">
+                        <option>Select or leave empty...</option>
+                        <option>reference unknown</option>
+                        <option>time unknown</option>
+                        <option>replaced</option>
+                        <option>date suspect</option>
+                        <option>time suspect</option>
+                        <option>missing</option>
+                    </select></li>
+            </ul>
+        </li>
+        <li>
+            <h3>Location</h3>
+            <ul>
+                <li><h4>Exact Coordinates</h4>
+                    <label for="f_latitude">Latitude</label>
+                    <input type="text" id="f_latitude">
+                    <label for="f_longitude">Longitude</label>
+                    <input type="text" id="f_longitude">
+                    <label for="f_precision_flag">Position flag</label>
+                    <select id="f_precision_flag">
+                        <option>Select...</option>
+                        <option>precise</option>
+                        <option>imprecise</option>
+                    </select></li>
+                <li>
+                    <h4>Station</h4>
+                    <ul>
+                        <li><label for="q_country">Country</label><select id="q_country">
+                            <option>Select...</option>
+                            <option>Belgium</option>
+                            <option>France</option>
+                        </select>
+                            <label for="q_place">Place</label>
+                            <select id="q_place">
+                                <option>Select...</option>
+                                <option>Nieuwpoort</option>
+                                <option>Duinbergen</option>
+                            </select>
+                            <label for="q_place_description">Place description</label>
+                            <input type="text" id="q_place_description"/>
+                        </li>
+
+                        <li><label for="f_station">Station</label>
+                            <select id="f_station">
+                                <option>Select...</option>
+                                <option>BH_ZUYD</option>
+                                <option>BH_NWPO</option>
+                                <option>RE_SEAL</option>
+                            </select>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h3>Observation type</h3>
+            <ul>
+                <li><input type="checkbox" id="f_event_confidential">
+                    <label for="f_event_confidential">Confidential observation</label></li>
+                <li><label for="f_osn_type">Type of observation</label>
+                    <select id="f_osn_type">
+                        <option>Select...</option>
+                        <option>Bycatch</option>
+                        <option>Caught</option>
+                        <option>Caught Inland</option>
+                        <option>Found dead in Harbour</option>
+                        <option>Found dead at Sea</option>
+                        <option>Found dead on beach</option>
+                        <option>Found alive on beach</option>
+                        <option>Released from captivity</option>
+                        <option>Sighted</option>
+                        <option>Died during transport/rehab</option>
+                    </select>
+                    <label for="f_samplingeffort">Effort Related Survey?</label>
+                    <select id="f_samplingeffort">
+                        <option>Select...</option>
+                        <option>Ad hoc observation</option>
+                        <option>Effort-related survey</option>
+                    </select>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h3>Observation conditions</h3>
+            <label for="f_wind_direction">Wind Direction</label>
+            <input type="text" id="f_wind_direction"/>
+            <label for="f_seastate">Seastate</label>
+            <input type="text" id="f_seastate"/>
+            <label for="f_wind_speed">Wind Speed (Bft)</label>
+            <input type="text" id="f_wind_speed"/>
+        </li>
+        <li>
+            <h3>Observation comments</h3>
+            <ul>
+                <li><label for="f_event_description">Observation description</label>
+                    <input type="text" id="f_event_description"/></li>
+                <li><label for="f_webcomments_en">Web Comments: English</label>
+                    <input type="text" id="f_webcomments_en"/>
+                    <label for="f_webcomments_nl">Web Comments: Dutch</label>
+                    <input type="text" id="f_webcomments_nl"/>
+                    <label for="f_webcomments_fr">Web Comments: French</label>
+                    <input type="text" id="f_webcomments_fr"/></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div style=" margin-top:2em;border:2px solid darkorange;">
+    <h2>Specimen</h2>
+    <ul class="formelements" id="specimen_elements">
+        <li>
+            <h3>Search or enter existing specimen</h3>
+            <button id="b_search_scn">Search for specimen in list</button>
+            <label for="q_scn_seqno">Specimen id</label>
+            <input type="text" id="q_scn_seqno"/>
+        </li>
+        <li>
+            <h3>Specimen</h3>
+            <ul>
+                <li><label for="f_species">Species</label>
+                    <select id="f_species">
+                        <option>Select...</option>
+                        <option>Phoca vitulina</option>
+                        <option>Halichoerus grypus</option>
+                        <option>Phocoena phocoena</option>
+                    </select>
+                    <input type="checkbox" id="f_identification_certainty"/>
+                    <label for="f_identification_certainty">Identification is certain?</label></li>
+                <li><label for="q_scn_number">Number</label>
+                    <input type="text" id="q_scn_number"/></li>
+                <li><label for="f_sex">Sex</label>
+                    <select id="f_sex">
+                        <option>Select...</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Unknown</option>
+                    </select></li>
+                <li><label for="f_RBINS_tag">RBINS tag</label><input type="text" id="f_RBINS_tag">
+                    <label for="f_necropsy_tag">Necropsy tag</label>
+                    <input type="text" id="f_necropsy_tag"></li>
+            </ul>
+        </li>
+        <li>
+            <h3>Circumstantial parameters</h3>
+            <ul>
+                <li><label for="f_before intervention">Before intervention</label>
+                    <select id="f_before intervention">
+                        <option>Select...</option>
+                        <option>alive</option>
+                        <option>died at sea</option>
+                        <option>died on beach</option>
+                        <option>killed on beach</option>
+                        <option>died, circumstances unknown</option>
+                        <option>animal back to sea on its own</option>
+                    </select>
+                    <label for="f_before intervention_flag">Probability assessment</label>
+                    <select id="f_before intervention_flag">
+                        <option>Select...</option>
+                        <option>definitively</option>
+                        <option>probably</option>
+                        <option>possibly</option>
+                    </select>
+                </li>
+                <li><label for="f_during_intervention">During intervention</label>
+                    <select id="f_during_intervention">
+                        <option>Select...</option>
+                        <option>intervention unknown</option>
+                        <option>no intervention</option>
+                        <option>escaped while trying to catch</option>
+                        <option>released alive</option>
+                        <option>died during intervention/rehab same day</option>
+                        <option>taken to rehab</option>
+                        <option>euthanized</option>
+                    </select></li>
+                <li><label for="f_collection">Collection</label>
+                    <select id="f_collection">
+                        <option>Select...</option>
+                        <option>not</option>
+                        <option>fully collected for necropsy</option>
+                        <option>released for destruction</option>
+                        <option>carcass disappeared</option>
+                    </select></li>
+                <li><label for="f_decomposition_code">Decomposition code</label>
+                    <select id="f_decomposition_code">
+                        <option>Select or leave empty...</option>
+                        <option>extremely fresh</option>
+                        <option>moderate decomposition</option>
+                        <option>advanced decomposition</option>
+                        <option>no longer organs, skeleton</option>
+                    </select></li>
+            </ul>
+        </li>
+        <li>
+            <h3>Length and weight</h3>
+            <label for="f_length">Length (cm)</label><input id="f_length" type="text"/>
+            <label for="f_weight">Weight (kg)</label>
+            <input id="f_weight" type="text"/>
+        </li>
+    </ul>
+</div>
+<div style=" margin-top:2em;border:2px solid darkorange;">
+    <h2>External pathology</h2>
+    <ul>
+        <li>
+            <h3>Fresh external lesions</h3>
+            <ul>
+                <li><label>Fresh bite marks</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Opened abdomen</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Stabbing wound</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Parallel cuts</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Broken bones</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Hypothema</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Fin amputation</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Encircling lesion</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Line/net impressions or cuts</label> <input type="radio"><input type="radio"><input
+                        type="radio">
+                </li>
+                <li><label>Tail</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Pectoral fin</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Snout</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Mouth</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Scavenger traces</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Picks</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Bites</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Other fresh external lesions</label> <input type="radio"><input type="radio"><input
+                        type="radio">
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h3>Healing/healed lesions</h3>
+            <ul>
+                <li><label>Bites</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Pox-like lesions</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Open warts</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Cuts</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Line/net impressions</label> <input type="radio"><input type="radio"><input type="radio">
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <h3>Fishing activities</h3>
+            <ul>
+                <li><label>Static gear on beach nearby</label> <input type="radio"><input type="radio"><input
+                        type="radio">
+                </li>
+                <li><label>Static gear at sea nearby</label> <input type="radio"><input type="radio"><input
+                        type="radio">
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <h3>Other characteristics</h3>
+            <ul>
+                <li><label>External parasites</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Froth from airways</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Fishy smell</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Prey remains in mouth</label> <input type="radio"><input type="radio"><input type="radio">
+                </li>
+                <li><label>Remains of nets, ropes, plastic, etc.</label> <input type="radio"><input type="radio"><input
+                        type="radio"></li>
+                <li><label>Oil remains on skin</label> <input type="radio"><input type="radio"><input
+                        type="radio"></li>
+                <li><label>Nutritional condition</label> <input type="radio"><input type="radio"><input type="radio">
+                </li>
+                <li><label>Stomach Content</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Other Parameter name</label><input type="text"><label>Other Parameter value</label><input type="text"></li>
+            </ul>
+        </li>
+
+
+    </ul>
+</div>
+<div style=" margin-top:2em;border:2px solid darkorange;">
+    <h2>Cause of death</h2>
+    <ul>
+        <li>
+            <h3>Cause of death assessment</h3>
+            <ul>
+                <li><label>Natural (incl. starvation and disease)</label> <input type="radio"><input type="radio"><input
+                        type="radio"></li>
+                <li><label>Bycatch</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Ship strike</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Predation</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Unknown</label> <input type="radio"><input type="radio"><input type="radio"></li>
+                <li><label>Other</label> <input type="radio"><input type="radio"><input type="radio"></li>
+            </ul>
+        </li>
+        <li><h3>Bycatch probability</h3>
+            <ul>
+                <li><label>Professional gear</label> <input type="radio"><input type="radio"></li>
+                <li><label>Recreational gear</label> <input type="radio"><input type="radio"></li>
+                <li><label>Angling</label> <input type="radio"><input type="radio"></li>
+                <li><label>Unknown fishing gear</label> <input type="radio"></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
