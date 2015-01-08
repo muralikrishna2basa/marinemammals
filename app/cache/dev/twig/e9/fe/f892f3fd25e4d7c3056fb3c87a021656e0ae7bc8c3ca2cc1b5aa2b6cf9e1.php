@@ -16,7 +16,7 @@ class __TwigTemplate_e9fef892f3fd25e4d7c3056fb3c87a021656e0ae7bc8c3ca2cc1b5aa2b6
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo "<h2>Add new Person</h2>
+        echo "<h2>Add new person</h2>
 ";
         // line 2
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_persons_add_create")));

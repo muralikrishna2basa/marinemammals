@@ -16,7 +16,7 @@ class __TwigTemplate_2185ad3544925829316823c1540fad273de1f1ba00537106c06eb85bd3f
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo "<h2>Add new Institute</h2>
+        echo "<h2>Add new institute</h2>
 ";
         // line 2
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["iform"]) ? $context["iform"] : $this->getContext($context, "iform")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_persons_add_create")));
