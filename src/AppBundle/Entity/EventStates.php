@@ -67,7 +67,7 @@ class EventStates
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="EVENT_STATES_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="EVENT_STATES_SEQ", allocationSize=1, initialValue=1)
      */
     private $seqno;
 
@@ -94,7 +94,6 @@ class EventStates
      */
     public function __construct()
     {
-        $this->scnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -293,12 +292,22 @@ class EventStates
     }
 
     /**
-     * Get spec2event
-     *
      * @return \AppBundle\Entity\Spec2Events
      */
     public function getSpec2event()
     {
         return $this->spec2event;
     }
+
+    /**
+     * @param \AppBundle\Entity\Spec2Events $spec2event
+     * @return EventStates
+     */
+    public function setSpec2event($spec2event)
+    {
+        $this->spec2event = $spec2event;
+
+        return $this;
+    }
+
 }

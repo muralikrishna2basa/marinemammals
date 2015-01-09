@@ -67,7 +67,7 @@ class ObservationValues
     /**
      * @var \AppBundle\Entity\ParameterMethods
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="observationValues")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO")
      * })
@@ -77,7 +77,7 @@ class ObservationValues
     /**
      * @var \AppBundle\Entity\Observations
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="observationValues")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="ESE_SEQNO")
      * })

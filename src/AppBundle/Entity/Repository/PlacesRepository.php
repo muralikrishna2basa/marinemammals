@@ -16,7 +16,7 @@ class PlacesRepository extends EntityRepository
             ->getResult();
     }
 
-    public function getAllPlacesParent()
+    public function getAllPlacesParentQb()
     {
         $qb = $this->createQueryBuilder('p')
             ->select('p')

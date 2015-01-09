@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ParameterMethods
  *
  * @ORM\Table(name="PARAMETER_METHODS")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ParameterMethodsRepository")
  */
 class ParameterMethods
 {
@@ -86,11 +86,19 @@ class ParameterMethods
     private $grpName;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ObservationValues", mappedBy="pmdSeqno")
+     */
+    private $observationValues;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->grpName = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->observationValues = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -319,5 +327,23 @@ class ParameterMethods
     public function getGrpName()
     {
         return $this->grpName;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObservationValues()
+    {
+        return $this->observationValues;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $observationValues
+     * @return Observations
+     */
+    public function setObservationValues($observationValues)
+    {
+        $this->observationValues = $observationValues;
+        return $this;
     }
 }

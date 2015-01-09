@@ -110,6 +110,8 @@ class Specimens
     private $txnSeqno;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Spec2Events", mappedBy="scnSeqno")
      **/
     private $spec2event;
@@ -119,7 +121,7 @@ class Specimens
      */
     public function __construct()
     {
-        $this->eseSeqno = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->spec2event = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -409,13 +411,24 @@ class Specimens
         return $this->txnSeqno;
     }
 
+
     /**
-     * Get spec2event
-     *
-     * @return \AppBundle\Entity\Spec2Events
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSpec2event()
     {
         return $this->spec2event;
     }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $spec2event
+     * @return Specimens
+     */
+    public function setSpec2event($spec2event)
+    {
+        $this->spec2event = $spec2event;
+
+        return $this;
+    }
+
 }

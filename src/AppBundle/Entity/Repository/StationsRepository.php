@@ -16,4 +16,14 @@ class StationsRepository extends EntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function getAllStationsPlaceQb(){
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->addSelect('p')
+            ->leftJoin('s.pceSeqno','p')
+            ->addOrderBy('s.areaType', 'ASC')
+            ->addOrderBy('p.name', 'ASC');
+        return $qb;
+    }
 }

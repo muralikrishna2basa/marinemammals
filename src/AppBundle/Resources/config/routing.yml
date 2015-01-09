@@ -81,3 +81,15 @@ mm_sources_add_create:
     defaults: { _controller: AppBundle:Sources:create }
     requirements:
         _method:  POST
+
+mm_observations_add_new:
+    pattern:  /observations/add
+    defaults: { _controller: AppBundle:Observations:new }
+    requirements:
+        _method:  GET
+
+mm_observations_add_create:
+    pattern:  /observations/add
+    defaults: { _controller: AppBundle:Observations:create }
+    requirements:
+        _method:  POST

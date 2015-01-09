@@ -171,11 +171,19 @@ class Observations
     private $sreSeqno;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ObservationValues", mappedBy="eseSeqno")
+     */
+    private $observationValues;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->sreSeqno = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->observationValues = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -670,5 +678,24 @@ class Observations
     public function getSreSeqno()
     {
         return $this->sreSeqno;
+    }
+
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObservationValues()
+    {
+        return $this->observationValues;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $observationValues
+     * @return Observations
+     */
+    public function setObservationValues($observationValues)
+    {
+        $this->observationValues = $observationValues;
+        return $this;
     }
 }

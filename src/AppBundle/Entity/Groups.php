@@ -67,7 +67,9 @@ class Groups
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ParameterMethods", mappedBy="grpName")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="grpName")
+     * @ORM\JoinTable(name="PARAMETER_GROUPS", inverseJoinColumns={@ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO")},
+     *     joinColumns={@ORM\JoinColumn(name="GRP_NAME", referencedColumnName="NAME")})
      */
     private $pmdSeqno;
 

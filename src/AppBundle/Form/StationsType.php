@@ -40,7 +40,7 @@ class StationsType extends AbstractType
             'required' => true,
             'class' => 'AppBundle:Places',
             'property' => 'fullyQualifiedName',
-            'query_builder'=> function(PlacesRepository $er){return $er->getAllPlacesParent();}
+            'query_builder'=> function(PlacesRepository $er){return $er->getAllPlacesParentQb();}
 
         ));
     }

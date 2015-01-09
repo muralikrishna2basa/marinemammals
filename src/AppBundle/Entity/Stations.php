@@ -396,4 +396,14 @@ class Stations
     {
         return $this->pceSeqno;
     }
+
+    /**
+     * Get fully Qualified Name
+     *
+     * @return \AppBundle\Entity\Places
+     */
+    public function getFullyQualifiedName()
+    {
+        return $this->getPceSeqno()->getName().' - '.$this->getCode().' ('.$this->getAreaType().')';
+    }
 }
