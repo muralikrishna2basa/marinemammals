@@ -49,7 +49,7 @@ class ObservationValuesType extends AbstractType
         });
         $builder->add('valueFlag', 'choice',array(
             'empty_value' => 'Select...',
-            'required' => true,
+            'required' => false,
             'choice_list'=>new CgRefChoiceList($this->doctrine,'VALUE_FLAG')
         ));
     }

@@ -88,7 +88,6 @@ class EventStates
     private $spec2event;
 
 
-
     /**
      * Constructor
      */

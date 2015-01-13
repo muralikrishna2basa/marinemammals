@@ -19,11 +19,13 @@ class ObservationsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('latDeg', 'text', array(
-            'required' => true
+        $builder->add('latDeg', 'number', array(
+            'required' => true,
+            'precision'=>6
         ));
-        $builder->add('lonDeg', 'text', array(
-            'required' => true
+        $builder->add('lonDeg', 'number', array(
+            'required' => true,
+            'precision'=>6
         ));
         $builder->add('precisionFlag', 'choice', array(
             'empty_value' => 'Select...',
@@ -40,7 +42,7 @@ class ObservationsType extends AbstractType
             }
         ));
         $builder->add('isconfidential', 'checkbox', array(
-            'required' => true
+            'required' => false
         ));
         $builder->add('osnType', 'choice', array(
             'empty_value' => 'Select...',
@@ -65,7 +67,10 @@ class ObservationsType extends AbstractType
         $builder->add('eseSeqno', new EventStatesType($this->doctrine), array('data_class' => 'AppBundle\Entity\EventStates'));
 
         $builder->add('observationValues', 'collection', array('type' => new ObservationValuesType($this->doctrine),
-            'options' => array('data_class' => 'AppBundle\Entity\ObservationValues')));
+            'options' => array('data_class' => 'AppBundle\Entity\ObservationValues'),
+            'allow_delete' => true,
+            'delete_empty' => true
+        ));
     }
 
     public function getName()

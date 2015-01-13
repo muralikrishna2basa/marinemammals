@@ -1,6 +1,6 @@
 <?php
 
-/* AppBundle:Page:add-observations.html.twig */
+/* AppBundle:Page:add-observations-specimens.html.twig */
 class __TwigTemplate_7b9b8f5c263b4065b4562c3f176e17af33a46394bcaf71e79cdbb3bc3abc270f extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
@@ -21,19 +21,17 @@ class __TwigTemplate_7b9b8f5c263b4065b4562c3f176e17af33a46394bcaf71e79cdbb3bc3ab
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        // line 1
-        $this->env->getExtension('form')->renderer->setTheme((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), array(0 => "AppBundle::form.html.twig"));
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
-    // line 3
+    // line 2
     public function block_main_content($context, array $blocks = array())
     {
-        // line 4
-        echo "    <div class=\"col-lg-6\">
+        // line 3
+        echo "    <div class=\"col-lg-10\">
         ";
-        // line 5
-        echo twig_include($this->env, $context, "AppBundle:Bare:add-observations.html.twig");
+        // line 4
+        echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
        </div>
     ";
@@ -41,7 +39,7 @@ class __TwigTemplate_7b9b8f5c263b4065b4562c3f176e17af33a46394bcaf71e79cdbb3bc3ab
 
     public function getTemplateName()
     {
-        return "AppBundle:Page:add-observations.html.twig";
+        return "AppBundle:Page:add-observations-specimens.html.twig";
     }
 
     public function isTraitable()
@@ -51,6 +49,6 @@ class __TwigTemplate_7b9b8f5c263b4065b4562c3f176e17af33a46394bcaf71e79cdbb3bc3ab
 
     public function getDebugInfo()
     {
-        return array (  36 => 5,  33 => 4,  30 => 3,  25 => 1,);
+        return array (  34 => 4,  31 => 3,  28 => 2,);
     }
 }

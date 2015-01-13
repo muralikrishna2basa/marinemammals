@@ -31,6 +31,8 @@ class EventStatesType extends AbstractType
             'required' => false
         ));
 
+        $builder->add('spec2event', new Spec2EventsType($this->doctrine), array('data_class' => 'AppBundle\Entity\Spec2Events'));
+
     }
 
     public function getName()

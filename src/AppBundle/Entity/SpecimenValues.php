@@ -74,7 +74,7 @@ class SpecimenValues
     /**
      * @var \AppBundle\Entity\Spec2events
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2events")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2events" inversedBy="specimenValues")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="S2E_SCN_SEQNO", referencedColumnName="SCN_SEQNO"),
      *   @ORM\JoinColumn(name="S2E_ESE_SEQNO", referencedColumnName="ESE_SEQNO")
@@ -309,5 +309,14 @@ class SpecimenValues
     public function getPmdSeqno()
     {
         return $this->pmdSeqno;
+    }
+
+    /**
+     * Get the name of the used parameter method's name
+     *
+     * @return string
+     */
+    public function getPmdName(){
+        return $this->getPmdSeqno()->getName();
     }
 }

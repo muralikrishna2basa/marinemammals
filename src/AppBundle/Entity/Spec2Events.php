@@ -64,7 +64,20 @@ class Spec2Events
      */
     private $eseSeqno;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SpecimenValues", mappedBy="s2eScnSeqno")
+     */
+    private $specimenValues;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->specimenValues = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Set creDat
@@ -203,5 +216,25 @@ class Spec2Events
     {
         return $this->eseSeqno;
     }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSpecimenValues()
+    {
+        return $this->specimenValues;
+    }
+
+    /**
+     * @param mixed $specimenValues
+     * @return Spec2Events
+     */
+    public function setSpecimenValues($specimenValues)
+    {
+        $this->specimenValues = $specimenValues;
+        return $this;
+    }
+
+
 }
 

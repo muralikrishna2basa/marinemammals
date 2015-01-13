@@ -1,0 +1,36 @@
+    <h2>Specimen</h2>
+    <h3>Search or enter existing specimen</h3>
+    <div class="form-inline">
+        <button id="b_search_scn">Search for specimen in list</button>
+        <label for="q_scn_seqno">Specimen id</label>
+        <input type="text" id="q_scn_seqno"/>
+    </div>
+    <h3>Identification</h3>
+    <div class="form-inline">
+        {{ form_row(form.eseSeqno.spec2event.scnSeqno.txnSeqno, {'label':'Species' }) }}
+    </div>
+    <div class="form-inline">
+        {{ form_row(form.eseSeqno.spec2event.scnSeqno.specieFlag, {'label':'Identification is certain?' }) }}
+    </div>
+    <div class="form-inline">
+        {{ form_row(form.eseSeqno.spec2event.scnSeqno.scnNumber, {'label':'Number' }) }}
+    </div>
+    <div class="form-inline">
+        {{ form_row(form.eseSeqno.spec2event.scnSeqno.sex, {'label':'Sex' }) }}
+    </div>
+    <div class="form-inline">
+        {{ form_row(form.eseSeqno.spec2event.scnSeqno.rbinsTag, {'label':'RBINS tag' }) }}
+    </div>
+    <div class="form-inline">
+        {{ form_row(form.eseSeqno.spec2event.scnSeqno.necropsyTag, {'label':'Necropsy tag' }) }}
+    </div>
+
+    <h3>Circumstantial parameters</h3>
+    {% for sv in form.eseSeqno.spec2event.specimenValues %}
+        <h4>{{ sv.vars.value.pmdName }}</h4>
+        <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
+            {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
+    {% endfor %}
+
+
+

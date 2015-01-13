@@ -1,0 +1,12 @@
+{{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create')}) }}
+<fieldset>
+    {{ include('AppBundle:Bare:add-observations.html.twig') }}
+</fieldset>
+<fieldset>
+    {{ include('AppBundle:Bare:add-specimens.html.twig') }}
+</fieldset>
+<p>
+    <input type="submit" value="Submit">
+</p>
+{{ form_end(form) }}
+

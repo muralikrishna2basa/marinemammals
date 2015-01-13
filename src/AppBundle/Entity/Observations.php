@@ -698,4 +698,9 @@ class Observations
         $this->observationValues = $observationValues;
         return $this;
     }
+
+    public function removeObservationValue(ObservationValues $ov)
+    {
+        $this->observationValues->removeElement($ov);
+    }
 }

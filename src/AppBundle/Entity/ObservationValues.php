@@ -280,6 +280,11 @@ class ObservationValues
         return $this->eseSeqno;
     }
 
+    /**
+     * Get the name of the used parameter method's name
+     *
+     * @return string
+     */
     public function getPmdName(){
         return $this->getPmdSeqno()->getName();
     }
