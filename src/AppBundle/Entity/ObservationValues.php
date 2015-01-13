@@ -60,7 +60,7 @@ class ObservationValues
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="OBSERVATION_VALUES_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="OBSERVATION_VALUES_SEQ", allocationSize=1, initialValue=1)
      */
     private $seqno;
 
@@ -278,5 +278,9 @@ class ObservationValues
     public function getEseSeqno()
     {
         return $this->eseSeqno;
+    }
+
+    public function getPmdName(){
+        return $this->getPmdSeqno()->getName();
     }
 }

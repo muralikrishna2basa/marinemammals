@@ -39,8 +39,6 @@ class ObservationsController extends Controller
         $wdOv->setEseSeqno($observation);
         $observation->getObservationValues($wdOv)->add($wdOv);
 
-        \Doctrine\Common\Util\Debug::dump($wdOv);
-
         $wsOv=new ObservationValues();
         $wsOv->setPmdSeqno($wsPm);
         $wsOv->setEseSeqno($observation);
@@ -71,14 +69,17 @@ class ObservationsController extends Controller
         $wdOv=new ObservationValues();
         $wdOv->setPmdSeqno($wdPm);
         $wdOv->setEseSeqno($observation);
+        $observation->getObservationValues($wdOv)->add($wdOv);
 
         $wsOv=new ObservationValues();
         $wsOv->setPmdSeqno($wsPm);
         $wsOv->setEseSeqno($observation);
+        $observation->getObservationValues($wdOv)->add($wsOv);
 
         $ssOv=new ObservationValues();
         $ssOv->setPmdSeqno($ssPm);
         $ssOv->setEseSeqno($observation);
+        $observation->getObservationValues($wdOv)->add($ssOv);
 
         $observation->setEseSeqno($event);
         $form   = $this->createForm(new ObservationsType($this->getDoctrine()), $observation);

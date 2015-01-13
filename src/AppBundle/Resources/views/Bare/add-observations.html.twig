@@ -1,6 +1,6 @@
+{{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create')}) }}
 <div class="subform">
     <h2>Observation</h2>
-{{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create')}) }}
     <ul class="formelements" id="observation_elements">
         <li>
             <h3>Date and time</h3>
@@ -8,19 +8,6 @@
                 <li>
                     {{ form_row(form.eseSeqno.eventDatetime, {'label':'Date', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}
                     {{ form_row(form.eseSeqno.eventDatetimeFlag, {'label':'Date flag'}) }}</li>
-            </ul>
-        </li>
-        <li>
-            <h3>Observation comments</h3>
-            <ul>
-                <li>
-                    {{ form_row(form.eseSeqno.description, {'label':'Observation description'}) }}</li>
-
-                <li>
-                    {{ form_row(form.webcommentsEn, {'label':'Event web comments: English'}) }}
-                    {{ form_row(form.webcommentsNl, {'label':'Event web comments: Dutch'}) }}
-                    {{ form_row(form.webcommentsFr, {'label':'Event web comments: French'}) }}
-                </li>
             </ul>
         </li>
         <li>
@@ -41,7 +28,7 @@
         <li>
             <h3>Observation type</h3>
             <ul>
-                <li>{{ form_row(form.confidentiality, {'label':'Confidential observation'}) }}</li>
+                <li>{{ form_row(form.isconfidential, {'label':'Confidential observation?'}) }}</li>
                 <li>{{ form_row(form.osnType, {'label':'Observation type'}) }}
                     {{ form_row(form.samplingeffort, {'label':'Effort Related Survey?'}) }}
                 </li>
@@ -50,21 +37,29 @@
         <li>
             <h3>Observation conditions</h3>
             {% for ov in form.observationValues %}
+                <h4>{{ ov.vars.value.pmdName }}</h4>
                 {{ form_row(ov.value, {'label':'Value'}) }}
                 {{ form_row(ov.valueFlag, {'label':'Value flag'}) }}
             {% endfor %}
+        </li>
+        <li>
+            <h3>Observation comments</h3>
+            <ul>
+                <li>
+                    {{ form_row(form.eseSeqno.description, {'label':'Observation description'}) }}</li>
+
+                <li>
+                    {{ form_row(form.webcommentsEn, {'label':'Event web comments: English'}) }}
+                    {{ form_row(form.webcommentsNl, {'label':'Event web comments: Dutch'}) }}
+                    {{ form_row(form.webcommentsFr, {'label':'Event web comments: French'}) }}
+                </li>
+            </ul>
         </li>
     </ul>
     <p>
         <input type="submit" value="Submit">
     </p>
-    <p>test:</p>
-    <label for="f_wind_direction">Wind Direction</label>
-    <input type="text" id="f_wind_direction"/>
-    <label for="f_seastate">Seastate</label>
-    <input type="text" id="f_seastate"/>
-    <label for="f_wind_speed">Wind Speed (Bft)</label>
-    <input type="text" id="f_wind_speed"/>
 </div>
 
 {{ form_end(form) }}
+

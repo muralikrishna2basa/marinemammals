@@ -19,36 +19,38 @@ class ObservationsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('latDeg', 'text',array(
+        $builder->add('latDeg', 'text', array(
             'required' => true
         ));
-        $builder->add('lonDeg', 'text',array(
+        $builder->add('lonDeg', 'text', array(
             'required' => true
         ));
-        $builder->add('precisionFlag', 'choice',array(
+        $builder->add('precisionFlag', 'choice', array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list'=>new CgRefChoiceList($this->doctrine,'COORD_PRECISION_FLAG')
+            'choice_list' => new CgRefChoiceList($this->doctrine, 'COORD_PRECISION_FLAG')
         ));
         $builder->add('stnSeqno', 'entity', array(
             'empty_value' => 'Select...',
             'required' => true,
             'class' => 'AppBundle:Stations',
             'property' => 'fullyQualifiedName',
-            'query_builder'=> function(StationsRepository $er){return $er->getAllStationsPlaceQb();}
+            'query_builder' => function (StationsRepository $er) {
+                return $er->getAllStationsPlaceQb();
+            }
         ));
-        $builder->add('confidentiality', 'checkbox', array(
-            'required'  => true
+        $builder->add('isconfidential', 'checkbox', array(
+            'required' => true
         ));
-        $builder->add('osnType', 'choice',array(
+        $builder->add('osnType', 'choice', array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list'=>new CgRefChoiceList($this->doctrine,'OSN_TYPE')
+            'choice_list' => new CgRefChoiceList($this->doctrine, 'OSN_TYPE')
         ));
-        $builder->add('samplingeffort', 'choice',array(
+        $builder->add('samplingeffort', 'choice', array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list'=>new CgRefChoiceList($this->doctrine,'SAMPLINGEFFORT')
+            'choice_list' => new CgRefChoiceList($this->doctrine, 'SAMPLINGEFFORT')
         ));
         $builder->add('webcommentsEn', 'textarea', array(
             'required' => false
@@ -63,7 +65,7 @@ class ObservationsType extends AbstractType
         $builder->add('eseSeqno', new EventStatesType($this->doctrine), array('data_class' => 'AppBundle\Entity\EventStates'));
 
         $builder->add('observationValues', 'collection', array('type' => new ObservationValuesType($this->doctrine),
-        'options' => array('data_class' => 'AppBundle\Entity\ObservationValues'),));
+            'options' => array('data_class' => 'AppBundle\Entity\ObservationValues')));
     }
 
     public function getName()

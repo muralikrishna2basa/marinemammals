@@ -64,9 +64,16 @@ class ParameterMethods
     /**
      * @var string
      *
-     * @ORM\Column(name="UNIT", type="string", length=10, nullable=false)
+     * @ORM\Column(name="UNIT", type="string", length=10, nullable=true)
      */
     private $unit;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="VARIABLETYPE", type="string", length=20, nullable=false)
+     */
+    private $variabletype;
 
     /**
      * @var integer
@@ -284,6 +291,29 @@ class ParameterMethods
     public function getUnit()
     {
         return $this->unit;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $variabletype
+     * @return ParameterMethods
+     */
+    public function setVariabletype($variabletype)
+    {
+        $this->variabletype = $variabletype;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getVariabletype()
+    {
+        return $this->variabletype;
     }
 
     /**

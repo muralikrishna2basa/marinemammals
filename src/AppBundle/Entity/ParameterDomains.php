@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ParameterDomains
  *
  * @ORM\Table(name="PARAMETER_DOMAINS", indexes={@ORM\Index(name="IDX_E5226C6F5DC10EB5", columns={"PMD_SEQNO"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ParameterDomainsRepository")
  */
 class ParameterDomains
 {

@@ -178,7 +178,7 @@
     <parameter key="data_collector.router.class">Symfony\Bundle\FrameworkBundle\DataCollector\RouterDataCollector</parameter>
     <parameter key="data_collector.form.class">Symfony\Component\Form\Extension\DataCollector\FormDataCollector</parameter>
     <parameter key="data_collector.form.extractor.class">Symfony\Component\Form\Extension\DataCollector\FormDataExtractor</parameter>
-    <parameter key="profiler_listener.only_exceptions">false</parameter>
+    <parameter key="profiler_listener.only_exceptions">true</parameter>
     <parameter key="profiler_listener.only_master_requests">false</parameter>
     <parameter key="profiler.storage.dsn">file:/home/thomas/PhpstormProjects/mm/app/cache/dev/profiler</parameter>
     <parameter key="profiler.storage.username"></parameter>
@@ -324,6 +324,7 @@
     <parameter key="twig.exception_listener.controller">twig.controller.exception:showAction</parameter>
     <parameter key="twig.form.resources" type="collection">
       <parameter>form_div_layout.html.twig</parameter>
+      <parameter>bootstrap_3_layout.html.twig</parameter>
     </parameter>
     <parameter key="debug.templating.engine.twig.class">Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine</parameter>
     <parameter key="twig.options" type="collection">
@@ -332,6 +333,7 @@
       <parameter key="exception_controller">twig.controller.exception:showAction</parameter>
       <parameter key="form_themes" type="collection">
         <parameter>form_div_layout.html.twig</parameter>
+        <parameter>bootstrap_3_layout.html.twig</parameter>
       </parameter>
       <parameter key="autoescape_service">null</parameter>
       <parameter key="autoescape_service_method">null</parameter>
@@ -578,9 +580,6 @@
     <parameter key="web_profiler.controller.exception.class">Symfony\Bundle\WebProfilerBundle\Controller\ExceptionController</parameter>
     <parameter key="twig.extension.webprofiler.class">Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension</parameter>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
-    <parameter key="web_profiler.debug_toolbar.class">Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</parameter>
-    <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
-    <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
     <parameter key="sensio_distribution.webconfigurator.class">Sensio\Bundle\DistributionBundle\Configurator\Configurator</parameter>
     <parameter key="sensio_distribution.webconfigurator.doctrine_step.class">Sensio\Bundle\DistributionBundle\Configurator\Step\DoctrineStep</parameter>
     <parameter key="sensio_distribution.webconfigurator.secret_step.class">Sensio\Bundle\DistributionBundle\Configurator\Step\SecretStep</parameter>
@@ -1521,7 +1520,7 @@
       <tag name="kernel.event_subscriber"/>
       <argument type="service" id="profiler"/>
       <argument>null</argument>
-      <argument>false</argument>
+      <argument>true</argument>
       <argument>false</argument>
       <argument type="service" id="request_stack"/>
     </service>
@@ -1783,10 +1782,6 @@
       <call method="addSubscriberService">
         <argument>debug.dump_listener</argument>
         <argument>Symfony\Component\HttpKernel\EventListener\DumpListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>web_profiler.debug_toolbar</argument>
-        <argument>Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</argument>
       </call>
     </service>
     <service id="debug.controller_resolver" class="Symfony\Component\HttpKernel\Controller\TraceableControllerResolver">
@@ -2146,6 +2141,7 @@
         <argument key="exception_controller">twig.controller.exception:showAction</argument>
         <argument key="form_themes" type="collection">
           <argument>form_div_layout.html.twig</argument>
+          <argument>bootstrap_3_layout.html.twig</argument>
         </argument>
         <argument key="autoescape_service">null</argument>
         <argument key="autoescape_service_method">null</argument>
@@ -2253,6 +2249,7 @@
                   <service class="Symfony\Bridge\Twig\Form\TwigRendererEngine" public="false">
                     <argument type="collection">
                       <argument>form_div_layout.html.twig</argument>
+                      <argument>bootstrap_3_layout.html.twig</argument>
                     </argument>
                   </service>
                 </argument>
@@ -2746,15 +2743,6 @@
       <argument type="service" id="profiler" on-invalid="null"/>
       <argument type="service" id="twig"/>
       <argument>true</argument>
-    </service>
-    <service id="web_profiler.debug_toolbar" class="Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener">
-      <tag name="kernel.event_subscriber"/>
-      <argument type="service" id="twig"/>
-      <argument>false</argument>
-      <argument>2</argument>
-      <argument>bottom</argument>
-      <argument type="service" id="router" on-invalid="ignore"/>
-      <argument>^/bundles|^/_wdt</argument>
     </service>
     <service id="sensio_distribution.webconfigurator" class="Sensio\Bundle\DistributionBundle\Configurator\Configurator">
       <argument>/home/thomas/PhpstormProjects/mm/app</argument>

@@ -15,9 +15,9 @@ class Observations
     /**
      * @var boolean
      *
-     * @ORM\Column(name="CONFIDENTIALITY", type="boolean", nullable=true)
+     * @ORM\Column(name="ISCONFIDENTIAL", type="boolean", nullable=true)
      */
-    private $confidentiality;
+    private $isconfidential;
 
     /**
      * @var string
@@ -188,26 +188,26 @@ class Observations
 
 
     /**
-     * Set confidentiality
+     * Set isconfidential
      *
-     * @param boolean $confidentiality
+     * @param boolean $isconfidential
      * @return Observations
      */
-    public function setConfidentiality($confidentiality)
+    public function setIsconfidential($isconfidential)
     {
-        $this->confidentiality = $confidentiality;
+        $this->isconfidential = $isconfidential;
     
         return $this;
     }
 
     /**
-     * Get confidentiality
+     * Get isconfidential
      *
      * @return boolean 
      */
-    public function getConfidentiality()
+    public function getIsconfidential()
     {
-        return $this->confidentiality;
+        return $this->isconfidential;
     }
 
     /**

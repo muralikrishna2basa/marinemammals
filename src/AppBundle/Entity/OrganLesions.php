@@ -158,73 +158,41 @@ class OrganLesions
         return $this->modUser;
     }
 
+    //------------------
     /**
-     * Set e2pType
-     *
-     * @param string $e2pType
+     * @return LesionTypes
+     */
+    public function getLteSeqno()
+    {
+        return $this->lteSeqno;
+    }
+
+    /**
+     * @param LesionTypes $lteSeqno
      * @return Event2persons
      */
-    public function setE2pType($e2pType)
+    public function setLteSeqno($lteSeqno)
     {
-        $this->e2pType = $e2pType;
-
+        $this->lteSeqno = $lteSeqno;
         return $this;
     }
 
     /**
-     * Get e2pType
-     *
-     * @return string
+     * @return Necropsies
      */
-    public function getE2pType()
+    public function getNcyEseSeqno()
     {
-        return $this->e2pType;
+        return $this->ncyEseSeqno;
     }
 
     /**
-     * Set psnSeqno
-     *
-     * @param \AppBundle\Entity\Persons $psnSeqno
+     * @param Necropsies $ncyEseSeqno
      * @return Event2persons
      */
-    public function setPsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
+    public function setNcyEseSeqno($ncyEseSeqno)
     {
-        $this->psnSeqno = $psnSeqno;
-
+        $this->ncyEseSeqno = $ncyEseSeqno;
         return $this;
-    }
-
-    /**
-     * Get psnSeqno
-     *
-     * @return \AppBundle\Entity\Persons
-     */
-    public function getPsnSeqno()
-    {
-        return $this->psnSeqno;
-    }
-
-    /**
-     * Set eseSeqno
-     *
-     * @param \AppBundle\Entity\EventStates $eseSeqno
-     * @return Event2persons
-     */
-    public function setEseSeqno(\AppBundle\Entity\EventStates $eseSeqno)
-    {
-        $this->eseSeqno = $eseSeqno;
-
-        return $this;
-    }
-
-    /**
-     * Get eseSeqno
-     *
-     * @return \AppBundle\Entity\EventStates
-     */
-    public function getEseSeqno()
-    {
-        return $this->eseSeqno;
     }
 }
 

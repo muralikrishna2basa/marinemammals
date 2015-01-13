@@ -21,6 +21,8 @@ class __TwigTemplate_7b9b8f5c263b4065b4562c3f176e17af33a46394bcaf71e79cdbb3bc3ab
 
     protected function doDisplay(array $context, array $blocks = array())
     {
+        // line 1
+        $this->env->getExtension('form')->renderer->setTheme((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), array(0 => "AppBundle::form.html.twig"));
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
@@ -49,6 +51,6 @@ class __TwigTemplate_7b9b8f5c263b4065b4562c3f176e17af33a46394bcaf71e79cdbb3bc3ab
 
     public function getDebugInfo()
     {
-        return array (  34 => 5,  31 => 4,  28 => 3,);
+        return array (  36 => 5,  33 => 4,  30 => 3,  25 => 1,);
     }
 }

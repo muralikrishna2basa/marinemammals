@@ -184,8 +184,8 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
 \t\t\t\t\t\t\t\tclass=\"caret\"></span></a>
 \t\t\t\t\t\t\t<ul class=\"dropdown-menu\">
 \t\t\t\t\t\t\t\t<li class=\"dropdown-header\">Observations</li>
-\t\t\t\t\t\t\t\t<li><a href=\"/remsem/software-and-data/turbid-water-software\">Browse</a></li>
-\t\t\t\t\t\t\t\t<li><a href=\"/remsem/software-and-data/similarity-spectrum\">Create
+\t\t\t\t\t\t\t\t<li><a href=\"/observations\">Browse</a></li>
+\t\t\t\t\t\t\t\t<li><a href=\"/observations/add\">Create
 \t\t\t\t\t\t\t\t\t\tnew</a></li>
 \t\t\t\t\t\t\t\t<li><a href=\"/remsem/software-and-data/total-suspended-matter\">Update
 \t\t\t\t\t\t\t\t\t\texisting</a></li>

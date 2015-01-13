@@ -20,16 +20,15 @@ class CgRefChoiceList extends LazyChoiceList
     {
         $types = $this
             ->doctrine->getRepository('AppBundle:CgRefCodes')->getRefCodes($this->domain);
-        $choices=array();
+        $values=array();
         $labels=array();
         foreach ($types as $type) {
-            //$data = $type->getRvLowValue();
             $value = $type->getRvLowValue();
             $label = $type->getRvMeaning();
-            array_push($choices,$value);
+            array_push($values,$value);
             array_push($labels,$label);
         }
-        $cl=new ChoiceList($choices,$labels);
+        $cl=new ChoiceList($values,$labels);
         return $cl;
     }
 }
