@@ -8,6 +8,8 @@ use AppBundle\Entity\EventStates;
 use AppBundle\Entity\Spec2Events;
 use AppBundle\Entity\Specimens;
 use AppBundle\Entity\SpecimenValues;
+use AppBundle\Entity\EntityValues;
+use AppBundle\Entity\ValueAssignable;
 use AppBundle\Form\ObservationsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,7 +66,7 @@ class ObservationsController extends Controller
         $ov=new ObservationValues();
         $ov->setPmdSeqno($pm);
         $ov->setEseSeqno($observation);
-        $observation->getObservationValues()->add($ov);
+        $observation->getValues()->add($ov);
         return $ov;
     }
 
@@ -74,8 +76,44 @@ class ObservationsController extends Controller
         $sv=new SpecimenValues();
         $sv->setPmdSeqno($pm);
         $sv->setS2eScnSeqno($s2e);
-        $s2e->getSpecimenValues()->add($sv);
+        $s2e->getValues()->add($sv);
         return $sv;
+    }
+
+    private function persistOrRemoveObservationValues($ov,$observation){
+        $em = $this->getDoctrine()
+            ->getEntityManager();
+        if($ov->getValue() ==='' or $ov->getValue() === null){
+            $observation->removeValue($ov);
+            $em->remove($ov);
+        }
+        else{
+            $em->persist($ov);
+        }
+    }
+
+    private function persistOrRemoveSpecimenValues($sv,$s2e){
+        $em = $this->getDoctrine()
+            ->getEntityManager();
+        if($sv->getValue() ==='' or $sv->getValue() === null){
+            $s2e->removeValue($sv);
+            $em->remove($sv);
+        }
+        else{
+            $em->persist($sv);
+        }
+    }
+
+    private function persistOrRemoveEntityValue(EntityValues $ev,ValueAssignable $va){
+        $em = $this->getDoctrine()
+            ->getEntityManager();
+        if($ev->getValue() ==='' or $ev->getValue() === null){
+            $va->removeValue($ev);
+            $em->remove($ev);
+        }
+        else{
+            $em->persist($ev);
+        }
     }
 
     public function createAction(Request $request)
@@ -110,28 +148,19 @@ class ObservationsController extends Controller
                 ->getEntityManager();
             $em->persist($event);
             $em->persist($observation);
-            if($wdOv->getValue() ==='' or $wdOv->getValue() === null){
-                $observation->removeObservationValue($wdOv);
-                $em->remove($wdOv);
-            }
-            else{
-                $em->persist($wdOv);
-            }
-            if($wsOv->getValue() ==='' or $wsOv->getValue() === null){
-                $observation->removeObservationValue($wsOv);
-                $em->remove($wsOv);
-            }
-            else{
-                $em->persist($wsOv);
-            }
-
-            if($ssOv->getValue() ==='' or $ssOv->getValue() === null){
-                $observation->removeObservationValue($ssOv);
-                $em->remove($ssOv);
-            }
-            else{
-                $em->persist($ssOv);
-            }
+            $this->persistOrRemoveEntityValue($wdOv,$observation);
+            $this->persistOrRemoveEntityValue($wsOv,$observation);
+            $this->persistOrRemoveEntityValue($ssOv,$observation);
+            $em->persist($specimen);
+            $em->persist($s2e);
+            $this->persistOrRemoveEntityValue($biSv,$s2e);
+            $this->persistOrRemoveEntityValue($diSv,$s2e);
+            $this->persistOrRemoveEntityValue($cSv,$s2e);
+            $this->persistOrRemoveEntityValue($dcSv,$s2e);
+            $this->persistOrRemoveEntityValue($blPm,$s2e);
+            $this->persistOrRemoveEntityValue($bwPm,$s2e);
+            $this->persistOrRemoveEntityValue($aPm,$s2e);
+            $this->persistOrRemoveEntityValue($nsPm,$s2e);
             $em->flush();
 
             return $this->redirect($request->getUri());

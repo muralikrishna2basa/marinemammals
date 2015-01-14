@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ORGAN_LESIONS", indexes={@ORM\Index(name="OLN_PK", columns={"NCY_ESE_SEQNO","LTE_OGN_CODE","LTE_SEQNO"}), @ORM\Index(name="OLN_LTE_FK_I", columns={"LTE_OGN_CODE","LTE_SEQNO"})})
  * @ORM\Entity
  */
-class OrganLesions
+class OrganLesions implements ValueAssignable
 {
     /**
      * @var \DateTime
@@ -64,6 +64,14 @@ class OrganLesions
      * })
      */
     private $ncyEseSeqno;
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LesionValues", mappedBy="olnNcyEseSeqno")
+     */
+    private $lesionValues;
 
 
     /**
@@ -193,6 +201,29 @@ class OrganLesions
     {
         $this->ncyEseSeqno = $ncyEseSeqno;
         return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getValues()
+    {
+        return $this->lesionValues;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $lesionValues
+     * @return OrganLesions
+     */
+    public function setValues(\Doctrine\Common\Collections\Collection $lesionValues)
+    {
+        $this->lesionValues = $lesionValues;
+        return $this;
+    }
+
+    public function removeValue(EntityValues $ev)
+    {
+        $this->getValues()->removeElement($ev);
     }
 }
 

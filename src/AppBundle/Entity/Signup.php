@@ -95,7 +95,7 @@ class Signup
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="SIGNUP_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="SIGNUP_SEQ", allocationSize=1, initialValue=1)
      */
     private $seqno;
 

@@ -66,7 +66,7 @@ class ObservationsType extends AbstractType
 
         $builder->add('eseSeqno', new EventStatesType($this->doctrine), array('data_class' => 'AppBundle\Entity\EventStates'));
 
-        $builder->add('observationValues', 'collection', array('type' => new ObservationValuesType($this->doctrine),
+        $builder->add('values', 'collection', array('type' => new ObservationValuesType($this->doctrine),
             'options' => array('data_class' => 'AppBundle\Entity\ObservationValues'),
             'allow_delete' => true,
             'delete_empty' => true

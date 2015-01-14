@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="SPEC2EVENTS", indexes={@ORM\Index(name="S2E_PK", columns={"SCN_SEQNO","ESE_SEQNO"}), @ORM\Index(name="S2E_ESE_FK_I", columns={"ESE_SEQNO"})})
  * @ORM\Entity
  */
-class Spec2Events
+class Spec2Events implements ValueAssignable
 {
     /**
      * @var \DateTime
@@ -69,14 +69,14 @@ class Spec2Events
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\SpecimenValues", mappedBy="s2eScnSeqno")
      */
-    private $specimenValues;
+    private $values;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->specimenValues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -220,19 +220,24 @@ class Spec2Events
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSpecimenValues()
+    public function getValues()
     {
-        return $this->specimenValues;
+        return $this->values;
     }
 
     /**
-     * @param mixed $specimenValues
+     * @param \Doctrine\Common\Collections\Collection $values
      * @return Spec2Events
      */
-    public function setSpecimenValues($specimenValues)
+    public function setValues(\Doctrine\Common\Collections\Collection $values)
     {
-        $this->specimenValues = $specimenValues;
+        $this->values = $values;
         return $this;
+    }
+
+    public function removeValue(EntityValues $ev)
+    {
+        $this->getValues()->removeElement($ev);
     }
 
 

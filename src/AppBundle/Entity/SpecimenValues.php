@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="SPECIMEN_VALUES", indexes={@ORM\Index(name="sve_s2e_fk_i", columns={"S2E_SCN_SEQNO", "S2E_ESE_SEQNO"}), @ORM\Index(name="sve_pmd_fk_i", columns={"PMD_SEQNO"}), @ORM\Index(name="sve_ese_i", columns={"S2E_ESE_SEQNO"})})
  * @ORM\Entity
  */
-class SpecimenValues
+class SpecimenValues implements EntityValues
 {
     /**
      * @var \DateTime
@@ -67,14 +67,14 @@ class SpecimenValues
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="SPECIMEN_VALUES_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="SPECIMEN_VALUES_SEQ", allocationSize=1, initialValue=1)
      */
     private $seqno;
 
     /**
      * @var \AppBundle\Entity\Spec2events
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2events" inversedBy="specimenValues")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2events", inversedBy="values")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="S2E_SCN_SEQNO", referencedColumnName="SCN_SEQNO"),
      *   @ORM\JoinColumn(name="S2E_ESE_SEQNO", referencedColumnName="ESE_SEQNO")

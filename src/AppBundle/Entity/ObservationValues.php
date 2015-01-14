@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="OBSERVATION_VALUES", indexes={@ORM\Index(name="IDX_4746664D74D02126", columns={"ESE_SEQNO"}), @ORM\Index(name="IDX_4746664D5DC10EB5", columns={"PMD_SEQNO"})})
  * @ORM\Entity
  */
-class ObservationValues
+class ObservationValues implements EntityValues
 {
     /**
      * @var \DateTime
@@ -67,7 +67,7 @@ class ObservationValues
     /**
      * @var \AppBundle\Entity\ParameterMethods
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="observationValues")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="values")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO")
      * })
@@ -77,7 +77,7 @@ class ObservationValues
     /**
      * @var \AppBundle\Entity\Observations
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="observationValues")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="values")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="ESE_SEQNO")
      * })

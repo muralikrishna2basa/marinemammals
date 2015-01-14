@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="OBSERVATIONS", indexes={@ORM\Index(name="IDX_2EF312B895335730", columns={"PFM_SEQNO"}), @ORM\Index(name="IDX_2EF312B8A3C8473E", columns={"STN_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ObservationsRepository")
  */
-class Observations
+class Observations implements ValueAssignable
 {
     /**
      * @var boolean
@@ -175,7 +175,7 @@ class Observations
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ObservationValues", mappedBy="eseSeqno")
      */
-    private $observationValues;
+    private $values;
 
     /**
      * Constructor
@@ -183,7 +183,7 @@ class Observations
     public function __construct()
     {
         $this->sreSeqno = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->observationValues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -684,23 +684,23 @@ class Observations
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getObservationValues()
+    public function getValues()
     {
-        return $this->observationValues;
+        return $this->values;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $observationValues
+     * @param \Doctrine\Common\Collections\Collection $values
      * @return Observations
      */
-    public function setObservationValues($observationValues)
+    public function setValues(\Doctrine\Common\Collections\Collection $values)
     {
-        $this->observationValues = $observationValues;
+        $this->values = $values;
         return $this;
     }
 
-    public function removeObservationValue(ObservationValues $ov)
+    public function removeValue(EntityValues $ev)
     {
-        $this->observationValues->removeElement($ov);
+        $this->getValues()->removeElement($ev);
     }
 }

@@ -18,7 +18,7 @@ class Spec2EventsType extends AbstractType
     {
         $builder->add('scnSeqno', new SpecimensType($this->doctrine), array('data_class' => 'AppBundle\Entity\Specimens'));
 
-        $builder->add('specimenValues', 'collection', array('type' => new SpecimenValuesType($this->doctrine),
+        $builder->add('values', 'collection', array('type' => new SpecimenValuesType($this->doctrine),
             'options' => array('data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true

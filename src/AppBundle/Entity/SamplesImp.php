@@ -130,7 +130,7 @@ class SamplesImp
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="SAMPLES_IMP_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="SAMPLES_IMP_SEQ", allocationSize=1, initialValue=1)
      */
     private $seqno;
 

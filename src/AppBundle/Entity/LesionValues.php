@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="LESION_VALUES", indexes={@ORM\Index(name="lve_pmd_fk_i", columns={"PMD_SEQNO"}), @ORM\Index(name="lve_oln_fk_i", columns={"OLN_NCY_ESE_SEQNO", "OLN_LTE_OGN_CODE", "OLN_LTE_SEQNO"})})
  * @ORM\Entity
  */
-class LesionValues
+class LesionValues implements EntityValues
 {
     /**
      * @var \DateTime
@@ -60,7 +60,7 @@ class LesionValues
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="LESION_VALUES_SEQNO_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="LESION_VALUES_SEQ", allocationSize=1, initialValue=1)
      */
     private $seqno;
 
@@ -280,5 +280,14 @@ class LesionValues
     public function getOlnNcyEseSeqno()
     {
         return $this->olnNcyEseSeqno;
+    }
+
+    /**
+     * Get the name of the used parameter method's name
+     *
+     * @return string
+     */
+    public function getPmdName(){
+        return $this->getPmdSeqno()->getName();
     }
 }

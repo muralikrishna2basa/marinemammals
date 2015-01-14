@@ -68,7 +68,7 @@ class __TwigTemplate_61fc01a235dfc7b3bf5444173246a1da3f4ddcef2faba7cd5533988f819
     ";
         // line 23
         $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "observationValues", array()));
+        $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "values", array()));
         foreach ($context['_seq'] as $context["_key"] => $context["ov"]) {
             // line 24
             echo "        <h4>";

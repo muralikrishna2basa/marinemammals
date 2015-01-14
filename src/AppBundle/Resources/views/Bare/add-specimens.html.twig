@@ -26,11 +26,18 @@
     </div>
 
     <h3>Circumstantial parameters</h3>
-    {% for sv in form.eseSeqno.spec2event.specimenValues %}
+    {% for sv in form.eseSeqno.spec2event.values|slice(0, 4) %}
         <h4>{{ sv.vars.value.pmdName }}</h4>
         <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
             {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
     {% endfor %}
+    <h3>Measurements</h3>
+    {% for sv in form.eseSeqno.spec2event.values|slice(4, 8) %}
+        <h4>{{ sv.vars.value.pmdName }}</h4>
+        <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
+            {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
+    {% endfor %}
+
 
 
 

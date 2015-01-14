@@ -65,7 +65,7 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
     ";
         // line 29
         $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "specimenValues", array()));
+        $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "values", array()), 0, 4));
         foreach ($context['_seq'] as $context["_key"] => $context["sv"]) {
             // line 30
             echo "        <h4>";
@@ -85,7 +85,32 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 34
+        echo "    <h3>Measurements</h3>
+    ";
+        // line 35
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "values", array()), 4, 8));
+        foreach ($context['_seq'] as $context["_key"] => $context["sv"]) {
+            // line 36
+            echo "        <h4>";
+            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute($context["sv"], "vars", array()), "value", array()), "pmdName", array()), "html", null, true);
+            echo "</h4>
+        <div class=\"form-inline\">";
+            // line 37
+            echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($context["sv"], "value", array()), 'row', array("label" => "Value"));
+            echo "
+            ";
+            // line 38
+            echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($context["sv"], "valueFlag", array()), 'row', array("label" => "Value flag"));
+            echo "</div>
+    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 40
         echo "
+
 
 
 ";
@@ -103,6 +128,6 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
 
     public function getDebugInfo()
     {
-        return array (  88 => 34,  80 => 32,  76 => 31,  71 => 30,  67 => 29,  60 => 25,  54 => 22,  48 => 19,  42 => 16,  36 => 13,  30 => 10,  19 => 1,);
+        return array (  112 => 40,  104 => 38,  100 => 37,  95 => 36,  91 => 35,  88 => 34,  80 => 32,  76 => 31,  71 => 30,  67 => 29,  60 => 25,  54 => 22,  48 => 19,  42 => 16,  36 => 13,  30 => 10,  19 => 1,);
     }
 }
