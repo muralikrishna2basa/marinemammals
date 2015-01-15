@@ -36,6 +36,6 @@ class SpecimensSelectorType extends AbstractType
 
     public function getName()
     {
-        return 'specimensselectortype';
+        return 'specimen_selector';
     }
 }

@@ -1,12 +1,19 @@
-{{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create')}) }}
-<fieldset>
+
+{{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create'),'attr':{'id':'tabs'}}) }}
+<ul class="nav nav-tabs">
+    <li><a href="#tabs-1">Observation</a></li>
+    <li><a href="#tabs-2">Specimen</a></li>
+</ul>
+<div class="well">
+<fieldset id="tabs-1">
     {{ include('AppBundle:Bare:add-observations.html.twig') }}
 </fieldset>
-<fieldset>
-    {#{{ include('AppBundle:Bare:add-specimens.html.twig') }}#}
+<fieldset id="tabs-2">
+    {{ include('AppBundle:Bare:add-specimens.html.twig') }}
 </fieldset>
 <p>
     <input type="submit" value="Submit">
 </p>
+</div>
 {{ form_end(form) }}
 

@@ -80,6 +80,7 @@ class ObservationsController extends Controller
         return $sv;
     }
 
+    //do this in a handler
     private function persistOrRemoveEntityValue(EntityValues $ev,ValueAssignable $va){
         $em = $this->getDoctrine()
             ->getEntityManager();
@@ -103,10 +104,10 @@ class ObservationsController extends Controller
         $ssOv=$this->instantiateObservationValues('Seastate',$observation);
 
         $s2e=new Spec2Events();
-        $specimen=new Specimens();
+        //$specimen=new Specimens();
         $event->setSpec2event($s2e);
         $s2e->setEseSeqno($event);
-        $s2e->setScnSeqno($specimen);
+        //$s2e->setScnSeqno($specimen);
 
         $biSv=$this->instantiateSpecimenValues('Before intervention',$s2e);
         $diSv=$this->instantiateSpecimenValues('During intervention',$s2e);
@@ -127,7 +128,7 @@ class ObservationsController extends Controller
             $this->persistOrRemoveEntityValue($wdOv,$observation);
             $this->persistOrRemoveEntityValue($wsOv,$observation);
             $this->persistOrRemoveEntityValue($ssOv,$observation);
-            $em->persist($specimen);
+            //$em->persist($specimen);
             $em->persist($s2e);
             $this->persistOrRemoveEntityValue($biSv,$s2e);
             $this->persistOrRemoveEntityValue($diSv,$s2e);

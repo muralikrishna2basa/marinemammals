@@ -10,6 +10,7 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
         $this->parent = $this->env->loadTemplate("AppBundle::nocol-layout.html.twig");
 
         $this->blocks = array(
+            'javascripts' => array($this, 'block_javascripts'),
             'main_content' => array($this, 'block_main_content'),
         );
     }
@@ -25,12 +26,70 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
     }
 
     // line 2
-    public function block_main_content($context, array $blocks = array())
+    public function block_javascripts($context, array $blocks = array())
     {
         // line 3
-        echo "    <div class=\"col-lg-10\">
+        echo "    ";
+        $this->displayParentBlock("javascripts", $context, $blocks);
+        echo "
+    <script type=\"application/javascript\" src=\"/js/jquery.easytabs.js\"></script>
+    <script type=\"application/javascript\">
+        \$(function() {
+            \$( \"#tabs\" ).easytabs({tabs: \".nav-tabs li\"});
+        });
+        \$( document ).ready(function() {
+            \$('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').change(function() {
+                var val=\$(this).val();
+                if(/^[0-9]+\$/.test(val)){
+                    \$('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').find('[mandatory=\"false\"]').attr('required','required');
+                    \$('#new-specimen').find('[required=\"required\"]').attr('mandatory','false');
+                    \$('#new-specimen').find('input[required=\"required\"]').val('');
+                    \$('#new-specimen').find('select[required=\"required\"]').prop('selectedIndex',0);
+                    \$('#new-specimen').find('[required=\"required\"]').removeAttr('required');
+                    \$('#new-specimen').hide();
+                    return false;
+                }
+                if(val===''){
+                    \$('#new-specimen').find('[mandatory=\"false\"]').attr('required','required');
+                    \$('#new-specimen').show();
+                    return false;
+                }
+            });
+            \$('#observationstype_eseSeqno_spec2event_scnSeqnoNew_txnSeqno').change(function() {
+                \$('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').attr('mandatory','false');
+                \$('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').removeAttr('required');
+                \$('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').val('');
+                return false;
+            });
+            \$('#observationstype_eseSeqno_spec2event_scnSeqnoNew_scnNumber').change(function() {
+                if(\$(this).val()>1){
+                    \$('#parameters').find('input').val('');
+                    \$('#parameters').find('select').prop('selectedIndex',0);
+                    \$('.no-multi').find('input').val('');
+                    \$('.no-multi').find('select').prop('selectedIndex',0);
+                    \$('.no-multi').hide();
+                    \$('#parameters').hide();
+                    return false;
+                }
+                if(\$(this).val()<2){
+                    \$('.no-multi').show();
+                    \$('#parameters').show();
+                    return false;
+                }
+            });
+
+        });
+    </script>
+";
+    }
+
+    // line 53
+    public function block_main_content($context, array $blocks = array())
+    {
+        // line 54
+        echo "    <div class=\"col-lg-12\">
         ";
-        // line 4
+        // line 55
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
     </div>
@@ -49,6 +108,6 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 
     public function getDebugInfo()
     {
-        return array (  34 => 4,  31 => 3,  28 => 2,);
+        return array (  93 => 55,  90 => 54,  87 => 53,  32 => 3,  29 => 2,);
     }
 }

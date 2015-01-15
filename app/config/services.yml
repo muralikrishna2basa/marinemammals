@@ -4,7 +4,7 @@ parameters:
 #    parameter_name: value
 services:
     type.specimen_selector:
-        class: AppBundle\Form\SpecimenSelectorType
+        class: AppBundle\Form\SpecimensSelectorType
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type, alias: specimen_selector }

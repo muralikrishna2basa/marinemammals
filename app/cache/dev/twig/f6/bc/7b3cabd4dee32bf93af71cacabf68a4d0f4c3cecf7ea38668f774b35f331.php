@@ -16,23 +16,34 @@ class __TwigTemplate_f6bc7b3cabd4dee32bf93af71cacabf68a4d0f4c3cecf7ea38668f774b3
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_observations_add_create")));
         echo "
-<fieldset>
+";
+        // line 2
+        echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_observations_add_create"), "attr" => array("id" => "tabs")));
+        echo "
+<ul class=\"nav nav-tabs\">
+    <li><a href=\"#tabs-1\">Observation</a></li>
+    <li><a href=\"#tabs-2\">Specimen</a></li>
+</ul>
+<div class=\"well\">
+<fieldset id=\"tabs-1\">
     ";
-        // line 3
+        // line 9
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations.html.twig");
         echo "
 </fieldset>
-<fieldset>
+<fieldset id=\"tabs-2\">
     ";
-        // line 7
-        echo "</fieldset>
+        // line 12
+        echo twig_include($this->env, $context, "AppBundle:Bare:add-specimens.html.twig");
+        echo "
+</fieldset>
 <p>
     <input type=\"submit\" value=\"Submit\">
 </p>
+</div>
 ";
-        // line 11
+        // line 18
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_end');
         echo "
 
@@ -51,6 +62,6 @@ class __TwigTemplate_f6bc7b3cabd4dee32bf93af71cacabf68a4d0f4c3cecf7ea38668f774b3
 
     public function getDebugInfo()
     {
-        return array (  36 => 11,  30 => 7,  24 => 3,  19 => 1,);
+        return array (  47 => 18,  38 => 12,  32 => 9,  22 => 2,  19 => 1,);
     }
 }

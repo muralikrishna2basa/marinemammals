@@ -3928,11 +3928,11 @@ class appDevDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \AppBundle\Form\SpecimenSelectorType A AppBundle\Form\SpecimenSelectorType instance.
+     * @return \AppBundle\Form\SpecimensSelectorType A AppBundle\Form\SpecimensSelectorType instance.
      */
     protected function getType_SpecimenSelectorService()
     {
-        return $this->services['type.specimen_selector'] = new \AppBundle\Form\SpecimenSelectorType($this->get('doctrine.orm.default_entity_manager'));
+        return $this->services['type.specimen_selector'] = new \AppBundle\Form\SpecimensSelectorType($this->get('doctrine.orm.default_entity_manager'));
     }
 
     /**

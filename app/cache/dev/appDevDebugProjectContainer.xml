@@ -651,7 +651,7 @@
     </parameter>
   </parameters>
   <services>
-    <service id="type.specimen_selector" class="AppBundle\Form\SpecimenSelectorType">
+    <service id="type.specimen_selector" class="AppBundle\Form\SpecimensSelectorType">
       <tag name="form.type" alias="specimen_selector"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>

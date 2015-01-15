@@ -1,6 +1,58 @@
 {% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="application/javascript" src="/js/jquery.easytabs.js"></script>
+    <script type="application/javascript">
+        $(function() {
+            $( "#tabs" ).easytabs({tabs: ".nav-tabs li"});
+        });
+        $( document ).ready(function() {
+            $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').change(function() {
+                var val=$(this).val();
+                if(/^[0-9]+$/.test(val)){
+                    $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').find('[mandatory="false"]').attr('required','required');
+                    $('#new-specimen').find('[required="required"]').attr('mandatory','false');
+                    $('#new-specimen').find('input[required="required"]').val('');
+                    $('#new-specimen').find('select[required="required"]').prop('selectedIndex',0);
+                    $('#new-specimen').find('[required="required"]').removeAttr('required');
+                    $('#new-specimen').hide();
+                    return false;
+                }
+                if(val===''){
+                    $('#new-specimen').find('[mandatory="false"]').attr('required','required');
+                    $('#new-specimen').show();
+                    return false;
+                }
+            });
+            $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_txnSeqno').change(function() {
+                $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').attr('mandatory','false');
+                $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').removeAttr('required');
+                $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').val('');
+                return false;
+            });
+            $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_scnNumber').change(function() {
+                if($(this).val()>1){
+                    $('#parameters').find('input').val('');
+                    $('#parameters').find('select').prop('selectedIndex',0);
+                    $('.no-multi').find('input').val('');
+                    $('.no-multi').find('select').prop('selectedIndex',0);
+                    $('.no-multi').hide();
+                    $('#parameters').hide();
+                    return false;
+                }
+                if($(this).val()<2){
+                    $('.no-multi').show();
+                    $('#parameters').show();
+                    return false;
+                }
+            });
+
+        });
+    </script>
+{% endblock %}
 {% block main_content %}
-    <div class="col-lg-10">
+    <div class="col-lg-12">
         {{ include('AppBundle:Bare:add-observations-specimens.html.twig') }}
     </div>
 {% endblock %}
+
