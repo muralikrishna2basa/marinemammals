@@ -651,16 +651,9 @@
     </parameter>
   </parameters>
   <services>
-    <service id="form.type.cgrefchoice" class="AppBundle\Form\CgRefChoiceType">
-      <tag name="form.type" alias="CgRefChoice"/>
-      <argument type="service" id="doctrine"/>
-    </service>
-    <service id="form.type_extension.cgrefchoiceextension" class="AppBundle\Form\Extension\CgRefChoiceExtension">
-      <tag name="form.type_extension" alias="choice"/>
-      <argument type="service" id="doctrine"/>
-    </service>
-    <service id="allow_doctrine" class="AppBundle\Form\CgRefChoiceType">
-      <argument type="service" id="doctrine"/>
+    <service id="type.specimen_selector" class="AppBundle\Form\SpecimenSelectorType">
+      <tag name="form.type" alias="specimen_selector"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
     <service id="my.listener" class="Doctrine\DBAL\Event\Listeners\OracleSessionInit">
       <tag name="doctrine.event_listener" event="postConnect"/>
@@ -1076,7 +1069,7 @@
           <service class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
             <argument type="service" id="service_container"/>
             <argument type="collection">
-              <argument key="CgRefChoice">form.type.cgrefchoice</argument>
+              <argument key="specimen_selector">type.specimen_selector</argument>
               <argument key="form">form.type.form</argument>
               <argument key="birthday">form.type.birthday</argument>
               <argument key="checkbox">form.type.checkbox</argument>
@@ -1110,9 +1103,6 @@
               <argument key="entity">form.type.entity</argument>
             </argument>
             <argument type="collection">
-              <argument key="choice" type="collection">
-                <argument>form.type_extension.cgrefchoiceextension</argument>
-              </argument>
               <argument key="form" type="collection">
                 <argument>form.type_extension.form.http_foundation</argument>
                 <argument>form.type_extension.form.validator</argument>

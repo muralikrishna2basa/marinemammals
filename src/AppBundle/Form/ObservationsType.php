@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\StationsRepository;
 use AppBundle\Form\ObservationValuesType;
 use AppBundle\Form\EventStatesType;
+use AppBundle\Form\ChoiceList\CgRefChoiceList;
 
 class ObservationsType extends AbstractType
 {

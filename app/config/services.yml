@@ -2,21 +2,9 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
-
 services:
-     form.type.CgRefChoice:
-         class: AppBundle\Form\CgRefChoiceType
-         tags:
-            - { name: form.type, alias: CgRefChoice }
-         arguments:    [@doctrine]
-     form.type_extension.CgRefChoiceExtension:
-         class: AppBundle\Form\Extension\CgRefChoiceExtension
-         tags:
-            - { name: form.type_extension, alias: choice }
-         arguments:    [@doctrine]
-     allow_doctrine:
-          class:       AppBundle\Form\CgRefChoiceType
-          arguments:    [@doctrine]
-     allow_doctrine:
-          class:       AppBundle\Form\CgRefChoiceExtension
-          arguments:    [@doctrine]
+    type.specimen_selector:
+        class: AppBundle\Form\SpecimenSelectorType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: specimen_selector }

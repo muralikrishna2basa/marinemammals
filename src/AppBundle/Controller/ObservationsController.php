@@ -80,30 +80,6 @@ class ObservationsController extends Controller
         return $sv;
     }
 
-    private function persistOrRemoveObservationValues($ov,$observation){
-        $em = $this->getDoctrine()
-            ->getEntityManager();
-        if($ov->getValue() ==='' or $ov->getValue() === null){
-            $observation->removeValue($ov);
-            $em->remove($ov);
-        }
-        else{
-            $em->persist($ov);
-        }
-    }
-
-    private function persistOrRemoveSpecimenValues($sv,$s2e){
-        $em = $this->getDoctrine()
-            ->getEntityManager();
-        if($sv->getValue() ==='' or $sv->getValue() === null){
-            $s2e->removeValue($sv);
-            $em->remove($sv);
-        }
-        else{
-            $em->persist($sv);
-        }
-    }
-
     private function persistOrRemoveEntityValue(EntityValues $ev,ValueAssignable $va){
         $em = $this->getDoctrine()
             ->getEntityManager();

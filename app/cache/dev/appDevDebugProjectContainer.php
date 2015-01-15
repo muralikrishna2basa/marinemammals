@@ -700,7 +700,6 @@ class appDevDebugProjectContainer extends Container
         $this->scopes = array('request' => 'container');
         $this->scopeChildren = array('request' => array());
         $this->methodMap = array(
-            'allow_doctrine' => 'getAllowDoctrineService',
             'annotation_reader' => 'getAnnotationReaderService',
             'assetic.asset_factory' => 'getAssetic_AssetFactoryService',
             'assetic.asset_manager' => 'getAssetic_AssetManagerService',
@@ -743,7 +742,6 @@ class appDevDebugProjectContainer extends Container
             'form.resolved_type_factory' => 'getForm_ResolvedTypeFactoryService',
             'form.type.birthday' => 'getForm_Type_BirthdayService',
             'form.type.button' => 'getForm_Type_ButtonService',
-            'form.type.cgrefchoice' => 'getForm_Type_CgrefchoiceService',
             'form.type.checkbox' => 'getForm_Type_CheckboxService',
             'form.type.choice' => 'getForm_Type_ChoiceService',
             'form.type.collection' => 'getForm_Type_CollectionService',
@@ -773,7 +771,6 @@ class appDevDebugProjectContainer extends Container
             'form.type.time' => 'getForm_Type_TimeService',
             'form.type.timezone' => 'getForm_Type_TimezoneService',
             'form.type.url' => 'getForm_Type_UrlService',
-            'form.type_extension.cgrefchoiceextension' => 'getForm_TypeExtension_CgrefchoiceextensionService',
             'form.type_extension.csrf' => 'getForm_TypeExtension_CsrfService',
             'form.type_extension.form.data_collector' => 'getForm_TypeExtension_Form_DataCollectorService',
             'form.type_extension.form.http_foundation' => 'getForm_TypeExtension_Form_HttpFoundationService',
@@ -918,6 +915,7 @@ class appDevDebugProjectContainer extends Container
             'twig.exception_listener' => 'getTwig_ExceptionListenerService',
             'twig.loader' => 'getTwig_LoaderService',
             'twig.translation.extractor' => 'getTwig_Translation_ExtractorService',
+            'type.specimen_selector' => 'getType_SpecimenSelectorService',
             'uri_signer' => 'getUriSignerService',
             'validator' => 'getValidatorService',
             'validator.builder' => 'getValidator_BuilderService',
@@ -955,19 +953,6 @@ class appDevDebugProjectContainer extends Container
     public function compile()
     {
         throw new LogicException('You cannot compile a dumped frozen container.');
-    }
-
-    /**
-     * Gets the 'allow_doctrine' service.
-     *
-     * This service is shared.
-     * This method always returns the same instance of the service.
-     *
-     * @return \AppBundle\Form\CgRefChoiceType A AppBundle\Form\CgRefChoiceType instance.
-     */
-    protected function getAllowDoctrineService()
-    {
-        return $this->services['allow_doctrine'] = new \AppBundle\Form\CgRefChoiceType($this->get('doctrine'));
     }
 
     /**
@@ -1507,7 +1492,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getForm_RegistryService()
     {
-        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension($this, array('CgRefChoice' => 'form.type.cgrefchoice', 'form' => 'form.type.form', 'birthday' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'collection' => 'form.type.collection', 'country' => 'form.type.country', 'date' => 'form.type.date', 'datetime' => 'form.type.datetime', 'email' => 'form.type.email', 'file' => 'form.type.file', 'hidden' => 'form.type.hidden', 'integer' => 'form.type.integer', 'language' => 'form.type.language', 'locale' => 'form.type.locale', 'money' => 'form.type.money', 'number' => 'form.type.number', 'password' => 'form.type.password', 'percent' => 'form.type.percent', 'radio' => 'form.type.radio', 'repeated' => 'form.type.repeated', 'search' => 'form.type.search', 'textarea' => 'form.type.textarea', 'text' => 'form.type.text', 'time' => 'form.type.time', 'timezone' => 'form.type.timezone', 'url' => 'form.type.url', 'button' => 'form.type.button', 'submit' => 'form.type.submit', 'reset' => 'form.type.reset', 'currency' => 'form.type.currency', 'entity' => 'form.type.entity'), array('choice' => array(0 => 'form.type_extension.cgrefchoiceextension'), 'form' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.csrf', 3 => 'form.type_extension.form.data_collector'), 'repeated' => array(0 => 'form.type_extension.repeated.validator'), 'submit' => array(0 => 'form.type_extension.submit.validator')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'))), $this->get('form.resolved_type_factory'));
+        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension($this, array('specimen_selector' => 'type.specimen_selector', 'form' => 'form.type.form', 'birthday' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'collection' => 'form.type.collection', 'country' => 'form.type.country', 'date' => 'form.type.date', 'datetime' => 'form.type.datetime', 'email' => 'form.type.email', 'file' => 'form.type.file', 'hidden' => 'form.type.hidden', 'integer' => 'form.type.integer', 'language' => 'form.type.language', 'locale' => 'form.type.locale', 'money' => 'form.type.money', 'number' => 'form.type.number', 'password' => 'form.type.password', 'percent' => 'form.type.percent', 'radio' => 'form.type.radio', 'repeated' => 'form.type.repeated', 'search' => 'form.type.search', 'textarea' => 'form.type.textarea', 'text' => 'form.type.text', 'time' => 'form.type.time', 'timezone' => 'form.type.timezone', 'url' => 'form.type.url', 'button' => 'form.type.button', 'submit' => 'form.type.submit', 'reset' => 'form.type.reset', 'currency' => 'form.type.currency', 'entity' => 'form.type.entity'), array('form' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.csrf', 3 => 'form.type_extension.form.data_collector'), 'repeated' => array(0 => 'form.type_extension.repeated.validator'), 'submit' => array(0 => 'form.type_extension.submit.validator')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'))), $this->get('form.resolved_type_factory'));
     }
 
     /**
@@ -1547,19 +1532,6 @@ class appDevDebugProjectContainer extends Container
     protected function getForm_Type_ButtonService()
     {
         return $this->services['form.type.button'] = new \Symfony\Component\Form\Extension\Core\Type\ButtonType();
-    }
-
-    /**
-     * Gets the 'form.type.cgrefchoice' service.
-     *
-     * This service is shared.
-     * This method always returns the same instance of the service.
-     *
-     * @return \AppBundle\Form\CgRefChoiceType A AppBundle\Form\CgRefChoiceType instance.
-     */
-    protected function getForm_Type_CgrefchoiceService()
-    {
-        return $this->services['form.type.cgrefchoice'] = new \AppBundle\Form\CgRefChoiceType($this->get('doctrine'));
     }
 
     /**
@@ -1937,19 +1909,6 @@ class appDevDebugProjectContainer extends Container
     protected function getForm_Type_UrlService()
     {
         return $this->services['form.type.url'] = new \Symfony\Component\Form\Extension\Core\Type\UrlType();
-    }
-
-    /**
-     * Gets the 'form.type_extension.cgrefchoiceextension' service.
-     *
-     * This service is shared.
-     * This method always returns the same instance of the service.
-     *
-     * @return \AppBundle\Form\Extension\CgRefChoiceExtension A AppBundle\Form\Extension\CgRefChoiceExtension instance.
-     */
-    protected function getForm_TypeExtension_CgrefchoiceextensionService()
-    {
-        return $this->services['form.type_extension.cgrefchoiceextension'] = new \AppBundle\Form\Extension\CgRefChoiceExtension($this->get('doctrine'));
     }
 
     /**
@@ -3961,6 +3920,19 @@ class appDevDebugProjectContainer extends Container
     protected function getTwig_Translation_ExtractorService()
     {
         return $this->services['twig.translation.extractor'] = new \Symfony\Bridge\Twig\Translation\TwigExtractor($this->get('twig'));
+    }
+
+    /**
+     * Gets the 'type.specimen_selector' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Form\SpecimenSelectorType A AppBundle\Form\SpecimenSelectorType instance.
+     */
+    protected function getType_SpecimenSelectorService()
+    {
+        return $this->services['type.specimen_selector'] = new \AppBundle\Form\SpecimenSelectorType($this->get('doctrine.orm.default_entity_manager'));
     }
 
     /**

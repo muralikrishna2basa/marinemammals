@@ -431,4 +431,45 @@ class Specimens
         return $this;
     }
 
+    private function IsNullOrEmptyString($question){
+        return (!isset($question) || trim($question)==='');
+    }
+
+    public function getNecropsyTagNice(){
+        if (!$this->IsNullOrEmptyString($this->getNecropsyTag())){
+            return 'mumm:'.$this->getNecropsyTag();
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getRbinsTagNice(){
+        if (!$this->IsNullOrEmptyString($this->getRbinsTag())){
+            return 'rbins:'.$this->getRbinsTag();
+        }
+        else{
+            return null;
+        }
+    }
+
+    public function getTagString(){
+        $mumm=$this->getNecropsyTagNice();
+        $rbins=$this->getNecropsyTagNice();
+        if ($mumm and $rbins){
+            return '('.$mumm .'/'. $rbins.')';
+        }
+        elseif ($mumm){
+            return '('.$mumm.')';
+        }
+        elseif ($rbins){
+            return '('.$rbins.')';
+        }
+        else return '';
+    }
+
+    public function getFullyQualifiedName(){
+        return $this->getSeqno().' - '.$this->getTxnSeqno()->getVernacularNameEn().' '.$this->getTagString();
+    }
+
 }
