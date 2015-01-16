@@ -77,19 +77,18 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                     return false;
                 }
             });
-
         });
     </script>
 ";
     }
 
-    // line 53
+    // line 52
     public function block_main_content($context, array $blocks = array())
     {
-        // line 54
+        // line 53
         echo "    <div class=\"col-lg-12\">
         ";
-        // line 55
+        // line 54
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
     </div>
@@ -108,6 +107,6 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 
     public function getDebugInfo()
     {
-        return array (  93 => 55,  90 => 54,  87 => 53,  32 => 3,  29 => 2,);
+        return array (  92 => 54,  89 => 53,  86 => 52,  32 => 3,  29 => 2,);
     }
 }

@@ -37,10 +37,10 @@ class __TwigTemplate_f6bc7b3cabd4dee32bf93af71cacabf68a4d0f4c3cecf7ea38668f774b3
         // line 12
         echo twig_include($this->env, $context, "AppBundle:Bare:add-specimens.html.twig");
         echo "
+    <p>
+        <input type=\"submit\" value=\"Submit\">
+    </p>
 </fieldset>
-<p>
-    <input type=\"submit\" value=\"Submit\">
-</p>
 </div>
 ";
         // line 18

@@ -1,32 +1,32 @@
-    <h2>Observation</h2>
+<legend>Observation</legend>
 
-    <h3>Date and time</h3>
+<h3>Date and time</h3>
 
-    <div class="form-inline">
-        {{ form_row(form.eseSeqno.eventDatetime, {'label':'Date', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}
-        {{ form_row(form.eseSeqno.eventDatetimeFlag, {'label':'Date flag'}) }}</div>
-    <h3>Location</h3>
-    <h4>Exact Coordinates</h4>
+<div class="form-inline">
+    {{ form_row(form.eseSeqno.eventDatetime, {'label':'Date', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}
+    {{ form_row(form.eseSeqno.eventDatetimeFlag, {'label':'Date flag'}) }}</div>
+<h3>Location</h3>
+<h4>Exact Coordinates</h4>
 
-    <div class="form-inline">{{ form_row(form.latDeg, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723'} }) }}
-        {{ form_row(form.lonDeg, {'label':'Decimal longitude', 'attr': {'placeholder': 'eg. 2.9254719'} }) }}
-        {{ form_row(form.precisionFlag, {'label':'Location precision'}) }}</div>
-    <h4>Station</h4>
+<div class="form-inline">{{ form_row(form.latDeg, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723'} }) }}
+    {{ form_row(form.lonDeg, {'label':'Decimal longitude', 'attr': {'placeholder': 'eg. 2.9254719'} }) }}
+    {{ form_row(form.precisionFlag, {'label':'Location precision'}) }}</div>
+<h4>Station</h4>
 
-    <div class="form-inline">{{ form_row(form.stnSeqno, {'label':'Station'}) }}</div>
-    <h3>Observation type</h3>
+<div class="form-inline">{{ form_row(form.stnSeqno, {'label':'Station'}) }}</div>
+<h3>Observation type</h3>
 
-    <div class="form-inline">{{ form_row(form.isconfidential, {'label':'Confidential observation?'}) }}</div>
-    <div class="form-inline">{{ form_row(form.osnType, {'label':'Observation type'}) }}</div>
-    <div class="form-inline">{{ form_row(form.samplingeffort, {'label':'Effort Related Survey?'}) }}</div>
-    <h3>Observation conditions</h3>
-    {% for ov in form.values %}
-        <h4>{{ ov.vars.value.pmdName }}</h4>
-        <div class="form-inline">{{ form_row(ov.value, {'label':'Value'}) }}
-            {{ form_row(ov.valueFlag, {'label':'Value flag'}) }}</div>
-    {% endfor %}
-    <h3>Observation comments</h3>
-    {{ form_row(form.eseSeqno.description, {'label':'Observation description'}) }}
+<div class="form-inline">{{ form_row(form.isconfidential, {'label':'Confidential observation?'}) }}</div>
+<div class="form-inline">{{ form_row(form.osnType, {'label':'Observation type'}) }}</div>
+<div class="form-inline">{{ form_row(form.samplingeffort, {'label':'Effort Related Survey?'}) }}</div>
+<h3>Observation conditions</h3>
+{% for ov in form.values %}
+    <h4>{{ ov.vars.value.pmdName }}</h4>
+    <div class="form-inline">{{ form_row(ov.value, {'label':'Value'}) }}
+        {{ form_row(ov.valueFlag, {'label':'Value flag'}) }}</div>
+{% endfor %}
+<h3>Observation comments</h3>
+{{ form_row(form.eseSeqno.description, {'label':'Observation description'}) }}
     {{ form_row(form.webcommentsEn, {'label':'Event web comments: English'}) }}
     {{ form_row(form.webcommentsNl, {'label':'Event web comments: Dutch'}) }}
     {{ form_row(form.webcommentsFr, {'label':'Event web comments: French'}) }}
