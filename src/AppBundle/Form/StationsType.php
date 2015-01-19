@@ -29,10 +29,10 @@ class StationsType extends AbstractType
         $builder->add('description', 'text',array(
             'required' => false
         ));
-        $builder->add('latDeg', 'text',array(
+        $builder->add('latDec', 'text',array(
             'required' => true
         ));
-        $builder->add('lonDeg', 'text',array(
+        $builder->add('lonDec', 'text',array(
             'required' => true
         ));
         $builder->add('pceSeqno', 'entity', array(

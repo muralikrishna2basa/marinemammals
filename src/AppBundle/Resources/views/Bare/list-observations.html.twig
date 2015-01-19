@@ -10,8 +10,8 @@
         </thead>
         {% for o in observations %}
             <tr>
-                <td>{{o.latDeg}}</td>
-                <td>{{o.lonDeg}}</td>
+                <td>{{o.latDec}}</td>
+                <td>{{o.lonDec}}</td>
                 <td>{{o.eseSeqno.eventDatetime|date("m/d/Y")}}</td>
                 <td>{{o.eseSeqno.spec2event.scnSeqno.txnSeqno.canonicalName}}</td>
             </tr>

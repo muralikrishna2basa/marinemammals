@@ -57,9 +57,9 @@ class Stations
     /**
      * @var string
      *
-     * @ORM\Column(name="LAT_DEG", type="decimal", precision=25, scale=12, nullable=true)
+     * @ORM\Column(name="LAT_DEC", type="decimal", precision=25, scale=12, nullable=true)
      */
-    private $latDeg;
+    private $latDec;
 
     /**
      * @var string
@@ -71,9 +71,9 @@ class Stations
     /**
      * @var string
      *
-     * @ORM\Column(name="LON_DEG", type="decimal", precision=25, scale=15, nullable=true)
+     * @ORM\Column(name="LON_DEC", type="decimal", precision=25, scale=15, nullable=true)
      */
-    private $lonDeg;
+    private $lonDec;
 
     /**
      * @var \DateTime
@@ -250,26 +250,26 @@ class Stations
     }
 
     /**
-     * Set latDeg
+     * Set latDec
      *
-     * @param string $latDeg
+     * @param string $latDec
      * @return Stations
      */
-    public function setLatDeg($latDeg)
+    public function setlatDec($latDec)
     {
-        $this->latDeg = $latDeg;
+        $this->latDec = $latDec;
     
         return $this;
     }
 
     /**
-     * Get latDeg
+     * Get latDec
      *
      * @return string 
      */
-    public function getLatDeg()
+    public function getlatDec()
     {
-        return $this->latDeg;
+        return $this->latDec;
     }
 
     /**
@@ -296,26 +296,26 @@ class Stations
     }
 
     /**
-     * Set lonDeg
+     * Set lonDec
      *
-     * @param string $lonDeg
+     * @param string $lonDec
      * @return Stations
      */
-    public function setLonDeg($lonDeg)
+    public function setlonDec($lonDec)
     {
-        $this->lonDeg = $lonDeg;
+        $this->lonDec = $lonDec;
     
         return $this;
     }
 
     /**
-     * Get lonDeg
+     * Get lonDec
      *
      * @return string 
      */
-    public function getLonDeg()
+    public function getlonDec()
     {
-        return $this->lonDeg;
+        return $this->lonDec;
     }
 
     /**

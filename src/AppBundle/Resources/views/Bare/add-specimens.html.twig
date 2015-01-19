@@ -1,11 +1,13 @@
-<legend>Specimen</legend>
-<h3>Enter existing specimen</h3>
-<div class="form-inline" id="existing-specimen">
-    {{ form_row(form.eseSeqno.spec2event.scnSeqnoExisting, {'label':'Specimen id','attr':{'placeholder':'A valid specimen seqno'} }) }}
-    <button id="b_search_scn">Search for existing specimen in list</button>
-</div>
-<div id="new-specimen">
-    <h3>Add new specimen</h3>
+<legend><h2>Specimen</h2></legend>
+<fieldset id="existing-specimen">
+    <legend><h3>Enter existing specimen</h3></legend>
+    <div class="form-inline">
+        {{ form_row(form.eseSeqno.spec2event.scnSeqnoExisting, {'label':'Specimen id','attr':{'placeholder':'A valid specimen seqno'} }) }}
+        <button id="b_search_scn">Search for existing specimen in list</button>
+    </div>
+</fieldset>
+<fieldset id="new-specimen">
+    <legend><h3>New specimen</h3></legend>
 
     <div class="form-inline">
         {{ form_row(form.eseSeqno.spec2event.scnSeqnoNew.txnSeqno, {'label':'Species' }) }}
@@ -25,19 +27,20 @@
     <div class="form-inline no-multi">
         {{ form_row(form.eseSeqno.spec2event.scnSeqnoNew.necropsyTag, {'label':'Necropsy tag' }) }}
     </div>
-    <fieldset id="parameters" class="no-multi">
-        <legend>Circumstantial parameters</legend>
-        {% for sv in form.eseSeqno.spec2event.values|slice(0, 4) %}
-            <h4>{{ sv.vars.value.pmdName }}</h4>
-            <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
-                {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
-        {% endfor %}
-        <h3>Measurements</h3>
-        {% for sv in form.eseSeqno.spec2event.values|slice(4, 8) %}
-            <h4>{{ sv.vars.value.pmdName }}</h4>
-
+    <fieldset id="circumstantial_values" class="no-multi">
+        <legend><h4>Circumstantial parameters</h4></legend>
+        {% for sv in form.eseSeqno.spec2event.circumstantialValues %}
+            <h5>{{ sv.vars.value.pmdName }}</h5>
             <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
                 {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
         {% endfor %}
     </fieldset>
-</div>
+    <fieldset id="measurement_values" class="no-multi">
+        <legend><h4>Measurements</h4></legend>
+        {% for sv in form.eseSeqno.spec2event.measurementValues %}
+            <h5>{{ sv.vars.value.pmdName }}</h5>
+            <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
+                {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
+        {% endfor %}
+    </fieldset>
+</fieldset>

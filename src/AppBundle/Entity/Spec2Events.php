@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Spec2Events SPEC2EVENTS
@@ -239,6 +240,127 @@ class Spec2Events implements ValueAssignable
     {
         $this->getValues()->removeElement($ev);
     }
+//------------------------
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCircumstantialValues()
+    {
+        $circumstantialPms=array();
+        array_push($circumstantialPms,'Before intervention');
+        array_push($circumstantialPms,'During intervention');
+        array_push($circumstantialPms,'Collection');
+        array_push($circumstantialPms,'Decomposition Code');
+
+        return $this->getValues()->filter(
+            function($entry) use ($circumstantialPms) {
+                return in_array($entry->getPmdSeqno()->getName(), $circumstantialPms);
+            }
+        );
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $values
+     * @return Spec2Events
+     */
+    public function setCircumstantialValues(\Doctrine\Common\Collections\Collection $values)
+    {
+        $this->values->add($values);
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeasurementValues()
+    {
+        $measurementPms=array();
+        array_push($measurementPms,'Body length');
+        array_push($measurementPms,'Body weight');
+        array_push($measurementPms,'Age');
+        array_push($measurementPms,'Nutritional Status');
+
+        return $this->getValues()->filter(
+            function($entry) use ($measurementPms) {
+                return in_array($entry->getPmdSeqno()->getName(), $measurementPms);
+            }
+        );
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $values
+     * @return Spec2Events
+     */
+    public function setMeasurementValues(\Doctrine\Common\Collections\Collection $values)
+    {
+        $this->values->add($values);
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPathologyValues()
+    {
+        $pathologyPms=array();
+        array_push($pathologyPms,'Fresh external lesions::Fresh bite marks');
+        array_push($pathologyPms,'Fresh external lesions::Opened abdomen');
+        array_push($pathologyPms,'Fresh external lesions::Stabbing wound');
+        array_push($pathologyPms,'Fresh external lesions::Parallel cuts');
+        array_push($pathologyPms,'Fresh external lesions::Broken bones');
+        array_push($pathologyPms,'Fresh external lesions::Hypothema');
+        array_push($pathologyPms,'Fresh external lesions::Fin amputation');
+        array_push($pathologyPms,'Fresh external lesions::Encircling lesion');
+        array_push($pathologyPms,'Fresh external lesions::Line/net impressions or cuts::Tail');
+        array_push($pathologyPms,'Fresh external lesions::Line/net impressions or cuts::Pectoral fin');
+        array_push($pathologyPms,'Fresh external lesions::Line/net impressions or cuts::Snout');
+        array_push($pathologyPms,'Fresh external lesions::Line/net impressions or cuts::Mouth');
+        array_push($pathologyPms,'Fresh external lesions::Scavenger traces::Picks');
+        array_push($pathologyPms,'Fresh external lesions::Scavenger traces::Bites');
+        array_push($pathologyPms,'Fresh external lesions::Other fresh external lesions');
+        array_push($pathologyPms,'Healing/healed lesions::Bites');
+        array_push($pathologyPms,'Healing/healed lesions::Pox-like lesions');
+        array_push($pathologyPms,'Healing/healed lesions::Open warts');
+        array_push($pathologyPms,'Healing/healed lesions::Cuts');
+        array_push($pathologyPms,'Healing/healed lesions::Line/net impressions');
+        array_push($pathologyPms,'Fishing activities::Static gear on beach nearby');
+        array_push($pathologyPms,'Fishing activities::Static gear at sea nearby');
+        array_push($pathologyPms,'Other characteristics::External parasites');
+        array_push($pathologyPms,'Other characteristics::Froth from airways');
+        array_push($pathologyPms,'Other characteristics::Fishy smell');
+        array_push($pathologyPms,'Other characteristics::Prey remains in mouth');
+        array_push($pathologyPms,'Other characteristics::Remains of nets, ropes, plastic, etc.');
+        array_push($pathologyPms,'Other characteristics::Oil remains on skin');
+        array_push($pathologyPms,'Nutritional condition');
+        array_push($pathologyPms,'Stomach Content');
+        array_push($pathologyPms,'Other remarks');
+
+        return $this->getValues()->filter(
+            function($entry) use ($pathologyPms) {
+                return in_array($entry->getPmdSeqno()->getName(), $pathologyPms);
+            }
+        );
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $values
+     * @return Spec2Events
+     */
+    public function setPathologyValues(\Doctrine\Common\Collections\Collection $values)
+    {
+        $this->values->add($values);
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCauseOfDeathValues()
+    {
+        return $this->getValues();
+    }
+
+
 
 
 }

@@ -20,11 +20,11 @@ class ObservationsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('latDeg', 'number', array(
+        $builder->add('latDec', 'number', array(
             'required' => true,
             'precision'=>6
         ));
-        $builder->add('lonDeg', 'number', array(
+        $builder->add('lonDec', 'number', array(
             'required' => true,
             'precision'=>6
         ));
