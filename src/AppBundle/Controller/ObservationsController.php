@@ -192,7 +192,7 @@ class ObservationsController extends Controller
             $this->persistOrRemoveEntityValue($wdOv,$observation);
             $this->persistOrRemoveEntityValue($wsOv,$observation);
             $this->persistOrRemoveEntityValue($ssOv,$observation);
-            $em->persist($specimen);
+            //$em->persist($specimen);
             $em->persist($s2e);
             foreach($s2e->getValues() as $sv) {
                 $sv->persistOrRemoveEntityValue($sv,$s2e);
