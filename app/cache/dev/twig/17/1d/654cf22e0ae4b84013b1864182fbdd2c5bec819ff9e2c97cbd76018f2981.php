@@ -80,16 +80,11 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
             //only for those that aren't required from server side!!
             \$(\"select[id\$='value'],input[id\$='value']\").not( \"[required='required']\" ).change(function() {
                 var id=\$(this).attr('id');
-                if(\$(this).is('select') && \$(this).text()!=''){
+                var value=\$(this).val();
+                if(value!=''){
                     \$(\"#\"+id+\"Flag\").attr('required','required');
-                    alert(\"value selected\");
-                }
-                else if(\$(this).is('input') && \$(this).val()!=''){
-                    \$(\"#\"+id+\"Flag\").attr('required','required');
-                    alert(\"value entered\");
                 }
                 else{
-                    alert(\"input/select emptied\");
                     \$(\"#\"+id+\"Flag\").removeAttr('required');
                 }
             });
@@ -98,13 +93,13 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 ";
     }
 
-    // line 68
+    // line 63
     public function block_main_content($context, array $blocks = array())
     {
-        // line 69
+        // line 64
         echo "    <div class=\"col-lg-12\">
         ";
-        // line 70
+        // line 65
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
     </div>
@@ -123,6 +118,6 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 
     public function getDebugInfo()
     {
-        return array (  108 => 70,  105 => 69,  102 => 68,  32 => 3,  29 => 2,);
+        return array (  103 => 65,  100 => 64,  97 => 63,  32 => 3,  29 => 2,);
     }
 }

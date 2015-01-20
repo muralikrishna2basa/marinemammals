@@ -27,8 +27,6 @@ class SpecimenValuesType extends AbstractType
             $defaultValue = $options['default_value'];
             $sv = $event->getData();
             $form = $event->getForm();
-
-            //\Doctrine\Common\Util\Debug::dump($options['required']);
             $pm = $sv->getPmdSeqno();
             $pd = $this
                 ->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($pm->getName());
@@ -58,16 +56,7 @@ class SpecimenValuesType extends AbstractType
                     'required' => false
                 ));
             }
-
         });
-        /*->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
-            $defaultValue = $options['default_value'];
-            $form = $event->getForm();
-                if ($options['radio'] === 'true') {
-                    $form->get('value')->getData()->setValue($defaultValue);
-                    \Doctrine\Common\Util\Debug::dump($form->get('value')->getData()->getValue());
-                }
-        });*/
         if ($options['radio'] === 'false') {
             $required = ($options['required'] === 'true');
             $builder->add('valueFlag', 'choice', array(

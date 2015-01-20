@@ -49,16 +49,11 @@
             //only for those that aren't required from server side!!
             $("select[id$='value'],input[id$='value']").not( "[required='required']" ).change(function() {
                 var id=$(this).attr('id');
-                if($(this).is('select') && $(this).text()!=''){
+                var value=$(this).val();
+                if(value!=''){
                     $("#"+id+"Flag").attr('required','required');
-                    alert("value selected");
-                }
-                else if($(this).is('input') && $(this).val()!=''){
-                    $("#"+id+"Flag").attr('required','required');
-                    alert("value entered");
                 }
                 else{
-                    alert("input/select emptied");
                     $("#"+id+"Flag").removeAttr('required');
                 }
             });
