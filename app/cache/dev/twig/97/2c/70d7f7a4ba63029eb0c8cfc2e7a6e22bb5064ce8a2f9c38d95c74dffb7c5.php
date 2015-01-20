@@ -20,7 +20,7 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
     <legend><h2>External pathology</h2></legend>
     <fieldset>
         <legend><h3>Fresh external lesions</h3></legend>
-        ";
+        <div class=\"form-inline\">";
         // line 5
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "pathologyValues", array()), 0, 9));
@@ -34,10 +34,11 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 8
-        echo "        <fieldset>
+        // line 7
+        echo "</div>
+        <fieldset>
             <legend><h4>Line/net impressions or cuts</h4></legend>
-            ";
+            <div class=\"form-inline\">";
         // line 10
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "pathologyValues", array()), 9, 4));
@@ -51,11 +52,12 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 13
-        echo "        </fieldset>
+        // line 12
+        echo "</div>
+        </fieldset>
         <fieldset>
             <legend><h4>Scavenger traces</h4></legend>
-            ";
+            <div class=\"form-inline\">";
         // line 16
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "pathologyValues", array()), 13, 2));
@@ -69,12 +71,13 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 19
-        echo "        </fieldset>
+        // line 18
+        echo "</div>
+        </fieldset>
     </fieldset>
     <fieldset>
         <legend><h3>Healing/healed lesions</h3></legend>
-        ";
+        <div class=\"form-inline\">";
         // line 23
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "pathologyValues", array()), 15, 5));
@@ -88,11 +91,12 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 26
-        echo "    </fieldset>
+        // line 25
+        echo "</div>
+    </fieldset>
     <fieldset>
         <legend><h3>Fishing activities</h3></legend>
-        ";
+        <div class=\"form-inline\">";
         // line 29
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "pathologyValues", array()), 20, 2));
@@ -106,11 +110,12 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 32
-        echo "    </fieldset>
+        // line 31
+        echo "</div>
+    </fieldset>
     <fieldset>
         <legend><h3>Other characteristics</h3></legend>
-        ";
+        <div class=\"form-inline\">";
         // line 35
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable(twig_slice($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "pathologyValues", array()), 22, 9));
@@ -124,8 +129,9 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 38
-        echo "    </fieldset>
+        // line 37
+        echo "</div>
+    </fieldset>
 </fieldset>";
     }
 
@@ -141,6 +147,6 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
 
     public function getDebugInfo()
     {
-        return array (  128 => 38,  119 => 36,  115 => 35,  110 => 32,  101 => 30,  97 => 29,  92 => 26,  83 => 24,  79 => 23,  73 => 19,  64 => 17,  60 => 16,  55 => 13,  46 => 11,  42 => 10,  38 => 8,  29 => 6,  25 => 5,  19 => 1,);
+        return array (  133 => 37,  124 => 36,  120 => 35,  114 => 31,  105 => 30,  101 => 29,  95 => 25,  86 => 24,  82 => 23,  75 => 18,  66 => 17,  62 => 16,  56 => 12,  47 => 11,  43 => 10,  38 => 7,  29 => 6,  25 => 5,  19 => 1,);
     }
 }

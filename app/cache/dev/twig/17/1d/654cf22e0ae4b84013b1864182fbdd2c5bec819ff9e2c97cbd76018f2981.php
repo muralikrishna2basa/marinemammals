@@ -77,18 +77,34 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                     return false;
                 }
             });
+            //only for those that aren't required from server side!!
+            \$(\"select[id\$='value'],input[id\$='value']\").not( \"[required='required']\" ).change(function() {
+                var id=\$(this).attr('id');
+                if(\$(this).is('select') && \$(this).text()!=''){
+                    \$(\"#\"+id+\"Flag\").attr('required','required');
+                    alert(\"value selected\");
+                }
+                else if(\$(this).is('input') && \$(this).val()!=''){
+                    \$(\"#\"+id+\"Flag\").attr('required','required');
+                    alert(\"value entered\");
+                }
+                else{
+                    alert(\"input/select emptied\");
+                    \$(\"#\"+id+\"Flag\").removeAttr('required');
+                }
+            });
         });
     </script>
 ";
     }
 
-    // line 52
+    // line 68
     public function block_main_content($context, array $blocks = array())
     {
-        // line 53
+        // line 69
         echo "    <div class=\"col-lg-12\">
         ";
-        // line 54
+        // line 70
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
     </div>
@@ -107,6 +123,6 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 
     public function getDebugInfo()
     {
-        return array (  92 => 54,  89 => 53,  86 => 52,  32 => 3,  29 => 2,);
+        return array (  108 => 70,  105 => 69,  102 => 68,  32 => 3,  29 => 2,);
     }
 }

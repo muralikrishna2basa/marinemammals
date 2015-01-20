@@ -21,27 +21,25 @@ class __TwigTemplate_1385435d313e963fea1b00e5764f4d03107513f0a7dc49d28dc6b748d4e
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        // line 1
-        $this->env->getExtension('form')->renderer->setTheme((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), array(0 => "AppBundle::form.html.twig"));
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
-    // line 3
+    // line 2
     public function block_main_content($context, array $blocks = array())
     {
-        // line 4
+        // line 3
         echo "    <div class=\"col-lg-6\">
         ";
-        // line 5
+        // line 4
         echo twig_include($this->env, $context, "AppBundle:Bare:add-persons.html.twig");
         echo "
         ";
-        // line 6
+        // line 5
         echo twig_include($this->env, $context, "AppBundle:Bare:add-institutes.html.twig");
         echo "
        </div>
     <div class=\"col-lg-6\">    ";
-        // line 8
+        // line 7
         echo twig_include($this->env, $context, "AppBundle:Bare:list-persons.html.twig");
         echo "</div>
 ";
@@ -59,6 +57,6 @@ class __TwigTemplate_1385435d313e963fea1b00e5764f4d03107513f0a7dc49d28dc6b748d4e
 
     public function getDebugInfo()
     {
-        return array (  45 => 8,  40 => 6,  36 => 5,  33 => 4,  30 => 3,  25 => 1,);
+        return array (  43 => 7,  38 => 5,  34 => 4,  31 => 3,  28 => 2,);
     }
 }

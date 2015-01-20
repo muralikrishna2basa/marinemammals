@@ -1,13 +1,13 @@
 <h2>Add new station</h2>
 {{ form_start(sform, {'method': 'POST','action': path('mm_stations_add_create')}) }}
-<ul class="formelements">
-    <li>{{ form_row(sform.code,{'label':'Code'}) }}</li>
-    <li>{{ form_row(sform.areaType,{'label':'Area type'}) }}</li>
-    <li>{{ form_row(sform.description, {'label':'Description'}) }}</li>
-    <li>{{ form_row(sform.latDec, {'label':'Latitude'}) }}</li>
-    <li>{{ form_row(sform.lonDec, {'label':'Longitude'}) }}</li>
-    <li>{{ form_row(sform.pceSeqno, {'label':'place'}) }}</li>
-</ul>
+<fieldset>
+    <div class="form-inline">{{ form_row(sform.code,{'label':'Code'}) }}</div>
+    <div class="form-inline">{{ form_row(sform.areaType,{'label':'Area type'}) }}</div>
+    <div class="form-inline">{{ form_row(sform.description, {'label':'Description'}) }}</div>
+    <div class="form-inline">{{ form_row(sform.latDec, {'label':'Latitude'}) }}</div>
+    <div class="form-inline">{{ form_row(sform.lonDec, {'label':'Longitude'}) }}</div>
+    <div class="form-inline">{{ form_row(sform.pceSeqno, {'label':'place'}) }}</div>
+</fieldset>
 <p>
     <input type="submit" value="Submit">
 </p>

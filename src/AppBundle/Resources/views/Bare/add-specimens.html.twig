@@ -35,7 +35,7 @@
                 {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
         {% endfor %}
     </fieldset>
-    <fieldset id="measurement_values" class="no-multi">
+   <fieldset id="measurement_values" class="no-multi">
         <legend><h4>Measurements</h4></legend>
         {% for sv in form.eseSeqno.spec2event.measurementValues %}
             <h5>{{ sv.vars.value.pmdName }}</h5>

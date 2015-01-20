@@ -19,32 +19,37 @@ class SpecimenValuesType extends AbstractType
         $this->doctrine = $doctrine;
     }
 
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
+            $required = ($options['required'] === 'true');
+            $defaultValue = $options['default_value'];
             $sv = $event->getData();
             $form = $event->getForm();
 
+            //\Doctrine\Common\Util\Debug::dump($options['required']);
             $pm = $sv->getPmdSeqno();
             $pd = $this
                 ->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($pm->getName());
             if ($pm->getVariabletype() === 'continuous') {
                 $form->add('value', 'integer', array(
-                    'required' => false,
+                    'required' => $required,
                     'attr' => array('placeholder' => $pm->getUnit())
                 ));
             } elseif ($pd) {
                 if ($options['radio'] === 'true') {
                     $form->add('value', 'choice', array(
-                        'required' => true,
+                        'required' => $required,
                         'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName()),
                         'expanded' => true,
                         'multiple' => false
                     ));
+                    $sv->setValue($defaultValue);
                 } else {
                     $form->add('value', 'choice', array(
-                        'empty_value' => 'Select...',
-                        'required' => false,
+                        'placeholder' => 'Select...',
+                        'required' => $required,
                         'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName())
                     ));
                 }
@@ -55,10 +60,19 @@ class SpecimenValuesType extends AbstractType
             }
 
         });
+        /*->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
+            $defaultValue = $options['default_value'];
+            $form = $event->getForm();
+                if ($options['radio'] === 'true') {
+                    $form->get('value')->getData()->setValue($defaultValue);
+                    \Doctrine\Common\Util\Debug::dump($form->get('value')->getData()->getValue());
+                }
+        });*/
         if ($options['radio'] === 'false') {
+            $required = ($options['required'] === 'true');
             $builder->add('valueFlag', 'choice', array(
-                'empty_value' => 'Select...',
-                'required' => false,
+                'placeholder' => 'Select...',
+                'required' => $required,
                 'choice_list' => new CgRefChoiceList($this->doctrine, 'VALUE_FLAG')
             ));
         }
@@ -69,7 +83,9 @@ class SpecimenValuesType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'data_class' => 'AppBundle\Entity\SpecimenValues',
-                'radio'=>'false'
+                'radio'=>'false',
+                'required'=>'false',
+                'default_value'=>'unknown'
             ));
     }
 

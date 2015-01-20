@@ -136,10 +136,10 @@ class ObservationsController extends Controller
         $ssOv=$this->instantiateObservationValues('Seastate',$observation);
 
         $s2e=new Spec2Events();
-        $specimen=new Specimens();
+        //$specimen=new Specimens();
         $event->setSpec2event($s2e);
         $s2e->setEseSeqno($event);
-        $s2e->setScnSeqno($specimen);
+        //$s2e->setScnSeqno($specimen);
 
         $biSv=$this->instantiateSpecimenValues('Before intervention',$s2e);
         $diSv=$this->instantiateSpecimenValues('During intervention',$s2e);
@@ -195,7 +195,7 @@ class ObservationsController extends Controller
             //$em->persist($specimen);
             $em->persist($s2e);
             foreach($s2e->getValues() as $sv) {
-                $sv->persistOrRemoveEntityValue($sv,$s2e);
+                $this->persistOrRemoveEntityValue($sv,$s2e);
             }
             $em->flush();
 

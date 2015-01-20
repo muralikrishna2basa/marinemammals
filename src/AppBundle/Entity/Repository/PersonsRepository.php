@@ -11,7 +11,7 @@ class PersonsRepository extends EntityRepository
 		$qb = $this->createQueryBuilder('p')
 		->select('p')
             ->addSelect('i')
-            ->leftJoin('iteSeqno', 'i')
+            ->leftJoin('p.iteSeqno', 'i')
 		->addOrderBy('i.code', 'ASC')
         ->addOrderBy('p.lastName', 'ASC');
 

@@ -92,7 +92,7 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 37
         echo "    </fieldset>
-    <fieldset id=\"measurement_values\" class=\"no-multi\">
+   <fieldset id=\"measurement_values\" class=\"no-multi\">
         <legend><h4>Measurements</h4></legend>
         ";
         // line 40

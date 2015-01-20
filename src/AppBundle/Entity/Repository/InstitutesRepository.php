@@ -4,17 +4,16 @@ namespace AppBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class ObservationValuesRepository extends EntityRepository
+class InstitutesRepository extends EntityRepository
 {
-    public function getObservationValuesPm()
+    public function getAllInstitutes()
     {
-        $qb = $this->createQueryBuilder('ov')
-            ->select('ov')
-            ->addSelect('pm')
-            ->leftJoin('pmdSeqno','pm')
-            ->addOrderBy('pm.name', 'ASC');
+        $qb = $this->createQueryBuilder('i')
+            ->select('i')
+            ->addOrderBy('i.code', 'ASC');
 
         return $qb->getQuery()
             ->getResult();
     }
 }
+

@@ -21,27 +21,25 @@ class __TwigTemplate_0910be61329dee396d52fdff7562697443bd68798be29933431e136d5ba
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        // line 1
-        $this->env->getExtension('form')->renderer->setTheme((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), array(0 => "AppBundle::form.html.twig"));
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
-    // line 3
+    // line 2
     public function block_main_content($context, array $blocks = array())
     {
-        // line 4
+        // line 3
         echo "    <div class=\"col-lg-6\">
         ";
-        // line 5
+        // line 4
         echo twig_include($this->env, $context, "AppBundle:Bare:add-stations.html.twig");
         echo "
         ";
-        // line 6
+        // line 5
         echo twig_include($this->env, $context, "AppBundle:Bare:add-places.html.twig");
         echo "
        </div>
     <div class=\"col-lg-6\">    ";
-        // line 8
+        // line 7
         echo twig_include($this->env, $context, "AppBundle:Bare:list-stations.html.twig");
         echo "</div>
 ";
@@ -59,6 +57,6 @@ class __TwigTemplate_0910be61329dee396d52fdff7562697443bd68798be29933431e136d5ba
 
     public function getDebugInfo()
     {
-        return array (  45 => 8,  40 => 6,  36 => 5,  33 => 4,  30 => 3,  25 => 1,);
+        return array (  43 => 7,  38 => 5,  34 => 4,  31 => 3,  28 => 2,);
     }
 }

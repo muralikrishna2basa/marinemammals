@@ -21,16 +21,16 @@ class __TwigTemplate_c7b462e464eec0e374a0b0b784b4b0243f4602290d254bef0ca64826305
         // line 2
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_platforms_add_create")));
         echo "
-<ul class=\"formelements\">
-    <li>";
+<fieldset>
+    <div class=\"form-inline\">";
         // line 4
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "name", array()), 'row', array("label" => "Name"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 5
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "pfmType", array()), 'row', array("label" => "Platform type"));
-        echo "</li>
-</ul>
+        echo "</div>
+</fieldset>
 <p>
     <input type=\"submit\" value=\"Submit\">
 </p>

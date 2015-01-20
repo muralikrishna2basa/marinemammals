@@ -21,44 +21,44 @@ class __TwigTemplate_e9fef892f3fd25e4d7c3056fb3c87a021656e0ae7bc8c3ca2cc1b5aa2b6
         // line 2
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_persons_add_create")));
         echo "
-<ul class=\"formelements\">
-    <li>";
+<fieldset>
+    <div class=\"form-inline\">";
         // line 4
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "firstName", array()), 'row', array("label" => "First name"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 5
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "lastName", array()), 'row', array("label" => "Last name"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 6
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "address", array()), 'row', array("label" => "Address", "attr" => array("placeholder" => "<street> <streetnumber>, <postal code> <municipality>")));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 7
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "iteSeqno", array()), 'row', array("label" => "Institute"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 8
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "phoneNumber", array()), 'row', array("label" => "Phone number", "attr" => array("placeholder" => "dd(d)(d)/dddddd(d)")));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 9
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "email", array()), 'row', array("label" => "mail"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 10
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "sex", array()), 'row', array("label" => "Sex"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 11
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "title", array()), 'row', array("label" => "Title"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 12
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["pform"]) ? $context["pform"] : $this->getContext($context, "pform")), "idodId", array()), 'row', array("label" => "IDOD id", "attr" => array("placeholder" => "verify in IDOD, add there if needed")));
-        echo "</li>
-</ul>
+        echo "</div>
+</fieldset>
 <p>
     <input type=\"submit\" value=\"Submit\">
 </p>

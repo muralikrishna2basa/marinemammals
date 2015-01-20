@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\PlacesRepository;
+use AppBundle\Form\ChoiceList\CgRefChoiceList;
 
 class PlacesType extends AbstractType
 {

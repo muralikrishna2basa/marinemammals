@@ -21,16 +21,16 @@ class __TwigTemplate_864987cb0d97f1d34e4cc0af7f89d8141e22722bda5c1f468396f05f8e5
         // line 2
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_sources_add_create")));
         echo "
-<ul class=\"formelements\">
-    <li>";
+<fieldset>
+    <div class=\"form-inline\">";
         // line 4
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "name", array()), 'row', array("label" => "Name"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 5
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "type", array()), 'row', array("label" => "Source type"));
-        echo "</li>
-</ul>
+        echo "</div>
+</fieldset>
 <p>
     <input type=\"submit\" value=\"Submit\">
 </p>

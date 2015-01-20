@@ -21,16 +21,16 @@ class __TwigTemplate_2185ad3544925829316823c1540fad273de1f1ba00537106c06eb85bd3f
         // line 2
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["iform"]) ? $context["iform"] : $this->getContext($context, "iform")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_persons_add_create")));
         echo "
-<ul class=\"formelements\">
-    <li>";
+<fieldset>
+    <div class=\"form-inline\">";
         // line 4
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["iform"]) ? $context["iform"] : $this->getContext($context, "iform")), "name", array()), 'row', array("label" => "Name"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 5
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["iform"]) ? $context["iform"] : $this->getContext($context, "iform")), "code", array()), 'row', array("label" => "Code"));
-        echo "</li>
-</ul>
+        echo "</div>
+</fieldset>
 <p>
     <input type=\"submit\" value=\"Submit\">
 </p>

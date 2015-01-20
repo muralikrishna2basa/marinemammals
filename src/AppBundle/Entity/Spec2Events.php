@@ -265,7 +265,7 @@ class Spec2Events implements ValueAssignable
      */
     public function setCircumstantialValues(\Doctrine\Common\Collections\Collection $values)
     {
-        $this->values->add($values);
+        //$this->values->add($values);
         return $this;
     }
 
@@ -293,7 +293,7 @@ class Spec2Events implements ValueAssignable
      */
     public function setMeasurementValues(\Doctrine\Common\Collections\Collection $values)
     {
-        $this->values->add($values);
+        //$this->values->add($values);
         return $this;
     }
 
@@ -348,7 +348,7 @@ class Spec2Events implements ValueAssignable
      */
     public function setPathologyValues(\Doctrine\Common\Collections\Collection $values)
     {
-        $this->values->add($values);
+        //$this->values->add($values);
         return $this;
     }
 

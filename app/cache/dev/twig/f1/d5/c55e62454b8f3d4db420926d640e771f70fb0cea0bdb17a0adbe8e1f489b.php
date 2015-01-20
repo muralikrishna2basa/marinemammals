@@ -50,11 +50,11 @@ class __TwigTemplate_f1d5c55e62454b8f3d4db420926d640e771f70fb0cea0bdb17a0adbe8e1
             echo "</td>
                 <td>";
             // line 18
-            echo twig_escape_filter($this->env, $this->getAttribute($context["station"], "latDeg", array()), "html", null, true);
+            echo twig_escape_filter($this->env, $this->getAttribute($context["station"], "latDec", array()), "html", null, true);
             echo "</td>
                 <td>";
             // line 19
-            echo twig_escape_filter($this->env, $this->getAttribute($context["station"], "lonDeg", array()), "html", null, true);
+            echo twig_escape_filter($this->env, $this->getAttribute($context["station"], "lonDec", array()), "html", null, true);
             echo "</td>
             </tr>
         ";

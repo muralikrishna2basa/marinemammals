@@ -21,23 +21,21 @@ class __TwigTemplate_db62a33f5985f46ff3e7cd83c650bbcea1c8cf1053025c1f811099c2fb5
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        // line 1
-        $this->env->getExtension('form')->renderer->setTheme((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), array(0 => "AppBundle::form.html.twig"));
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
-    // line 3
+    // line 2
     public function block_main_content($context, array $blocks = array())
     {
-        // line 4
+        // line 3
         echo "    <div class=\"col-lg-6\">
         ";
-        // line 5
+        // line 4
         echo twig_include($this->env, $context, "AppBundle:Bare:add-platforms.html.twig");
         echo "
        </div>
     <div class=\"col-lg-6\">    ";
-        // line 7
+        // line 6
         echo twig_include($this->env, $context, "AppBundle:Bare:list-platforms.html.twig");
         echo "</div>
 ";
@@ -55,6 +53,6 @@ class __TwigTemplate_db62a33f5985f46ff3e7cd83c650bbcea1c8cf1053025c1f811099c2fb5
 
     public function getDebugInfo()
     {
-        return array (  41 => 7,  36 => 5,  33 => 4,  30 => 3,  25 => 1,);
+        return array (  39 => 6,  34 => 4,  31 => 3,  28 => 2,);
     }
 }

@@ -21,32 +21,32 @@ class __TwigTemplate_5c346a88c5cc219e7daccc7af074e86908fc18ec220731866041de79403
         // line 2
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_stations_add_create")));
         echo "
-<ul class=\"formelements\">
-    <li>";
+<fieldset>
+    <div class=\"form-inline\">";
         // line 4
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "code", array()), 'row', array("label" => "Code"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 5
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "areaType", array()), 'row', array("label" => "Area type"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 6
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "description", array()), 'row', array("label" => "Description"));
-        echo "</li>
-    <li>";
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 7
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "latDeg", array()), 'row', array("label" => "Latitude"));
-        echo "</li>
-    <li>";
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "latDec", array()), 'row', array("label" => "Latitude"));
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 8
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "lonDeg", array()), 'row', array("label" => "Longitude"));
-        echo "</li>
-    <li>";
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "lonDec", array()), 'row', array("label" => "Longitude"));
+        echo "</div>
+    <div class=\"form-inline\">";
         // line 9
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["sform"]) ? $context["sform"] : $this->getContext($context, "sform")), "pceSeqno", array()), 'row', array("label" => "place"));
-        echo "</li>
-</ul>
+        echo "</div>
+</fieldset>
 <p>
     <input type=\"submit\" value=\"Submit\">
 </p>

@@ -26,17 +26,17 @@ class Spec2EventsType extends AbstractType
         $builder->add('scnSeqnoNew', new SpecimensType($this->doctrine), array('property_path' => 'scnSeqno'));
 
         $builder->add('circumstantialValues', 'collection', array('type' => new SpecimenValuesType($this->doctrine),
-            'options' => array('radio' => 'false'),
+            'options' => array('radio' => 'false', 'required'=>'true'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('measurementValues', 'collection', array('type' => new SpecimenValuesType($this->doctrine),
-            'options' => array('radio' => 'false'),
+            'options' => array('radio' => 'false', 'required'=>'false'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('pathologyValues', 'collection', array('type' => new SpecimenValuesType($this->doctrine),
-            'options' => array('radio' => 'true'),
+            'options' => array('radio' => 'true', 'required'=>'true','default_value'=>'unknown'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
