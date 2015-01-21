@@ -78,7 +78,7 @@ class OrganLesions implements ValueAssignable
      * Set creDat
      *
      * @param \DateTime $creDat
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setCreDat($creDat)
     {
@@ -101,7 +101,7 @@ class OrganLesions implements ValueAssignable
      * Set creUser
      *
      * @param string $creUser
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setCreUser($creUser)
     {
@@ -124,7 +124,7 @@ class OrganLesions implements ValueAssignable
      * Set modDat
      *
      * @param \DateTime $modDat
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setModDat($modDat)
     {
@@ -147,7 +147,7 @@ class OrganLesions implements ValueAssignable
      * Set modUser
      *
      * @param string $modUser
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setModUser($modUser)
     {
@@ -177,7 +177,7 @@ class OrganLesions implements ValueAssignable
 
     /**
      * @param LesionTypes $lteSeqno
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setLteSeqno($lteSeqno)
     {
@@ -195,7 +195,7 @@ class OrganLesions implements ValueAssignable
 
     /**
      * @param Necropsies $ncyEseSeqno
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setNcyEseSeqno($ncyEseSeqno)
     {

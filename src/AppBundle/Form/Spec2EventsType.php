@@ -8,7 +8,6 @@ use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use AppBundle\Entity\SpecimenValues;
 
 
 class Spec2EventsType extends AbstractType

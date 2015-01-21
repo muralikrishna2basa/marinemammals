@@ -84,7 +84,7 @@ class Spec2Events implements ValueAssignable
      * Set creDat
      *
      * @param \DateTime $creDat
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setCreDat($creDat)
     {
@@ -107,7 +107,7 @@ class Spec2Events implements ValueAssignable
      * Set creUser
      *
      * @param string $creUser
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setCreUser($creUser)
     {
@@ -130,7 +130,7 @@ class Spec2Events implements ValueAssignable
      * Set modDat
      *
      * @param \DateTime $modDat
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setModDat($modDat)
     {
@@ -153,7 +153,7 @@ class Spec2Events implements ValueAssignable
      * Set modUser
      *
      * @param string $modUser
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setModUser($modUser)
     {
@@ -199,7 +199,7 @@ class Spec2Events implements ValueAssignable
      * Set eseSeqno
      *
      * @param \AppBundle\Entity\EventStates $eseSeqno
-     * @return Event2persons
+     * @return Event2Persons
      */
     public function setEseSeqno(\AppBundle\Entity\EventStates $eseSeqno)
     {

@@ -5,8 +5,6 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\StationsRepository;
-use AppBundle\Form\ObservationValuesType;
-use AppBundle\Form\EventStatesType;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
 
 class ObservationsType extends AbstractType
@@ -22,11 +20,11 @@ class ObservationsType extends AbstractType
     {
         $builder->add('latDec', 'number', array(
             'required' => true,
-            'precision'=>6
+            'precision' => 6
         ));
         $builder->add('lonDec', 'number', array(
             'required' => true,
-            'precision'=>6
+            'precision' => 6
         ));
         $builder->add('precisionFlag', 'choice', array(
             'empty_value' => 'Select...',
@@ -65,12 +63,24 @@ class ObservationsType extends AbstractType
             'required' => false
         ));
 
-        $builder->add('eseSeqno', new EventStatesType($this->doctrine), array('data_class' => 'AppBundle\Entity\EventStates'));
+        $builder->add('eseSeqno', new EventStatesType($this->doctrine));
 
         $builder->add('values', 'collection', array('type' => new EntityValuesType($this->doctrine),
             'options' => array('radio' => 'false', 'required' => 'false', 'data_class' => 'AppBundle\Entity\ObservationValues'),
             'allow_delete' => true,
             'delete_empty' => true
+        ));
+        $builder->add('singleSource', 'entity', array(
+            'empty_value' => 'Select or leave empty...',
+            'required' => false,
+            'class' => 'AppBundle:Sources',
+            'property' => 'name'
+        ));
+        $builder->add('pfmSeqno', 'entity', array(
+            'empty_value' => 'Select or leave empty...',
+            'required' => false,
+            'class' => 'AppBundle:Platforms',
+            'property' => 'name'
         ));
     }
 

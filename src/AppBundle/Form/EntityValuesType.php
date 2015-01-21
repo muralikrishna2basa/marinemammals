@@ -40,9 +40,10 @@ class EntityValuesType extends AbstractType
                         'required' => $required,
                         'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName()),
                         'expanded' => true,
-                        'multiple' => false
+                        'multiple' => false,
+                        'attr'=>array('default_value'=>'unknown')
                     ));
-                    $sv->setValue($defaultValue);
+                    //$sv->setValue($defaultValue); //causes problems with constraint that >1 animals can't have values!!!
                 } else {
                     $form->add('value', 'choice', array(
                         'placeholder' => 'Select...',
@@ -79,6 +80,6 @@ class EntityValuesType extends AbstractType
 
     public function getName()
     {
-        return 'specimenvaluestype';
+        return 'entityvaluestype';
     }
 }

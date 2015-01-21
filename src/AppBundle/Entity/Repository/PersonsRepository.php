@@ -8,14 +8,17 @@ class PersonsRepository extends EntityRepository
 {
     public function getAllPersons()
     {
-		$qb = $this->createQueryBuilder('p')
-		->select('p')
+        return $this->getAllPersonsQb()->getQuery()
+            ->getResult();
+    }
+
+    public function getAllPersonsQb()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
             ->addSelect('i')
             ->leftJoin('p.iteSeqno', 'i')
-		->addOrderBy('i.code', 'ASC')
-        ->addOrderBy('p.lastName', 'ASC');
-
-        return $qb->getQuery()
-                  ->getResult();
+            ->addOrderBy('i.code', 'ASC')
+            ->addOrderBy('p.lastName', 'ASC');
     }
 }

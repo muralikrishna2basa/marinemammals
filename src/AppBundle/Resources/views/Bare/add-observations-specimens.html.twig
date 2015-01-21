@@ -1,18 +1,28 @@
 {{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create'),'attr':{'id':'tabs'}}) }}
 <ul class="nav nav-tabs">
-    <li><a href="#tabs-1">Observation</a></li>
-    <li><a href="#tabs-2">Specimen</a></li>
-    <li><a href="#tabs-3">External pathology</a></li>
+    <li class="tab"><a href="#tabs-1">Observation</a></li>
+    <li class="tab"><a href="#tabs-2">Specimen</a></li>
+    <li class="tab"><a href="#tabs-3">External pathology</a></li>
+    <li class="tab"><a href="#tabs-4">Sources and media</a></li>
 </ul>
-<div class="well">
+<div class="well etab">
     <fieldset id="tabs-1">
         {{ include('AppBundle:Bare:add-observations.html.twig') }}
+        <h4><a class="next-tab ctl" href="#tabs-2">NEXT</a></h4>
     </fieldset>
     <fieldset id="tabs-2">
         {{ include('AppBundle:Bare:add-specimens.html.twig') }}
+        <h4><a class="prev-tab ctl" href="#tabs-1">PREVIOUS</a></h4>
+            <h4><a class="next-tab ctl" href="#tabs-3">NEXT</a></h4>
     </fieldset>
-    <fieldset id="tabs-3">
+    <fieldset id="tabs-3" >
         {{ include('AppBundle:Bare:add-externalpathology.html.twig') }}
+        <h4><a class="prev-tab ctl" href="#tabs-2">PREVIOUS </a></h4>
+            <h4><a class="next-tab ctl" href="#tabs-4">NEXT</a></h4>
+    </fieldset>
+    <fieldset id="tabs-4">
+        {{ include('AppBundle:Bare:add-sources-media.html.twig') }}
+        <h4><a class="prev-tab ctl" href="#tabs-3">PREVIOUS</a></h4>
         <p>
             <input type="submit" value="Submit">
         </p>

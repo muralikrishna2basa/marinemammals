@@ -1,0 +1,27 @@
+<legend>Sources and media</legend>
+
+<h3>Sources</h3>
+
+<div class="form-inline">
+    {{ form_row(form.singleSource, {'label':'Source'}) }}
+</div>
+<div class="form-inline">
+    {{ form_row(form.pfmSeqno, {'label':'Platform'}) }}
+</div>
+<h4>Observed by</h4>
+<ul class="e2p_observer" data-prototype="{{ form_widget(form.eseSeqno.observers.vars.prototype)|e }}">
+    {% for e2p_observer in form.eseSeqno.observers %}
+        <li class="form-inline">
+            {{ form_row(e2p_observer.psnSeqno, {'label':'Person'}) }}
+        </li>
+    {% endfor %}
+</ul>
+<h4>Gathered by</h4>
+<ul class="e2p_gatherer" data-prototype="{{ form_widget(form.eseSeqno.gatherers.vars.prototype)|e }}">
+    {% for e2p_gatherer in form.eseSeqno.gatherers %}
+        <li class="form-inline">
+            {{ form_row(e2p_gatherer.psnSeqno, {'label':'Person'}) }}
+        </li>
+    {% endfor %}
+</ul>
+<h3>Media</h3>

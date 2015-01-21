@@ -158,6 +158,14 @@ class Persons
      */
     private $grpName;
 
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Event2Persons", mappedBy="psnSeqno")
+     */
+    private $event2Persons;
+
     /**
      * Constructor
      */
@@ -165,6 +173,7 @@ class Persons
     {
         $this->rlnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
         $this->grpName = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -633,5 +642,34 @@ class Persons
     public function getGrpName()
     {
         return $this->grpName;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvent2Persons()
+    {
+        return $this->event2Persons;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $event2Persons
+     * @return Persons
+     */
+    public function setEvent2Persons($event2Persons)
+    {
+        $this->event2Persons = $event2Persons;
+        return $this;
+    }
+
+
+    /**
+     * Get fullyQualifiedName
+     *
+     * @return string
+     */
+    public function getFullyQualifiedName()
+    {
+        return $this->getFirstName().' '.$this->getLastName();
     }
 }

@@ -87,12 +87,19 @@ class EventStates
      **/
     private $spec2event;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Event2Persons", mappedBy="eseSeqno")
+     */
+    private $event2Persons;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -307,6 +314,68 @@ class EventStates
         $this->spec2event = $spec2event;
 
         return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvent2Persons()
+    {
+        return $this->event2Persons;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $event2Persons
+     * @return EventStates
+     */
+    public function setEvent2Persons($event2Persons)
+    {
+        $this->event2Persons = $event2Persons;
+        RETURN $this;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $event2persons
+     * @return EventStates
+     */
+    public function setGatherers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+        //$this->values->add($values);
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGatherers()
+    {
+        return $this->getEvent2Persons()->filter(
+            function($entry) {
+                return $entry->getE2pType()=='GB';
+            }
+        );
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $event2persons
+     * @return EventStates
+     */
+    public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+        //$this->values->add($values);
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObservers()
+    {
+        return $this->getEvent2Persons()->filter(
+            function($entry) {
+                return $entry->getE2pType()=='OB';
+            }
+        );
     }
 
 }

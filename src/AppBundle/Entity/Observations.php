@@ -680,6 +680,26 @@ class Observations implements ValueAssignable
         return $this->sreSeqno;
     }
 
+    /**
+     * Get single source
+     *
+     * @return \AppBundle\Entity\Sources
+     */
+    public function getSingleSource()
+    {
+        return $this->sreSeqno->first();
+    }
+
+    /**
+     * Set single source
+     *
+     * @return Observations
+     */
+    public function setSingleSource(\AppBundle\Entity\Sources $sreSeqno)
+    {
+        return $this->addSreSeqno($sreSeqno);
+    }
+
 
     /**
      * @return \Doctrine\Common\Collections\Collection

@@ -27,6 +27,7 @@
     <div class="form-inline no-multi">
         {{ form_row(form.eseSeqno.spec2event.scnSeqnoNew.necropsyTag, {'label':'Necropsy tag' }) }}
     </div>
+</fieldset>
     <fieldset id="circumstantial_values" class="no-multi">
         <legend><h4>Circumstantial parameters</h4></legend>
         {% for sv in form.eseSeqno.spec2event.circumstantialValues %}
@@ -43,4 +44,3 @@
                 {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
         {% endfor %}
     </fieldset>
-</fieldset>

@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class SpecimensType extends AbstractType
 {
@@ -41,8 +43,12 @@ class SpecimensType extends AbstractType
             'class' => 'AppBundle:Taxa',
             'property' => 'canonicalName'
         ));
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($builder) {
+            $form = $event->getForm();
+            $form->get('specieFlag')->getData();
+            \Doctrine\Common\Util\Debug::dump($form->get('specieFlag')->getData());
+        });
     }
-
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {

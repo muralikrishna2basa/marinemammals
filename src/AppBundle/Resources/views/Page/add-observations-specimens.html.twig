@@ -2,61 +2,104 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="application/javascript" src="/js/jquery.easytabs.js"></script>
+    <script type="application/javascript" src="/js/addsymfonyprototypeClass.js"></script>
     <script type="application/javascript">
-        $(function() {
-            $( "#tabs" ).easytabs({tabs: ".nav-tabs li"});
-        });
-        $( document ).ready(function() {
-            $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').change(function() {
-                var val=$(this).val();
-                if(/^[0-9]+$/.test(val)){
-                    $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').find('[mandatory="false"]').attr('required','required');
-                    $('#new-specimen').find('[required="required"]').attr('mandatory','false');
-                    $('#new-specimen').find('input[required="required"]').val('');
-                    $('#new-specimen').find('select[required="required"]').prop('selectedIndex',0);
-                    $('#new-specimen').find('[required="required"]').removeAttr('required');
-                    $('#new-specimen').hide();
+        $(document).ready(function () {
+            $("#tabs").easytabs({
+                tabs: ".nav-tabs li",
+                animate: false,
+                tabActiveClass: "active"
+            });
+
+            var $tabs = $('.tab');
+            var $tabContainer = $('.etab');
+
+            $('.prev-tab').click( function() {
+                var currTab, i;
+                currTab = $('a.active').attr('href');
+                var i = ( parseInt(currTab.match(/\d+/)) - 2 );
+                $tabs.children('a:eq(' + i + ')').click();
+            });
+
+            $('.next-tab').click( function() {
+                var currTab, i;
+                currTab = $('a.active').attr('href');
+                var i = ( parseInt(currTab.match(/\d+/)) );
+                $tabs.children('a:eq(' + i + ')').click();
+            });
+
+
+            if ($('.radio label')[0].childNodes[0].nodeValue = 'unknown') {
+                $(this).find('input[checked]').attr('checked', 'checked');
+            }
+            $('.no-multi').find('input[checked]').removeAttr('checked');
+
+            var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting');
+            var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_txnSeqno');
+            var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_scnNumber');
+            var newSpecimenBox = $('#new-specimen');
+            var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required="required"]');
+            var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi');
+            var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required="required"]');
+            var allNonRequiredInputSelectValues = $("select[id$='value'],input[id$='value']").not("[required='required']");
+            existingSpecimenChoiceField.change(function () {
+                var value = $(this).val();
+                var newSpecimenBox_allInput = newSpecimenBox.find('input');
+                var newSpecimenBox_allSelect = newSpecimenBox.find('select');
+                if (/^[0-9]+$/.test(value)) {
+                    $(this).attr('required', 'required');
+                    newSpecimenBox_requiredInputSelect.removeAttr('required');
+                    newSpecimenBox_allInput.val('');
+                    newSpecimenBox_allSelect.prop('selectedIndex', 0);
+                    newSpecimenBox.hide();
                     return false;
                 }
-                if(val===''){
-                    $('#new-specimen').find('[mandatory="false"]').attr('required','required');
-                    $('#new-specimen').show();
+                if (val === '') {
+                    newSpecimenBox_requiredInputSelect.attr('required', 'required');
+                    newSpecimenBox.show();
                     return false;
                 }
             });
-            $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_txnSeqno').change(function() {
-                $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').attr('mandatory','false');
-                $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').removeAttr('required');
-                $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting').val('');
+            newSpecimenChoiceField.change(function () {
+                var value = $(this).val();
+                if (value != '') {
+                    existingSpecimenChoiceField.removeAttr('required').val('');
+                }
+                else {
+                    existingSpecimenChoiceField.attr('required', 'required');
+                }
                 return false;
             });
-            $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_scnNumber').change(function() {
-                if($(this).val()>1){
-                    $('#parameters').find('input').val('');
-                    $('#parameters').find('select').prop('selectedIndex',0);
-                    $('.no-multi').find('input').val('');
-                    $('.no-multi').find('select').prop('selectedIndex',0);
-                    $('.no-multi').hide();
-                    $('#parameters').hide();
+            newSpecimenNumberField.change(function () {
+                if ($(this).val() > 1) {
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input').val('');
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('select').prop('selectedIndex', 0);
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input[checked]').removeAttr('checked');
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.removeAttr('required');
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.hide();
                     return false;
                 }
-                if($(this).val()<2){
-                    $('.no-multi').show();
-                    $('#parameters').show();
+                if ($(this).val() < 2) {
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
                     return false;
                 }
             });
-            //only for those that aren't required from server side!!
-            $("select[id$='value'],input[id$='value']").not( "[required='required']" ).change(function() {
-                var id=$(this).attr('id');
-                var value=$(this).val();
-                if(value!=''){
-                    $("#"+id+"Flag").attr('required','required');
+            allNonRequiredInputSelectValues.change(function () {
+                var id = $(this).attr('id');
+                var value = $(this).val();
+                if (value != '') {
+                    $("#" + id + "Flag").attr('required', 'required');
                 }
-                else{
-                    $("#"+id+"Flag").removeAttr('required');
+                else {
+                    $("#" + id + "Flag").removeAttr('required');
                 }
             });
+
+            var sfp1 = new SymfonyPrototype($('ul.e2p_observer'), $('<a href="#" id="add_observer">Add a person</a>'));
+            sfp1.addAddLink();
+            var sfp2 = new SymfonyPrototype($('ul.e2p_gatherer'), $('<a href="#" id="add_gatherer">Add a person</a>'));
+            sfp2.addAddLink();
         });
     </script>
 {% endblock %}
