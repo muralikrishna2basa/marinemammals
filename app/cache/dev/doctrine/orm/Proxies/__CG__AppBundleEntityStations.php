@@ -64,10 +64,10 @@ class Stations extends \AppBundle\Entity\Stations implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'areaType', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'code', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latDeg', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'longitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'lonDeg', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'pceSeqno');
+            return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'areaType', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'code', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latDec', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'longitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'lonDec', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'pceSeqno');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'areaType', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'code', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latDeg', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'longitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'lonDeg', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'pceSeqno');
+        return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'areaType', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'code', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'latDec', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'longitude', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'lonDec', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\Stations' . "\0" . 'pceSeqno');
     }
 
     /**
@@ -308,23 +308,23 @@ class Stations extends \AppBundle\Entity\Stations implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setLatDeg($latDeg)
+    public function setlatDec($latDec)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatDeg', array($latDeg));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setlatDec', array($latDec));
 
-        return parent::setLatDeg($latDeg);
+        return parent::setlatDec($latDec);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getLatDeg()
+    public function getlatDec()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatDeg', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getlatDec', array());
 
-        return parent::getLatDeg();
+        return parent::getlatDec();
     }
 
     /**
@@ -352,23 +352,23 @@ class Stations extends \AppBundle\Entity\Stations implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setLonDeg($lonDeg)
+    public function setlonDec($lonDec)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLonDeg', array($lonDeg));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setlonDec', array($lonDec));
 
-        return parent::setLonDeg($lonDeg);
+        return parent::setlonDec($lonDec);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getLonDeg()
+    public function getlonDec()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLonDeg', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getlonDec', array());
 
-        return parent::getLonDeg();
+        return parent::getlonDec();
     }
 
     /**

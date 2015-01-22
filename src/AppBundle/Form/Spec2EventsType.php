@@ -40,7 +40,7 @@ class Spec2EventsType extends AbstractType
             'delete_empty' => true
         ));
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($builder) {
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $s2e = $event->getData();
             $form = $event->getForm();
 

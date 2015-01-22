@@ -46,7 +46,6 @@ class SpecimensType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($builder) {
             $form = $event->getForm();
             $form->get('specieFlag')->getData();
-            \Doctrine\Common\Util\Debug::dump($form->get('specieFlag')->getData());
         });
     }
 

@@ -50,9 +50,9 @@ class ObservationsController extends Controller
         //$event2Persons->setPsnSeqno($person);
         //$person->getEvent2Persons()->add($event2Persons);
 
-        $wdOv = $this->instantiateObservationValues('Wind direction', $observation);
-        $wsOv = $this->instantiateObservationValues('Wind speed', $observation);
-        $ssOv = $this->instantiateObservationValues('Seastate', $observation);
+        $this->instantiateObservationValues('Wind direction', $observation);
+        $this->instantiateObservationValues('Wind speed', $observation);
+        $this->instantiateObservationValues('Seastate', $observation);
 
         $s2e = new Spec2Events();
         $specimen = new Specimens();
@@ -129,7 +129,7 @@ class ObservationsController extends Controller
         return $sv;
     }
 
-    //do this in a handler
+    //do this in a handler: CAN IT?
     private function persistOrRemoveEntityValue(EntityValues $ev, ValueAssignable $va)
     {
         $em = $this->getDoctrine()
@@ -139,6 +139,20 @@ class ObservationsController extends Controller
             $em->remove($ev);
         } else {
             $em->persist($ev);
+        }
+    }
+
+    //do this in a handler: CAN IT?
+    private function persistOrRemoveEvent2Persons(Event2Persons $e2p, EventStates $e)
+    {
+        $em = $this->getDoctrine()
+            ->getEntityManager();
+        if ($e2p->getPsnSeqno() === null) {
+            $e2p->removeEvent($e);
+            $e->removeEvent2Persons($e2p);
+            $em->remove($e2p);
+        } else {
+            $em->persist($e2p);
         }
     }
 
@@ -158,9 +172,9 @@ class ObservationsController extends Controller
         $event2Persons2->setE2pType('GB');
         $event->getEvent2Persons()->add($event2Persons2);
 
-        $wdOv = $this->instantiateObservationValues('Wind direction', $observation);
-        $wsOv = $this->instantiateObservationValues('Wind speed', $observation);
-        $ssOv = $this->instantiateObservationValues('Seastate', $observation);
+        $this->instantiateObservationValues('Wind direction', $observation);
+        $this->instantiateObservationValues('Wind speed', $observation);
+        $this->instantiateObservationValues('Seastate', $observation);
 
         $s2e = new Spec2Events();
         //$specimen=new Specimens();
@@ -216,17 +230,24 @@ class ObservationsController extends Controller
                 ->getEntityManager();
             $em->persist($event);
             $em->persist($observation);
-            $this->persistOrRemoveEntityValue($wdOv, $observation);
-            $this->persistOrRemoveEntityValue($wsOv, $observation);
-            $this->persistOrRemoveEntityValue($ssOv, $observation);
+
+            foreach ($observation->getValues() as $ov) {
+                $this->persistOrRemoveEntityValue($ov, $observation);
+            }
+            //$this->persistOrRemoveEntityValue($wdOv, $observation);
+            //$this->persistOrRemoveEntityValue($wsOv, $observation);
+            //$this->persistOrRemoveEntityValue($ssOv, $observation);
             //$em->persist($specimen);
 
             $em->persist($s2e);
             foreach ($s2e->getValues() as $sv) {
                 $this->persistOrRemoveEntityValue($sv, $s2e);
             }
-            $em->persist($event2Persons1);
-            $em->persist($event2Persons2);
+            foreach ($event->getEvent2Persons() as $e2p) {
+                $this->persistOrRemoveEvent2Persons($e2p,$event);
+            }
+            //$this->persistOrRemoveEvent2Persons($event2Persons1,$event);
+            //$this->persistOrRemoveEvent2Persons($event2Persons2,$event);
             $em->flush();
 
             return $this->redirect($request->getUri());

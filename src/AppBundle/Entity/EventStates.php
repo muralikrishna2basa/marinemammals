@@ -359,6 +359,49 @@ class EventStates
      * @param \Doctrine\Common\Collections\Collection $event2persons
      * @return EventStates
      */
+    public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+        //$this->values->add($values);
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getObservers()
+    {
+        return $this->getEvent2Persons()->filter(
+            function ($entry) {
+                return $entry->getE2pType() == 'OB';
+            }
+        );
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function addObservers($event2Person)
+    {
+        if (!$this->getEvent2Persons()->contains($event2Person)) {
+            $event2Person->addEvent($this);
+            $this->getEvent2Persons()->add($event2Person);
+        }
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function removeObservers($event2Person)
+    {
+        if ($this->getEvent2Persons()->contains($event2Person)) {
+            $this->getEvent2Persons()->removeElement($event2Person);
+        }
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $event2persons
+     * @return EventStates
+     */
     public function setGatherers(\Doctrine\Common\Collections\Collection $event2persons)
     {
         //$this->values->add($values);
@@ -378,25 +421,24 @@ class EventStates
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $event2persons
-     * @return EventStates
+     * @param \AppBundle\Entity\Event2Persons $event2Person
      */
-    public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
+    public function addGatherers($event2Person)
     {
-        //$this->values->add($values);
-        return $this;
+        if (!$this->getEvent2Persons()->contains($event2Person)) {
+            $event2Person->addEvent($this);
+            $this->getEvent2Persons()->add($event2Person);
+        }
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @param \AppBundle\Entity\Event2Persons $event2Person
      */
-    public function getObservers()
+    public function removeGatherers($event2Person)
     {
-        return $this->getEvent2Persons()->filter(
-            function ($entry) {
-                return $entry->getE2pType() == 'OB';
-            }
-        );
+        if ($this->getEvent2Persons()->contains($event2Person)) {
+            $this->getEvent2Persons()->removeElement($event2Person);
+        }
     }
 
     /**

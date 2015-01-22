@@ -5,7 +5,6 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\PersonsRepository;
-use AppBundle\Form\ChoiceList\CgRefChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class Event2PersonsType extends AbstractType
@@ -29,11 +28,6 @@ class Event2PersonsType extends AbstractType
                 return $er->getAllPersonsQb();
             }
         ));
-       /* $builder->add('e2pType', 'choice', array(
-            'empty_value' => 'Select or leave empty...',
-            'required' => false,
-            'choice_list'=>new CgRefChoiceList($this->doctrine,'TYPE_EVENT2PERSON')
-        ));*/
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

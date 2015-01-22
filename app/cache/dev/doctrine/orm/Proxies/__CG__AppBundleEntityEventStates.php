@@ -433,6 +433,50 @@ class EventStates extends \AppBundle\Entity\EventStates implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
+    public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setObservers', array($event2persons));
+
+        return parent::setObservers($event2persons);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getObservers()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getObservers', array());
+
+        return parent::getObservers();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addObservers($event2Person)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addObservers', array($event2Person));
+
+        return parent::addObservers($event2Person);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeObservers($event2Person)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeObservers', array($event2Person));
+
+        return parent::removeObservers($event2Person);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setGatherers(\Doctrine\Common\Collections\Collection $event2persons)
     {
 
@@ -455,23 +499,23 @@ class EventStates extends \AppBundle\Entity\EventStates implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
+    public function addGatherers($event2Person)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setObservers', array($event2persons));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addGatherers', array($event2Person));
 
-        return parent::setObservers($event2persons);
+        return parent::addGatherers($event2Person);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getObservers()
+    public function removeGatherers($event2Person)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getObservers', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeGatherers', array($event2Person));
 
-        return parent::getObservers();
+        return parent::removeGatherers($event2Person);
     }
 
     /**
