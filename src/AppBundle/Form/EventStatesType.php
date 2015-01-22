@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class EventStatesType extends AbstractType
 {
@@ -41,10 +43,7 @@ class EventStatesType extends AbstractType
             'delete_empty' => true,
             'by_reference' => false
         ));
-
-
         $builder->add('spec2event', new Spec2EventsType($this->doctrine));
-
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

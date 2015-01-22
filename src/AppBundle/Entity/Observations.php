@@ -655,9 +655,9 @@ class Observations implements ValueAssignable
      * @param \AppBundle\Entity\Sources $sreSeqno
      * @return Observations
      */
-    public function addSreSeqno(\AppBundle\Entity\Sources $sreSeqno)
+    public function addSreSeqno(\AppBundle\Entity\Sources $sreSeqno = null)
     {
-        if (!$this->getSreSeqno()->contains($sreSeqno)) {
+        if ($sreSeqno!== null and !$this->getSreSeqno()->contains($sreSeqno)) {
             $this->getSreSeqno()->add($sreSeqno);
             $sreSeqno->addOsnSeqno($this);
         }
@@ -697,11 +697,13 @@ class Observations implements ValueAssignable
     /**
      * Set single source
      *
+     * @param \AppBundle\Entity\Sources $sreSeqno
      * @return Observations
      */
-    public function setSingleSource(\AppBundle\Entity\Sources $sreSeqno)
+    public function setSingleSource(\AppBundle\Entity\Sources $sreSeqno = null)
     {
-        return $this->addSreSeqno($sreSeqno);
+        $this->addSreSeqno($sreSeqno);
+        return $this;
     }
 
 

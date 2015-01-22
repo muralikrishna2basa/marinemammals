@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\StationsRepository;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class ObservationsType extends AbstractType
 {
@@ -83,6 +85,20 @@ class ObservationsType extends AbstractType
             'property' => 'name'
         ));
         $builder->add('cpnCode', 'text', array('required' => false));
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            $o = $event->getData();
+            $form = $event->getForm();
+            $sre=$form->get('singleSource')->getData();
+            if (null ===  $sre) {
+               // $this->doctrine->getManager()->remove($sre);
+            }
+            else{
+                $o->setSingleSource($sre);
+                $sre->addOsnSeqno($o);
+                $this->doctrine->getManager()->persist($sre);
+            }
+        });
     }
 
     public function getName()

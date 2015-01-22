@@ -148,7 +148,6 @@ class ObservationsController extends Controller
         $em = $this->getDoctrine()
             ->getEntityManager();
         if ($e2p->getPsnSeqno() === null) {
-            $e2p->removeEvent($e);
             $e->removeEvent2Persons($e2p);
             $em->remove($e2p);
         } else {
@@ -166,6 +165,11 @@ class ObservationsController extends Controller
         $event2Persons1->setEseSeqno($event);
         $event2Persons1->setE2pType('OB');
         $event->getEvent2Persons()->add($event2Persons1);
+
+        $event2Persons3 = new Event2Persons();
+        $event2Persons3->setEseSeqno($event);
+        $event2Persons3->setE2pType('OB');
+        $event->getEvent2Persons()->add($event2Persons3);
 
         $event2Persons2 = new Event2Persons();
         $event2Persons2->setEseSeqno($event);
@@ -230,24 +234,16 @@ class ObservationsController extends Controller
                 ->getEntityManager();
             $em->persist($event);
             $em->persist($observation);
-
+            $em->persist($s2e);
             foreach ($observation->getValues() as $ov) {
                 $this->persistOrRemoveEntityValue($ov, $observation);
             }
-            //$this->persistOrRemoveEntityValue($wdOv, $observation);
-            //$this->persistOrRemoveEntityValue($wsOv, $observation);
-            //$this->persistOrRemoveEntityValue($ssOv, $observation);
-            //$em->persist($specimen);
-
-            $em->persist($s2e);
             foreach ($s2e->getValues() as $sv) {
                 $this->persistOrRemoveEntityValue($sv, $s2e);
             }
             foreach ($event->getEvent2Persons() as $e2p) {
                 $this->persistOrRemoveEvent2Persons($e2p,$event);
             }
-            //$this->persistOrRemoveEvent2Persons($event2Persons1,$event);
-            //$this->persistOrRemoveEvent2Persons($event2Persons2,$event);
             $em->flush();
 
             return $this->redirect($request->getUri());
