@@ -53,7 +53,7 @@ class Spec2EventsType extends AbstractType
                 $specimen = $form->get('scnSeqnoNew')->getData();
                 $s2e->setScnSeqno($specimen);
                 $this->doctrine->getManager()->persist($specimen);
-            } else throw new \Symfony\Component\Form\Exception\LogicException('no specimen given');
+            } else throw new LogicException('no specimen given');
         });
     }
 

@@ -235,4 +235,22 @@ class Event2Persons
     {
         return $this->eseSeqno;
     }
+
+    /**
+     * Add Event
+     *
+     * @param \AppBundle\Entity\EventStates $eseSeqno
+     */
+    public function addEvent(\AppBundle\Entity\EventStates $eseSeqno){
+        $this->setEseSeqno($eseSeqno);
+    }
+
+    /**
+     * Remove Event
+     *
+     * @param \AppBundle\Entity\EventStates $eseSeqno
+     */
+    public function removeEvent(\AppBundle\Entity\EventStates $eseSeqno){
+        $this->eseSeqno=null;
+    }
 }

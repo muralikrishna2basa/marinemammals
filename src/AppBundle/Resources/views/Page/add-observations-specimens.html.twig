@@ -2,9 +2,10 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="application/javascript" src="/js/jquery.easytabs.js"></script>
-    <script type="application/javascript" src="/js/addsymfonyprototypeClass.js"></script>
+    <script type="application/javascript" src="/js/addsymfonyprototype.js"></script>
     <script type="application/javascript">
         $(document).ready(function () {
+            //TODO: chosen persons can't be the same for gathering and observing
             $("#tabs").easytabs({
                 tabs: ".nav-tabs li",
                 animate: false,

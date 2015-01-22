@@ -33,9 +33,10 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
     <script type=\"application/javascript\" src=\"/js/jquery.easytabs.js\"></script>
-    <script type=\"application/javascript\" src=\"/js/addsymfonyprototypeClass.js\"></script>
+    <script type=\"application/javascript\" src=\"/js/addsymfonyprototype.js\"></script>
     <script type=\"application/javascript\">
         \$(document).ready(function () {
+            //TODO: chosen persons can't be the same for gathering and observing
             \$(\"#tabs\").easytabs({
                 tabs: \".nav-tabs li\",
                 animate: false,
@@ -136,13 +137,13 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 ";
     }
 
-    // line 106
+    // line 107
     public function block_main_content($context, array $blocks = array())
     {
-        // line 107
+        // line 108
         echo "    <div class=\"col-lg-12\">
         ";
-        // line 108
+        // line 109
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
     </div>
@@ -161,6 +162,6 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 
     public function getDebugInfo()
     {
-        return array (  146 => 108,  143 => 107,  140 => 106,  32 => 3,  29 => 2,);
+        return array (  147 => 109,  144 => 108,  141 => 107,  32 => 3,  29 => 2,);
     }
 }

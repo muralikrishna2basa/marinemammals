@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
+use \DateTime;
 
 /**
  * EventStates
@@ -112,14 +114,14 @@ class EventStates
     public function setCreDat($creDat)
     {
         $this->creDat = $creDat;
-    
+
         return $this;
     }
 
     /**
      * Get creDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreDat()
     {
@@ -135,14 +137,14 @@ class EventStates
     public function setCreUser($creUser)
     {
         $this->creUser = $creUser;
-    
+
         return $this;
     }
 
     /**
      * Get creUser
      *
-     * @return string 
+     * @return string
      */
     public function getCreUser()
     {
@@ -158,14 +160,14 @@ class EventStates
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -181,14 +183,14 @@ class EventStates
     public function setEventDatetime($eventDatetime)
     {
         $this->eventDatetime = $eventDatetime;
-    
+
         return $this;
     }
 
     /**
      * Get eventDatetime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEventDatetime()
     {
@@ -204,14 +206,14 @@ class EventStates
     public function setEventDatetimeFlag($eventDatetimeFlag)
     {
         $this->eventDatetimeFlag = $eventDatetimeFlag;
-    
+
         return $this;
     }
 
     /**
      * Get eventDatetimeFlag
      *
-     * @return string 
+     * @return string
      */
     public function getEventDatetimeFlag()
     {
@@ -227,14 +229,14 @@ class EventStates
     public function setModDat($modDat)
     {
         $this->modDat = $modDat;
-    
+
         return $this;
     }
 
     /**
      * Get modDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModDat()
     {
@@ -250,14 +252,14 @@ class EventStates
     public function setModUser($modUser)
     {
         $this->modUser = $modUser;
-    
+
         return $this;
     }
 
     /**
      * Get modUser
      *
-     * @return string 
+     * @return string
      */
     public function getModUser()
     {
@@ -267,7 +269,7 @@ class EventStates
     /**
      * Get seqno
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeqno()
     {
@@ -283,14 +285,14 @@ class EventStates
     public function setClnSeqno(\AppBundle\Entity\ContainerLocalizations $clnSeqno = null)
     {
         $this->clnSeqno = $clnSeqno;
-    
+
         return $this;
     }
 
     /**
      * Get clnSeqno
      *
-     * @return \AppBundle\Entity\ContainerLocalizations 
+     * @return \AppBundle\Entity\ContainerLocalizations
      */
     public function getClnSeqno()
     {
@@ -331,7 +333,26 @@ class EventStates
     public function setEvent2Persons($event2Persons)
     {
         $this->event2Persons = $event2Persons;
-        RETURN $this;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function addEvent2Persons($event2Person)
+    {
+        if (!$this->getEvent2Persons()->contains($event2Person)) {
+            $event2Person->addEvent($this);
+            $this->getEvent2Persons()->add($event2Person);
+        }
+    }
+
+
+    public function removeEvent2Persons($event2Person)
+    {
+        if ($this->getEvent2Persons()->contains($event2Person)) {
+            $this->getEvent2Persons()->removeElement($event2Person);
+        }
     }
 
     /**
@@ -350,8 +371,8 @@ class EventStates
     public function getGatherers()
     {
         return $this->getEvent2Persons()->filter(
-            function($entry) {
-                return $entry->getE2pType()=='GB';
+            function ($entry) {
+                return $entry->getE2pType() == 'GB';
             }
         );
     }
@@ -372,10 +393,56 @@ class EventStates
     public function getObservers()
     {
         return $this->getEvent2Persons()->filter(
-            function($entry) {
-                return $entry->getE2pType()=='OB';
+            function ($entry) {
+                return $entry->getE2pType() == 'OB';
             }
         );
+    }
+
+    /**
+     * @param string $time
+     * @return EventStates
+     */
+    public function setTime($time)
+    {
+        $match = array();
+        if (preg_match('^([0-9]{1,2}):([0-9]{1,2})', $time, $match) === 1) {
+            $this->getEventDatetime()->setTime($match[1], $match[2]);
+        } else {
+            throw new InvalidArgumentException("The provided time is not in hh:mm format.");
+        }
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTime()
+    {
+        return $this->getEventDatetime()->format("H:i");
+    }
+
+    /**
+     * @param string $date
+     * @return EventStates
+     */
+    public function setDate($date)
+    {
+        $dt = DateTime::createFromFormat('d/m/Y', $date);
+        $d = $dt->format("d");
+        $m = $dt->format("m");
+        $y = $dt->format("y");
+
+        $this->getEventDatetime()->setDate($y, $m, $d);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->getEventDatetime()->format('d/m/Y');
     }
 
 }

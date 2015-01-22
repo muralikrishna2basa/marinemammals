@@ -3,7 +3,8 @@
 <h3>Date and time</h3>
 
 <div class="form-inline">
-    {{ form_row(form.eseSeqno.eventDatetime, {'label':'Date', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}
+    {{ form_row(form.eseSeqno.eventDatetime.date, {'label':'Date', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}
+    {{ form_row(form.eseSeqno.eventDatetime.time, {'label':'Time', 'attr': {'placeholder': 'hh:mm'} }) }}
     {{ form_row(form.eseSeqno.eventDatetimeFlag, {'label':'Date flag'}) }}</div>
 <h3>Location</h3>
 <h4>Exact Coordinates</h4>
@@ -14,6 +15,7 @@
 <h4>Station</h4>
 
 <div class="form-inline">{{ form_row(form.stnSeqno, {'label':'Station'}) }}</div>
+<div class="form-inline">{{ form_row(form.cpnCode, {'label':'Campaign'}) }}</div>
 <h3>Observation type</h3>
 
 <div class="form-inline">{{ form_row(form.isconfidential, {'label':'Confidential observation?'}) }}</div>

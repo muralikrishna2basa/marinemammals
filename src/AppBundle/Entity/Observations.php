@@ -166,7 +166,9 @@ class Observations implements ValueAssignable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Sources", mappedBy="osnSeqno")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Sources", inversedBy="osnSeqno")
+     * @ORM\JoinTable(name="SOURCES2OBSERVATION", inverseJoinColumns={@ORM\JoinColumn(name="SRE_SEQNO", referencedColumnName="SEQNO")},
+     *     joinColumns={@ORM\JoinColumn(name="OSN_SEQNO", referencedColumnName="ESE_SEQNO")})
      */
     private $sreSeqno;
 
@@ -655,9 +657,11 @@ class Observations implements ValueAssignable
      */
     public function addSreSeqno(\AppBundle\Entity\Sources $sreSeqno)
     {
-        $this->sreSeqno[] = $sreSeqno;
-    
-        return $this;
+        if (!$this->getSreSeqno()->contains($sreSeqno)) {
+            $this->getSreSeqno()->add($sreSeqno);
+            $sreSeqno->addOsnSeqno($this);
+        }
+
     }
 
     /**

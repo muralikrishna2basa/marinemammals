@@ -236,9 +236,9 @@ class Sources
      */
     public function addOsnSeqno(\AppBundle\Entity\Observations $osnSeqno)
     {
-        $this->osnSeqno[] = $osnSeqno;
-    
-        return $this;
+        if (!$this->getOsnSeqno()->contains($osnSeqno)) {
+            $this->getOsnSeqno()->add($osnSeqno);
+        }
     }
 
     /**

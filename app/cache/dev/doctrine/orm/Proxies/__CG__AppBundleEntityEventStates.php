@@ -64,10 +64,10 @@ class EventStates extends \AppBundle\Entity\EventStates implements \Doctrine\ORM
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetime', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetimeFlag', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'clnSeqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'spec2event');
+            return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetime', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetimeFlag', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'clnSeqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'spec2event', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'event2Persons');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetime', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetimeFlag', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'clnSeqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'spec2event');
+        return array('__isInitialized__', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'creUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'description', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetime', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'eventDatetimeFlag', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modDat', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'modUser', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'seqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'clnSeqno', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'spec2event', '' . "\0" . 'AppBundle\\Entity\\EventStates' . "\0" . 'event2Persons');
     }
 
     /**
@@ -384,6 +384,138 @@ class EventStates extends \AppBundle\Entity\EventStates implements \Doctrine\ORM
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSpec2event', array($spec2event));
 
         return parent::setSpec2event($spec2event);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEvent2Persons()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEvent2Persons', array());
+
+        return parent::getEvent2Persons();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEvent2Persons($event2Persons)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEvent2Persons', array($event2Persons));
+
+        return parent::setEvent2Persons($event2Persons);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addEvent2Persons($event2Person)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addEvent2Persons', array($event2Person));
+
+        return parent::addEvent2Persons($event2Person);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeEvent2Persons($event2Person)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeEvent2Persons', array($event2Person));
+
+        return parent::removeEvent2Persons($event2Person);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setGatherers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setGatherers', array($event2persons));
+
+        return parent::setGatherers($event2persons);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getGatherers()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getGatherers', array());
+
+        return parent::getGatherers();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setObservers', array($event2persons));
+
+        return parent::setObservers($event2persons);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getObservers()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getObservers', array());
+
+        return parent::getObservers();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTime($time)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTime', array($time));
+
+        return parent::setTime($time);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTime()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTime', array());
+
+        return parent::getTime();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDate($date)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDate', array($date));
+
+        return parent::setDate($date);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDate()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDate', array());
+
+        return parent::getDate();
     }
 
 }

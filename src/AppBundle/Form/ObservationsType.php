@@ -82,6 +82,7 @@ class ObservationsType extends AbstractType
             'class' => 'AppBundle:Platforms',
             'property' => 'name'
         ));
+        $builder->add('cpnCode', 'text', array('required' => false));
     }
 
     public function getName()

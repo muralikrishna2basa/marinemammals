@@ -18,11 +18,12 @@ class EventStatesType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('eventDatetime', 'date', array(
+        /*$builder->add('eventDatetime', 'date', array(
             'input'  => 'datetime',
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy'
-        ));
+        ));*/
+        $builder->add('eventDatetime', new DateTimeType(), array());
 //TODO: add time
         $builder->add('eventDatetimeFlag', 'choice',array(
             'empty_value' => 'Select...',

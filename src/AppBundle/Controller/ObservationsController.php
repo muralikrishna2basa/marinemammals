@@ -148,6 +148,16 @@ class ObservationsController extends Controller
         $event = new EventStates();
         $observation->setEseSeqno($event);
 
+        $event2Persons1 = new Event2Persons();
+        $event2Persons1->setEseSeqno($event);
+        $event2Persons1->setE2pType('OB');
+        $event->getEvent2Persons()->add($event2Persons1);
+
+        $event2Persons2 = new Event2Persons();
+        $event2Persons2->setEseSeqno($event);
+        $event2Persons2->setE2pType('GB');
+        $event->getEvent2Persons()->add($event2Persons2);
+
         $wdOv = $this->instantiateObservationValues('Wind direction', $observation);
         $wsOv = $this->instantiateObservationValues('Wind speed', $observation);
         $ssOv = $this->instantiateObservationValues('Seastate', $observation);
@@ -210,10 +220,13 @@ class ObservationsController extends Controller
             $this->persistOrRemoveEntityValue($wsOv, $observation);
             $this->persistOrRemoveEntityValue($ssOv, $observation);
             //$em->persist($specimen);
+
             $em->persist($s2e);
             foreach ($s2e->getValues() as $sv) {
                 $this->persistOrRemoveEntityValue($sv, $s2e);
             }
+            $em->persist($event2Persons1);
+            $em->persist($event2Persons2);
             $em->flush();
 
             return $this->redirect($request->getUri());
