@@ -84,6 +84,8 @@ class Groups
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Persons", mappedBy="grpName")
+     * @ORM\JoinTable(name="PERSON2GROUPS", inverseJoinColumns={@ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO")},
+     *     joinColumns={@ORM\JoinColumn(name="GRP_NAME", referencedColumnName="NAME")})
      */
     private $psnSeqno;
 
@@ -107,14 +109,14 @@ class Groups
     public function setAccessLevel($accessLevel)
     {
         $this->accessLevel = $accessLevel;
-    
+
         return $this;
     }
 
     /**
      * Get accessLevel
      *
-     * @return integer 
+     * @return integer
      */
     public function getAccessLevel()
     {
@@ -130,14 +132,14 @@ class Groups
     public function setCreDat($creDat)
     {
         $this->creDat = $creDat;
-    
+
         return $this;
     }
 
     /**
      * Get creDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreDat()
     {
@@ -153,14 +155,14 @@ class Groups
     public function setCreUser($creUser)
     {
         $this->creUser = $creUser;
-    
+
         return $this;
     }
 
     /**
      * Get creUser
      *
-     * @return string 
+     * @return string
      */
     public function getCreUser()
     {
@@ -176,14 +178,14 @@ class Groups
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -199,14 +201,14 @@ class Groups
     public function setModDat($modDat)
     {
         $this->modDat = $modDat;
-    
+
         return $this;
     }
 
     /**
      * Get modDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModDat()
     {
@@ -222,14 +224,14 @@ class Groups
     public function setModUser($modUser)
     {
         $this->modUser = $modUser;
-    
+
         return $this;
     }
 
     /**
      * Get modUser
      *
-     * @return string 
+     * @return string
      */
     public function getModUser()
     {
@@ -239,7 +241,7 @@ class Groups
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -255,7 +257,7 @@ class Groups
     public function addPmdSeqno(\AppBundle\Entity\ParameterMethods $pmdSeqno)
     {
         $this->pmdSeqno[] = $pmdSeqno;
-    
+
         return $this;
     }
 
@@ -272,7 +274,7 @@ class Groups
     /**
      * Get pmdSeqno
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPmdSeqno()
     {
@@ -288,7 +290,7 @@ class Groups
     public function addMnuSeqno(\AppBundle\Entity\Menus $mnuSeqno)
     {
         $this->mnuSeqno[] = $mnuSeqno;
-    
+
         return $this;
     }
 
@@ -305,7 +307,7 @@ class Groups
     /**
      * Get mnuSeqno
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMnuSeqno()
     {
@@ -321,7 +323,7 @@ class Groups
     public function addPsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
     {
         $this->psnSeqno[] = $psnSeqno;
-    
+
         return $this;
     }
 
@@ -338,7 +340,7 @@ class Groups
     /**
      * Get psnSeqno
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPsnSeqno()
     {

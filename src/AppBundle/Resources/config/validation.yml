@@ -4,3 +4,27 @@
 #            - Choice:
 #                choices:  [0,1,2,At sea, Beach, Harbourg, Inland waters, zegfegd, rsqgdgr, ghrthyn]
 #                message:  Choose a valid areaType.
+AppBundle\Entity\Observations:
+    properties:
+        isconfidential:
+                - NotBlank: ~
+                - NotNull: ~
+        latDec:
+                - NotBlank: ~
+                - NotNull: ~
+                - min: -90
+                - max: 90
+        lonDec:
+                - NotBlank: ~
+                - NotNull: ~
+                - min: -180
+                - max: 180
+        osnType:
+                - NotBlank: ~
+                - NotNull: ~
+        precisionFlag:
+                - NotBlank: ~
+                - NotNull: ~
+        samplingeffort:
+                - NotBlank: ~
+                - NotNull: ~

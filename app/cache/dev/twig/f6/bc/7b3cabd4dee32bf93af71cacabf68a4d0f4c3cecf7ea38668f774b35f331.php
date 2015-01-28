@@ -16,7 +16,7 @@ class __TwigTemplate_f6bc7b3cabd4dee32bf93af71cacabf68a4d0f4c3cecf7ea38668f774b3
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_observations_add_create"), "attr" => array("id" => "tabs")));
+        echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_start', array("method" => "POST", "action" => $this->env->getExtension('routing')->getPath("mm_observations_add_create"), "attr" => array("id" => "observationform")));
         echo "
 <ul class=\"nav nav-tabs\">
     <li class=\"tab\"><a href=\"#tabs-1\">Observation</a></li>
@@ -24,7 +24,7 @@ class __TwigTemplate_f6bc7b3cabd4dee32bf93af71cacabf68a4d0f4c3cecf7ea38668f774b3
     <li class=\"tab\"><a href=\"#tabs-3\">External pathology</a></li>
     <li class=\"tab\"><a href=\"#tabs-4\">Sources and media</a></li>
 </ul>
-<div class=\"well etab\">
+<div class=\"well subformcontainer\">
     <fieldset id=\"tabs-1\">
         ";
         // line 10

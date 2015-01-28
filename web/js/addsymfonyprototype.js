@@ -1,7 +1,8 @@
-var SymfonyPrototype = function ($collectionHolder, $addTagLink) {
+var SymfonyPrototype = function ($collectionHolder, $addTagLink,$prototypeName) {
     var collectionHolder = $collectionHolder || $('ul.entity');
     var addTagLink = $addTagLink || $('<a href="#" class="add_entity">Add an entity</a>');
     var newLinkLi = $('<li class="form-inline"></li>').append(addTagLink);
+    var prototypeName = $prototypeName || '__name__';
 
     this.addAddLink = function () {
 
@@ -12,9 +13,11 @@ var SymfonyPrototype = function ($collectionHolder, $addTagLink) {
 
         collectionHolder.append(newLinkLi);
 
+        var i=collectionHolder.find(':input').length+1;
+
         // count the current form inputs we have (e.g. 2), use that as the new
         // index when inserting a new item (e.g. 2)
-        collectionHolder.data('index', collectionHolder.find(':input').length);
+        collectionHolder.data('index', i);
 
         addTagLink.on('click', function (e) {
             // prevent the link from creating a "#" on the URL
@@ -34,7 +37,9 @@ var SymfonyPrototype = function ($collectionHolder, $addTagLink) {
 
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
-        var newForm = prototype.replace(/__name__/g, index);
+
+        var re = new RegExp(prototypeName,'g');
+        var newForm = prototype.replace(re, index);
 
         // increase the index with one for the next item
         $collectionHolder.data('index', index + 1);

@@ -6,7 +6,6 @@ use AppBundle\Entity\Observations;
 use AppBundle\Entity\ObservationValues;
 use AppBundle\Entity\EventStates;
 use AppBundle\Entity\Event2Persons;
-use AppBundle\Entity\Persons;
 use AppBundle\Entity\Spec2Events;
 use AppBundle\Entity\Specimens;
 use AppBundle\Entity\SpecimenValues;
@@ -39,12 +38,12 @@ class ObservationsController extends Controller
 
         $event2Persons1 = new Event2Persons();
         $event2Persons1->setEseSeqno($event);
-        $event2Persons1->setE2pType('OB');
+        $event2Persons1->setE2pType(EventStates::OBSERVED);
         $event->getEvent2Persons()->add($event2Persons1);
 
         $event2Persons2 = new Event2Persons();
         $event2Persons2->setEseSeqno($event);
-        $event2Persons2->setE2pType('GB');
+        $event2Persons2->setE2pType(EventStates::GATHERED);
         $event->getEvent2Persons()->add($event2Persons2);
         //$person = new Persons();
         //$event2Persons->setPsnSeqno($person);
@@ -163,17 +162,12 @@ class ObservationsController extends Controller
 
         $event2Persons1 = new Event2Persons();
         $event2Persons1->setEseSeqno($event);
-        $event2Persons1->setE2pType('OB');
+        $event2Persons1->setE2pType(EventStates::OBSERVED);
         $event->getEvent2Persons()->add($event2Persons1);
-
-        $event2Persons3 = new Event2Persons();
-        $event2Persons3->setEseSeqno($event);
-        $event2Persons3->setE2pType('OB');
-        $event->getEvent2Persons()->add($event2Persons3);
 
         $event2Persons2 = new Event2Persons();
         $event2Persons2->setEseSeqno($event);
-        $event2Persons2->setE2pType('GB');
+        $event2Persons2->setE2pType(EventStates::GATHERED);
         $event->getEvent2Persons()->add($event2Persons2);
 
         $this->instantiateObservationValues('Wind direction', $observation);

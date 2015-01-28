@@ -16,7 +16,7 @@ class SeqnoToSpecimenTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms an object (Specimen) to a string (number).
+     * Transforms an object (Specimen) to an integer.
      *
      * @param  Specimens|null $specimen
      * @return string
@@ -27,13 +27,13 @@ class SeqnoToSpecimenTransformer implements DataTransformerInterface
             return "";
         }
 
-        return (string)$specimen->getSeqno();
+        return $specimen->getSeqno();
     }
 
     /**
      * Transforms a string (seqno) to an object (Specimen).
      *
-     * @param  string $seqno
+     * @param  integer $seqno
      *
      * @return Specimens|null
      *

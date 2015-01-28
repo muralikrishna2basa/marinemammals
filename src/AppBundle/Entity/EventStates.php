@@ -83,7 +83,6 @@ class EventStates
      */
     private $clnSeqno;
 
-
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Spec2Events", mappedBy="eseSeqno")
      **/
@@ -96,6 +95,10 @@ class EventStates
      */
     private $event2Persons;
 
+    const GATHERED='GB';
+
+    const OBSERVED='OB';
+
     /**
      * Constructor
      */
@@ -103,7 +106,6 @@ class EventStates
     {
         $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Set creDat
@@ -361,7 +363,10 @@ class EventStates
      */
     public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
     {
-        //$this->values->add($values);
+       // foreach ($event2persons as $e2p) {
+       //     $e2p->setE2pType(OBSERVED);
+       // }
+        $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
         return $this;
     }
 
@@ -372,7 +377,7 @@ class EventStates
     {
         return $this->getEvent2Persons()->filter(
             function ($entry) {
-                return $entry->getE2pType() == 'OB';
+                return $entry->getE2pType() == EventStates::OBSERVED;
             }
         );
     }
@@ -382,8 +387,9 @@ class EventStates
      */
     public function addObservers($event2Person)
     {
+        //$event2Person->setE2pType(EventStates::OBSERVED);
         if (!$this->getEvent2Persons()->contains($event2Person)) {
-            $event2Person->addEvent($this);
+            $event2Person->setEseSeqno($this);
             $this->getEvent2Persons()->add($event2Person);
         }
     }
@@ -404,7 +410,10 @@ class EventStates
      */
     public function setGatherers(\Doctrine\Common\Collections\Collection $event2persons)
     {
-        //$this->values->add($values);
+       // foreach ($event2persons as $e2p) {
+       //     $e2p->setE2pType(EventStates::GATHERED);
+       // }
+        $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
         return $this;
     }
 
@@ -415,7 +424,7 @@ class EventStates
     {
         return $this->getEvent2Persons()->filter(
             function ($entry) {
-                return $entry->getE2pType() == 'GB';
+                return $entry->getE2pType() == EventStates::GATHERED;
             }
         );
     }
@@ -425,8 +434,9 @@ class EventStates
      */
     public function addGatherers($event2Person)
     {
+        //$event2Person->setE2pType(EventStates::GATHERED);
         if (!$this->getEvent2Persons()->contains($event2Person)) {
-            $event2Person->addEvent($this);
+            $event2Person->setEseSeqno($this);
             $this->getEvent2Persons()->add($event2Person);
         }
     }

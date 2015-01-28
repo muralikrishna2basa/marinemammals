@@ -32,7 +32,7 @@ class EntityValuesType extends AbstractType
             if ($pm->getVariabletype() === 'continuous') {
                 $form->add('value', 'integer', array(
                     'required' => $required,
-                    'attr' => array('placeholder' => $pm->getUnit())
+                    'attr' => array('placeholder' => $pm->getUnit(),'min'=>0)
                 ));
             } elseif ($pd) {
                 if ($options['radio'] === 'true') {

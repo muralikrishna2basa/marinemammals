@@ -21,7 +21,8 @@ class SpecimensType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('scnNumber', 'integer',array(
-            'required' => true
+            'required' => true,
+            'attr'=>array('min'=>'0')
         ));
         $builder->add('sex', 'choice',array(
             'empty_value' => 'Select...',

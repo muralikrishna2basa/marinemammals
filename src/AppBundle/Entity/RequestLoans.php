@@ -95,9 +95,9 @@ class RequestLoans
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Persons", mappedBy="rlnSeqno")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Person2Requests", mappedBy="rlnSeqno")
      */
-    private $psnSeqno;
+    private $person2Requests;
 
     /**
      * Constructor
@@ -105,7 +105,7 @@ class RequestLoans
     public function __construct()
     {
         $this->speSeqno = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->psnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->person2Requests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -360,35 +360,22 @@ class RequestLoans
     }
 
     /**
-     * Add psnSeqno
-     *
-     * @param \AppBundle\Entity\Persons $psnSeqno
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPerson2Requests()
+    {
+        return $this->person2Requests;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $person2Requests
      * @return RequestLoans
      */
-    public function addPsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
+    public function setPerson2Requests($person2Requests)
     {
-        $this->psnSeqno[] = $psnSeqno;
-    
+        $this->person2Requests = $person2Requests;
         return $this;
     }
 
-    /**
-     * Remove psnSeqno
-     *
-     * @param \AppBundle\Entity\Persons $psnSeqno
-     */
-    public function removePsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
-    {
-        $this->psnSeqno->removeElement($psnSeqno);
-    }
 
-    /**
-     * Get psnSeqno
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPsnSeqno()
-    {
-        return $this->psnSeqno;
-    }
 }

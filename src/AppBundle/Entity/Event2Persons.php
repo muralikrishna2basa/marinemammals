@@ -73,8 +73,6 @@ class Event2Persons
      */
     private $eseSeqno;
 
-
-
     /**
      * Set creDat
      *
@@ -234,23 +232,5 @@ class Event2Persons
     public function getEseSeqno()
     {
         return $this->eseSeqno;
-    }
-
-    /**
-     * Add Event
-     *
-     * @param \AppBundle\Entity\EventStates $eseSeqno
-     */
-    public function addEvent(\AppBundle\Entity\EventStates $eseSeqno){
-        $this->setEseSeqno($eseSeqno);
-    }
-
-    /**
-     * Remove Event
-     *
-     * @param \AppBundle\Entity\EventStates $eseSeqno
-     */
-    public function removeEvent(\AppBundle\Entity\EventStates $eseSeqno){
-        $this->eseSeqno=null;
     }
 }

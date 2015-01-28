@@ -43,7 +43,6 @@ class Spec2EventsType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $s2e = $event->getData();
             $form = $event->getForm();
-
             if (null !== $form->get('scnSeqnoExisting')->getData()) {
                 $specimen = $form->get('scnSeqnoExisting')->getData();
                 $s2e->setScnSeqno($specimen);
