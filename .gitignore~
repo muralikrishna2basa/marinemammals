@@ -56,3 +56,4 @@ app/logs/dev.log
 app/logs/prog.log
 app/logs/test.log
 *.log
+*.*~ 
