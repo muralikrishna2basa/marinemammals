@@ -15,21 +15,21 @@ class Samples
     /**
      * @var string
      *
-     * @ORM\Column(name="ANALYZE_DEST", type="string", length=3, nullable=false)
+     * @ORM\Column(name="ANALYZE_DEST", type="string", length=50, nullable=false)
      */
     private $analyzeDest;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="AVAILABILITY", type="string", length=20, nullable=true)
+     * @ORM\Column(name="AVAILABILITY", type="string", length=50, nullable=true)
      */
     private $availability;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="CONSERVATION_MODE", type="string", length=10, nullable=false)
+     * @ORM\Column(name="CONSERVATION_MODE", type="string", length=50, nullable=false)
      */
     private $conservationMode;
 
@@ -64,7 +64,7 @@ class Samples
     /**
      * @var string
      *
-     * @ORM\Column(name="SPE_TYPE", type="string", length=3, nullable=false)
+     * @ORM\Column(name="SPE_TYPE", type="string", length=50, nullable=false)
      */
     private $speType;
 

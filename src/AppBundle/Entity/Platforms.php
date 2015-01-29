@@ -43,14 +43,14 @@ class Platforms
     /**
      * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=200, nullable=false)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="PFM_TYPE", type="string", length=1, nullable=true)
+     * @ORM\Column(name="PFM_TYPE", type="string", length=50, nullable=true)
      */
     private $pfmType;
 

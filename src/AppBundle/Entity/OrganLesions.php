@@ -41,6 +41,20 @@ class OrganLesions implements ValueAssignable
     private $modUser;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="DESCRIPTION", type="string", length=1000, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SCALE", type="string", length=50, nullable=true)
+     */
+    private $scale;
+
+    /**
      * @var \AppBundle\Entity\LesionTypes
      *
      * @ORM\Id
@@ -78,7 +92,7 @@ class OrganLesions implements ValueAssignable
      * Set creDat
      *
      * @param \DateTime $creDat
-     * @return Event2Persons
+     * @return OrganLesions
      */
     public function setCreDat($creDat)
     {
@@ -101,7 +115,7 @@ class OrganLesions implements ValueAssignable
      * Set creUser
      *
      * @param string $creUser
-     * @return Event2Persons
+     * @return OrganLesions
      */
     public function setCreUser($creUser)
     {
@@ -124,7 +138,7 @@ class OrganLesions implements ValueAssignable
      * Set modDat
      *
      * @param \DateTime $modDat
-     * @return Event2Persons
+     * @return OrganLesions
      */
     public function setModDat($modDat)
     {
@@ -147,7 +161,7 @@ class OrganLesions implements ValueAssignable
      * Set modUser
      *
      * @param string $modUser
-     * @return Event2Persons
+     * @return OrganLesions
      */
     public function setModUser($modUser)
     {
@@ -177,7 +191,7 @@ class OrganLesions implements ValueAssignable
 
     /**
      * @param LesionTypes $lteSeqno
-     * @return Event2Persons
+     * @return OrganLesions
      */
     public function setLteSeqno($lteSeqno)
     {
@@ -195,7 +209,7 @@ class OrganLesions implements ValueAssignable
 
     /**
      * @param Necropsies $ncyEseSeqno
-     * @return Event2Persons
+     * @return OrganLesions
      */
     public function setNcyEseSeqno($ncyEseSeqno)
     {
@@ -225,5 +239,61 @@ class OrganLesions implements ValueAssignable
     {
         $this->getValues()->removeElement($ev);
     }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return OrganLesions
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScale()
+    {
+        return $this->scale;
+    }
+
+    /**
+     * @param string $scale
+     * @return OrganLesions
+     */
+    public function setScale($scale)
+    {
+        $this->scale = $scale;
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLesionValues()
+    {
+        return $this->lesionValues;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $lesionValues
+     * @return OrganLesions
+     */
+    public function setLesionValues($lesionValues)
+    {
+        $this->lesionValues = $lesionValues;
+        return $this;
+    }
+    
+    
 }
 

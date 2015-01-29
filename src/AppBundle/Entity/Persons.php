@@ -113,14 +113,14 @@ class Persons
     /**
      * @var string
      *
-     * @ORM\Column(name="SEX", type="string", length=3, nullable=true)
+     * @ORM\Column(name="SEX", type="string", length=50, nullable=true)
      */
     private $sex;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="TITLE", type="string", length=15, nullable=true)
+     * @ORM\Column(name="TITLE", type="string", length=50, nullable=true)
      */
     private $title;
 

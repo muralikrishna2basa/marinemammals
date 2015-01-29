@@ -15,7 +15,7 @@ class Stations
     /**
      * @var string
      *
-     * @ORM\Column(name="AREA_TYPE", type="string", length=100, nullable=true)
+     * @ORM\Column(name="AREA_TYPE", type="string", length=50, nullable=true)
      */
     private $areaType;
 
@@ -43,7 +43,7 @@ class Stations
     /**
      * @var string
      *
-     * @ORM\Column(name="DESCRIPTION", type="string", length=4000, nullable=true)
+     * @ORM\Column(name="DESCRIPTION", type="string", length=500, nullable=true)
      */
     private $description;
 

@@ -921,6 +921,9 @@ class appDevDebugProjectContainer extends Container
             'validator.builder' => 'getValidator_BuilderService',
             'validator.email' => 'getValidator_EmailService',
             'validator.expression' => 'getValidator_ExpressionService',
+            'validator.node.locationcoordinateflag_indb' => 'getValidator_Node_LocationcoordinateflagIndbService',
+            'validator.node.osntype_indb' => 'getValidator_Node_OsntypeIndbService',
+            'validator.node.samplingeffort_indb' => 'getValidator_Node_SamplingeffortIndbService',
             'var_dumper.cloner' => 'getVarDumper_ClonerService',
             'web_profiler.controller.exception' => 'getWebProfiler_Controller_ExceptionService',
             'web_profiler.controller.profiler' => 'getWebProfiler_Controller_ProfilerService',
@@ -3973,7 +3976,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['validator.builder'] = $instance = \Symfony\Component\Validator\Validation::createValidatorBuilder();
 
-        $instance->setConstraintValidatorFactory(new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('validator.expression' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\EmailValidator' => 'validator.email', 'security.validator.user_password' => 'security.validator.user_password', 'doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique')));
+        $instance->setConstraintValidatorFactory(new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('osntype_indb' => 'validator.node.osntype_indb', 'samplingeffort_indb' => 'validator.node.samplingeffort_indb', 'locationcoordinateflag_indb' => 'validator.node.locationcoordinateflag_indb', 'validator.expression' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\EmailValidator' => 'validator.email', 'security.validator.user_password' => 'security.validator.user_password', 'doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique')));
         $instance->setTranslator($this->get('translator'));
         $instance->setTranslationDomain('validators');
         $instance->addXmlMappings(array(0 => (dirname(dirname(dirname(__DIR__))).'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')));
@@ -4010,6 +4013,45 @@ class appDevDebugProjectContainer extends Container
     protected function getValidator_ExpressionService()
     {
         return $this->services['validator.expression'] = new \Symfony\Component\Validator\Constraints\ExpressionValidator($this->get('property_accessor'));
+    }
+
+    /**
+     * Gets the 'validator.node.locationcoordinateflag_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator A AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator instance.
+     */
+    protected function getValidator_Node_LocationcoordinateflagIndbService()
+    {
+        return $this->services['validator.node.locationcoordinateflag_indb'] = new \AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.osntype_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalOsnTypeValidator A AppBundle\Validator\Constraints\LegalOsnTypeValidator instance.
+     */
+    protected function getValidator_Node_OsntypeIndbService()
+    {
+        return $this->services['validator.node.osntype_indb'] = new \AppBundle\Validator\Constraints\LegalOsnTypeValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.samplingeffort_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalSamplingEffortValidator A AppBundle\Validator\Constraints\LegalSamplingEffortValidator instance.
+     */
+    protected function getValidator_Node_SamplingeffortIndbService()
+    {
+        return $this->services['validator.node.samplingeffort_indb'] = new \AppBundle\Validator\Constraints\LegalSamplingEffortValidator($this->get('doctrine.orm.default_entity_manager'));
     }
 
     /**

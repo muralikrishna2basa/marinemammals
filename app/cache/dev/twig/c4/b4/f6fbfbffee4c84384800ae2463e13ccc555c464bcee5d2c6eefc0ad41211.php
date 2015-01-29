@@ -39,7 +39,7 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
     <div class=\"form-inline\">
         ";
         // line 16
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "specieFlag", array()), 'row', array("label" => "Identification is certain?"));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "identificationCertainty", array()), 'row', array("label" => "Identification is certain?"));
         echo "
     </div>
     <div class=\"form-inline\">

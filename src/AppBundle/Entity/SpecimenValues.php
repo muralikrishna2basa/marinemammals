@@ -57,7 +57,7 @@ class SpecimenValues implements EntityValues
     /**
      * @var string
      *
-     * @ORM\Column(name="VALUE_FLAG", type="string", length=1, nullable=true)
+     * @ORM\Column(name="VALUE_FLAG", type="string", length=50, nullable=true)
      */
     private $valueFlag;
 

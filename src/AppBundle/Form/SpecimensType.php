@@ -35,7 +35,7 @@ class SpecimensType extends AbstractType
         $builder->add('necropsyTag', 'text',array(
             'required' => false
         ));
-        $builder->add('specieFlag', 'checkbox', array(
+        $builder->add('identificationCertainty', 'checkbox', array(
             'required' => false
         ));
         $builder->add('txnSeqno', 'entity', array(

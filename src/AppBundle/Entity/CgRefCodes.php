@@ -15,35 +15,35 @@ class CgRefCodes
     /**
      * @var string
      *
-     * @ORM\Column(name="RV_ABBREVIATION", type="string", length=240, nullable=true)
+     * @ORM\Column(name="RV_ABBREVIATION", type="string", length=50, nullable=true)
      */
     private $rvAbbreviation;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="RV_DOMAIN", type="string", length=100, nullable=false)
+     * @ORM\Column(name="RV_DOMAIN", type="string", length=50, nullable=false)
      */
     private $rvDomain;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="RV_HIGH_VALUE", type="string", length=240, nullable=true)
+     * @ORM\Column(name="RV_HIGH_VALUE", type="string", length=50, nullable=true)
      */
     private $rvHighValue;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="RV_LOW_VALUE", type="string", length=240, nullable=false)
+     * @ORM\Column(name="RV_LOW_VALUE", type="string", length=50, nullable=false)
      */
     private $rvLowValue;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="RV_MEANING", type="string", length=240, nullable=true)
+     * @ORM\Column(name="RV_MEANING", type="string", length=100, nullable=true)
      */
     private $rvMeaning;
 

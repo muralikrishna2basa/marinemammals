@@ -78,16 +78,16 @@ class Specimens
     /**
      * @var string
      *
-     * @ORM\Column(name="SEX", type="string", length=3, nullable=true)
+     * @ORM\Column(name="SEX", type="string", length=50, nullable=true)
      */
     private $sex;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="SPECIE_FLAG", type="string", length=1, nullable=true)
+     * @ORM\Column(name="IDENTIFICATION_CERTAINTY", type="boolean", nullable=false)
      */
-    private $specieFlag;
+    private $identificationCertainty;
 
     /**
      * @var integer
@@ -356,26 +356,26 @@ class Specimens
     }
 
     /**
-     * Set specieFlag
+     * Set identificationCertainty
      *
-     * @param string $specieFlag
+     * @param string $identificationCertainty
      * @return Specimens
      */
-    public function setSpecieFlag($specieFlag)
+    public function setIdentificationCertainty($identificationCertainty)
     {
-        $this->specieFlag = $specieFlag;
+        $this->identificationCertainty = $identificationCertainty;
     
         return $this;
     }
 
     /**
-     * Get specieFlag
+     * Get identificationCertainty
      *
      * @return string 
      */
-    public function getSpecieFlag()
+    public function getIdentificationCertainty()
     {
-        return $this->specieFlag;
+        return $this->identificationCertainty;
     }
 
     /**

@@ -36,7 +36,7 @@ class Taxa
     /**
      * @var string
      *
-     * @ORM\Column(name="TAXONRANK", type="string", length=50, nullable=true)
+     * @ORM\Column(name="TAXONRANK", type="string", length=30, nullable=true)
      */
     private $taxonrank;
 

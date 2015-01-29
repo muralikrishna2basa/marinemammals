@@ -43,7 +43,7 @@ class Event2Persons
     /**
      * @var string
      *
-     * @ORM\Column(name="E2P_TYPE", type="string", length=2)
+     * @ORM\Column(name="E2P_TYPE", type="string", length=50)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */

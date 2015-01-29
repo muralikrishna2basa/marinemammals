@@ -29,7 +29,7 @@ class ParameterMethods
     /**
      * @var string
      *
-     * @ORM\Column(name="DESCRIPTION", type="string", length=4000, nullable=false)
+     * @ORM\Column(name="DESCRIPTION", type="string", length=100, nullable=false)
      */
     private $description;
 
@@ -57,7 +57,7 @@ class ParameterMethods
     /**
      * @var string
      *
-     * @ORM\Column(name="ORIGIN", type="string", length=3, nullable=false)
+     * @ORM\Column(name="ORIGIN", type="string", length=50, nullable=false)
      */
     private $origin;
 

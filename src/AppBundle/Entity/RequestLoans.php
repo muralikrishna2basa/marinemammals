@@ -64,7 +64,7 @@ class RequestLoans
     /**
      * @var integer
      *
-     * @ORM\Column(name="STATUS", type="integer", nullable=false)
+     * @ORM\Column(name="STATUS", type="string", length=50, nullable=false)
      */
     private $status;
 

@@ -43,14 +43,14 @@ class Places
     /**
      * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=100, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="TYPE", type="string", length=20, nullable=true)
+     * @ORM\Column(name="TYPE", type="string", length=50, nullable=true)
      */
     private $type;
 

@@ -154,8 +154,35 @@ class ObservationsController extends Controller
         }
     }
 
+    public function testAction()
+    {
+        $o=new \AppBundle\Entity\Observations();
+        $o->setlatDec(29.65465);
+        $o->setlonDec(2.6546);
+        $o->setIsconfidential(true);
+        $o->setOsnType('FDB');
+        $o->setPrecisionFlag('1');
+        $o->setSamplingeffort('2');
+
+        $validator = $this->get('validator');
+        $errors = $validator->validate($o);
+
+        if (count($errors) > 0) {
+            /*
+             * Uses a __toString method on the $errors variable which is a
+             * ConstraintViolationList object. This gives us a nice string
+             * for debugging
+             */
+            $errorsString = (string) $errors;
+
+            return new \Symfony\Component\HttpFoundation\Response($errorsString);
+        }
+        return new \Symfony\Component\HttpFoundation\Response('The observation is valid! Yes!');
+    }
+
     public function createAction(Request $request)
     {
+
         $observation = new Observations();
         $event = new EventStates();
         $observation->setEseSeqno($event);

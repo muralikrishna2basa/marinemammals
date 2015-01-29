@@ -93,3 +93,9 @@ mm_observations_add_create:
     defaults: { _controller: AppBundle:Observations:create }
     requirements:
         _method:  POST
+
+mm_observations_test:
+    pattern:  /observations/test
+    defaults: { _controller: AppBundle:Observations:test }
+    requirements:
+        _method:  GET

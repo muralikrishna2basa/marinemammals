@@ -8,3 +8,29 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type, alias: specimen_selector }
+    validator.node.osntype_indb:
+        class: AppBundle\Validator\Constraints\LegalOsnTypeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: osntype_indb }
+    validator.node.samplingeffort_indb:
+        class: AppBundle\Validator\Constraints\LegalSamplingEffortValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: samplingeffort_indb }
+    validator.node.locationcoordinateflag_indb:
+        class: AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: locationcoordinateflag_indb }
+    validator.node.areatype_indb:
+        class: AppBundle\Validator\Constraints\LegalAreaType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: areatype_indb }
+    validator.node.placetype_indb:
+        class: AppBundle\Validator\Constraints\LegalPlaceType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: placetype_indb }
+

@@ -23,7 +23,7 @@ class PlatformsType extends AbstractType
         $builder->add('pfmType', 'choice', array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list'=>new CgRefChoiceList($this->doctrine,'PLATFORM')
+            'choice_list'=>new CgRefChoiceList($this->doctrine,'PFM_TYPE')
         ));
     }
 

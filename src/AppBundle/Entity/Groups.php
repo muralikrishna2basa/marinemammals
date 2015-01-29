@@ -36,7 +36,7 @@ class Groups
     /**
      * @var string
      *
-     * @ORM\Column(name="DESCRIPTION", type="string", length=4000, nullable=false)
+     * @ORM\Column(name="DESCRIPTION", type="string", length=100, nullable=false)
      */
     private $description;
 

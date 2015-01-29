@@ -655,6 +655,18 @@
       <tag name="form.type" alias="specimen_selector"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
+    <service id="validator.node.osntype_indb" class="AppBundle\Validator\Constraints\LegalOsnTypeValidator">
+      <tag name="validator.constraint_validator" alias="osntype_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.samplingeffort_indb" class="AppBundle\Validator\Constraints\LegalSamplingEffortValidator">
+      <tag name="validator.constraint_validator" alias="samplingeffort_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.locationcoordinateflag_indb" class="AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator">
+      <tag name="validator.constraint_validator" alias="locationcoordinateflag_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
     <service id="my.listener" class="Doctrine\DBAL\Event\Listeners\OracleSessionInit">
       <tag name="doctrine.event_listener" event="postConnect"/>
     </service>
@@ -1344,6 +1356,9 @@
           <service class="Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory" public="false">
             <argument type="service" id="service_container"/>
             <argument type="collection">
+              <argument key="osntype_indb">validator.node.osntype_indb</argument>
+              <argument key="samplingeffort_indb">validator.node.samplingeffort_indb</argument>
+              <argument key="locationcoordinateflag_indb">validator.node.locationcoordinateflag_indb</argument>
               <argument key="validator.expression">validator.expression</argument>
               <argument key="Symfony\Component\Validator\Constraints\EmailValidator">validator.email</argument>
               <argument key="security.validator.user_password">security.validator.user_password</argument>

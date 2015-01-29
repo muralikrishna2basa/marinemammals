@@ -45,7 +45,7 @@ class EventStates
     /**
      * @var string
      *
-     * @ORM\Column(name="EVENT_DATETIME_FLAG", type="string", length=1, nullable=false)
+     * @ORM\Column(name="EVENT_DATETIME_FLAG", type="string", length=50, nullable=false)
      */
     private $eventDatetimeFlag;
 

@@ -31,7 +31,7 @@ class ObservationsType extends AbstractType
         $builder->add('precisionFlag', 'choice', array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list' => new CgRefChoiceList($this->doctrine, 'COORD_PRECISION_FLAG')
+            'choice_list' => new CgRefChoiceList($this->doctrine, 'COORDINATE_FLAG')
         ));
         $builder->add('stnSeqno', 'entity', array(
             'empty_value' => 'Select...',

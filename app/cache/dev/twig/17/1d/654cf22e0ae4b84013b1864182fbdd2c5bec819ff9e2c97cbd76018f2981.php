@@ -148,13 +148,13 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                 return dt != null;
             }, 'Not a valid date. The correct date format is dd/mm/yyyy');
             \$.validator.addMethod(\"necropsytag\", function(value) {
-                return /^[a-zA-Z]{2}[_]{1}[0-9]{4}[_]{1}[0-9]+\$/.test(value);
+                return /^[a-zA-Z]{2}[_]{1}[0-9]{4}[_]{1}[0-9]{1,6}\$/.test(value);
             }, 'Not a necropsy tag. The correct format is BE/FR_yyyy_integer, eg. BE_1996_15');
             \$.validator.addMethod(\"latdec\", function(value) {
                 return /^(\\+|-)?(\\d\\.\\d{1,6}|[1-8]\\d\\.\\d{1,6}|90\\.0{1,6})\$/.test(value);
             }, 'Not a decimal latitude: -90.0 <= x <= 90.0');
             \$.validator.addMethod(\"londec\", function(value) {
-                return /^(\\+|-)?(\\d\\.\\d{1,6}|[1-8]\\d\\.\\d{1,6}|180\\.0{1,6})\$/.test(value);
+                return /^(\\+|-)?([0-9][0-9]?.\\d{1,6}|1[0-7][0-9].\\d{1,6}|180.\\d{1,6})\$/.test(value);
             }, 'Not a decimal longitude: -180.0 <= x <= 180.0');
 
             wholeForm.validate({

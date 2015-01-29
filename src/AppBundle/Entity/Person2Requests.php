@@ -43,7 +43,7 @@ class Person2Requests
     /**
      * @var string
      *
-     * @ORM\Column(name="P2R_TYPE", type="string", length=4)
+     * @ORM\Column(name="P2R_TYPE", type="string", length=50, nullable=true)
      */
     private $p2rType;
 

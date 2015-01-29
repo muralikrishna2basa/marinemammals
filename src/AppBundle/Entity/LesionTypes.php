@@ -43,14 +43,14 @@ class LesionTypes
     /**
      * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=3, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="PROCESSUS", type="string", length=4, nullable=false)
+     * @ORM\Column(name="PROCESSUS", type="string", length=50, nullable=false)
      */
     private $processus;
 

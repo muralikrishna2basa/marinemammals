@@ -92,42 +92,42 @@ class Observations implements ValueAssignable
     /**
      * @var string
      *
-     * @ORM\Column(name="OSN_TYPE", type="string", length=10, nullable=false)
+     * @ORM\Column(name="OSN_TYPE", type="string", length=50, nullable=false)
      */
     private $osnType;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="PRECISION_FLAG", type="integer", nullable=true)
+     * @ORM\Column(name="PRECISION_FLAG", type="string", length=50, nullable=true)
      */
     private $precisionFlag;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="SAMPLINGEFFORT", type="integer", nullable=true)
+     * @ORM\Column(name="SAMPLINGEFFORT", type="string", length=50, nullable=true)
      */
     private $samplingeffort;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="WEBCOMMENTS_EN", type="string", length=250, nullable=true)
+     * @ORM\Column(name="WEBCOMMENTS_EN", type="string", length=500, nullable=true)
      */
     private $webcommentsEn;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="WEBCOMMENTS_FR", type="string", length=250, nullable=true)
+     * @ORM\Column(name="WEBCOMMENTS_FR", type="string", length=500, nullable=true)
      */
     private $webcommentsFr;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="WEBCOMMENTS_NL", type="string", length=250, nullable=true)
+     * @ORM\Column(name="WEBCOMMENTS_NL", type="string", length=500, nullable=true)
      */
     private $webcommentsNl;
 

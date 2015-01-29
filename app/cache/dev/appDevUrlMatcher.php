@@ -336,28 +336,42 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        if (0 === strpos($pathinfo, '/observations/add')) {
-            // mm_observations_add_new
-            if ($pathinfo === '/observations/add') {
+        if (0 === strpos($pathinfo, '/observations')) {
+            if (0 === strpos($pathinfo, '/observations/add')) {
+                // mm_observations_add_new
+                if ($pathinfo === '/observations/add') {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_mm_observations_add_new;
+                    }
+
+                    return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::newAction',  '_route' => 'mm_observations_add_new',);
+                }
+                not_mm_observations_add_new:
+
+                // mm_observations_add_create
+                if ($pathinfo === '/observations/add') {
+                    if ($this->context->getMethod() != 'POST') {
+                        $allow[] = 'POST';
+                        goto not_mm_observations_add_create;
+                    }
+
+                    return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::createAction',  '_route' => 'mm_observations_add_create',);
+                }
+                not_mm_observations_add_create:
+
+            }
+
+            // mm_observations_test
+            if ($pathinfo === '/observations/test') {
                 if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
                     $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_mm_observations_add_new;
+                    goto not_mm_observations_test;
                 }
 
-                return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::newAction',  '_route' => 'mm_observations_add_new',);
+                return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::testAction',  '_route' => 'mm_observations_test',);
             }
-            not_mm_observations_add_new:
-
-            // mm_observations_add_create
-            if ($pathinfo === '/observations/add') {
-                if ($this->context->getMethod() != 'POST') {
-                    $allow[] = 'POST';
-                    goto not_mm_observations_add_create;
-                }
-
-                return array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::createAction',  '_route' => 'mm_observations_add_create',);
-            }
-            not_mm_observations_add_create:
+            not_mm_observations_test:
 
         }
 

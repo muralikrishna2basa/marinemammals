@@ -55,7 +55,7 @@ class __TwigTemplate_f6bc7b3cabd4dee32bf93af71cacabf68a4d0f4c3cecf7ea38668f774b3
         echo "
         <h4><a class=\"prev-tab ctl\" href=\"#tabs-3\">PREVIOUS</a></h4>
         <p>
-            <input type=\"submit\" value=\"Submit\">
+            <input type=\"submit\" value=\"Submit\" name=\"submit\">
         </p>
     </fieldset>
 </div>
