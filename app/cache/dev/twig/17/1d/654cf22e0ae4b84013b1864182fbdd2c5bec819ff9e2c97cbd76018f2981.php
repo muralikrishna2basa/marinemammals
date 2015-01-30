@@ -73,9 +73,9 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
             //  }
             //  \$('.no-multi').find('input[checked]').removeAttr('checked');
             var wholeForm=\$('#observationform');
-            var existingSpecimenChoiceField = \$('#observationstype_eseSeqno_spec2event_scnSeqnoExisting');
-            var newSpecimenChoiceField = \$('#observationstype_eseSeqno_spec2event_scnSeqnoNew_txnSeqno');
-            var newSpecimenNumberField = \$('#observationstype_eseSeqno_spec2event_scnSeqnoNew_scnNumber');
+            var existingSpecimenChoiceField = \$('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
+            var newSpecimenChoiceField = \$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
+            var newSpecimenNumberField = \$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
             var newSpecimenBox = \$('#new-specimen');
             var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required=\"required\"]');
             var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = \$('.no-multi');
@@ -139,6 +139,7 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
             sfp1.addAddLink();
             var sfp2 = new SymfonyPrototype(\$('ul.e2p_gatherer'), \$('<a href=\"#\" id=\"add_gatherer\">Add a person</a>'), '__gatherers_name__');
             sfp2.addAddLink();
+            /*
             \$.validator.setDefaults({
                 debug: true,
                 success: 'valid'
@@ -162,34 +163,28 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                     \"observationstype[eseSeqno][eventDatetime][date]\": 'dateBE',
                     \"observationstype[latDec]\": 'latdec',
                     \"observationstype[lonDec]\": 'londec',
-                    \"observationstype[eseSeqno][spec2event][scnSeqnoExisting]\": {
+                    \"observationstype[eseSeqno][spec2events][scnSeqnoExisting]\": {
                         digits: true
                     },
-                    \"observationstype[eseSeqno][spec2event][scnSeqnoNew][scnNumber]\": {
+                    \"observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]\": {
                         digits: true
                     },
-                    \"observationstype[eseSeqno][spec2event][scnSeqnoNew][necropsyTag]\":'necropsytag'
-                },
-
-                messages:{
-            'observationstype[eseSeqno][eventDatetime][date]': {
-                        dateNL: 'The date format is dd/mm/yyyy'
-                    }
+                    \"observationstype[eseSeqno][spec2events][scnSeqnoNew][necropsyTag]\":'necropsytag'
                 }
             });
-            wholeForm.validate({lang: 'nl'});
+            wholeForm.validate();*/
         });
     </script>
 ";
     }
 
-    // line 157
+    // line 152
     public function block_main_content($context, array $blocks = array())
     {
-        // line 158
+        // line 153
         echo "    <div class=\"col-lg-12\">
         ";
-        // line 159
+        // line 154
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
     </div>
@@ -208,6 +203,6 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 
     public function getDebugInfo()
     {
-        return array (  193 => 159,  190 => 158,  187 => 157,  44 => 17,  32 => 3,  29 => 2,);
+        return array (  188 => 154,  185 => 153,  182 => 152,  44 => 17,  32 => 3,  29 => 2,);
     }
 }

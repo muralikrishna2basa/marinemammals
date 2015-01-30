@@ -921,9 +921,18 @@ class appDevDebugProjectContainer extends Container
             'validator.builder' => 'getValidator_BuilderService',
             'validator.email' => 'getValidator_EmailService',
             'validator.expression' => 'getValidator_ExpressionService',
-            'validator.node.locationcoordinateflag_indb' => 'getValidator_Node_LocationcoordinateflagIndbService',
+            'validator.node.areatype_indb' => 'getValidator_Node_AreatypeIndbService',
+            'validator.node.coordinateprecisionflag_indb' => 'getValidator_Node_CoordinateprecisionflagIndbService',
+            'validator.node.eventdatetimeflag_indb' => 'getValidator_Node_EventdatetimeflagIndbService',
+            'validator.node.mediatype_indb' => 'getValidator_Node_MediatypeIndbService',
             'validator.node.osntype_indb' => 'getValidator_Node_OsntypeIndbService',
+            'validator.node.parametermethodorigin_indb' => 'getValidator_Node_ParametermethodoriginIndbService',
+            'validator.node.pfmtype_indb' => 'getValidator_Node_PfmtypeIndbService',
+            'validator.node.placetype_indb' => 'getValidator_Node_PlacetypeIndbService',
+            'validator.node.requestloanstatus_indb' => 'getValidator_Node_RequestloanstatusIndbService',
             'validator.node.samplingeffort_indb' => 'getValidator_Node_SamplingeffortIndbService',
+            'validator.node.sex_indb' => 'getValidator_Node_SexIndbService',
+            'validator.node.sourcetype_indb' => 'getValidator_Node_SourcetypeIndbService',
             'var_dumper.cloner' => 'getVarDumper_ClonerService',
             'web_profiler.controller.exception' => 'getWebProfiler_Controller_ExceptionService',
             'web_profiler.controller.profiler' => 'getWebProfiler_Controller_ProfilerService',
@@ -3976,7 +3985,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['validator.builder'] = $instance = \Symfony\Component\Validator\Validation::createValidatorBuilder();
 
-        $instance->setConstraintValidatorFactory(new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('osntype_indb' => 'validator.node.osntype_indb', 'samplingeffort_indb' => 'validator.node.samplingeffort_indb', 'locationcoordinateflag_indb' => 'validator.node.locationcoordinateflag_indb', 'validator.expression' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\EmailValidator' => 'validator.email', 'security.validator.user_password' => 'security.validator.user_password', 'doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique')));
+        $instance->setConstraintValidatorFactory(new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('areatype_indb' => 'validator.node.areatype_indb', 'coordinateprecisionflag_indb' => 'validator.node.coordinateprecisionflag_indb', 'eventdatetimeflag_indb' => 'validator.node.eventdatetimeflag_indb', 'mediatype_indb' => 'validator.node.mediatype_indb', 'osntype_indb' => 'validator.node.osntype_indb', 'parametermethodorigin_indb' => 'validator.node.parametermethodorigin_indb', 'pfmtype_indb' => 'validator.node.pfmtype_indb', 'placetype_indb' => 'validator.node.placetype_indb', 'requestloanstatus_indb' => 'validator.node.requestloanstatus_indb', 'samplingeffort_indb' => 'validator.node.samplingeffort_indb', 'sex_indb' => 'validator.node.sex_indb', 'sourcetype_indb' => 'validator.node.sourcetype_indb', 'validator.expression' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\EmailValidator' => 'validator.email', 'security.validator.user_password' => 'security.validator.user_password', 'doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique')));
         $instance->setTranslator($this->get('translator'));
         $instance->setTranslationDomain('validators');
         $instance->addXmlMappings(array(0 => (dirname(dirname(dirname(__DIR__))).'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')));
@@ -4016,16 +4025,55 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'validator.node.locationcoordinateflag_indb' service.
+     * Gets the 'validator.node.areatype_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalAreaTypeValidator A AppBundle\Validator\Constraints\LegalAreaTypeValidator instance.
+     */
+    protected function getValidator_Node_AreatypeIndbService()
+    {
+        return $this->services['validator.node.areatype_indb'] = new \AppBundle\Validator\Constraints\LegalAreaTypeValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.coordinateprecisionflag_indb' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
      *
      * @return \AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator A AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator instance.
      */
-    protected function getValidator_Node_LocationcoordinateflagIndbService()
+    protected function getValidator_Node_CoordinateprecisionflagIndbService()
     {
-        return $this->services['validator.node.locationcoordinateflag_indb'] = new \AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator($this->get('doctrine.orm.default_entity_manager'));
+        return $this->services['validator.node.coordinateprecisionflag_indb'] = new \AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.eventdatetimeflag_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalEventDatetimeFlagValidator A AppBundle\Validator\Constraints\LegalEventDatetimeFlagValidator instance.
+     */
+    protected function getValidator_Node_EventdatetimeflagIndbService()
+    {
+        return $this->services['validator.node.eventdatetimeflag_indb'] = new \AppBundle\Validator\Constraints\LegalEventDatetimeFlagValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.mediatype_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalMediaTypeValidator A AppBundle\Validator\Constraints\LegalMediaTypeValidator instance.
+     */
+    protected function getValidator_Node_MediatypeIndbService()
+    {
+        return $this->services['validator.node.mediatype_indb'] = new \AppBundle\Validator\Constraints\LegalMediaTypeValidator($this->get('doctrine.orm.default_entity_manager'));
     }
 
     /**
@@ -4042,6 +4090,58 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'validator.node.parametermethodorigin_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalParameterMethodOriginValidator A AppBundle\Validator\Constraints\LegalParameterMethodOriginValidator instance.
+     */
+    protected function getValidator_Node_ParametermethodoriginIndbService()
+    {
+        return $this->services['validator.node.parametermethodorigin_indb'] = new \AppBundle\Validator\Constraints\LegalParameterMethodOriginValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.pfmtype_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalPfmTypeValidator A AppBundle\Validator\Constraints\LegalPfmTypeValidator instance.
+     */
+    protected function getValidator_Node_PfmtypeIndbService()
+    {
+        return $this->services['validator.node.pfmtype_indb'] = new \AppBundle\Validator\Constraints\LegalPfmTypeValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.placetype_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalPlaceTypeValidator A AppBundle\Validator\Constraints\LegalPlaceTypeValidator instance.
+     */
+    protected function getValidator_Node_PlacetypeIndbService()
+    {
+        return $this->services['validator.node.placetype_indb'] = new \AppBundle\Validator\Constraints\LegalPlaceTypeValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.requestloanstatus_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalRequestLoanStatusValidator A AppBundle\Validator\Constraints\LegalRequestLoanStatusValidator instance.
+     */
+    protected function getValidator_Node_RequestloanstatusIndbService()
+    {
+        return $this->services['validator.node.requestloanstatus_indb'] = new \AppBundle\Validator\Constraints\LegalRequestLoanStatusValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
      * Gets the 'validator.node.samplingeffort_indb' service.
      *
      * This service is shared.
@@ -4052,6 +4152,32 @@ class appDevDebugProjectContainer extends Container
     protected function getValidator_Node_SamplingeffortIndbService()
     {
         return $this->services['validator.node.samplingeffort_indb'] = new \AppBundle\Validator\Constraints\LegalSamplingEffortValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.sex_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalSexValidator A AppBundle\Validator\Constraints\LegalSexValidator instance.
+     */
+    protected function getValidator_Node_SexIndbService()
+    {
+        return $this->services['validator.node.sex_indb'] = new \AppBundle\Validator\Constraints\LegalSexValidator($this->get('doctrine.orm.default_entity_manager'));
+    }
+
+    /**
+     * Gets the 'validator.node.sourcetype_indb' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \AppBundle\Validator\Constraints\LegalSourceTypeValidator A AppBundle\Validator\Constraints\LegalSourceTypeValidator instance.
+     */
+    protected function getValidator_Node_SourcetypeIndbService()
+    {
+        return $this->services['validator.node.sourcetype_indb'] = new \AppBundle\Validator\Constraints\LegalSourceTypeValidator($this->get('doctrine.orm.default_entity_manager'));
     }
 
     /**

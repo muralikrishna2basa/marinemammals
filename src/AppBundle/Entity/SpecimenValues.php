@@ -76,8 +76,8 @@ class SpecimenValues implements EntityValues
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2events", inversedBy="values")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="S2E_SCN_SEQNO", referencedColumnName="SCN_SEQNO"),
-     *   @ORM\JoinColumn(name="S2E_ESE_SEQNO", referencedColumnName="ESE_SEQNO")
+     *   @ORM\JoinColumn(name="S2E_SCN_SEQNO", referencedColumnName="SCN_SEQNO", nullable=false),
+     *   @ORM\JoinColumn(name="S2E_ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)
      * })
      */
     private $s2eScnSeqno;
@@ -87,7 +87,7 @@ class SpecimenValues implements EntityValues
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $pmdSeqno;
@@ -274,7 +274,7 @@ class SpecimenValues implements EntityValues
     public function setS2eScnSeqno(\AppBundle\Entity\Spec2events $s2eScnSeqno = null)
     {
         $this->s2eScnSeqno = $s2eScnSeqno;
-    
+        $s2eScnSeqno->addToValues($this);
         return $this;
     }
 

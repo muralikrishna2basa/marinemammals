@@ -1,8 +1,213 @@
+AppBundle\Entity\AccountMaintenance:
+    properties:
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        email:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        id:
+                - Length:
+                     min: 0
+                     max: 100
+AppBundle\Entity\CgRefCodes:
+    properties:
+        rvAbbreviation:
+                - Length:
+                     min: 0
+                     max: 50
+        rvDomain:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        rvHighValue:
+                - Length:
+                     min: 0
+                     max: 50
+        rvLowValue:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        rvMeaning:
+                - Length:
+                     min: 0
+                     max: 100
+AppBundle\Entity\ContainerLocalizations:
+    properties:
+        containerType:
+                - Length:
+                     min: 0
+                     max: 50
+        name:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 20
+AppBundle\Entity\EventStates:
+    properties:
+        eventDatetime:
+                - NotBlank: ~
+                - NotNull: ~
+                - AppBundle\Validator\Constraints\DateRange:
+                     min: "1900-01-01"
+                     max: "today"
+        eventDatetimeFlag:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalEventDatetimeFlag: ~
+        description:
+                - Length:
+                     min: 0
+                     max: 4000
+AppBundle\Entity\Event2Persons:
+    properties:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        e2pType:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+AppBundle\Entity\Groups:
+    properties:
+        accessLevel:
+                - NotBlank: ~
+                - NotNull: ~
+                - Type:
+                     type: integer
+                     message: The value {{ value }} is not a valid {{ type }}.
+                - Range:
+                     min: 0
+                     max: 99
+        description:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 100
+        name:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 30
+AppBundle\Entity\Institutes:
+    properties:
+        code:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 15
+        name:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 250
+AppBundle\Entity\LesionTypes:
+    properties:
+        ognCode:
+               - NotBlank: ~
+               - NotNull: ~
+        name:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        processus:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+AppBundle\Entity\LesionValues:
+    properties:
+        olnNcyEseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        value:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        valueFlag:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+AppBundle\Entity\Medias:
+    properties:
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        description:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 100
+        mdaType:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalMediaType: ~
+        location:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 200
+AppBundle\Entity\Necropsies:
+    properties:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        program:
+                - Length:
+                     min: 0
+                     max: 50
+        refAut:
+                - Length:
+                     min: 0
+                     max: 30
+        refLabo:
+                - Length:
+                     min: 0
+                     max: 30
 AppBundle\Entity\Observations:
     properties:
         eseSeqno:
-                - NotBlank: ~
-                - NotNull: ~
+               - NotBlank: ~
+               - NotNull: ~
+        cpnCode:
+                - Length:
+                     min: 0
+                     max: 20
         isconfidential:
                 - NotNull: ~
                 - Type:
@@ -19,14 +224,23 @@ AppBundle\Entity\Observations:
         osnType:
                 - NotBlank: ~
                 - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
                 - AppBundle\Validator\Constraints\LegalOsnType: ~
         precisionFlag:
                 - NotBlank: ~
                 - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 50
                 - AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlag: ~
         samplingeffort:
                 - NotBlank: ~
                 - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 50
                 - AppBundle\Validator\Constraints\LegalSamplingEffort: ~
         webcommentsNl:
                 - Length:
@@ -40,30 +254,169 @@ AppBundle\Entity\Observations:
                 - Length:
                       min: 0
                       max: 500
-AppBundle\Entity\Stations:
+AppBundle\Entity\ObservationValues:
     properties:
-        areaType:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        value:
                 - NotBlank: ~
                 - NotNull: ~
-                - AppBundle\Validator\Constraints\LegalAreaType: ~
+                - Length:
+                     min: 1
+                     max: 50
+        valueFlag:
+                - Length:
+                     min: 0
+                     max: 50
+AppBundle\Entity\Organs:
+    properties:
         code:
                 - NotBlank: ~
                 - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 10
+        name:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+AppBundle\Entity\OrganLesions:
+    properties:
+        lteSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        ncyEseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
         description:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 1000
+        scale:
                 - Length:
                      min: 0
-                     max: 500
-        latDec:
+                     max: 50
+AppBundle\Entity\ParameterDomains:
+    properties:
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        code:
                 - NotBlank: ~
                 - NotNull: ~
-                - AppBundle\Validator\Constraints\DecimalLongitude: ~
-        lonDec:
+                - Length:
+                     min: 1
+                     max: 50
+        description:
                 - NotBlank: ~
                 - NotNull: ~
-                - AppBundle\Validator\Constraints\DecimalLongitude: ~
-        pceSeqno:
+                - Length:
+                     min: 1
+                     max: 250
+AppBundle\Entity\ParameterMethods:
+    properties:
+        description:
                 - NotBlank: ~
                 - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 100
+        name:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 70
+        origin:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalParameterMethodOrigin: ~
+        unit:
+                - Length:
+                     min: 0
+                     max: 10
+        variabletype:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 20
+AppBundle\Entity\Person2Requests:
+    properties:
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        rlnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        p2rType:
+                - Length:
+                     min: 0
+                     max: 50
+AppBundle\Entity\Persons:
+    properties:
+        lastName:
+                - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 30
+        firstName:
+                - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 30
+        address:
+                - Length:
+                     min: 0
+                     max: 250
+        sex:
+                - Length:
+                     min: 0
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalSex: ~
+        title:
+                - Length:
+                     min: 0
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalPersonTitle: ~
+        email:
+                - Length:
+                     min: 0
+                     max: 80
+                - Email:
+                     message: The email "{{ value }}" is not a valid email.
+                     checkMX: false
+        loginName:
+                - Length:
+                     min: 0
+                     max: 25
+        password:
+                - Length:
+                     min: 0
+                     max: 60
+        phoneNumber:
+                - Length:
+                     min: 0
+                     max: 20
+        pic:
+                - Length:
+                     min: 0
+                     max: 100
+        sessionid:
+                - Length:
+                     min: 0
+                     max: 32
 AppBundle\Entity\Places:
     properties:
         name:
@@ -75,6 +428,9 @@ AppBundle\Entity\Places:
         type:
                 - NotBlank: ~
                 - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 50
                 - AppBundle\Validator\Constraints\LegalPlaceType: ~
 AppBundle\Entity\Platforms:
     properties:
@@ -87,36 +443,71 @@ AppBundle\Entity\Platforms:
         pfmType:
                 - NotBlank: ~
                 - NotNull: ~
-                - AppBundle\Validator\Constraints\LegalPfmType: ~
-AppBundle\Entity\Sources:
-    properties:
-        name:
-                - NotBlank: ~
-                - NotNull: ~
                 - Length:
-                     min: 1
-                     max: 100
-        type:
-                - NotBlank: ~
-                - NotNull: ~
-                - AppBundle\Validator\Constraints\LegalSourceType: ~
-AppBundle\Entity\EventStates:
+                     min: 0
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalPfmType: ~
+AppBundle\Entity\RequestLoans:
     properties:
-        eventDatetime:
+        dateRequest:
                 - NotBlank: ~
                 - NotNull: ~
                 - AppBundle\Validator\Constraints\DateRange:
                      min: "1900-01-01"
                      max: "today"
-        eventDatetimeFlag:
+        status:
                 - NotBlank: ~
                 - NotNull: ~
-                - AppBundle\Validator\Constraints\LegalEventDatetimeFlag: ~
-        description:
+                - Length:
+                     min: 1
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalRequestLoanStatus: ~
+        studyDescription:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 250
+AppBundle\Entity\Samples:
+    properties:
+        analyzeDest:
+                - Length:
+                     min: 1
+                     max: 50
+                - NotBlank: ~
+                - NotNull: ~
+        availability:
                 - Length:
                      min: 0
-                     max: 4000
+                     max: 50
+        conservationMode:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        speType:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        subref:
+                - Length:
+                     min: 0
+                     max: 10
+AppBundle\Entity\Spec2Events:
+    properties:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        scnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
 AppBundle\Entity\Specimens:
+    getters:
+        scnNumberLegal:
+            - "True": { message: "It is not possible to provide any values (eg. sex, necropsy tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations if you wish to provide these details." }
     properties:
         scnNumber:
                 - NotBlank: ~
@@ -128,20 +519,91 @@ AppBundle\Entity\Specimens:
                      min: 0
                      max: 9999
         sex:
-                - NotBlank: ~
-                - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 50
                 - AppBundle\Validator\Constraints\LegalSex: ~
         rbinsTag:
                 - Length:
                      min: 0
                      max: 20
         necropsyTag:
-                - AppBundle\Validator\Constraints\NecropsyTag: ~ #TODO
+                - Length:
+                     min: 0
+                     max: 14
+                - AppBundle\Validator\Constraints\Necropsytag: ~
         identificationCertainty:
                 - NotNull: ~
                 - Type:
                      type: bool
                      message: The value {{ value }} is not a valid {{ type }}.
+AppBundle\Entity\SpecimenValues:
+    properties:
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        s2eScnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        description:
+                - Length:
+                     min: 0
+                     max: 250
+        value:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 50
+        valueFlag:
+                - Length:
+                     min: 0
+                     max: 50
+AppBundle\Entity\Stations:
+    properties:
+        pceSeqno:
+                - NotBlank: ~
+                - NotNull: ~
+        areaType:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalAreaType: ~
+        code:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 50
+        description:
+                - Length:
+                     min: 0
+                     max: 500
+        latDec:
+                - NotBlank: ~
+                - NotNull: ~
+                - AppBundle\Validator\Constraints\DecimalLongitude: ~
+        lonDec:
+                - NotBlank: ~
+                - NotNull: ~
+                - AppBundle\Validator\Constraints\DecimalLongitude: ~
+AppBundle\Entity\Sources:
+    properties:
+        name:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 1
+                     max: 100
+        type:
+                - NotBlank: ~
+                - NotNull: ~
+                - Length:
+                     min: 0
+                     max: 50
+                - AppBundle\Validator\Constraints\LegalSourceType: ~
 AppBundle\Entity\Taxa:
     properties:
         idodId:
@@ -154,132 +616,21 @@ AppBundle\Entity\Taxa:
                      min: 0
                      max: 999999
         canonicalName:
+                - NotBlank: ~
                 - NotNull: ~
                 - Length:
                      min: 0
                      max: 50
         scientificNameAuthorship:
-                - NotNull: ~
                 - Length:
                      min: 0
                      max: 50
         taxonrank:
-                - NotNull: ~
                 - Length:
                      min: 0
                      max: 30
         vernacularNameEn:
-                - NotNull: ~
                 - Length:
                      min: 0
                      max: 50
-AppBundle\Entity\ParameterMethods:
-    properties:
-        name:
-                - NotBlank: ~
-                - NotNull: ~
-        unit:
-                - NotBlank: ~
-                - NotNull: ~
 
-        description:
-                - NotBlank: ~
-                - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 100
-        origin:
-                - NotBlank: ~
-                - NotNull: ~
-                - AppBundle\Validator\Constraints\LegalParameterMethodOrigin: ~
-AppBundle\Entity\OrganLesions:
-    properties:
-        description:
-                - Length:
-                     min: 0
-                     max: 1000
-AppBundle\Entity\Institutes:
-    properties:
-        code:
-                - NotBlank: ~
-                - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 15
-        name:
-                - NotBlank: ~
-                - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 250
-AppBundle\Entity\Persons:
-    properties:
-        lastName:
-                - NotNull: ~
-        firstName:
-                - NotNull: ~
-        address:
-                - Length:
-                     min: 0
-                     max: 250
-        sex:
-                - AppBundle\Validator\Constraints\LegalSex: ~
-        title:
-                - AppBundle\Validator\Constraints\LegalPersonTitle: ~
-        email:
-                - AppBundle\Validator\Constraints\Email: ~ #TODO
-AppBundle\Entity\RequestLoans:
-    properties:
-        status:
-                - NotBlank: ~
-                - NotNull: ~
-                - AppBundle\Validator\Constraints\LegalRequestLoanStatus: ~
-        studyDescription:
-                - NotBlank: ~
-                - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 250
-        dateRequest:
-                - NotBlank: ~
-                - NotNull: ~
-                - AppBundle\Validator\Constraints\DateRange:
-                     min: "1900-01-01"
-                     max: "today"
-AppBundle\Entity\Groups:
-    properties:
-        accessLevel:
-                - NotBlank: ~
-                - NotNull: ~
-                - Type:
-                     type: integer
-                     message: The value {{ value }} is not a valid {{ type }}.
-                - Range:
-                     min: 0
-                     max: 99
-        description:
-                - Length:
-                     min: 0
-                     max: 100
-        name:
-                - NotBlank: ~
-                - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 30
-AppBundle\Entity\Medias:
-    properties:
-        description:
-                - Length:
-                     min: 0
-                     max: 100
-        mdaType:
-                - NotBlank: ~
-                - NotNull: ~
-                - AppBundle\Validator\Constraints\LegalMediaType: ~
-        location:
-                - NotBlank: ~
-                - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 200

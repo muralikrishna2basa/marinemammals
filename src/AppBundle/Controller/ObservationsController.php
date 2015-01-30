@@ -55,8 +55,8 @@ class ObservationsController extends Controller
 
         $s2e = new Spec2Events();
         $specimen = new Specimens();
-        $event->setSpec2event($s2e);
-        $s2e->setEseSeqno($event);
+        $event->setSpec2Events($s2e);
+        //$s2e->setEseSeqno($event);
         $s2e->setScnSeqno($specimen);
 
         $this->instantiateSpecimenValues('Before intervention', $s2e);
@@ -113,7 +113,6 @@ class ObservationsController extends Controller
         $ov = new ObservationValues();
         $ov->setPmdSeqno($pm);
         $ov->setEseSeqno($observation);
-        $observation->getValues()->add($ov);
         return $ov;
     }
 
@@ -124,7 +123,6 @@ class ObservationsController extends Controller
         $sv = new SpecimenValues();
         $sv->setPmdSeqno($pm);
         $sv->setS2eScnSeqno($s2e);
-        $s2e->getValues()->add($sv);
         return $sv;
     }
 
@@ -203,8 +201,8 @@ class ObservationsController extends Controller
 
         $s2e = new Spec2Events();
         //$specimen=new Specimens();
-        $event->setSpec2event($s2e);
-        $s2e->setEseSeqno($event);
+        $event->setSpec2Events($s2e);
+        //$s2e->setEseSeqno($event); //TODO: check if this can be deleted. shoudle be now that this is truly bidirectional
         //$s2e->setScnSeqno($specimen);
 
         $this->instantiateSpecimenValues('Before intervention', $s2e);

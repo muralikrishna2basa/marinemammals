@@ -43,7 +43,7 @@ class Persons
     /**
      * @var string
      *
-     * @ORM\Column(name="FIRST_NAME", type="string", length=15, nullable=true)
+     * @ORM\Column(name="FIRST_NAME", type="string", length=30, nullable=true)
      */
     private $firstName;
 
@@ -57,7 +57,7 @@ class Persons
     /**
      * @var string
      *
-     * @ORM\Column(name="LAST_NAME", type="string", length=25, nullable=true)
+     * @ORM\Column(name="LAST_NAME", type="string", length=30, nullable=true)
      */
     private $lastName;
 

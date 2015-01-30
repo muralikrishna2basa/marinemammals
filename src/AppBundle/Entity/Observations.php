@@ -22,7 +22,7 @@ class Observations implements ValueAssignable
     /**
      * @var string
      *
-     * @ORM\Column(name="CPN_CODE", type="string", length=10, nullable=true)
+     * @ORM\Column(name="CPN_CODE", type="string", length=20, nullable=true)
      */
     private $cpnCode;
 
@@ -138,7 +138,7 @@ class Observations implements ValueAssignable
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $eseSeqno;
@@ -706,7 +706,6 @@ class Observations implements ValueAssignable
         return $this;
     }
 
-
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -723,6 +722,14 @@ class Observations implements ValueAssignable
     {
         $this->values = $values;
         return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\EntityValues $value
+     */
+    public function addToValues($value)
+    {
+        $this->getValues()->add($value);
     }
 
     public function removeValue(EntityValues $ev)

@@ -50,7 +50,7 @@ class ObservationValues implements EntityValues
     /**
      * @var string
      *
-     * @ORM\Column(name="VALUE_FLAG", type="string", length=1, nullable=true)
+     * @ORM\Column(name="VALUE_FLAG", type="string", length=50, nullable=true)
      */
     private $valueFlag;
 
@@ -69,7 +69,7 @@ class ObservationValues implements EntityValues
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="values")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $pmdSeqno;
@@ -79,7 +79,7 @@ class ObservationValues implements EntityValues
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Observations", inversedBy="values")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="ESE_SEQNO")
+     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)
      * })
      */
     private $eseSeqno;
@@ -266,7 +266,7 @@ class ObservationValues implements EntityValues
     public function setEseSeqno(\AppBundle\Entity\Observations $eseSeqno = null)
     {
         $this->eseSeqno = $eseSeqno;
-    
+        $eseSeqno->addToValues($this);
         return $this;
     }
 

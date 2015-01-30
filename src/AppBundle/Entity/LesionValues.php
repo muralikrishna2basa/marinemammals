@@ -50,7 +50,7 @@ class LesionValues implements EntityValues
     /**
      * @var string
      *
-     * @ORM\Column(name="VALUE_FLAG", type="string", length=1, nullable=true)
+     * @ORM\Column(name="VALUE_FLAG", type="string", length=50, nullable=true)
      */
     private $valueFlag;
 
@@ -69,7 +69,7 @@ class LesionValues implements EntityValues
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $pmdSeqno;
@@ -79,9 +79,9 @@ class LesionValues implements EntityValues
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO"),
-     *   @ORM\JoinColumn(name="OLN_LTE_OGN_CODE", referencedColumnName="LTE_OGN_CODE"),
-     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO")
+     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO", nullable=false),
+     *   @ORM\JoinColumn(name="OLN_LTE_OGN_CODE", referencedColumnName="LTE_OGN_CODE", nullable=false),
+     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO", nullable=false)
      * })
      */
     private $olnNcyEseSeqno;

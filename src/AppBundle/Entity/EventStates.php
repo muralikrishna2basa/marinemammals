@@ -86,7 +86,7 @@ class EventStates
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Spec2Events", mappedBy="eseSeqno")
      **/
-    private $spec2event;
+    private $spec2events;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -304,19 +304,19 @@ class EventStates
     /**
      * @return \AppBundle\Entity\Spec2Events
      */
-    public function getSpec2event()
+    public function getSpec2Events()
     {
-        return $this->spec2event;
+        return $this->spec2events;
     }
 
     /**
-     * @param \AppBundle\Entity\Spec2Events $spec2event
+     * @param \AppBundle\Entity\Spec2Events $spec2events
      * @return EventStates
      */
-    public function setSpec2event($spec2event)
+    public function setSpec2Events($spec2events)
     {
-        $this->spec2event = $spec2event;
-
+        $this->spec2events = $spec2events;
+        $spec2events->setEseSeqno($this);
         return $this;
     }
 
@@ -495,6 +495,11 @@ class EventStates
     public function getDate()
     {
         return $this->getEventDatetime()->format('d/m/Y');
+    }
+
+    public function isDateLegal()
+    {
+        return $this->getEventDatetime() >= new DateTime('1900-01-01') and $this->getEventDatetime() <= new DateTime('now');
     }
 
 }

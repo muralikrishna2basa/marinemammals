@@ -34,8 +34,8 @@ class ObservationsControllerTest extends WebTestCase
         $form['observationstype[stnSeqno]'] = '193';
         $form['observationstype[osnType]'] = 'Sighted';
         $form['observationstype[samplingeffort]'] = 'ad hoc observation';
-        $form['observationstype[eseSeqno][spec2event][scnSeqnoNew][txnSeqno]'] = 'Cetacea';
-        $form['observationstype[eseSeqno][spec2event][scnSeqnoNew][scnNumber]'] = 5;
+        $form['observationstype[eseSeqno][spec2events][scnSeqnoNew][txnSeqno]'] = 'Cetacea';
+        $form['observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]'] = 5;
         $form['observationstype[eseSeqno][observers][0][psnSeqno]'] = 'Karien De Cauwer';
         $form['observationstype[eseSeqno][gatherers][1][psnSeqno]'] = 'Thierry Jacques';
 

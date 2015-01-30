@@ -104,7 +104,7 @@ class Stations
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Places")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PCE_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="PCE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $pceSeqno;

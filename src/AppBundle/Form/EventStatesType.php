@@ -60,7 +60,7 @@ class EventStatesType extends AbstractType
                 $gb->setEseSeqno($e);
             }
         });
-        $builder->add('spec2event', new Spec2EventsType($this->doctrine));
+        $builder->add('spec2events', new Spec2EventsType($this->doctrine));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

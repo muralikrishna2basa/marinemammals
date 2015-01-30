@@ -46,9 +46,9 @@ class Spec2Events implements ValueAssignable
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Specimens", inversedBy="spec2event")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Specimens", inversedBy="spec2events")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="SCN_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="SCN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $scnSeqno;
@@ -58,9 +58,9 @@ class Spec2Events implements ValueAssignable
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="spec2event")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="spec2events")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $eseSeqno;
@@ -181,7 +181,7 @@ class Spec2Events implements ValueAssignable
     public function setScnSeqno(\AppBundle\Entity\Specimens $scnSeqno)
     {
         $this->scnSeqno = $scnSeqno;
-
+        $scnSeqno->addToSpec2Events($this);
         return $this;
     }
 
@@ -204,7 +204,6 @@ class Spec2Events implements ValueAssignable
     public function setEseSeqno(\AppBundle\Entity\EventStates $eseSeqno)
     {
         $this->eseSeqno = $eseSeqno;
-
         return $this;
     }
 
@@ -234,6 +233,14 @@ class Spec2Events implements ValueAssignable
     {
         $this->values = $values;
         return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\EntityValues $value
+     */
+    public function addToValues($value)
+    {
+        $this->getValues()->add($value);
     }
 
     public function removeValue(EntityValues $ev)

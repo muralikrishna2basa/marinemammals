@@ -61,8 +61,8 @@ class OrganLesions implements ValueAssignable
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\LesionTypes")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="LTE_SEQNO", referencedColumnName="SEQNO")
-     *   @ORM\JoinColumn(name="LTE_OGN_CODE", referencedColumnName="OGN_CODE")
+     *   @ORM\JoinColumn(name="LTE_SEQNO", referencedColumnName="SEQNO", nullable=false)
+     *   @ORM\JoinColumn(name="LTE_OGN_CODE", referencedColumnName="OGN_CODE", nullable=false)
      * })
      */
     private $lteSeqno;
@@ -74,7 +74,7 @@ class OrganLesions implements ValueAssignable
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Necropsies")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="NCY_ESE_SEQNO", referencedColumnName="ESE_SEQNO")
+     *   @ORM\JoinColumn(name="NCY_ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)
      * })
      */
     private $ncyEseSeqno;

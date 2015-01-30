@@ -46,9 +46,9 @@
             //  }
             //  $('.no-multi').find('input[checked]').removeAttr('checked');
             var wholeForm=$('#observationform');
-            var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2event_scnSeqnoExisting');
-            var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_txnSeqno');
-            var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2event_scnSeqnoNew_scnNumber');
+            var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
+            var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
+            var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
             var newSpecimenBox = $('#new-specimen');
             var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required="required"]');
             var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi');
@@ -112,6 +112,7 @@
             sfp1.addAddLink();
             var sfp2 = new SymfonyPrototype($('ul.e2p_gatherer'), $('<a href="#" id="add_gatherer">Add a person</a>'), '__gatherers_name__');
             sfp2.addAddLink();
+            /*
             $.validator.setDefaults({
                 debug: true,
                 success: 'valid'
@@ -135,22 +136,16 @@
                     "observationstype[eseSeqno][eventDatetime][date]": 'dateBE',
                     "observationstype[latDec]": 'latdec',
                     "observationstype[lonDec]": 'londec',
-                    "observationstype[eseSeqno][spec2event][scnSeqnoExisting]": {
+                    "observationstype[eseSeqno][spec2events][scnSeqnoExisting]": {
                         digits: true
                     },
-                    "observationstype[eseSeqno][spec2event][scnSeqnoNew][scnNumber]": {
+                    "observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]": {
                         digits: true
                     },
-                    "observationstype[eseSeqno][spec2event][scnSeqnoNew][necropsyTag]":'necropsytag'
-                },
-
-                messages:{
-            'observationstype[eseSeqno][eventDatetime][date]': {
-                        dateNL: 'The date format is dd/mm/yyyy'
-                    }
+                    "observationstype[eseSeqno][spec2events][scnSeqnoNew][necropsyTag]":'necropsytag'
                 }
             });
-            wholeForm.validate({lang: 'nl'});
+            wholeForm.validate();*/
         });
     </script>
 {% endblock %}

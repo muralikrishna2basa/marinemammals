@@ -56,7 +56,7 @@ class Event2Persons
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Persons", inversedBy="seqno")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $psnSeqno;
@@ -68,7 +68,7 @@ class Event2Persons
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="seqno")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $eseSeqno;

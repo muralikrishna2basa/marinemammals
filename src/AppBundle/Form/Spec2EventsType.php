@@ -21,7 +21,7 @@ class Spec2EventsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('scnSeqnoExisting', 'specimen_selector', array('property_path' => 'scnSeqno'));
+        $builder->add('scnSeqnoExisting', new SpecimensSelectorType($this->doctrine), array('property_path' => 'scnSeqno'));//'specimen_selector'
         $builder->add('scnSeqnoNew', new SpecimensType($this->doctrine), array('property_path' => 'scnSeqno'));
 
         $builder->add('circumstantialValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
@@ -45,12 +45,12 @@ class Spec2EventsType extends AbstractType
             $form = $event->getForm();
             if (null !== $form->get('scnSeqnoExisting')->getData()) {
                 $specimen = $form->get('scnSeqnoExisting')->getData();
-                $s2e->setScnSeqno($specimen);
+                $s2e->setScnSeqno($specimen); //TODO check bidirectionality
                 $this->doctrine->getManager()->persist($specimen);
             } elseif (null !== $form->get('scnSeqnoNew')->getData()) {
                 //$specimen = new Specimens();
                 $specimen = $form->get('scnSeqnoNew')->getData();
-                $s2e->setScnSeqno($specimen);
+                $s2e->setScnSeqno($specimen); //TODO check bidirectionality
                 $this->doctrine->getManager()->persist($specimen);
             } else throw new LogicException('no specimen given');
         });

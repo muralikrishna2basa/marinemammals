@@ -1,0 +1,130 @@
+AppBundle\Entity\AccountMaintenance:
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Event2Persons:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Lesions2Sample:
+        olnLteOgnCode:
+               - NotBlank: ~
+               - NotNull: ~
+        olnLteSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        olnNcyEseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        speSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\LesionTypes:
+        ognCode:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\LesionValues:
+        olnLteOgnCode:
+               - NotBlank: ~
+               - NotNull: ~
+        olnLteSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        olnNcyEseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Medias:
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Necropsies:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Observations:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\ObservationValues:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\OrganLesions:
+        lteOgnCode:
+               - NotBlank: ~
+               - NotNull: ~
+        lteSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        ncyEseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\ParameterDomains:
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\ParameterGroups:
+        grpName:
+               - NotBlank: ~
+               - NotNull: ~
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Person2Groups:
+        grpName:
+               - NotBlank: ~
+               - NotNull: ~
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Person2Requests:
+        psnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        rlnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Sample2Requests:
+        rlnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        speSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Sources2Observation:
+        osnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        sreSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Spec2Events:
+        eseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        scnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\SpecimenValues:
+        pmdSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        s2eEseSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+        s2eScnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
+AppBundle\Entity\Stations:
+        pceSeqno:
+               - NotBlank: ~
+               - NotNull: ~

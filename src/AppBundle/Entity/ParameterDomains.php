@@ -29,7 +29,7 @@ class ParameterDomains
     /**
      * @var string
      *
-     * @ORM\Column(name="DESCRIPTION", type="string", length=4000, nullable=true)
+     * @ORM\Column(name="DESCRIPTION", type="string", length=250, nullable=true)
      */
     private $description;
 
@@ -63,7 +63,7 @@ class ParameterDomains
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\ParameterMethods")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $pmdSeqno;

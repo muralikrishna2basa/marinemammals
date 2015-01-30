@@ -70,7 +70,7 @@ class LesionTypes
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Organs")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="OGN_CODE", referencedColumnName="CODE")
+     *   @ORM\JoinColumn(name="OGN_CODE", referencedColumnName="CODE", nullable=false)
      * })
      */
     private $ognCode;

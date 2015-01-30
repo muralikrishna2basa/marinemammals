@@ -50,7 +50,7 @@ class Platforms
     /**
      * @var string
      *
-     * @ORM\Column(name="PFM_TYPE", type="string", length=50, nullable=true)
+     * @ORM\Column(name="PFM_TYPE", type="string", length=50, nullable=false)
      */
     private $pfmType;
 

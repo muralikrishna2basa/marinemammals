@@ -20,7 +20,7 @@ abstract class LegalCgRefCodeValidator extends ConstraintValidator {
     public function validate($value, Constraint $constraint)
     {
         $cl=new CgRefChoiceList($this->doctrine, $this->cgRefCodeDomain);
-        if (!in_array($value,$cl->getChoices())) {
+        if ($value!== null and $value!== '' and !in_array($value,$cl->getChoices())) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%string%', $value)
                 ->addViolation();

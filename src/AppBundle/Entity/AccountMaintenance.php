@@ -69,7 +69,7 @@ class AccountMaintenance
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Persons")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $psnSeqno;

@@ -8,29 +8,75 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type, alias: specimen_selector }
+
+    validator.node.areatype_indb:
+        class: AppBundle\Validator\Constraints\LegalAreaTypeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: areatype_indb }
+
+    validator.node.coordinateprecisionflag_indb:
+        class: AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: coordinateprecisionflag_indb }
+
+    validator.node.eventdatetimeflag_indb:
+        class: AppBundle\Validator\Constraints\LegalEventDatetimeFlagValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: eventdatetimeflag_indb }
+
+    validator.node.mediatype_indb:
+        class: AppBundle\Validator\Constraints\LegalMediaTypeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: mediatype_indb }
+
     validator.node.osntype_indb:
         class: AppBundle\Validator\Constraints\LegalOsnTypeValidator
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: validator.constraint_validator, alias: osntype_indb }
+
+    validator.node.parametermethodorigin_indb:
+        class: AppBundle\Validator\Constraints\LegalParameterMethodOriginValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: parametermethodorigin_indb }
+
+    validator.node.pfmtype_indb:
+        class: AppBundle\Validator\Constraints\LegalPfmTypeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: pfmtype_indb }
+
+    validator.node.placetype_indb:
+        class: AppBundle\Validator\Constraints\LegalPlaceTypeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: placetype_indb }
+
+    validator.node.requestloanstatus_indb:
+        class: AppBundle\Validator\Constraints\LegalRequestLoanStatusValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: requestloanstatus_indb }
+
     validator.node.samplingeffort_indb:
         class: AppBundle\Validator\Constraints\LegalSamplingEffortValidator
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: validator.constraint_validator, alias: samplingeffort_indb }
-    validator.node.locationcoordinateflag_indb:
-        class: AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator
-        arguments: ["@doctrine.orm.entity_manager"]
-        tags:
-            - { name: validator.constraint_validator, alias: locationcoordinateflag_indb }
-    validator.node.areatype_indb:
-        class: AppBundle\Validator\Constraints\LegalAreaType
-        arguments: ["@doctrine.orm.entity_manager"]
-        tags:
-            - { name: validator.constraint_validator, alias: areatype_indb }
-    validator.node.placetype_indb:
-        class: AppBundle\Validator\Constraints\LegalPlaceType
-        arguments: ["@doctrine.orm.entity_manager"]
-        tags:
-            - { name: validator.constraint_validator, alias: placetype_indb }
 
+    validator.node.sex_indb:
+        class: AppBundle\Validator\Constraints\LegalSexValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: sex_indb }
+
+    validator.node.sourcetype_indb:
+        class: AppBundle\Validator\Constraints\LegalSourceTypeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: sourcetype_indb }

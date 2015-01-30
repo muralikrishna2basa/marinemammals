@@ -25,15 +25,14 @@ class SpecimensSelectorType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'invalid_message' => 'The selected specimen does not exist',
-            'attr'=>array('min'=>'0')
+            'invalid_message' => 'The selected specimen does not exist', //'attr'=>array('min'=>'0')
         ));
     }
 
-    public function getParent()
+/*    public function getParent()
     {
         return 'integer';
-    }
+    }*/
 
     public function getName()
     {

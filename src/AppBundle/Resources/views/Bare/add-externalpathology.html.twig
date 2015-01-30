@@ -2,37 +2,37 @@
     <legend><h2>External pathology</h2></legend>
     <fieldset>
         <legend><h3>Fresh external lesions</h3></legend>
-        <div class="form-inline">{% for sv in form.eseSeqno.spec2event.pathologyValues|slice(0, 9) %}
+        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(0, 9) %}
             {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
         {% endfor %}</div>
         <fieldset>
             <legend><h4>Line/net impressions or cuts</h4></legend>
-            <div class="form-inline">{% for sv in form.eseSeqno.spec2event.pathologyValues|slice(9, 4) %}
+            <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(9, 4) %}
                 {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
             {% endfor %}</div>
         </fieldset>
         <fieldset>
             <legend><h4>Scavenger traces</h4></legend>
-            <div class="form-inline">{% for sv in form.eseSeqno.spec2event.pathologyValues|slice(13, 2) %}
+            <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(13, 2) %}
                 {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
             {% endfor %}</div>
         </fieldset>
     </fieldset>
     <fieldset>
         <legend><h3>Healing/healed lesions</h3></legend>
-        <div class="form-inline">{% for sv in form.eseSeqno.spec2event.pathologyValues|slice(15, 5) %}
+        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(15, 5) %}
             {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
         {% endfor %}</div>
     </fieldset>
     <fieldset>
         <legend><h3>Fishing activities</h3></legend>
-        <div class="form-inline">{% for sv in form.eseSeqno.spec2event.pathologyValues|slice(20, 2) %}
+        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(20, 2) %}
             {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
         {% endfor %}</div>
     </fieldset>
     <fieldset>
         <legend><h3>Other characteristics</h3></legend>
-        <div class="form-inline">{% for sv in form.eseSeqno.spec2event.pathologyValues|slice(22, 9) %}
+        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(22, 9) %}
             {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
         {% endfor %}</div>
     </fieldset>

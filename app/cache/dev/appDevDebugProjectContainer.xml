@@ -655,16 +655,52 @@
       <tag name="form.type" alias="specimen_selector"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
+    <service id="validator.node.areatype_indb" class="AppBundle\Validator\Constraints\LegalAreaTypeValidator">
+      <tag name="validator.constraint_validator" alias="areatype_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.coordinateprecisionflag_indb" class="AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator">
+      <tag name="validator.constraint_validator" alias="coordinateprecisionflag_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.eventdatetimeflag_indb" class="AppBundle\Validator\Constraints\LegalEventDatetimeFlagValidator">
+      <tag name="validator.constraint_validator" alias="eventdatetimeflag_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.mediatype_indb" class="AppBundle\Validator\Constraints\LegalMediaTypeValidator">
+      <tag name="validator.constraint_validator" alias="mediatype_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
     <service id="validator.node.osntype_indb" class="AppBundle\Validator\Constraints\LegalOsnTypeValidator">
       <tag name="validator.constraint_validator" alias="osntype_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.parametermethodorigin_indb" class="AppBundle\Validator\Constraints\LegalParameterMethodOriginValidator">
+      <tag name="validator.constraint_validator" alias="parametermethodorigin_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.pfmtype_indb" class="AppBundle\Validator\Constraints\LegalPfmTypeValidator">
+      <tag name="validator.constraint_validator" alias="pfmtype_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.placetype_indb" class="AppBundle\Validator\Constraints\LegalPlaceTypeValidator">
+      <tag name="validator.constraint_validator" alias="placetype_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.requestloanstatus_indb" class="AppBundle\Validator\Constraints\LegalRequestLoanStatusValidator">
+      <tag name="validator.constraint_validator" alias="requestloanstatus_indb"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
     <service id="validator.node.samplingeffort_indb" class="AppBundle\Validator\Constraints\LegalSamplingEffortValidator">
       <tag name="validator.constraint_validator" alias="samplingeffort_indb"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
-    <service id="validator.node.locationcoordinateflag_indb" class="AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlagValidator">
-      <tag name="validator.constraint_validator" alias="locationcoordinateflag_indb"/>
+    <service id="validator.node.sex_indb" class="AppBundle\Validator\Constraints\LegalSexValidator">
+      <tag name="validator.constraint_validator" alias="sex_indb"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="validator.node.sourcetype_indb" class="AppBundle\Validator\Constraints\LegalSourceTypeValidator">
+      <tag name="validator.constraint_validator" alias="sourcetype_indb"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
     <service id="my.listener" class="Doctrine\DBAL\Event\Listeners\OracleSessionInit">
@@ -1356,9 +1392,18 @@
           <service class="Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory" public="false">
             <argument type="service" id="service_container"/>
             <argument type="collection">
+              <argument key="areatype_indb">validator.node.areatype_indb</argument>
+              <argument key="coordinateprecisionflag_indb">validator.node.coordinateprecisionflag_indb</argument>
+              <argument key="eventdatetimeflag_indb">validator.node.eventdatetimeflag_indb</argument>
+              <argument key="mediatype_indb">validator.node.mediatype_indb</argument>
               <argument key="osntype_indb">validator.node.osntype_indb</argument>
+              <argument key="parametermethodorigin_indb">validator.node.parametermethodorigin_indb</argument>
+              <argument key="pfmtype_indb">validator.node.pfmtype_indb</argument>
+              <argument key="placetype_indb">validator.node.placetype_indb</argument>
+              <argument key="requestloanstatus_indb">validator.node.requestloanstatus_indb</argument>
               <argument key="samplingeffort_indb">validator.node.samplingeffort_indb</argument>
-              <argument key="locationcoordinateflag_indb">validator.node.locationcoordinateflag_indb</argument>
+              <argument key="sex_indb">validator.node.sex_indb</argument>
+              <argument key="sourcetype_indb">validator.node.sourcetype_indb</argument>
               <argument key="validator.expression">validator.expression</argument>
               <argument key="Symfony\Component\Validator\Constraints\EmailValidator">validator.email</argument>
               <argument key="security.validator.user_password">security.validator.user_password</argument>

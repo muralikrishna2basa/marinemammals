@@ -22,7 +22,7 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
     <div class=\"form-inline\">
         ";
         // line 5
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoExisting", array()), 'row', array("label" => "Specimen id", "attr" => array("placeholder" => "A valid specimen seqno")));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "scnSeqnoExisting", array()), 'row', array("label" => "Specimen id", "attr" => array("placeholder" => "A valid specimen seqno")));
         echo "
         <button id=\"b_search_scn\">Search for existing specimen in list</button>
     </div>
@@ -33,37 +33,37 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
     <div class=\"form-inline\">
         ";
         // line 13
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "txnSeqno", array()), 'row', array("label" => "Species"));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "scnSeqnoNew", array()), "txnSeqno", array()), 'row', array("label" => "Species"));
         echo "
     </div>
     <div class=\"form-inline\">
         ";
         // line 16
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "identificationCertainty", array()), 'row', array("label" => "Identification is certain?"));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "scnSeqnoNew", array()), "identificationCertainty", array()), 'row', array("label" => "Identification is certain?"));
         echo "
     </div>
     <div class=\"form-inline\">
         ";
         // line 19
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "scnNumber", array()), 'row', array("label" => "Number"));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "scnSeqnoNew", array()), "scnNumber", array()), 'row', array("label" => "Number"));
         echo "
     </div>
     <div class=\"form-inline no-multi\">
         ";
         // line 22
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "sex", array()), 'row', array("label" => "Sex"));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "scnSeqnoNew", array()), "sex", array()), 'row', array("label" => "Sex"));
         echo "
     </div>
     <div class=\"form-inline no-multi\">
         ";
         // line 25
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "rbinsTag", array()), 'row', array("label" => "RBINS tag"));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "scnSeqnoNew", array()), "rbinsTag", array()), 'row', array("label" => "RBINS tag"));
         echo "
     </div>
     <div class=\"form-inline no-multi\">
         ";
         // line 28
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "scnSeqnoNew", array()), "necropsyTag", array()), 'row', array("label" => "Necropsy tag"));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "scnSeqnoNew", array()), "necropsyTag", array()), 'row', array("label" => "Necropsy tag"));
         echo "
     </div>
 </fieldset>
@@ -72,7 +72,7 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
         ";
         // line 33
         $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "circumstantialValues", array()));
+        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "circumstantialValues", array()));
         foreach ($context['_seq'] as $context["_key"] => $context["sv"]) {
             // line 34
             echo "            <h5>";
@@ -98,7 +98,7 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
         ";
         // line 41
         $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2event", array()), "measurementValues", array()));
+        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "measurementValues", array()));
         foreach ($context['_seq'] as $context["_key"] => $context["sv"]) {
             // line 42
             echo "            <h5>";

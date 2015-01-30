@@ -114,14 +114,14 @@ class Specimens
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Spec2Events", mappedBy="scnSeqno")
      **/
-    private $spec2event;
+    private $spec2events;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->spec2event = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->spec2events = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -415,20 +415,28 @@ class Specimens
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSpec2event()
+    public function getSpec2Events()
     {
-        return $this->spec2event;
+        return $this->spec2events;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $spec2event
+     * @param \Doctrine\Common\Collections\Collection $spec2events
      * @return Specimens
      */
-    public function setSpec2event($spec2event)
+    public function setSpec2Events($spec2events)
     {
-        $this->spec2event = $spec2event;
+        $this->spec2events = $spec2events;
 
         return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Spec2Events $spec2event
+     */
+    public function addToSpec2Events($spec2event)
+    {
+        $this->getSpec2Events()->add($spec2event);
     }
 
     private function IsNullOrEmptyString($question){
@@ -470,6 +478,16 @@ class Specimens
 
     public function getFullyQualifiedName(){
         return $this->getSeqno().' - '.$this->getTxnSeqno()->getVernacularNameEn().' '.$this->getTagString();
+    }
+
+    public function isScnNumberLegal()
+    {
+        foreach ($this->getSpec2Events() as $s2e){
+            if ($this->getScnNumber() > 1 and ($s2e->getValues()->count()>0 or $this->getSex() !== null or $this->getRbinsTag() !== null  or $this->getNecropsyTag() !== null)){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
