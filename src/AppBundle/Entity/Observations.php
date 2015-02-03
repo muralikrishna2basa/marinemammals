@@ -184,6 +184,7 @@ class Observations implements ValueAssignable
      */
     public function __construct()
     {
+        $this->isconfidential=false;
         $this->sreSeqno = new \Doctrine\Common\Collections\ArrayCollection();
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -735,5 +736,27 @@ class Observations implements ValueAssignable
     public function removeValue(EntityValues $ev)
     {
         $this->getValues()->removeElement($ev);
+    }
+
+    public function isStationOrCoordLegal() {
+        if ($this->getlonDec() === null && $this->getlatDec() === null) {
+            if ($this->getStnSeqno() === null) {
+                return false;
+            }
+            else return true;
+        }
+        else {
+            if (!$this->isCoordLegal()) {
+                return false;
+            }
+            else return true; // either empty or nonempty stations
+        }
+    }
+
+    function isCoordLegal() {
+        if (($this->getlonDec() === null && $this->getlatDec() !== null) || ($this->getlonDec() !== null && $this->getlatDec() === null)) {
+            return false;
+        }
+        else return true;
     }
 }

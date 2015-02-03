@@ -24,7 +24,6 @@ abstract class LegalCgRefCodeValidator extends ConstraintValidator {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%string%', $value)
                 ->addViolation();
-
         }
     }
 }

@@ -6,25 +6,26 @@
     <li class="tab"><a href="#tabs-4">Sources and media</a></li>
 </ul>
 <div class="well subformcontainer">
+    <p id="formerror"></p>
     <fieldset id="tabs-1">
         {{ include('AppBundle:Bare:add-observations.html.twig') }}
-        <h4><a class="next-tab ctl" href="#tabs-2">NEXT</a></h4>
+        <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
     </fieldset>
     <fieldset id="tabs-2">
         {{ include('AppBundle:Bare:add-specimens.html.twig') }}
-        <h4><a class="prev-tab ctl" href="#tabs-1">PREVIOUS</a></h4>
-            <h4><a class="next-tab ctl" href="#tabs-3">NEXT</a></h4>
+        <h4><a class="prev-tab ctl" href="#">PREVIOUS</a></h4>
+            <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
     </fieldset>
     <fieldset id="tabs-3" >
         {{ include('AppBundle:Bare:add-externalpathology.html.twig') }}
-        <h4><a class="prev-tab ctl" href="#tabs-2">PREVIOUS </a></h4>
-            <h4><a class="next-tab ctl" href="#tabs-4">NEXT</a></h4>
+        <h4><a class="prev-tab ctl" href="#">PREVIOUS </a></h4>
+            <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
     </fieldset>
     <fieldset id="tabs-4">
         {{ include('AppBundle:Bare:add-sources-media.html.twig') }}
-        <h4><a class="prev-tab ctl" href="#tabs-3">PREVIOUS</a></h4>
+        <h4><a class="prev-tab ctl" href="#">PREVIOUS</a></h4>
         <p>
-            <input type="submit" value="Submit" name="submit">
+            <input type="submit" value="Submit" id="submit">
         </p>
     </fieldset>
 </div>

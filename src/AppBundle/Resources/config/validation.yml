@@ -200,6 +200,11 @@ AppBundle\Entity\Necropsies:
                      min: 0
                      max: 30
 AppBundle\Entity\Observations:
+    getters:
+        stationOrCoordLegal:
+                - "True": { message: "Either a station, a coordinate or both needs to be present" }
+        coordLegal:
+                - "True": { message: "A coordinate consists of both latitude and longitude. Only one of both is given." }
     properties:
         eseSeqno:
                - NotBlank: ~

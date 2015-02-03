@@ -35,59 +35,58 @@ class __TwigTemplate_61fc01a235dfc7b3bf5444173246a1da3f4ddcef2faba7cd5533988f819
         echo "</div>
 <h3>Location</h3>
 <h4>Exact Coordinates</h4>
-
 <div class=\"form-inline\">";
-        // line 12
+        // line 11
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "latDec", array()), 'row', array("label" => "Decimal latitude", "attr" => array("placeholder" => "eg. 51.224723")));
         echo "
     ";
-        // line 13
+        // line 12
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "lonDec", array()), 'row', array("label" => "Decimal longitude", "attr" => array("placeholder" => "eg. 2.9254719")));
         echo "
     ";
-        // line 14
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "precisionFlag", array()), 'row', array("label" => "Location precision"));
+        // line 13
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "precisionFlag", array()), 'row', array("label" => "Location precision", "attr" => array("class" => "observationstype_latDecFlag")));
         echo "</div>
 <h4>Station</h4>
 
 <div class=\"form-inline\">";
-        // line 17
+        // line 16
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "stnSeqno", array()), 'row', array("label" => "Station"));
         echo "</div>
 <div class=\"form-inline\">";
-        // line 18
+        // line 17
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "cpnCode", array()), 'row', array("label" => "Campaign"));
         echo "</div>
 <h3>Observation type</h3>
 
 <div class=\"form-inline\">";
-        // line 21
+        // line 20
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "isconfidential", array()), 'row', array("label" => "Confidential observation?"));
         echo "</div>
 <div class=\"form-inline\">";
-        // line 22
+        // line 21
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "osnType", array()), 'row', array("label" => "Observation type"));
         echo "</div>
 <div class=\"form-inline\">";
-        // line 23
+        // line 22
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "samplingeffort", array()), 'row', array("label" => "Effort Related Survey?"));
         echo "</div>
 <h3>Observation conditions</h3>
 ";
-        // line 25
+        // line 24
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "values", array()));
         foreach ($context['_seq'] as $context["_key"] => $context["ov"]) {
-            // line 26
+            // line 25
             echo "    <h4>";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute($context["ov"], "vars", array()), "value", array()), "pmdName", array()), "html", null, true);
             echo "</h4>
     <div class=\"form-inline\">";
-            // line 27
+            // line 26
             echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($context["ov"], "value", array()), 'row', array("label" => "Value"));
             echo "
         ";
-            // line 28
+            // line 27
             echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($context["ov"], "valueFlag", array()), 'row', array("label" => "Value flag"));
             echo "</div>
 ";
@@ -95,25 +94,24 @@ class __TwigTemplate_61fc01a235dfc7b3bf5444173246a1da3f4ddcef2faba7cd5533988f819
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['ov'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 30
+        // line 29
         echo "<h3>Observation comments</h3>
 ";
-        // line 31
+        // line 30
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "description", array()), 'row', array("label" => "Observation description"));
         echo "
     ";
-        // line 32
+        // line 31
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "webcommentsEn", array()), 'row', array("label" => "Event web comments: English"));
         echo "
     ";
-        // line 33
+        // line 32
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "webcommentsNl", array()), 'row', array("label" => "Event web comments: Dutch"));
         echo "
     ";
-        // line 34
+        // line 33
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "webcommentsFr", array()), 'row', array("label" => "Event web comments: French"));
         echo "
-
 ";
     }
 
@@ -129,6 +127,6 @@ class __TwigTemplate_61fc01a235dfc7b3bf5444173246a1da3f4ddcef2faba7cd5533988f819
 
     public function getDebugInfo()
     {
-        return array (  114 => 34,  110 => 33,  106 => 32,  102 => 31,  99 => 30,  91 => 28,  87 => 27,  82 => 26,  78 => 25,  73 => 23,  69 => 22,  65 => 21,  59 => 18,  55 => 17,  49 => 14,  45 => 13,  41 => 12,  34 => 8,  30 => 7,  26 => 6,  19 => 1,);
+        return array (  113 => 33,  109 => 32,  105 => 31,  101 => 30,  98 => 29,  90 => 27,  86 => 26,  81 => 25,  77 => 24,  72 => 22,  68 => 21,  64 => 20,  58 => 17,  54 => 16,  48 => 13,  44 => 12,  40 => 11,  34 => 8,  30 => 7,  26 => 6,  19 => 1,);
     }
 }

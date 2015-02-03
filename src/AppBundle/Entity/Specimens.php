@@ -121,6 +121,7 @@ class Specimens
      */
     public function __construct()
     {
+        $this->identificationCertainty=false;
         $this->spec2events = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

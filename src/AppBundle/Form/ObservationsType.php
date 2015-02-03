@@ -21,21 +21,21 @@ class ObservationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('latDec', 'number', array(
-            'required' => true,
+            'required' => false,
             'precision' => 6
         ));
         $builder->add('lonDec', 'number', array(
-            'required' => true,
+            'required' => false,
             'precision' => 6
         ));
         $builder->add('precisionFlag', 'choice', array(
             'empty_value' => 'Select...',
-            'required' => true,
+            'required' => false,
             'choice_list' => new CgRefChoiceList($this->doctrine, 'COORDINATE_FLAG')
         ));
         $builder->add('stnSeqno', 'entity', array(
             'empty_value' => 'Select...',
-            'required' => true,
+            'required' => false,
             'class' => 'AppBundle:Stations',
             'property' => 'fullyQualifiedName',
             'query_builder' => function (StationsRepository $er) {
@@ -90,6 +90,9 @@ class ObservationsType extends AbstractType
             $o = $event->getData();
             $form = $event->getForm();
             $sre=$form->get('singleSource')->getData();
+           /* if(null ===  $o->getIsconfidential()){
+                $o->setIsconfidential(false);
+            }*/
             if (null ===  $sre) {
                // $this->doctrine->getManager()->remove($sre);
             }
