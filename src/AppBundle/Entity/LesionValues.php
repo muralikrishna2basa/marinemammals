@@ -86,7 +86,11 @@ class LesionValues implements EntityValues
      */
     private $olnNcyEseSeqno;
 
-
+    /**
+     * @var boolean
+     *
+     */
+    private $mustBeFlagged;
 
     /**
      * Set creDat
@@ -289,5 +293,47 @@ class LesionValues implements EntityValues
      */
     public function getPmdName(){
         return $this->getPmdSeqno()->getName();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getValueFlagRequired()
+    {
+        return $this->mustBeFlagged;
+    }
+
+    /**
+     * @param boolean $mustBeFlagged
+     * @return SpecimenValues
+     */
+    public function setValueFlagRequired($mustBeFlagged)
+    {
+        $this->mustBeFlagged = $mustBeFlagged;
+        return $this;
+    }
+
+    /**
+     * Get whether the value is legal, i.e. has a flag. Note that flagged but empty values are legal!
+     *
+     * @return boolean
+     */
+    public function isValueFlaggedLegal()
+    {
+        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Get whether the value itself is legal.
+     *
+     * @return boolean
+     */
+    public function isValueUnwanted()
+    {
+        return false;
     }
 }

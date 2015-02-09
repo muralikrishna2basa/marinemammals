@@ -35,12 +35,13 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
     <script type=\"application/javascript\" src=\"/js/jquery.easytabs.min.js\"></script>
     <script type=\"application/javascript\" src=\"/js/addsymfonyprototype.js\"></script>
     <script type=\"application/javascript\" src=\"/js/date.js\"></script>
+    <script type=\"application/javascript\" src=\"/js/date-nl-BE.js\"></script>
     <script type=\"application/javascript\"
             src=\"http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js\"></script>
     <script type=\"application/javascript\"
             src=\"http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js\"></script>
     ";
-        // line 17
+        // line 18
         echo "    <script type=\"application/javascript\">
         var \$tabs = \$('.tab');
         var wholeForm = \$('#observationform');
@@ -49,10 +50,16 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
         var \$currentPanel = \$('#tabs-1');
         var \$previousTab;
         var \$previousPanel;
+
+        var newSpecimenNumberField = \$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
+        var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = \$('.no-multi'); //TODO SHOULD BE INITED AT BEGINNING!
+        var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required=\"required\"]');
+
         \$(document).ready(function () {
             //TODO: chosen persons can't be the same for gathering and observing
 
             \$tabs.not(\$currentTab).not(\$previousTab).addClass('disabled');
+            hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
             \$(\"#observationform\").easytabs({
                 tabs: \".nav-tabs li\",
                 animate: false,
@@ -70,7 +77,7 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                     \$currentTab = destTab;
                     \$currentPanel = destPanel;
                 }
-                else{
+                else {
                     \$tabs.not(\$currentTab).not(\$previousTab).addClass('disabled');
                 }
                 return valid || goBack;
@@ -90,6 +97,14 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                 \$tabs.children('a:eq(' + i + ')').click();
             });
 
+            \$(\":input, textarea\").keypress(function (evt) {
+
+                var keycode = evt.charCode || evt.keyCode;
+                if (keycode  == 13) { //Enter key's keycode
+                    return false;
+                }
+            });
+
 
             //  if (\$('.radio label')[0].childNodes[0].nodeValue = 'unknown') {
             //      \$(this).find('input[checked]').attr('checked', 'checked');
@@ -97,11 +112,8 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
             //  \$('.no-multi').find('input[checked]').removeAttr('checked');
             var existingSpecimenChoiceField = \$('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
             var newSpecimenChoiceField = \$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
-            var newSpecimenNumberField = \$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
             var newSpecimenBox = \$('#new-specimen');
             var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required=\"required\"]');
-            var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = \$('.no-multi');
-            var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required=\"required\"]');
             var latDecField = \$('#observationstype_latDec');
             var lonDecField = \$('#observationstype_lonDec');
             var allNonRequiredInputSelectValues = \$(\"select[id\$='value'],input[id\$='value']\").not(\"[required='required']\");
@@ -134,28 +146,16 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                 return false;
             });
             newSpecimenNumberField.change(function () {
-                if (\$(this).val() > 1) {
-                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input').val('');
-                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('select').prop('selectedIndex', 0);
-                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input[checked]').removeAttr('checked');
-                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.removeAttr('required');
-                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.hide();
-                    return false;
-                }
-                if (\$(this).val() < 2) {
-                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
-                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
-                    return false;
-                }
+                hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
             });
 
             latDecField.change(function () {
-                        makeAssociatedFlagRequired(\$(this))
+                makeAssociatedFlagRequired(\$(this), validator)
                     }
             );
 
             allNonRequiredInputSelectValues.change(function () {
-                        makeAssociatedFlagRequired(\$(this))
+                makeAssociatedFlagRequired(\$(this), validator)
                     }
             );
 
@@ -164,9 +164,10 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
             var sfp2 = new SymfonyPrototype(\$('ul.e2p_gatherer'), \$('<a href=\"#\" id=\"add_gatherer\">Add a person</a>'), '__gatherers_name__');
             sfp2.addAddLink();
 
-            \$.validator.addMethod(\"dateBE\", function (value) {
+            \$.validator.addMethod(\"dateBE&Logical\", function (value) {
                 var dt = Date.parseExact(value, [\"dd/MM/yyyy\"]);
-                return dt != null;
+                var tomorrow = Date.today().addDays(1);
+                return dt != null && Date.today().isBefore(tomorrow);
             }, 'Not a valid date. The correct date format is dd/mm/yyyy');
 
             \$.validator.addMethod(\"validNecropsyTag\", function (value) {
@@ -188,16 +189,43 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
             var validator = wholeForm.validate({
                 ignore: \"\",
                 rules: {
-                    \"observationstype[eseSeqno][eventDatetime][date]\": 'dateBE',
+                    \"observationstype[eseSeqno][eventDatetime][date]\": 'dateBE&Logical',
+                    \"observationstype[eseSeqno][description]\": {
+                        minlength: 0,
+                        maxlength: 4000
+                    },
+                    \"observationstype[webcommentsEn]\": {
+                        minlength: 0,
+                        maxlength: 500
+                    },
+                    \"observationstype[webcommentsNl]\": {
+                        minlength: 0,
+                        maxlength: 500
+                    },
+                    \"observationstype[webcommentsFr]\": {
+                        minlength: 0,
+                        maxlength: 500
+                    },
                     \"observationstype[latDec]\": 'validLatDec',
                     \"observationstype[lonDec]\": 'validLonDec',
                     \"observationstype[eseSeqno][spec2events][scnSeqnoExisting]\": {
-                        digits: true
+                        digits: true,
+                        min: 0
                     },
                     \"observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]\": {
-                        digits: true
+                        digits: true,
+                        min: 0,
+                        max: 9999
                     },
-                    \"observationstype[eseSeqno][spec2events][scnSeqnoNew][necropsyTag]\": 'validNecropsyTag'
+                    \"observationstype[eseSeqno][spec2events][scnSeqnoNew][rbinsTag]\": {
+                        minlength: 0,
+                        maxlength: 20
+                    },
+                    \"observationstype[eseSeqno][spec2events][scnSeqnoNew][necropsyTag]\": 'validNecropsyTag',
+                    \"observationstype[eseSeqno][spec2events][pathologyValues][38][value]\": {
+                        minlength: 0,
+                        maxlength: 50
+                    }
                 },
                 showErrors: function (errorMap, errorList) {
                     \$.each(this.validElements(), cleanError);
@@ -216,7 +244,24 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
             };
         })(jQuery);
 
-        function makeAssociatedFlagRequired(\$element) {
+        function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
+            var scnNumber = newSpecimenNumberField.val();
+            if (scnNumber > 1) {
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input').val('');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('select').prop('selectedIndex', 0);
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input[checked]').removeAttr('checked');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.removeAttr('required');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.hide();
+                return false;
+            }
+            if (scnNumber < 2) {
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
+                return false;
+            }
+        }
+
+        function makeAssociatedFlagRequired(\$element, validator) {
             var id = \$element.attr('id');
             var \$associatedFlag = \$(\".\" + id + \"Flag\");//in some cases class is used; reason see add-observations.html.twig; precisionFlag is the actual id instead of lonDecFlag.
 
@@ -243,13 +288,15 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
                     valid = false;
                 }
             });
+            if(!valid){
+                \$('#formerror').html(\"There is a problem with your submission. Please check all fields of this tab for error icons.\");
+            }
             return valid;
         }
 
         function createError(index, error) {
             var \$element = \$(error.element).closest(\"div\");
             var \$group = \$(error.element).closest(\".form-group\");
-            \$('#formerror').html(\"There is a problem with your submission. Please see above for error icons.\");
 
             \$tabs.not(\$currentTab).not(\$previousTab).addClass('disabled');
 
@@ -317,24 +364,24 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
         }
 
         function validLatDec(latDec) {
-            return /^\$|^(\\+|-)?(\\d\\.\\d{1,6}|[1-8]\\d\\.\\d{1,6}|90\\.0{1,6})\$/.test(latDec);
+            return /^\$|^(\\+|-)?(\\d\\.\\d{1,6}|[1-8]\\d\\.\\d{1,6}|90\\.\\d{1,6})\$/.test(latDec);
         }
 
         function validLonDec(lonDec) {
-            return /^\$|^(\\+|-)?([0-9][0-9]?.\\d{1,6}|1[0-7][0-9].\\d{1,6}|180.\\d{1,6})\$/.test(lonDec);
+            return /^\$|^(\\+|-)?([0-9][0-9]?\\.\\d{1,6}|1[0-7][0-9]\\.\\d{1,6}|180\\.\\d{1,6})\$/.test(lonDec);
         }
 
     </script>
 ";
     }
 
-    // line 302
+    // line 349
     public function block_main_content($context, array $blocks = array())
     {
-        // line 303
+        // line 350
         echo "    <div class=\"col-lg-12\">
         ";
-        // line 304
+        // line 351
         echo twig_include($this->env, $context, "AppBundle:Bare:add-observations-specimens.html.twig");
         echo "
     </div>
@@ -353,6 +400,6 @@ class __TwigTemplate_171d654cf22e0ae4b84013b1864182fbdd2c5bec819ff9e2c97cbd76018
 
     public function getDebugInfo()
     {
-        return array (  338 => 304,  335 => 303,  332 => 302,  44 => 17,  32 => 3,  29 => 2,);
+        return array (  385 => 351,  382 => 350,  379 => 349,  45 => 18,  32 => 3,  29 => 2,);
     }
 }

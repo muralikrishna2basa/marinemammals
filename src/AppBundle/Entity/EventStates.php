@@ -95,9 +95,9 @@ class EventStates
      */
     private $event2Persons;
 
-    const GATHERED='GB';
+    const GATHERED = 'GB';
 
-    const OBSERVED='OB';
+    const OBSERVED = 'OB';
 
     /**
      * Constructor
@@ -363,9 +363,9 @@ class EventStates
      */
     public function setObservers(\Doctrine\Common\Collections\Collection $event2persons)
     {
-       // foreach ($event2persons as $e2p) {
-       //     $e2p->setE2pType(OBSERVED);
-       // }
+        // foreach ($event2persons as $e2p) {
+        //     $e2p->setE2pType(OBSERVED);
+        // }
         $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
         return $this;
     }
@@ -410,9 +410,9 @@ class EventStates
      */
     public function setGatherers(\Doctrine\Common\Collections\Collection $event2persons)
     {
-       // foreach ($event2persons as $e2p) {
-       //     $e2p->setE2pType(EventStates::GATHERED);
-       // }
+        // foreach ($event2persons as $e2p) {
+        //     $e2p->setE2pType(EventStates::GATHERED);
+        // }
         $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
         return $this;
     }
@@ -457,12 +457,17 @@ class EventStates
      */
     public function setTime($time)
     {
-        $match = array();
-        if (preg_match('^([0-9]{1,2}):([0-9]{1,2})', $time, $match) === 1) {
-            $this->getEventDatetime()->setTime($match[1], $match[2]);
-        } else {
-            throw new InvalidArgumentException("The provided time is not in hh:mm format.");
+        $match = $this->isTime($time);
+        if ($this->getEventDatetime()) {
+            if ($match) {
+                $this->getEventDatetime()->setTime($match[1], $match[2]);
+            } else {
+               // throw new InvalidArgumentException("The provided time is not in hh:mm format.");
+            }
         }
+       /* else{
+            throw new InvalidArgumentException("Time cannot be set when the date is null.");
+        }*/
         return $this;
     }
 
@@ -475,17 +480,30 @@ class EventStates
     }
 
     /**
+     * @param string $time
+     * @return boolean
+     */
+    public static function isTime($time)
+    {
+        $match = array();
+        if (preg_match('/^([0-9]{1,2}):([0-9]{2})/', $time, $match) === 1) {
+            return $match;
+        } else return null;
+    }
+
+    /**
      * @param string $date
      * @return EventStates
      */
     public function setDate($date)
     {
-        $dt = DateTime::createFromFormat('d/m/Y', $date);
-        $d = $dt->format("d");
-        $m = $dt->format("m");
-        $y = $dt->format("y");
-
-        $this->getEventDatetime()->setDate($y, $m, $d);
+        $dt = \DateTime::createFromFormat('d/m/Y', $date);
+        $this->setEventDatetime($dt);
+        //$d = $dt->format("d");
+        //$m = $dt->format("m");
+        //$y = $dt->format("y");
+        //$this->getEventDatetime()->setDate($y, $m, $d);
+        $this->getEventDatetime()->setTime(0,0,0);
         return $this;
     }
 
@@ -497,9 +515,21 @@ class EventStates
         return $this->getEventDatetime()->format('d/m/Y');
     }
 
-    public function isDateLegal()
+    /**
+     * @return boolean
+     */
+/*    public function isDateLegal()
     {
-        return $this->getEventDatetime() >= new DateTime('1900-01-01') and $this->getEventDatetime() <= new DateTime('now');
-    }
+        return $this->canHaveAsDate($this->getEventDatetime());
+    }*/
+
+    /**
+     * @param string $date
+     * @return boolean
+     */
+/*    public function canHaveAsDate($date)
+    {
+        return $date >= new DateTime('1900-01-01') and $date <= new DateTime('now');
+    }*/
 
 }

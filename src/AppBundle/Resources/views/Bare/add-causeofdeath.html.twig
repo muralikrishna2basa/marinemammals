@@ -1,0 +1,16 @@
+<fieldset id="causeofdeath_values" class="no-multi">
+    <fieldset>
+        <legend><h3>Cause of death</h3></legend>
+        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.causeOfDeathValues|slice(0, 6) %}
+            {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
+        {% endfor %}</div>
+    </fieldset>
+    {# {% if form.eseSeqno.spec2events.bycatchProbabilityValues|length > 5%}#}
+    <fieldset id="bycatch">
+        <legend><h3>Bycatch probability</h3></legend>
+        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.bycatchProbabilityValues|slice(0, 4) %}
+            {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
+        {% endfor %}</div>
+    </fieldset>
+    {#{% endif %}#}
+</fieldset>

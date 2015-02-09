@@ -71,9 +71,12 @@ form li.form-inline > div{
     display: inline !important;
 }
 
+:required { border:1px solid orange; }
+
 @font-face {
     font-family: 'Glyphicons Halflings';
     src: url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.eot') !important;
     src: url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg') !important;
 }
+
 

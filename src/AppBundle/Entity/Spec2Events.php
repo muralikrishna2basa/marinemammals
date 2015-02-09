@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Criteria;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Spec2Events SPEC2EVENTS
@@ -67,7 +67,6 @@ class Spec2Events implements ValueAssignable
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\SpecimenValues", mappedBy="s2eScnSeqno")
      */
     private $values;
@@ -364,11 +363,57 @@ class Spec2Events implements ValueAssignable
      */
     public function getCauseOfDeathValues()
     {
-        return $this->getValues();
+        $codPms=array();
+        array_push($codPms,'Cause of death::Natural');
+        array_push($codPms,'Cause of death::Bycatch');
+        array_push($codPms,'Cause of death::Ship strike');
+        array_push($codPms,'Cause of death::Predation');
+        array_push($codPms,'Cause of death::Other');
+        array_push($codPms,'Cause of death::Unknown');
+        return $this->getValues()->filter(
+            function($entry) use ($codPms) {
+                return in_array($entry->getPmdSeqno()->getName(), $codPms);
+            }
+        );
     }
 
+    /**
+     * @param \Doctrine\Common\Collections\Collection $values
+     * @return Spec2Events
+     */
+    public function setCauseOfDeathValues(\Doctrine\Common\Collections\Collection $values)
+    {
+        //$this->values->add($values);
+        return $this;
+    }
 
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBycatchProbabilityValues()
+    {
+        $bycPms=array();
+        array_push($bycPms,'Bycatch activity::Professional gear');
+        array_push($bycPms,'Bycatch activity::Recreational gear');
+        array_push($bycPms,'Bycatch activity::Angling');
+        array_push($bycPms,'Bycatch activity::Unknown fishing gear');
+        return $this->getValues()->filter(
+            function($entry) use ($bycPms) {
+                return in_array($entry->getPmdSeqno()->getName(), $bycPms);
+            }
+        );
+    }
 
+    /**
+     * @param \Doctrine\Common\Collections\Collection $values
+     * @return Spec2Events
+     */
+    public function setBycatchProbabilityValues(\Doctrine\Common\Collections\Collection $values)
+    {
+        //$this->values->add($values);
+        return $this;
+    }
 
+    private $circumstantialValues;
 }
 

@@ -57,8 +57,17 @@ AppBundle\Entity\EventStates:
                 - NotBlank: ~
                 - NotNull: ~
                 - AppBundle\Validator\Constraints\DateRange:
-                     min: "1900-01-01"
+                     min: "1950-01-01"
                      max: "today"
+#        time:
+#                - Time: ~
+#        date:
+#                - NotBlank: ~
+#                - NotNull: ~
+#                - Date: ~
+#                - AppBundle\Validator\Constraints\DateRange:
+#                     min: "1900-01-01"
+#                     max: "today"
         eventDatetimeFlag:
                 - NotBlank: ~
                 - NotNull: ~
@@ -70,6 +79,8 @@ AppBundle\Entity\EventStates:
                 - Length:
                      min: 0
                      max: 4000
+        spec2events:
+                - Valid: ~
 AppBundle\Entity\Event2Persons:
     properties:
         eseSeqno:
@@ -200,6 +211,10 @@ AppBundle\Entity\Necropsies:
                      min: 0
                      max: 30
 AppBundle\Entity\Observations:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+                fields: eseSeqno
+                message: 'An observation is tied to exactly one event.'
     getters:
         stationOrCoordLegal:
                 - "True": { message: "Either a station, a coordinate or both needs to be present" }
@@ -219,13 +234,15 @@ AppBundle\Entity\Observations:
                      type: bool
                      message: The value {{ value }} is not a valid {{ type }}.
         latDec:
-                - NotBlank: ~
-                - NotNull: ~
-                - AppBundle\Validator\Constraints\DecimalLongitude: ~
+                - AppBundle\Validator\Constraints\DecimalLatitude: ~
+                - Type:
+                    type: numeric
+                    message: The value {{ value }} is not a valid {{ type }}.
         lonDec:
-                - NotBlank: ~
-                - NotNull: ~
                 - AppBundle\Validator\Constraints\DecimalLongitude: ~
+                - Type:
+                    type: numeric
+                    message: The value {{ value }} is not a valid {{ type }}.
         osnType:
                 - NotBlank: ~
                 - NotNull: ~
@@ -259,6 +276,10 @@ AppBundle\Entity\Observations:
                 - Length:
                       min: 0
                       max: 500
+#        values:
+#                - Valid: ~
+#                - All:
+#                      - NotNull: ~
 AppBundle\Entity\ObservationValues:
     properties:
         eseSeqno:
@@ -268,8 +289,6 @@ AppBundle\Entity\ObservationValues:
                - NotBlank: ~
                - NotNull: ~
         value:
-                - NotBlank: ~
-                - NotNull: ~
                 - Length:
                      min: 1
                      max: 50
@@ -277,6 +296,7 @@ AppBundle\Entity\ObservationValues:
                 - Length:
                      min: 0
                      max: 50
+                     #add That the values should correspond to the ones in cg_ref_codes
 AppBundle\Entity\Organs:
     properties:
         code:
@@ -502,6 +522,10 @@ AppBundle\Entity\Samples:
                      min: 0
                      max: 10
 AppBundle\Entity\Spec2Events:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+                fields: eseSeqno
+                message: 'An event can have only one specimen tied to it.'
     properties:
         eseSeqno:
                - NotBlank: ~
@@ -509,11 +533,17 @@ AppBundle\Entity\Spec2Events:
         scnSeqno:
                - NotBlank: ~
                - NotNull: ~
+               - Valid: ~
+        values:
+               - Valid: ~
 AppBundle\Entity\Specimens:
     getters:
         scnNumberLegal:
-            - "True": { message: "It is not possible to provide any values (eg. sex, necropsy tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations if you wish to provide these details." }
+            - "True": { message: "It is not possible to provide any values (eg. sex, necropsy tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details." }
     properties:
+        txnSeqno:
+               - NotBlank: ~
+               - NotNull: ~
         scnNumber:
                 - NotBlank: ~
                 - NotNull: ~
@@ -543,6 +573,11 @@ AppBundle\Entity\Specimens:
                      type: bool
                      message: The value {{ value }} is not a valid {{ type }}.
 AppBundle\Entity\SpecimenValues:
+    getters:
+        valueFlaggedLegal:
+                - "True": { message: "This value, as it is set, needs a validity flag as well." }
+        valueUnwanted:
+                - "False": { message: "This value may not be provided for specimens that have been observed in group. Make separate observations if you wish to provide this value." }
     properties:
         pmdSeqno:
                - NotBlank: ~
@@ -564,6 +599,7 @@ AppBundle\Entity\SpecimenValues:
                 - Length:
                      min: 0
                      max: 50
+                     #add That the values should correspond to the ones in cg_ref_codes
 AppBundle\Entity\Stations:
     properties:
         pceSeqno:

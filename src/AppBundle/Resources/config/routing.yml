@@ -94,6 +94,19 @@ mm_observations_add_create:
     requirements:
         _method:  POST
 
+mm_observations_edit:
+    pattern:  /observations/update/{id}
+    defaults: { _controller: AppBundle:Observations:edit }
+    requirements:
+        _method:  GET
+
+mm_observations_update:
+    pattern:  /observations/update/{id}
+    defaults: { _controller: AppBundle:Observations:update }
+    requirements:
+        _method:  POST
+
+
 mm_observations_test:
     pattern:  /observations/test
     defaults: { _controller: AppBundle:Observations:test }

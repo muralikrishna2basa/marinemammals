@@ -15,9 +15,9 @@ class Medias
     /**
      * @var boolean
      *
-     * @ORM\Column(name="CONFIDENTIALITY", type="boolean", nullable=true)
+     * @ORM\Column(name="ISCONFIDENTIAL", type="boolean", nullable=true)
      */
-    private $confidentiality;
+    private $isconfidential;
 
     /**
      * @var \DateTime
@@ -122,12 +122,12 @@ class Medias
     /**
      * Set confidentiality
      *
-     * @param boolean $confidentiality
+     * @param boolean $isconfidential
      * @return Medias
      */
-    public function setConfidentiality($confidentiality)
+    public function setIsconfidential($isconfidential)
     {
-        $this->confidentiality = $confidentiality;
+        $this->isconfidential = $isconfidential;
     
         return $this;
     }
@@ -137,9 +137,9 @@ class Medias
      *
      * @return boolean 
      */
-    public function getConfidentiality()
+    public function getIsconfidential()
     {
-        return $this->confidentiality;
+        return $this->isconfidential;
     }
 
     /**

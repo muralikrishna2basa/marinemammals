@@ -44,3 +44,12 @@
                 {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
         {% endfor %}
     </fieldset>
+<fieldset id="values" class="no-multi">
+    <legend><h4>All specimen values</h4></legend>
+    {% for sv in form.eseSeqno.spec2events.values %}
+        <h5>{{ sv.vars.value.pmdName }}</h5>
+        <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
+        </div>
+
+    {% endfor %}
+</fieldset>

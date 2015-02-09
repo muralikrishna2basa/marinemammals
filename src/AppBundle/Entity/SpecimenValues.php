@@ -92,6 +92,11 @@ class SpecimenValues implements EntityValues
      */
     private $pmdSeqno;
 
+    /**
+     * @var boolean
+     *
+     */
+    private $mustBeFlagged;
 
 
     /**
@@ -103,14 +108,14 @@ class SpecimenValues implements EntityValues
     public function setCreDat($creDat)
     {
         $this->creDat = $creDat;
-    
+
         return $this;
     }
 
     /**
      * Get creDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreDat()
     {
@@ -126,14 +131,14 @@ class SpecimenValues implements EntityValues
     public function setCreUser($creUser)
     {
         $this->creUser = $creUser;
-    
+
         return $this;
     }
 
     /**
      * Get creUser
      *
-     * @return string 
+     * @return string
      */
     public function getCreUser()
     {
@@ -149,14 +154,14 @@ class SpecimenValues implements EntityValues
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -172,14 +177,14 @@ class SpecimenValues implements EntityValues
     public function setModDat($modDat)
     {
         $this->modDat = $modDat;
-    
+
         return $this;
     }
 
     /**
      * Get modDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModDat()
     {
@@ -195,14 +200,14 @@ class SpecimenValues implements EntityValues
     public function setModUser($modUser)
     {
         $this->modUser = $modUser;
-    
+
         return $this;
     }
 
     /**
      * Get modUser
      *
-     * @return string 
+     * @return string
      */
     public function getModUser()
     {
@@ -218,14 +223,14 @@ class SpecimenValues implements EntityValues
     public function setValue($value)
     {
         $this->value = $value;
-    
+
         return $this;
     }
 
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
@@ -241,14 +246,14 @@ class SpecimenValues implements EntityValues
     public function setValueFlag($valueFlag)
     {
         $this->valueFlag = $valueFlag;
-    
+
         return $this;
     }
 
     /**
      * Get valueFlag
      *
-     * @return string 
+     * @return string
      */
     public function getValueFlag()
     {
@@ -258,7 +263,7 @@ class SpecimenValues implements EntityValues
     /**
      * Get seqno
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeqno()
     {
@@ -281,7 +286,7 @@ class SpecimenValues implements EntityValues
     /**
      * Get s2eScnSeqno
      *
-     * @return \AppBundle\Entity\Spec2events 
+     * @return \AppBundle\Entity\Spec2events
      */
     public function getS2eScnSeqno()
     {
@@ -297,14 +302,14 @@ class SpecimenValues implements EntityValues
     public function setPmdSeqno(\AppBundle\Entity\ParameterMethods $pmdSeqno = null)
     {
         $this->pmdSeqno = $pmdSeqno;
-    
+
         return $this;
     }
 
     /**
      * Get pmdSeqno
      *
-     * @return \AppBundle\Entity\ParameterMethods 
+     * @return \AppBundle\Entity\ParameterMethods
      */
     public function getPmdSeqno()
     {
@@ -316,7 +321,61 @@ class SpecimenValues implements EntityValues
      *
      * @return string
      */
-    public function getPmdName(){
+    public function getPmdName()
+    {
         return $this->getPmdSeqno()->getName();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getValueFlagRequired()
+    {
+        return $this->mustBeFlagged;
+    }
+
+    /**
+     * @param boolean $mustBeFlagged
+     * @return SpecimenValues
+     */
+    public function setValueFlagRequired($mustBeFlagged)
+    {
+        $this->mustBeFlagged = $mustBeFlagged;
+        return $this;
+    }
+
+    /**
+     * Get whether the value is legal, i.e. has a flag. Note that flagged but empty values are legal!
+     *
+     * @return boolean
+     */
+    public function isValueFlaggedLegal()
+    {
+        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Get whether the value itself is unwanted. Determined dynamically based on the scnNumber of the attached specimen.
+     * In this case, the whole specimenvalue should be deleted (all references to it are deleted, so the object can be garbage collected).
+     *
+     * @return boolean
+     */
+    public function isValueUnwanted()
+    {
+        $unwanted=false;
+        if ($this->getS2eScnSeqno() !== null){
+            if ($this->getS2eScnSeqno()->getScnSeqno() !== null){
+                $unwanted=$this->getS2eScnSeqno()->getScnSeqno()->getScnNumber() > 1;
+            }
+        }
+        return $unwanted;
+    }
+
+    public function delete(){
+        $this->getS2eScnSeqno()->removeValue($this);
     }
 }

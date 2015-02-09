@@ -362,6 +362,31 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             }
 
+            if (0 === strpos($pathinfo, '/observations/update')) {
+                // mm_observations_edit
+                if (preg_match('#^/observations/update/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_mm_observations_edit;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'mm_observations_edit')), array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::editAction',));
+                }
+                not_mm_observations_edit:
+
+                // mm_observations_update
+                if (preg_match('#^/observations/update/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                    if ($this->context->getMethod() != 'POST') {
+                        $allow[] = 'POST';
+                        goto not_mm_observations_update;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'mm_observations_update')), array (  '_controller' => 'AppBundle\\Controller\\ObservationsController::updateAction',));
+                }
+                not_mm_observations_update:
+
+            }
+
             // mm_observations_test
             if ($pathinfo === '/observations/test') {
                 if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {

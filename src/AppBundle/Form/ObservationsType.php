@@ -8,6 +8,7 @@ use AppBundle\Entity\Repository\StationsRepository;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ObservationsType extends AbstractType
 {
@@ -68,7 +69,7 @@ class ObservationsType extends AbstractType
         $builder->add('eseSeqno', new EventStatesType($this->doctrine));
 
         $builder->add('values', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => 'false', 'required' => 'false', 'data_class' => 'AppBundle\Entity\ObservationValues'),
+            'options' => array('radio' => 'false', 'required' => true, 'data_class' => 'AppBundle\Entity\ObservationValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
@@ -102,6 +103,17 @@ class ObservationsType extends AbstractType
                 $this->doctrine->getManager()->persist($sre);
             }
         });
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'cascade_validation' => true,
+            'error_mapping' => array(
+                'stationOrCoordLegal' => 'stnSeqno',
+                'coordLegal' => 'lonDec'
+            ),
+        ));
     }
 
     public function getName()

@@ -19,52 +19,78 @@ class EntityValuesType extends AbstractType
         $this->doctrine = $doctrine;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    private function buildBasicForm(FormEvent $event, array $options)
     {
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
-            $required = ($options['required'] === 'true');
-            $defaultValue = $options['default_value'];
-            $sv = $event->getData();
-            $form = $event->getForm();
-            $pm = $sv->getPmdSeqno();
-            $pd = $this
-                ->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($pm->getName());
-            if ($pm->getVariabletype() === 'continuous') {
-                $form->add('value', 'integer', array(
-                    'required' => $required,
-                    'attr' => array('placeholder' => $pm->getUnit(),'min'=>0)
+        $options2 = array();
+        if ($options['required']) {
+            $options2['required'] = true;
+         //   $options2['constraints'] = array(new \Symfony\Component\Validator\Constraints\NotNull());
+        }
+        if ($options['constraints']) {
+            $options2['constraints'] = $options['constraints'];
+        }
+        $ev = $event->getData();
+        $valueFlagRequired = $ev->getValueFlagRequired();
+        $form = $event->getForm();
+        $pm = $ev->getPmdSeqno();
+        $pd = $this
+            ->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($pm->getName());
+        if ($pm->getVariabletype() === 'continuous') {
+            $options2 = array_merge($options2, array(
+                'attr' => array('placeholder' => $pm->getUnit(), 'min' => 0)
+            ));
+            $form->add('value', 'integer', $options2);
+        } elseif ($pd) {
+            if ($options['radio'] === 'true') {
+                $options2 = array_merge($options2, array(
+                    'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName()),
+                    'expanded' => true,
+                    'multiple' => false
                 ));
-            } elseif ($pd) {
-                if ($options['radio'] === 'true') {
-                    $form->add('value', 'choice', array(
-                        'required' => $required,
-                        'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName()),
-                        'expanded' => true,
-                        'multiple' => false,
-                        'attr'=>array('default_value'=>'unknown')
-                    ));
-                    //$sv->setValue($defaultValue); //causes problems with constraint that >1 animals can't have values!!!
-                } else {
-                    $form->add('value', 'choice', array(
-                        'placeholder' => 'Select...',
-                        'required' => $required,
-                        'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName())
-                    ));
-                }
+                $form->add('value', 'choice', $options2);
+
             } else {
-                $form->add('value', 'text', array(
-                    'required' => false
-                ));
+                $options2 = array_merge($options2, array(
+                    'placeholder' => 'Select...',
+                    'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName())));
+                $form->add('value', 'choice', $options2);
             }
-        });
-        if ($options['radio'] === 'false') {
-            $required = ($options['required'] === 'true');
-            $builder->add('valueFlag', 'choice', array(
+            $ev->setValue($options['default_value']);
+        } else {
+            $form->add('value', 'text', array(
+                'required' => false
+            ));
+        }
+        if ($valueFlagRequired === true) {
+            $form->add('valueFlag', 'choice', array(
                 'placeholder' => 'Select...',
-                'required' => $required,
+                'required' => true,
                 'choice_list' => new CgRefChoiceList($this->doctrine, 'VALUE_FLAG')
             ));
         }
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
+            $this->buildBasicForm($event, $options);
+        });
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
+            $required = $options['required'];
+            $ev = $event->getData();
+            $valueUnwanted = $ev->isValueUnwanted();
+            $name=$ev->getPmdSeqno()->getName();
+            if($name=="Wind direction"){
+                $a=5;
+            }
+         /*   if ($valueUnwanted) {
+
+                $options['constraints'] = null;
+                $this->buildBasicForm($event, $options);
+                $event->setData($ev);
+            }*/
+
+        });
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -72,9 +98,11 @@ class EntityValuesType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'data_class' => 'AppBundle\Entity\EntityValues',
-                'radio'=>'false',
-                'required'=>'false',
-                'default_value'=>'unknown'
+                'radio' => 'false',
+                'required' => false,
+                'default_value' => 'unknown',
+                'error_bubbling' => false,
+                'error_mapping' => array('valueFlaggedLegal' => 'valueFlag','valueUnwanted'=>'value')
             ));
     }
 

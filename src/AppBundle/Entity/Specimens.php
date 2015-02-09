@@ -85,7 +85,7 @@ class Specimens
     /**
      * @var string
      *
-     * @ORM\Column(name="IDENTIFICATION_CERTAINTY", type="boolean", nullable=false)
+     * @ORM\Column(name="IDENTIFICATION_CERTAINTY", type="boolean", nullable=true)
      */
     private $identificationCertainty;
 
@@ -490,5 +490,4 @@ class Specimens
         }
         return true;
     }
-
 }

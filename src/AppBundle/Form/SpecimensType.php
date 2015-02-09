@@ -53,7 +53,10 @@ class SpecimensType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Specimens'
+            'data_class' => 'AppBundle\Entity\Specimens',
+            'cascade_validation' => true,
+            'error_bubbling' => false,
+            'error_mapping'=>array('scnNumberLegal'=>'scnNumber')
         ));
     }
 

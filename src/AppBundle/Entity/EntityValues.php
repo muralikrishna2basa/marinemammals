@@ -15,4 +15,12 @@ interface EntityValues
     public function getValueFlag();
 
     public function getPmdName();
+
+    public function getValueFlagRequired();
+
+    public function setValueFlagRequired($mustBeFlagged);
+
+    public function isValueFlaggedLegal();
+
+    public function isValueUnwanted();
 }

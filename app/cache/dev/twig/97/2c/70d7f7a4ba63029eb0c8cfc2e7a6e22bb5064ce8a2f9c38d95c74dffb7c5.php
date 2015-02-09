@@ -16,7 +16,7 @@ class __TwigTemplate_972c70d7f7a4ba63029eb0c8cfc2e7a6e22bb5064ce8a2f9c38d95c74df
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo "<fieldset id=\"pathology_values\" class=\"no-multi bordered-form-groups\">
+        echo "<fieldset id=\"pathology_values\" class=\"no-multi\">
     <legend><h2>External pathology</h2></legend>
     <fieldset>
         <legend><h3>Fresh external lesions</h3></legend>
