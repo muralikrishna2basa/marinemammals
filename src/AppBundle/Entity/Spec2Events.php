@@ -438,5 +438,17 @@ class Spec2Events implements ValueAssignable
         );
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function hasPertinentValues()
+    {
+        foreach($this->getValues() as $sv){
+            if ($sv->getValue() !== null){
+                return true;
+            }
+        }
+    }
 }
 

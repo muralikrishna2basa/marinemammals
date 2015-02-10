@@ -370,10 +370,10 @@ class SpecimenValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueFlagRequired()
+    public function isValueFlagLegal()
     {
-        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
-            return $this->isValueUnwanted(); //false
+        if ($this->getValueFlagRequired() && $this->getValueFlag() === null && $this->getValue() !== null) {
+            return $this->isValueUnwantedLegal(); //false
         } else {
             return true;
         }
@@ -385,10 +385,27 @@ class SpecimenValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueUnwanted()
+    public function isValueUnwantedLegal()
     {
         $unwanted=false;
         if ($this->getS2eScnSeqno() !== null && $this->getValue()!== null){
+            if ($this->getS2eScnSeqno()->getScnSeqno() !== null){
+                $unwanted=$this->getS2eScnSeqno()->getScnSeqno()->getScnNumber() > 1;
+            }
+        }
+        return $unwanted;
+    }
+
+    /**
+     * Get whether the value itself is unwanted. Determined dynamically based on the scnNumber of the attached specimen.
+     * In this case, the whole specimenvalue should be deleted (all references to it are deleted, so the object can be garbage collected).
+     *
+     * @return boolean
+     */
+    private function isValueUnwanted()
+    {
+        $unwanted=false;
+        if ($this->getS2eScnSeqno() !== null){
             if ($this->getS2eScnSeqno()->getScnSeqno() !== null){
                 $unwanted=$this->getS2eScnSeqno()->getScnSeqno()->getScnNumber() > 1;
             }
@@ -401,8 +418,9 @@ class SpecimenValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueRequired(){
-        return $this->getValueRequired() && !$this->isValueUnwanted();
+    public function isValueLegal(){
+        return ($this->getValue() !== null && $this->getValueRequired()) ||
+        ($this->getValue() === null && !$this->getValueRequired()) || $this->isValueUnwanted();
     }
 
     public function delete(){

@@ -25,36 +25,30 @@ class Spec2EventsType extends AbstractType
         $builder->add('scnSeqnoNew', new SpecimensType($this->doctrine), array('property_path' => 'scnSeqno'));
 
         $builder->add('circumstantialValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => 'false', 'required' => true, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'required'=>true, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('measurementValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => 'false', 'required' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'required'=>false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('pathologyValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => 'false', 'required' => true, 'default_value' => 'unknown', 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'required'=>true, 'default_value' => 'unknown', 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('causeOfDeathValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => 'false', 'required' => true, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'required'=>true, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('bycatchProbabilityValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => 'false', 'required' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'required'=>false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
-        )); //in order to check if using a class getter as a property validates (fails)
-     /*   $builder->add('values', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => 'false', 'required' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
-            'allow_delete' => true,
-            'delete_empty' => true
-        )); //in order to check if using a class member as a property validates (works)*/
-
+        ));
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $s2e = $event->getData();
             $form = $event->getForm();

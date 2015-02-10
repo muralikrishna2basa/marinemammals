@@ -16,13 +16,17 @@ interface EntityValues
 
     public function getPmdName();
 
+    public function getValueRequired();
+
+    public function setValueRequired($valueRequired);
+
     public function getValueFlagRequired();
 
-    public function setValueFlagRequired($mustBeFlagged);
+    public function setValueFlagRequired($valueFlagRequired);
 
-    public function isValueFlagRequired();
+    public function isValueFlagLegal();
 
-    public function isValueUnwanted();
+    public function isValueUnwantedLegal();
 
-    public function isValueRequired();
+    public function isValueLegal();
 }

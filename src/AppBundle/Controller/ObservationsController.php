@@ -166,7 +166,7 @@ class ObservationsController extends Controller
         $this->instantiateSpecimenValues('Other characteristics::Oil remains on skin', $s2e, false, true);
         $this->instantiateSpecimenValues('Nutritional condition', $s2e, false, true);
         $this->instantiateSpecimenValues('Stomach Content', $s2e, false, true);
-        $this->instantiateSpecimenValues('Other remarks', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other remarks', $s2e, false, false);
 
         $this->instantiateSpecimenValues('Cause of death::Natural', $s2e, false, true);
         $this->instantiateSpecimenValues('Cause of death::Bycatch', $s2e, false, true);
@@ -175,10 +175,10 @@ class ObservationsController extends Controller
         $this->instantiateSpecimenValues('Cause of death::Other', $s2e, false, true);
         $this->instantiateSpecimenValues('Cause of death::Unknown', $s2e, false, true);
 
-        $this->instantiateSpecimenValues('Bycatch activity::Professional gear', $s2e, false, true);
-        $this->instantiateSpecimenValues('Bycatch activity::Recreational gear', $s2e, false, true);
-        $this->instantiateSpecimenValues('Bycatch activity::Angling', $s2e, false, true);
-        $this->instantiateSpecimenValues('Bycatch activity::Unknown fishing gear', $s2e, false, true);
+        $this->instantiateSpecimenValues('Bycatch activity::Professional gear', $s2e, false, false);
+        $this->instantiateSpecimenValues('Bycatch activity::Recreational gear', $s2e, false, false);
+        $this->instantiateSpecimenValues('Bycatch activity::Angling', $s2e, false, false);
+        $this->instantiateSpecimenValues('Bycatch activity::Unknown fishing gear', $s2e, false, false);
 
         return $observation;
     }

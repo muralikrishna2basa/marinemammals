@@ -484,10 +484,18 @@ class Specimens
     public function isScnNumberLegal()
     {
         foreach ($this->getSpec2Events() as $s2e){
-            if ($this->getScnNumber() > 1 and ($s2e->getValues()->count()>0 or $this->getSex() !== null or $this->getRbinsTag() !== null  or $this->getNecropsyTag() !== null)){
+            if ($this->getScnNumber() > 1 and ($s2e->hasPertinentValues() or $this->getSex() !== null or $this->getRbinsTag() !== null  or $this->getNecropsyTag() !== null)){
                 return false;
             }
         }
         return true;
+    }
+
+    public function isSexLegal()
+    {
+        if($this->getScnNumber() > 1) {
+            return $this->getSex() === null;
+        }
+        else return $this->getSex() !== null;
     }
 }

@@ -342,9 +342,9 @@ class LesionValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueFlagRequired()
+    public function isValueFlagLegal()
     {
-        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
+        if ($this->getValueFlagRequired() && $this->getValueFlag() === null && $this->getValue() !== null) {
             return false;
         } else {
             return true;
@@ -356,7 +356,7 @@ class LesionValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueUnwanted()
+    public function isValueUnwantedLegal()
     {
         return false;
     }
@@ -366,7 +366,7 @@ class LesionValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueRequired(){
-        return $this->getValueRequired() && !$this->isValueUnwanted();
+    public function isValueLegal(){
+        return $this->getValue() !== null && $this->getValueRequired() && !$this->isValueUnwantedLegal();
     }
 }

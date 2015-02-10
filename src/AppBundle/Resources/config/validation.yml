@@ -53,20 +53,11 @@ AppBundle\Entity\ContainerLocalizations:
                      max: 20
 AppBundle\Entity\EventStates:
     properties:
-#        eventDatetime:
-#                - NotBlank: ~
-#                - NotNull: ~
-#                - AppBundle\Validator\Constraints\DateRange:
-#                     min: "1950-01-01"
-#                     max: "today"
-        time:
-                - Time: ~
-        date:
+        eventDatetime:
                 - NotBlank: ~
                 - NotNull: ~
-                - Date: ~
                 - AppBundle\Validator\Constraints\DateRange:
-                     min: "1900-01-01"
+                     min: "1950-01-01"
                      max: "today"
         eventDatetimeFlag:
                 - NotBlank: ~
@@ -546,6 +537,8 @@ AppBundle\Entity\Specimens:
     getters:
         scnNumberLegal:
             - "True": { message: "It is not possible to provide any values (eg. sex, necropsy tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details." }
+        sexLegal:
+            - "True": { message: "This value should not be null." }
     properties:
         txnSeqno:
                - NotBlank: ~
@@ -580,11 +573,11 @@ AppBundle\Entity\Specimens:
                      message: The value {{ value }} is not a valid {{ type }}.
 AppBundle\Entity\SpecimenValues:
     getters:
-        valueFlagRequired:
+        valueFlagLegal:
                 - "True": { message: "This value, as it is set, needs a validity flag as well." }
-        valueRequired:
-                - "False": { message: "This value must be completed."}
-        valueUnwanted:
+        valueLegal:
+                - "True": { message: "This value must be completed."}
+        valueUnwantedLegal:
                 - "False": { message: "This value may not be provided for specimens that have been observed in group. Make separate observations if you wish to provide this value." }
     properties:
         pmdSeqno:

@@ -99,9 +99,9 @@ class EventStates
 
     const OBSERVED = 'OB';
 
-    private $date;
+    //private $date;
 
-    private $time;
+    //private $time;
 
     /**
      * Constructor
@@ -462,14 +462,14 @@ class EventStates
     public function setTime($time)
     {
         $match = $this->isTime($time);
-        //if ($this->getEventDatetime()) {
-        //    if ($match) {
-                $this->time=$time;
+        if ($this->getEventDatetime()) {
+            if ($match) {
+                //$this->time=$time;
                 $this->getEventDatetime()->setTime($match[1], $match[2]);
-        //    } else {
+            } else {
                // throw new InvalidArgumentException("The provided time is not in hh:mm format.");
-        //    }
-        //}
+            }
+        }
        /* else{
             throw new InvalidArgumentException("Time cannot be set when the date is null.");
         }*/
@@ -504,11 +504,11 @@ class EventStates
     {
 
         $dt = \DateTime::createFromFormat('d/m/Y', $date);
-       // if($dt !== null){
-            $this->date=$date;
+        if($dt !== null){
+            //$this->date=$date;
             $this->setEventDatetime($dt);
             $this->getEventDatetime()->setTime(0,0,0);
-        //}
+        }
         //$d = $dt->format("d");
         //$m = $dt->format("m");
         //$y = $dt->format("y");

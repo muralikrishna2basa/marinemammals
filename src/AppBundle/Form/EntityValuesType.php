@@ -22,15 +22,16 @@ class EntityValuesType extends AbstractType
     private function buildBasicForm(FormEvent $event, array $options)
     {
         $options2 = array();
-        if ($options['required']) {
-            $options2['required'] = true;
-         //   $options2['constraints'] = array(new \Symfony\Component\Validator\Constraints\NotNull());
-        }
-        if ($options['constraints']) {
-            $options2['constraints'] = $options['constraints'];
-        }
+
         $ev = $event->getData();
         $valueFlagRequired = $ev->getValueFlagRequired();
+        $valueRequired = $ev->getValueRequired();
+        if ($valueRequired && $options['required']) {
+            $options2['required'] = true;
+        }
+        else{
+            $options2['required'] = false;
+        }
         $form = $event->getForm();
         $pm = $ev->getPmdSeqno();
         $pd = $this
@@ -41,7 +42,7 @@ class EntityValuesType extends AbstractType
             ));
             $form->add('value', 'integer', $options2);
         } elseif ($pd) {
-            if ($options['radio'] === 'true') {
+            if ($options['radio'] === true) {
                 $options2 = array_merge($options2, array(
                     'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName()),
                     'expanded' => true,
@@ -75,22 +76,29 @@ class EntityValuesType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
             $this->buildBasicForm($event, $options);
         });
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
-            $required = $options['required'];
+       /* $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
+            //$required = $options['required'];
+            $form=$event->getForm();
             $ev = $event->getData();
-            $valueUnwanted = $ev->isValueUnwanted();
-            $name=$ev->getPmdSeqno()->getName();
-            if($name=="Wind direction"){
-                $a=5;
-            }
-         /*   if ($valueUnwanted) {
+            $valueField=$form->get('value');
+            $valueUnwanted = $ev->isValueUnwantedLegal();
+            $valueRequired = $ev->getValueRequired();
+            //$name = $ev->getPmdSeqno()->getName();
+
+            if ($valueUnwanted) {
 
                 $options['constraints'] = null;
                 $this->buildBasicForm($event, $options);
                 $event->setData($ev);
-            }*/
+            }
 
-        });
+            if (!$valueRequired) {
+
+                $options['constraints'] = null;
+                $this->buildBasicForm($event, $options);
+                $event->setData($ev);
+            }
+        });*/
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -98,11 +106,11 @@ class EntityValuesType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'data_class' => 'AppBundle\Entity\EntityValues',
-                'radio' => 'false',
+                'radio' => false,
                 'required' => false,
                 'default_value' => 'unknown',
                 'error_bubbling' => false,
-                'error_mapping' => array('valueFlaggedLegal' => 'valueFlag','valueUnwanted'=>'value')
+                'error_mapping' => array('valueFlagLegal' => 'valueFlag', 'valueUnwantedLegal' => 'value', 'valueLegal' => 'value')
             ));
     }
 

@@ -56,7 +56,7 @@ class SpecimensType extends AbstractType
             'data_class' => 'AppBundle\Entity\Specimens',
             'cascade_validation' => true,
             'error_bubbling' => false,
-            'error_mapping'=>array('scnNumberLegal'=>'scnNumber')
+            'error_mapping'=>array('scnNumberLegal'=>'scnNumber','sexLegal'=>'sex')
         ));
     }
 
