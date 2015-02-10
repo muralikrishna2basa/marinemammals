@@ -73,9 +73,7 @@ class OrganLesions implements ValueAssignable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Necropsies")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="NCY_ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)
-     * })
+     * @ORM\JoinColumns({@ORM\JoinColumn(name="NCY_ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)})
      */
     private $ncyEseSeqno;
 

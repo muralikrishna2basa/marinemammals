@@ -119,30 +119,7 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 46
         echo "    </fieldset>
-<fieldset id=\"values\" class=\"no-multi\">
-    <legend><h4>All specimen values</h4></legend>
-    ";
-        // line 49
-        $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "eseSeqno", array()), "spec2events", array()), "values", array()));
-        foreach ($context['_seq'] as $context["_key"] => $context["sv"]) {
-            // line 50
-            echo "        <h5>";
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute($context["sv"], "vars", array()), "value", array()), "pmdName", array()), "html", null, true);
-            echo "</h5>
-        <div class=\"form-inline\">";
-            // line 51
-            echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($context["sv"], "value", array()), 'row', array("label" => "Value"));
-            echo "
-        </div>
-
-    ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['sv'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 55
-        echo "</fieldset>";
+";
     }
 
     public function getTemplateName()
@@ -157,6 +134,6 @@ class __TwigTemplate_c4b4f6fbfbffee4c84384800ae2463e13ccc555c464bcee5d2c6eefc0ad
 
     public function getDebugInfo()
     {
-        return array (  145 => 55,  135 => 51,  130 => 50,  126 => 49,  121 => 46,  113 => 44,  109 => 43,  104 => 42,  100 => 41,  95 => 38,  87 => 36,  83 => 35,  78 => 34,  74 => 33,  66 => 28,  60 => 25,  54 => 22,  48 => 19,  42 => 16,  36 => 13,  25 => 5,  19 => 1,);
+        return array (  121 => 46,  113 => 44,  109 => 43,  104 => 42,  100 => 41,  95 => 38,  87 => 36,  83 => 35,  78 => 34,  74 => 33,  66 => 28,  60 => 25,  54 => 22,  48 => 19,  42 => 16,  36 => 13,  25 => 5,  19 => 1,);
     }
 }

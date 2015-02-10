@@ -20,7 +20,9 @@ interface EntityValues
 
     public function setValueFlagRequired($mustBeFlagged);
 
-    public function isValueFlaggedLegal();
+    public function isValueFlagRequired();
 
     public function isValueUnwanted();
+
+    public function isValueRequired();
 }

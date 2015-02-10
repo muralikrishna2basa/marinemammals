@@ -48,12 +48,12 @@ class Spec2EventsType extends AbstractType
             'options' => array('radio' => 'false', 'required' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
-        )); //in order to check if using a class getter as a property works (fails)
-        $builder->add('values', 'collection', array('type' => new EntityValuesType($this->doctrine),
+        )); //in order to check if using a class getter as a property validates (fails)
+     /*   $builder->add('values', 'collection', array('type' => new EntityValuesType($this->doctrine),
             'options' => array('radio' => 'false', 'required' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
-        )); //in order to check if using a class member as a property works (works)
+        )); //in order to check if using a class member as a property validates (works)*/
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $s2e = $event->getData();

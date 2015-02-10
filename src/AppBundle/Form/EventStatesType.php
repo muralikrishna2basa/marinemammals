@@ -68,9 +68,8 @@ class EventStatesType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'data_class' => 'AppBundle\Entity\EventStates',
-                'error_mapping' => array(
-                    'eventDatetime' => 'eventDatetime'
-                ),
+                'cascade_validation' => true,
+                'error_mapping'=>array('eventDatetime.time'=>'eventDatetime','eventDatetime.date'=>'eventDatetime')
             ));
     }
 

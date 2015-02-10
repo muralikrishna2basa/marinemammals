@@ -94,10 +94,13 @@ class SpecimenValues implements EntityValues
 
     /**
      * @var boolean
-     *
      */
-    private $mustBeFlagged;
+    private $valueFlagRequired;
 
+    /**
+     * @var boolean
+     */
+    private $valueRequired;
 
     /**
      * Set creDat
@@ -331,28 +334,46 @@ class SpecimenValues implements EntityValues
      */
     public function getValueFlagRequired()
     {
-        return $this->mustBeFlagged;
+        return $this->valueFlagRequired;
     }
 
     /**
-     * @param boolean $mustBeFlagged
+     * @param boolean $valueFlagRequired
      * @return SpecimenValues
      */
-    public function setValueFlagRequired($mustBeFlagged)
+    public function setValueFlagRequired($valueFlagRequired)
     {
-        $this->mustBeFlagged = $mustBeFlagged;
+        $this->valueFlagRequired = $valueFlagRequired;
         return $this;
     }
 
     /**
-     * Get whether the value is legal, i.e. has a flag. Note that flagged but empty values are legal!
+     * @return boolean
+     */
+    public function getValueRequired()
+    {
+        return $this->valueRequired;
+    }
+
+    /**
+     * @param boolean $valueRequired
+     * @return SpecimenValues
+     */
+    public function setValueRequired($valueRequired)
+    {
+        $this->valueRequired = $valueRequired;
+        return $this;
+    }
+
+    /**
+     * Get whether the value needs a flag. Any completed value needs a flag. Unwanted values don't need a flag. Note that flagged but empty values are legal.
      *
      * @return boolean
      */
-    public function isValueFlaggedLegal()
+    public function isValueFlagRequired()
     {
         if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
-            return false;
+            return $this->isValueUnwanted(); //false
         } else {
             return true;
         }
@@ -367,12 +388,21 @@ class SpecimenValues implements EntityValues
     public function isValueUnwanted()
     {
         $unwanted=false;
-        if ($this->getS2eScnSeqno() !== null){
+        if ($this->getS2eScnSeqno() !== null && $this->getValue()!== null){
             if ($this->getS2eScnSeqno()->getScnSeqno() !== null){
                 $unwanted=$this->getS2eScnSeqno()->getScnSeqno()->getScnNumber() > 1;
             }
         }
         return $unwanted;
+    }
+
+    /**
+     * Get whether the value itself must be completed.
+     *
+     * @return boolean
+     */
+    public function isValueRequired(){
+        return $this->getValueRequired() && !$this->isValueUnwanted();
     }
 
     public function delete(){

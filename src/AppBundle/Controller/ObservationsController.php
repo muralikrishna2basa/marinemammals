@@ -116,9 +116,9 @@ class ObservationsController extends Controller
         $event2Persons2->setE2pType(EventStates::GATHERED);
         $event->getEvent2Persons()->add($event2Persons2);
 
-        $this->instantiateObservationValues('Wind direction', $observation,true);
-        $this->instantiateObservationValues('Wind speed', $observation,true);
-        $this->instantiateObservationValues('Seastate', $observation,true);
+        $this->instantiateObservationValues('Wind direction', $observation,true,false);
+        $this->instantiateObservationValues('Wind speed', $observation,true,false);
+        $this->instantiateObservationValues('Seastate', $observation,true,false);
 
         $s2e = new Spec2Events();
         //$specimen=new Specimens();
@@ -126,64 +126,64 @@ class ObservationsController extends Controller
         //$s2e->setEseSeqno($event); //TODO: check if this can be deleted. shoudle be now that this is truly bidirectional
         //$s2e->setScnSeqno($specimen);
 
-        $this->instantiateSpecimenValues('Before intervention', $s2e,true);
-        $this->instantiateSpecimenValues('During intervention', $s2e,true);
-        $this->instantiateSpecimenValues('Collection', $s2e,true);
-        $this->instantiateSpecimenValues('Decomposition Code', $s2e,true);
+        $this->instantiateSpecimenValues('Before intervention', $s2e,true,true);
+        $this->instantiateSpecimenValues('During intervention', $s2e,true,true);
+        $this->instantiateSpecimenValues('Collection', $s2e,true,true);
+        $this->instantiateSpecimenValues('Decomposition Code', $s2e,true,true);
 
-        $this->instantiateSpecimenValues('Body length', $s2e,true);
-        $this->instantiateSpecimenValues('Body weight', $s2e,true);
-        $this->instantiateSpecimenValues('Age', $s2e,true);
-        $this->instantiateSpecimenValues('Nutritional Status', $s2e,true);
+        $this->instantiateSpecimenValues('Body length', $s2e,true,false);
+        $this->instantiateSpecimenValues('Body weight', $s2e,true,false);
+        $this->instantiateSpecimenValues('Age', $s2e,true,false);
+        $this->instantiateSpecimenValues('Nutritional Status', $s2e,true,false);
 
-        $this->instantiateSpecimenValues('Fresh external lesions::Fresh bite marks', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Opened abdomen', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Stabbing wound', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Parallel cuts', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Broken bones', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Hypothema', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Fin amputation', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Encircling lesion', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Other fresh external lesions', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Tail', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Pectoral fin', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Snout', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Mouth', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Scavenger traces::Picks', $s2e,false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Scavenger traces::Bites', $s2e, false);
-        $this->instantiateSpecimenValues('Healing/healed lesions::Bites', $s2e, false);
-        $this->instantiateSpecimenValues('Healing/healed lesions::Pox-like lesions', $s2e, false);
-        $this->instantiateSpecimenValues('Healing/healed lesions::Open warts', $s2e, false);
-        $this->instantiateSpecimenValues('Healing/healed lesions::Cuts', $s2e, false);
-        $this->instantiateSpecimenValues('Healing/healed lesions::Line/net impressions', $s2e, false);
-        $this->instantiateSpecimenValues('Fishing activities::Static gear on beach nearby', $s2e, false);
-        $this->instantiateSpecimenValues('Fishing activities::Static gear at sea nearby', $s2e, false);
-        $this->instantiateSpecimenValues('Other characteristics::External parasites', $s2e, false);
-        $this->instantiateSpecimenValues('Other characteristics::Froth from airways', $s2e, false);
-        $this->instantiateSpecimenValues('Other characteristics::Fishy smell', $s2e, false);
-        $this->instantiateSpecimenValues('Other characteristics::Prey remains in mouth', $s2e, false);
-        $this->instantiateSpecimenValues('Other characteristics::Remains of nets, ropes, plastic, etc.', $s2e, false);
-        $this->instantiateSpecimenValues('Other characteristics::Oil remains on skin', $s2e, false);
-        $this->instantiateSpecimenValues('Nutritional condition', $s2e, false);
-        $this->instantiateSpecimenValues('Stomach Content', $s2e, false);
-        $this->instantiateSpecimenValues('Other remarks', $s2e, false);
+        $this->instantiateSpecimenValues('Fresh external lesions::Fresh bite marks', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Opened abdomen', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Stabbing wound', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Parallel cuts', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Broken bones', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Hypothema', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Fin amputation', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Encircling lesion', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Other fresh external lesions', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Tail', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Pectoral fin', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Snout', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Line/net impressions or cuts::Mouth', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Scavenger traces::Picks', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Scavenger traces::Bites', $s2e, false, true);
+        $this->instantiateSpecimenValues('Healing/healed lesions::Bites', $s2e, false, true);
+        $this->instantiateSpecimenValues('Healing/healed lesions::Pox-like lesions', $s2e, false, true);
+        $this->instantiateSpecimenValues('Healing/healed lesions::Open warts', $s2e, false, true);
+        $this->instantiateSpecimenValues('Healing/healed lesions::Cuts', $s2e, false, true);
+        $this->instantiateSpecimenValues('Healing/healed lesions::Line/net impressions', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fishing activities::Static gear on beach nearby', $s2e, false, true);
+        $this->instantiateSpecimenValues('Fishing activities::Static gear at sea nearby', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other characteristics::External parasites', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other characteristics::Froth from airways', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other characteristics::Fishy smell', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other characteristics::Prey remains in mouth', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other characteristics::Remains of nets, ropes, plastic, etc.', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other characteristics::Oil remains on skin', $s2e, false, true);
+        $this->instantiateSpecimenValues('Nutritional condition', $s2e, false, true);
+        $this->instantiateSpecimenValues('Stomach Content', $s2e, false, true);
+        $this->instantiateSpecimenValues('Other remarks', $s2e, false, true);
 
-        $this->instantiateSpecimenValues('Cause of death::Natural', $s2e, false);
-        $this->instantiateSpecimenValues('Cause of death::Bycatch', $s2e, false);
-        $this->instantiateSpecimenValues('Cause of death::Ship strike', $s2e, false);
-        $this->instantiateSpecimenValues('Cause of death::Predation', $s2e, false);
-        $this->instantiateSpecimenValues('Cause of death::Other', $s2e, false);
-        $this->instantiateSpecimenValues('Cause of death::Unknown', $s2e, false);
+        $this->instantiateSpecimenValues('Cause of death::Natural', $s2e, false, true);
+        $this->instantiateSpecimenValues('Cause of death::Bycatch', $s2e, false, true);
+        $this->instantiateSpecimenValues('Cause of death::Ship strike', $s2e, false, true);
+        $this->instantiateSpecimenValues('Cause of death::Predation', $s2e, false, true);
+        $this->instantiateSpecimenValues('Cause of death::Other', $s2e, false, true);
+        $this->instantiateSpecimenValues('Cause of death::Unknown', $s2e, false, true);
 
-        $this->instantiateSpecimenValues('Bycatch activity::Professional gear', $s2e, false);
-        $this->instantiateSpecimenValues('Bycatch activity::Recreational gear', $s2e, false);
-        $this->instantiateSpecimenValues('Bycatch activity::Angling', $s2e, false);
-        $this->instantiateSpecimenValues('Bycatch activity::Unknown fishing gear', $s2e, false);
+        $this->instantiateSpecimenValues('Bycatch activity::Professional gear', $s2e, false, true);
+        $this->instantiateSpecimenValues('Bycatch activity::Recreational gear', $s2e, false, true);
+        $this->instantiateSpecimenValues('Bycatch activity::Angling', $s2e, false, true);
+        $this->instantiateSpecimenValues('Bycatch activity::Unknown fishing gear', $s2e, false, true);
 
         return $observation;
     }
 
-    private function instantiateObservationValues($pmName, &$observation, $mustBeFlagged)
+    private function instantiateObservationValues($pmName, &$observation, $mustBeFlagged,$mustBeCompleted)
     {
         $em = $this->getDoctrine()->getManager();
         $pm = $em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
@@ -191,10 +191,11 @@ class ObservationsController extends Controller
         $ov->setPmdSeqno($pm);
         $ov->setEseSeqno($observation);
         $ov->setValueFlagRequired($mustBeFlagged);
+        $ov->setValueRequired($mustBeCompleted);
         return $ov;
     }
 
-    private function instantiateSpecimenValues($pmName, &$s2e, $mustBeFlagged)
+    private function instantiateSpecimenValues($pmName, &$s2e, $mustBeFlagged,$mustBeCompleted)
     {
         $em = $this->getDoctrine()->getManager();
         $pm = $em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
@@ -202,9 +203,9 @@ class ObservationsController extends Controller
         $sv->setPmdSeqno($pm);
         $sv->setS2eScnSeqno($s2e);
         $sv->setValueFlagRequired($mustBeFlagged);
+        $sv->setValueRequired($mustBeCompleted);
         return $sv;
     }
-
 
     public function editAction($id)
     {

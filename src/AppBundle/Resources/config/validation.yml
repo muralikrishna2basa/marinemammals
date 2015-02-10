@@ -53,21 +53,21 @@ AppBundle\Entity\ContainerLocalizations:
                      max: 20
 AppBundle\Entity\EventStates:
     properties:
-        eventDatetime:
-                - NotBlank: ~
-                - NotNull: ~
-                - AppBundle\Validator\Constraints\DateRange:
-                     min: "1950-01-01"
-                     max: "today"
-#        time:
-#                - Time: ~
-#        date:
+#        eventDatetime:
 #                - NotBlank: ~
 #                - NotNull: ~
-#                - Date: ~
 #                - AppBundle\Validator\Constraints\DateRange:
-#                     min: "1900-01-01"
+#                     min: "1950-01-01"
 #                     max: "today"
+        time:
+                - Time: ~
+        date:
+                - NotBlank: ~
+                - NotNull: ~
+                - Date: ~
+                - AppBundle\Validator\Constraints\DateRange:
+                     min: "1900-01-01"
+                     max: "today"
         eventDatetimeFlag:
                 - NotBlank: ~
                 - NotNull: ~
@@ -84,9 +84,6 @@ AppBundle\Entity\EventStates:
 AppBundle\Entity\Event2Persons:
     properties:
         eseSeqno:
-               - NotBlank: ~
-               - NotNull: ~
-        psnSeqno:
                - NotBlank: ~
                - NotNull: ~
         e2pType:
@@ -224,6 +221,7 @@ AppBundle\Entity\Observations:
         eseSeqno:
                - NotBlank: ~
                - NotNull: ~
+               - Valid: ~
         cpnCode:
                 - Length:
                      min: 0
@@ -534,7 +532,15 @@ AppBundle\Entity\Spec2Events:
                - NotBlank: ~
                - NotNull: ~
                - Valid: ~
-        values:
+        circumstantialValues:
+               - Valid: ~
+        measurementValues:
+               - Valid: ~
+        pathologyValues:
+               - Valid: ~
+        causeOfDeathValues:
+               - Valid: ~
+        bycatchProbabilityValues:
                - Valid: ~
 AppBundle\Entity\Specimens:
     getters:
@@ -574,8 +580,10 @@ AppBundle\Entity\Specimens:
                      message: The value {{ value }} is not a valid {{ type }}.
 AppBundle\Entity\SpecimenValues:
     getters:
-        valueFlaggedLegal:
+        valueFlagRequired:
                 - "True": { message: "This value, as it is set, needs a validity flag as well." }
+        valueRequired:
+                - "False": { message: "This value must be completed."}
         valueUnwanted:
                 - "False": { message: "This value may not be provided for specimens that have been observed in group. Make separate observations if you wish to provide this value." }
     properties:
@@ -590,8 +598,6 @@ AppBundle\Entity\SpecimenValues:
                      min: 0
                      max: 250
         value:
-                - NotBlank: ~
-                - NotNull: ~
                 - Length:
                      min: 1
                      max: 50

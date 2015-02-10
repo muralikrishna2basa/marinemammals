@@ -115,12 +115,12 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
                 ";
         // line 58
         $this->displayBlock('navigation', $context, $blocks);
-        // line 104
+        // line 103
         echo "            </nav>
         </div>
         <div class=\"showcase hidden-print\">
             <img src=\"";
-        // line 107
+        // line 106
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/seals.jpg"), "html", null, true);
         echo "\" alt=\"photo banner\"/>
 
@@ -139,21 +139,21 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
 
     <div class=\"main-content\">
         ";
-        // line 123
+        // line 122
         $this->displayBlock('main_content', $context, $blocks);
-        // line 124
+        // line 123
         echo "    </div>
 </div>
 <footer>
     ";
-        // line 127
+        // line 126
         $this->displayBlock('footer', $context, $blocks);
-        // line 198
+        // line 197
         echo "</footer>
 <a href=\"#\" class=\"scrollup\">Scroll</a> ";
-        // line 199
+        // line 198
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 207
+        // line 206
         echo "</body>
 </html>
 
@@ -184,7 +184,7 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
                     <div class=\"collapse navbar-collapse\" id=\"navbar-collapse\">
                         <ul class=\"nav navbar-nav\">
                             <li><a href=\"/about\">About</a></li>
-                            <li><a href=\"/remsem/ecosystem-modelling\">Browse observations</a></li>
+                            <li><a href=\"/observations\">Browse observations</a></li>
                             <li><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Management<span
                                             class=\"caret\"></span></a>
                                 <ul class=\"dropdown-menu\">
@@ -192,16 +192,16 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
                                     <li><a href=\"/observations\">Browse</a></li>
                                     <li><a href=\"/observations/add\">Create
                                             new</a></li>
-                                    <li><a href=\"/remsem/software-and-data/total-suspended-matter\">Update
+                                    <li><a href=\"/observations/update/4006\">Update
                                             existing</a></li>
-                                    <li><a href=\"/remsem/software-and-data/total-suspended-matter\">Batch
+                                    <li><a href=\"/observations/import\">Batch
                                             import</a></li>
                                     <li class=\"divider\"></li>
                                     <li class=\"dropdown-header\">Necropsies</li>
-                                    <li><a href=\"/remsem/software-and-data/turbid-water-software\">Browse</a></li>
-                                    <li><a href=\"/remsem/software-and-data/similarity-spectrum\">Create
+                                    <li><a href=\"/necropsies\">Browse</a></li>
+                                    <li><a href=\"/necropsies/add\">Create
                                             new</a></li>
-                                    <li><a href=\"/remsem/software-and-data/total-suspended-matter\">Update
+                                    <li><a href=\"/necropsies/update/201\">Update
                                             existing</a></li>
                                     <li class=\"divider\"></li>
                                     <li class=\"dropdown-header\">Manage lists</li>
@@ -212,21 +212,20 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
                                     <li><a href=\"/sources/add\">Sources</a></li>
                                 </ul>
                             </li>
-                            <li><a href=\"/remsem/contact\">Contact</a></li>
                         </ul>
                     </div>
                 ";
     }
 
-    // line 123
+    // line 122
     public function block_main_content($context, array $blocks = array())
     {
     }
 
-    // line 127
+    // line 126
     public function block_footer($context, array $blocks = array())
     {
-        // line 128
+        // line 127
         echo "        <div class=\"container\">
 
             <div class=\"row\">
@@ -277,7 +276,7 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
                                 &amp; Philogeny</a></span><br>
                     </p>
 
-                    <p>
+                  <!--  <p>
                         <span class=\"titles\">You are now visiting: </span><br> <span
                                 class=\"sublinks\"> <a
                                     href=\"http://www.naturalsciences.be/en/science/do/98\">OD Nature</a>
@@ -285,7 +284,7 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
                                 and applications</a> &#187; <a
                                     href=\"http://www.odnature.be/remsem/\">REMSEM</a>
 \t\t\t\t\t\t\t</span>
-                    </p>
+                    </p>-->
                 </div>
             </div>
 
@@ -299,10 +298,10 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
     ";
     }
 
-    // line 199
+    // line 198
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 200
+        // line 199
         echo "    <script type=\"application/javascript\" src=\"http://code.jquery.com/jquery-1.11.2.min.js\"></script>
     <script type=\"application/javascript\" src=\"http://code.jquery.com/ui/1.11.2/jquery-ui.js\"></script>
     <script type=\"application/javascript\"
@@ -324,6 +323,6 @@ class __TwigTemplate_01c84c40ae7d61bc6f76cb2c0dd785564aee6380cba96948dda574889c4
 
     public function getDebugInfo()
     {
-        return array (  306 => 200,  303 => 199,  230 => 128,  227 => 127,  222 => 123,  174 => 59,  171 => 58,  166 => 10,  157 => 207,  155 => 199,  152 => 198,  150 => 127,  145 => 124,  143 => 123,  124 => 107,  119 => 104,  117 => 58,  81 => 24,  49 => 22,  45 => 17,  35 => 10,  24 => 1,);
+        return array (  305 => 199,  302 => 198,  229 => 127,  226 => 126,  221 => 122,  174 => 59,  171 => 58,  166 => 10,  157 => 206,  155 => 198,  152 => 197,  150 => 126,  145 => 123,  143 => 122,  124 => 106,  119 => 103,  117 => 58,  81 => 24,  49 => 22,  45 => 17,  35 => 10,  24 => 1,);
     }
 }

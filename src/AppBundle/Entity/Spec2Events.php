@@ -71,6 +71,16 @@ class Spec2Events implements ValueAssignable
      */
     private $values;
 
+    private $bycatchProbabilityValues;
+
+    private $causeOfDeathValues;
+
+    private $pathologyValues;
+
+    private $circumstantialValues;
+
+    private $measurementValues;
+
     /**
      * Constructor
      */
@@ -271,7 +281,10 @@ class Spec2Events implements ValueAssignable
      */
     public function setCircumstantialValues(\Doctrine\Common\Collections\Collection $values)
     {
-        //$this->values->add($values);
+        $this->circumstantialValues=$values;
+        $this->values= new \Doctrine\Common\Collections\ArrayCollection(
+            array_merge($this->getValues()->toArray(), $values->toArray())
+        );
         return $this;
     }
 
@@ -299,7 +312,10 @@ class Spec2Events implements ValueAssignable
      */
     public function setMeasurementValues(\Doctrine\Common\Collections\Collection $values)
     {
-        //$this->values->add($values);
+        $this->measurementValues=$values;
+        $this->values= new \Doctrine\Common\Collections\ArrayCollection(
+            array_merge($this->getValues()->toArray(), $values->toArray())
+        );
         return $this;
     }
 
@@ -354,7 +370,10 @@ class Spec2Events implements ValueAssignable
      */
     public function setPathologyValues(\Doctrine\Common\Collections\Collection $values)
     {
-        //$this->values->add($values);
+        $this->pathologyValues=$values;
+        $this->values= new \Doctrine\Common\Collections\ArrayCollection(
+            array_merge($this->getValues()->toArray(), $values->toArray())
+        );
         return $this;
     }
 
@@ -383,7 +402,10 @@ class Spec2Events implements ValueAssignable
      */
     public function setCauseOfDeathValues(\Doctrine\Common\Collections\Collection $values)
     {
-        //$this->values->add($values);
+        $this->causeOfDeathValues=$values;
+        $this->values= new \Doctrine\Common\Collections\ArrayCollection(
+            array_merge($this->getValues()->toArray(), $values->toArray())
+        );
         return $this;
     }
 
@@ -410,10 +432,11 @@ class Spec2Events implements ValueAssignable
      */
     public function setBycatchProbabilityValues(\Doctrine\Common\Collections\Collection $values)
     {
-        //$this->values->add($values);
+        $this->bycatchProbabilityValues=$values;
+        $this->values= new \Doctrine\Common\Collections\ArrayCollection(
+            array_merge($this->getValues()->toArray(), $values->toArray())
+        );
         return $this;
     }
-
-    private $circumstantialValues;
 }
 

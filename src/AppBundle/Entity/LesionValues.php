@@ -90,7 +90,13 @@ class LesionValues implements EntityValues
      * @var boolean
      *
      */
-    private $mustBeFlagged;
+    private $valueFlagRequired;
+
+    /**
+     * @var boolean
+     *
+     */
+    private $valueRequired;
 
     /**
      * Set creDat
@@ -300,16 +306,34 @@ class LesionValues implements EntityValues
      */
     public function getValueFlagRequired()
     {
-        return $this->mustBeFlagged;
+        return $this->valueFlagRequired;
     }
 
     /**
      * @param boolean $mustBeFlagged
      * @return SpecimenValues
      */
-    public function setValueFlagRequired($mustBeFlagged)
+    public function setValueFlagRequired($valueFlagRequired)
     {
-        $this->mustBeFlagged = $mustBeFlagged;
+        $this->valueFlagRequired = $valueFlagRequired;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getValueRequired()
+    {
+        return $this->valueRequired;
+    }
+
+    /**
+     * @param boolean $valueRequired
+     * @return SpecimenValues
+     */
+    public function setValueRequired($valueRequired)
+    {
+        $this->valueRequired = $valueRequired;
         return $this;
     }
 
@@ -318,7 +342,7 @@ class LesionValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueFlaggedLegal()
+    public function isValueFlagRequired()
     {
         if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
             return false;
@@ -335,5 +359,14 @@ class LesionValues implements EntityValues
     public function isValueUnwanted()
     {
         return false;
+    }
+
+    /**
+     * Get whether the value itself must be completed.
+     *
+     * @return boolean
+     */
+    public function isValueRequired(){
+        return $this->getValueRequired() && !$this->isValueUnwanted();
     }
 }
