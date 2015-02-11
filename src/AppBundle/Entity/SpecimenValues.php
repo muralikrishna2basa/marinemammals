@@ -72,16 +72,15 @@ class SpecimenValues implements EntityValues
     private $seqno;
 
     /**
-     * @var \AppBundle\Entity\Spec2events
+     * @var \AppBundle\Entity\Spec2Events
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2events", inversedBy="values")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Spec2Events", inversedBy="values")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="S2E_SCN_SEQNO", referencedColumnName="SCN_SEQNO", nullable=false),
      *   @ORM\JoinColumn(name="S2E_ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)
      * })
      */
     private $s2eScnSeqno;
-
 
     /**
      * @var \AppBundle\Entity\ParameterMethods

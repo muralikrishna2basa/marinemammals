@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use DoctrineExtensions\NestedSet\Node;
+//use DoctrineExtensions\NestedSet\Node;
 
 /**
  * Places
@@ -12,7 +12,7 @@ use DoctrineExtensions\NestedSet\Node;
  * @ORM\Table(name="PLACES", indexes={@ORM\Index(name="IDX_E57ABD3EE3C1733", columns={"PCE_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PlacesRepository")
  */
-class Places implements Node
+class Places //implements Node
 {
     /**
      * @var \DateTime
@@ -290,25 +290,4 @@ class Places implements Node
             return '';
         }*/
     }
-
-    /**
-     * @Column(type="integer")
-     */
-    private $lft;
-
-    /**
-     * @Column(type="integer")
-     */
-    private $rgt;
-
-
-    public function getId() { return $this->seqno; }
-
-    public function getLeftValue() { return $this->lft; }
-    public function setLeftValue($lft) { $this->lft = $lft; }
-
-    public function getRightValue() { return $this->rgt; }
-    public function setRightValue($rgt) { $this->rgt = $rgt; }
-
-    public function __toString() { return $this->name; }
 }
