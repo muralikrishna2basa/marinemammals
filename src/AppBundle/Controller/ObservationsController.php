@@ -18,16 +18,21 @@ use Symfony\Component\HttpFoundation\Request;
 class ObservationsController extends Controller
 {
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $observations = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservation();
 
-        return $this->render('AppBundle:Page:list-observations.html.twig', array(
-            'observations' => $observations,
-        ));
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $observations,
+            $request->query->get('page', 1)/*page number*/,
+            100/*limit per page*/
+        );
+
+        return $this->render('AppBundle:Page:list-observations.html.twig', array('pagination' => $pagination));
     }
 
     public function newAction()

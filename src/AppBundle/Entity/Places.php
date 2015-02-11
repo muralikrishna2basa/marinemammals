@@ -4,15 +4,13 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-//use DoctrineExtensions\NestedSet\Node;
-
 /**
  * Places
  *
  * @ORM\Table(name="PLACES", indexes={@ORM\Index(name="IDX_E57ABD3EE3C1733", columns={"PCE_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PlacesRepository")
  */
-class Places //implements Node
+class Places
 {
     /**
      * @var \DateTime
@@ -290,4 +288,5 @@ class Places //implements Node
             return '';
         }*/
     }
+
 }

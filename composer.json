@@ -28,7 +28,8 @@
         "symfony/swiftmailer-bundle":"2.3.8",
         "symfony/symfony":"2.6.1",
         "twig/extensions":"1.2.0",
-        "twig/twig":"1.16.2"
+        "twig/twig":"1.16.2",
+                "knplabs/knp-paginator-bundle": "~2.4"
     },
     "autoload": {
 	"psr-0": {"TaxaBundle": "src/","AppBundle": "src/"}

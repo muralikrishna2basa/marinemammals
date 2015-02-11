@@ -1,25 +1,26 @@
     <h2>List of observations</h2>
+    <div class="count">
+        {{ pagination.getTotalItemCount }}
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>station</th>
-            <th>latitude</th>
-            <th>longitude</th>
-            <th>date and time</th>
-            <th>species</th>
-            <th>specimen seqno</th>
-            <th>edit</th>
+            <th>Station</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th{% if pagination.isSorted('o.eseSeqno.eventDatetime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date and time', 'o.eseSeqno.eventDatetime') }}</th>
+            <th{% if pagination.isSorted('o.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Species', 'o.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') }}</th>
+            <th>Edit</th>
         </tr>
         </thead>
-        {% for o in observations %}
+        {% for o in pagination %}
             <tr>
                 {#<td>{% if o.stnSeqno is not null%}{{o.stnSeqno.country}}{% endif%}</td>#}
                 <td>{% if o.stnSeqno is not null%}{{o.stnSeqno.fullyQualifiedName}}{% endif%}</td>
                 <td>{{o.latDec}}</td>
                 <td>{{o.lonDec}}</td>
-                <td>{{o.eseSeqno.eventDatetime|date("m/d/Y")}}</td>
+                <td>{{o.eseSeqno.eventDatetime|date("d/m/Y")}}</td>
                 <td>{{o.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName}}</td>
-                <td>{{o.eseSeqno.seqno}}</td>
                 <td><a href="{{ path('mm_observations_edit', {'id': o.eseSeqno.seqno}) }}">EDIT</a></td>
             </tr>
         {% else %}
@@ -28,3 +29,6 @@
             </tr>
         {% endfor %}
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>

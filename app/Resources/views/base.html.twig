@@ -2,8 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset=utf-8
-    " />
+    <meta http-equiv="Content-Type" content="text/html" charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Marine Mammals">
     <meta name="author" content="Thomas Vandenberghe">
@@ -18,10 +17,11 @@
     'http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic|Patua+One|Yanone+Kaffeesatz'
     'http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css'
     'http://www.odnature.be/css/odnature.css'
-    'css/mm.css' %}
+    '@AppBundle/Resources/public/css/mm.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
-
+    {% block stylesheets %}
+    {% endblock %}
 </head>
 <body>
 <div class="container">
