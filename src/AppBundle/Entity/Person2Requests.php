@@ -52,7 +52,7 @@ class Person2Requests
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Persons", inversedBy="seqno")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Persons", inversedBy="person2Requests")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
@@ -64,7 +64,7 @@ class Person2Requests
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RequestLoans", inversedBy="seqno")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RequestLoans", inversedBy="person2Requests")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="RLN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })

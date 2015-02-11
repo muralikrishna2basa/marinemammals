@@ -26,4 +26,14 @@ class PlacesRepository extends EntityRepository
             ->addOrderBy('p.name', 'ASC');
         return $qb;
     }
+
+    public function getAllCountries()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p.name')
+            ->addOrderBy('p.name', 'ASC')
+            ->where('p.type = CTY');
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

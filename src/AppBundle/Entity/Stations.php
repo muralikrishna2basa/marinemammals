@@ -406,4 +406,18 @@ class Stations
     {
         return $this->getPceSeqno()->getName().' - '.$this->getCode().' ('.$this->getAreaType().')';
     }
+
+    /**
+     * Get country the station is in
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        if ($this->getPceSeqno() !== null){
+            return $this->getPceSeqno()->getCountry();
+        }
+        else return '';
+
+    }
 }

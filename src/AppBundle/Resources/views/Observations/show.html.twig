@@ -1,0 +1,92 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Observations</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Isconfidential</th>
+                <td>{{ entity.isconfidential }}</td>
+            </tr>
+            <tr>
+                <th>Cpncode</th>
+                <td>{{ entity.cpnCode }}</td>
+            </tr>
+            <tr>
+                <th>Credat</th>
+                <td>{{ entity.creDat|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Creuser</th>
+                <td>{{ entity.creUser }}</td>
+            </tr>
+            <tr>
+                <th>Idaccesstmp</th>
+                <td>{{ entity.idAccessTmp }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ entity.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Latdec</th>
+                <td>{{ entity.latDec }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ entity.longitude }}</td>
+            </tr>
+            <tr>
+                <th>Londec</th>
+                <td>{{ entity.lonDec }}</td>
+            </tr>
+            <tr>
+                <th>Moddat</th>
+                <td>{{ entity.modDat|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Moduser</th>
+                <td>{{ entity.modUser }}</td>
+            </tr>
+            <tr>
+                <th>Osntype</th>
+                <td>{{ entity.osnType }}</td>
+            </tr>
+            <tr>
+                <th>Precisionflag</th>
+                <td>{{ entity.precisionFlag }}</td>
+            </tr>
+            <tr>
+                <th>Samplingeffort</th>
+                <td>{{ entity.samplingeffort }}</td>
+            </tr>
+            <tr>
+                <th>Webcommentsen</th>
+                <td>{{ entity.webcommentsEn }}</td>
+            </tr>
+            <tr>
+                <th>Webcommentsfr</th>
+                <td>{{ entity.webcommentsFr }}</td>
+            </tr>
+            <tr>
+                <th>Webcommentsnl</th>
+                <td>{{ entity.webcommentsNl }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('user') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('user_edit', { 'id': entity.eseSeqno }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

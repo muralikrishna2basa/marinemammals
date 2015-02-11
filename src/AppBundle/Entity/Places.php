@@ -4,13 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use DoctrineExtensions\NestedSet\Node;
+
 /**
  * Places
  *
  * @ORM\Table(name="PLACES", indexes={@ORM\Index(name="IDX_E57ABD3EE3C1733", columns={"PCE_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PlacesRepository")
  */
-class Places
+class Places implements Node
 {
     /**
      * @var \DateTime
@@ -264,4 +266,49 @@ class Places
     {
         return $this->getParentName().' - '.$this->getName().' ('.$this->getType().')';
     }
+
+    public $iteration=0;
+    public $iterationstring='start';
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        if($this->type==='CTY'){
+            $this->iterationstring=$this->iterationstring.'-- end: '.$this->iteration;
+            return $this->getName();
+        }
+        else {
+            $this->iteration++;
+            $this->iterationstring=$this->iterationstring.'--'.$this->getName();
+            return $this->getPceSeqno()->getCountry();
+        }
+        /*elseif ($this->iteration=100){
+            return '';
+        }*/
+    }
+
+    /**
+     * @Column(type="integer")
+     */
+    private $lft;
+
+    /**
+     * @Column(type="integer")
+     */
+    private $rgt;
+
+
+    public function getId() { return $this->seqno; }
+
+    public function getLeftValue() { return $this->lft; }
+    public function setLeftValue($lft) { $this->lft = $lft; }
+
+    public function getRightValue() { return $this->rgt; }
+    public function setRightValue($rgt) { $this->rgt = $rgt; }
+
+    public function __toString() { return $this->name; }
 }

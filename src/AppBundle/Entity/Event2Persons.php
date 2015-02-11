@@ -49,12 +49,13 @@ class Event2Persons
      */
     private $e2pType;
 
+
     /**
      * @var \AppBundle\Entity\Persons
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Persons", inversedBy="seqno")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Persons", inversedBy="event2Persons") //TODO
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
@@ -66,7 +67,7 @@ class Event2Persons
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="seqno")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="event2Persons")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })

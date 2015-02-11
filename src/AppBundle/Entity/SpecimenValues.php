@@ -82,6 +82,7 @@ class SpecimenValues implements EntityValues
      */
     private $s2eScnSeqno;
 
+
     /**
      * @var \AppBundle\Entity\ParameterMethods
      *

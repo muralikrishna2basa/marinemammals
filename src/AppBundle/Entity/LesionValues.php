@@ -310,8 +310,8 @@ class LesionValues implements EntityValues
     }
 
     /**
-     * @param boolean $mustBeFlagged
-     * @return SpecimenValues
+     * @param boolean $valueFlagRequired
+     * @return LesionValues
      */
     public function setValueFlagRequired($valueFlagRequired)
     {
@@ -329,7 +329,7 @@ class LesionValues implements EntityValues
 
     /**
      * @param boolean $valueRequired
-     * @return SpecimenValues
+     * @return LesionValues
      */
     public function setValueRequired($valueRequired)
     {
@@ -344,7 +344,7 @@ class LesionValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getValueFlagRequired() && $this->getValueFlag() === null && $this->getValue() !== null) {
+        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
             return false;
         } else {
             return true;
@@ -367,6 +367,6 @@ class LesionValues implements EntityValues
      * @return boolean
      */
     public function isValueLegal(){
-        return $this->getValue() !== null && $this->getValueRequired() && !$this->isValueUnwantedLegal();
+        return $this->getValueRequired() && !$this->isValueUnwantedLegal();
     }
 }

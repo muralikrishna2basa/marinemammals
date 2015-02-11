@@ -2,6 +2,9 @@
     <table>
         <thead>
         <tr>
+            <th>country</th>
+            <th>station</th>
+            <th>it</th>
             <th>latitude</th>
             <th>longitude</th>
             <th>date and time</th>
@@ -10,6 +13,9 @@
         </thead>
         {% for o in observations %}
             <tr>
+                <td>{% if o.stnSeqno is not null%}{{o.stnSeqno.country}}{% endif%}</td>
+                <td>{% if o.stnSeqno is not null%}{{o.stnSeqno.fullyQualifiedName}}{% endif%}</td>
+                <td>{% if o.stnSeqno is not null and o.stnSeqno.pceSeqno is not null%}{{o.stnSeqno.pceSeqno.iterationstring}}{% endif%}</td>
                 <td>{{o.latDec}}</td>
                 <td>{{o.lonDec}}</td>
                 <td>{{o.eseSeqno.eventDatetime|date("m/d/Y")}}</td>

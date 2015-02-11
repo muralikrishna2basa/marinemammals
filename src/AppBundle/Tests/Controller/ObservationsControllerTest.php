@@ -3,56 +3,53 @@
 namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 
 class ObservationsControllerTest extends WebTestCase
 {
-    public function testIndex()
+    /*
+    public function testCompleteScenario()
     {
-        /*$client = static::createClient();
-
-        $crawler = $client->request('GET', '/observations/add');
-
-        $this->assertTrue($crawler->filter('html:contains("Effort Related Survey?")')->count() > 0);*/
-        $this->assertTrue(true);
-    }
-
-    public function testCreate(){
+        // Create a new client to browse the application
         $client = static::createClient();
-       // echo $client->getRequest()->getUri();
 
+        // Create a new entry in the database
+        $crawler = $client->request('GET', '/user/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /user/");
+        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
-        $crawler = $client->request('GET', '/observations/add');
+        // Fill in the form and submit it
+        $form = $crawler->selectButton('Create')->form(array(
+            'appbundle_observations[field_name]'  => 'Test',
+            // ... other fields to fill
+        ));
 
-        $form = $crawler->selectButton('Submit')->form();
-// set some values
-        $form['observationstype[eseSeqno][eventDatetime][date]'] = '19/02/2098';
-        $form['observationstype[eseSeqno][eventDatetime][date]'] = '11:22';
-        $form['observationstype[latDec]'] = '51.6546';
-        $form['observationstype[lonDec]'] = '2.6846';
-        $form['observationstype[precisionFlag]'] = 'exact';
-        $form['observationstype[stnSeqno]'] = '193';
-        $form['observationstype[osnType]'] = 'Sighted';
-        $form['observationstype[samplingeffort]'] = 'ad hoc observation';
-        $form['observationstype[eseSeqno][spec2events][scnSeqnoNew][txnSeqno]'] = 'Cetacea';
-        $form['observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]'] = 5;
-        $form['observationstype[eseSeqno][observers][0][psnSeqno]'] = 'Karien De Cauwer';
-        $form['observationstype[eseSeqno][gatherers][1][psnSeqno]'] = 'Thierry Jacques';
+        $client->submit($form);
+        $crawler = $client->followRedirect();
 
-// submit the form
-        $crawler = $client->submit($form);
-        $this->assertEquals(
-            Response::HTTP_OK,
-            $client->getResponse()->getStatusCode()
-        );
+        // Check data in the show view
+        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
 
-        $html = '';
+        // Edit the entity
+        $crawler = $client->click($crawler->selectLink('Edit')->link());
 
-        foreach ($crawler as $domElement) {
-            $html .= $domElement->ownerDocument->saveHTML();
-        }
-        echo $html; die;
-        echo $crawler->text();
+        $form = $crawler->selectButton('Update')->form(array(
+            'appbundle_observations[field_name]'  => 'Foo',
+            // ... other fields to fill
+        ));
 
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+
+        // Check the element contains an attribute with value equals "Foo"
+        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
+
+        // Delete the entity
+        $client->submit($crawler->selectButton('Delete')->form());
+        $crawler = $client->followRedirect();
+
+        // Check the entity has been delete on the list
+        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
+
+    */
 }

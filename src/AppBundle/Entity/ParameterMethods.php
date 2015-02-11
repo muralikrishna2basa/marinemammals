@@ -99,6 +99,15 @@ class ParameterMethods
      */
     private $observationValues;
 
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SpecimenValues", mappedBy="pmdSeqno")
+     */
+    private $specimenValues;
+
+
     /**
      * Constructor
      */
@@ -369,11 +378,32 @@ class ParameterMethods
 
     /**
      * @param \Doctrine\Common\Collections\Collection $observationValues
-     * @return Observations
+     * @return ParameterMethods
      */
     public function setObservationValues($observationValues)
     {
         $this->observationValues = $observationValues;
         return $this;
     }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSpecimenValues()
+    {
+        return $this->specimenValues;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $specimenValues
+     * @return ParameterMethods
+     */
+    public function setSpecimenValues($specimenValues)
+    {
+        $this->specimenValues = $specimenValues;
+        return $this;
+    }
+
+
+
 }

@@ -67,7 +67,7 @@ class ObservationValues implements EntityValues
     /**
      * @var \AppBundle\Entity\ParameterMethods
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="values")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="observationValues")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
@@ -341,7 +341,7 @@ class ObservationValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getValueFlagRequired() && $this->getValueFlag() === null && $this->getValue() !== null) {
+        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
             return false;
         } else {
             return true;
@@ -364,6 +364,6 @@ class ObservationValues implements EntityValues
      * @return boolean
      */
     public function isValueLegal(){
-        return $this->getValue() !== null && $this->getValueRequired() && !$this->isValueUnwantedLegal();
+        return $this->getValueRequired() && !$this->isValueUnwantedLegal();
     }
 }

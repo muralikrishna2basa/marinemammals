@@ -66,9 +66,9 @@ class ObservationsController extends Controller
 
             return $this->redirect($request->getUri());
         }
-        else{
-            \Doctrine\Common\Util\Debug::dump($form->getErrorsAsString());
-        }
+      /*  else{
+            \Doctrine\Common\Util\Debug::dump($form->getErrorsAsString()); //TODO
+        }*/
 
         return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
             'form' => $form->createView()
@@ -231,6 +231,11 @@ class ObservationsController extends Controller
     private function loadObservation($id)
     {
         $observation = $this->getDoctrine()->getRepository('AppBundle:Observations')->find($id);
+        //$event=$this->getDoctrine()->getRepository('AppBundle:EventStates')->find($id);
+        //$s2e=$this->getDoctrine()->getRepository('AppBundle:Spec2Events')->findByEseSeqno($event);
+        //$event->setSpec2Events($s2e);
+        //$specimen=$this->getDoctrine()->getRepository('AppBundle:Specimens')->findBySeqno(\AppBundle\Entity\EventStates $scnSeqno)
+
         if (!$observation) {
             throw $this->createNotFoundException(sprintf('omg this observation could not be loaded: %s', $id));
         }

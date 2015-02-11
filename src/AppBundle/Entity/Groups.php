@@ -76,7 +76,9 @@ class Groups
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Menus", mappedBy="grpName")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Menus", inversedBy="grpName")
+     * @ORM\JoinTable(name="GROUP2MENUS", inverseJoinColumns={@ORM\JoinColumn(name="MNU_SEQNO", referencedColumnName="SEQNO")},
+     *     joinColumns={@ORM\JoinColumn(name="GRP_NAME", referencedColumnName="NAME")})
      */
     private $mnuSeqno;
 
@@ -84,8 +86,6 @@ class Groups
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Persons", mappedBy="grpName")
-     * @ORM\JoinTable(name="PERSON2GROUPS", inverseJoinColumns={@ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO")},
-     *     joinColumns={@ORM\JoinColumn(name="GRP_NAME", referencedColumnName="NAME")})
      */
     private $psnSeqno;
 

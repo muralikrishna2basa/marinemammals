@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Spec2Events SPEC2EVENTS
  *
  * @ORM\Table(name="SPEC2EVENTS", indexes={@ORM\Index(name="S2E_PK", columns={"SCN_SEQNO","ESE_SEQNO"}), @ORM\Index(name="S2E_ESE_FK_I", columns={"ESE_SEQNO"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\Spec2ERepository")
  */
 class Spec2Events implements ValueAssignable
 {
@@ -449,6 +449,7 @@ class Spec2Events implements ValueAssignable
                 return true;
             }
         }
+        return false;
     }
 }
 

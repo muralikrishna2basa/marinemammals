@@ -147,7 +147,9 @@ class Persons
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Groups", mappedBy="psnSeqno")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Groups", inversedBy="psnSeqno")
+     * @ORM\JoinTable(name="PERSON2GROUPS", joinColumns={@ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="GRP_NAME", referencedColumnName="NAME")})
      */
     private $grpName;
 

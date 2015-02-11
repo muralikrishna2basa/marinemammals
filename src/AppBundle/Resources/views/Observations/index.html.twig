@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Observations list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Isconfidential</th>
+                <th>Cpncode</th>
+                <th>Credat</th>
+                <th>Creuser</th>
+                <th>Idaccesstmp</th>
+                <th>Latitude</th>
+                <th>Latdec</th>
+                <th>Longitude</th>
+                <th>Londec</th>
+                <th>Moddat</th>
+                <th>Moduser</th>
+                <th>Osntype</th>
+                <th>Precisionflag</th>
+                <th>Samplingeffort</th>
+                <th>Webcommentsen</th>
+                <th>Webcommentsfr</th>
+                <th>Webcommentsnl</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('user_show', { 'id': entity.eseSeqno }) }}">{{ entity.isconfidential }}</a></td>
+                <td>{{ entity.cpnCode }}</td>
+                <td>{% if entity.creDat %}{{ entity.creDat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.creUser }}</td>
+                <td>{{ entity.idAccessTmp }}</td>
+                <td>{{ entity.latitude }}</td>
+                <td>{{ entity.latDec }}</td>
+                <td>{{ entity.longitude }}</td>
+                <td>{{ entity.lonDec }}</td>
+                <td>{% if entity.modDat %}{{ entity.modDat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.modUser }}</td>
+                <td>{{ entity.osnType }}</td>
+                <td>{{ entity.precisionFlag }}</td>
+                <td>{{ entity.samplingeffort }}</td>
+                <td>{{ entity.webcommentsEn }}</td>
+                <td>{{ entity.webcommentsFr }}</td>
+                <td>{{ entity.webcommentsNl }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('user_show', { 'id': entity.eseSeqno }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('user_edit', { 'id': entity.eseSeqno }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('user_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
