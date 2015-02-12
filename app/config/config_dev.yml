@@ -43,6 +43,9 @@ monolog:
 
 assetic:
     use_controller: true
-
+twig:
+    form:
+        resources:
+            - LexikFormFilterBundle:Form:form_div_layout.html.twig
 #swiftmailer:
 #    delivery_address: me@example.com

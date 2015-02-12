@@ -233,6 +233,14 @@ class OrganLesions implements ValueAssignable
         return $this;
     }
 
+    /**
+     * @param \AppBundle\Entity\EntityValues $value
+     */
+    public function addValue(EntityValues $value)
+    {
+        $this->getValues()->add($value);
+    }
+
     public function removeValue(EntityValues $ev)
     {
         $this->getValues()->removeElement($ev);

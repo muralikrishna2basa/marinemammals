@@ -29,7 +29,8 @@
         "symfony/symfony":"2.6.1",
         "twig/extensions":"1.2.0",
         "twig/twig":"1.16.2",
-                "knplabs/knp-paginator-bundle": "~2.4"
+        "knplabs/knp-paginator-bundle": "~2.4",
+	"lexik/form-filter-bundle": "3.*@dev"
     },
     "autoload": {
 	"psr-0": {"TaxaBundle": "src/","AppBundle": "src/"}

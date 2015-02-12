@@ -18,7 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new TaxaBundle\TaxaBundle(),
             new AppBundle\AppBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

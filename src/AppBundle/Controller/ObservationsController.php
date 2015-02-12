@@ -7,11 +7,11 @@ use AppBundle\Entity\ObservationValues;
 use AppBundle\Entity\EventStates;
 use AppBundle\Entity\Event2Persons;
 use AppBundle\Entity\Spec2Events;
-use AppBundle\Entity\Specimens;
 use AppBundle\Entity\SpecimenValues;
 use AppBundle\Entity\EntityValues;
 use AppBundle\Entity\ValueAssignable;
 use AppBundle\Form\ObservationsType;
+use AppBundle\Form\Filter\ObservationsFilterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,16 +22,39 @@ class ObservationsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
+
+        if ($request->query->has($form->getName())) {
+            // manually bind values from the request
+            $form->submit($request->query->get($form->getName()));
+            // initialize a query builder
+            $filterBuilder = $em->getRepository('AppBundle:Observations')->createQueryBuilder('e');
+            // build the query from the given form object
+            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+            //var_dump($filterBuilder->getDql());
+            //this is the place where everything happen, the $filterBuilder only creates the query for the filters but can't get the
+            //objects by itself so we need to "getQuery()" and then "getArrayResult()", thats all, the filtered have been loaded
+            $resultQuery = $filterBuilder->getQuery();
+            $filteredEntities = $resultQuery->getArrayResult();
+            $filteredAndPaginatedEntities=$this->paginate($filteredEntities);
+            return $this->render('AppBundle:Page:list-observations.html.twig', array(
+                'entities' => $filteredAndPaginatedEntities
+            ));
+        }
         $observations = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservation();
-        $form = $this->createForm(new \AppBundle\Form\Read\ObservationsType($this->getDoctrine()));
+        $paginatedEntities=$this->paginate($observations);
+        return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $paginatedEntities,'form' => $form->createView()));
+    }
+
+    private function paginate($array){
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $observations,
-            $request->query->get('page', 1)/*page number*/,
-            100/*limit per page*/
+            $array,
+            $this->get('request')->query->get('page', 1)/*page number*/,
+            20/*limit per page*/
         );
-        return $this->render('AppBundle:Page:list-observations.html.twig', array('pagination' => $pagination,'form' => $form->createView()));
+        return $pagination;
     }
 
     public function newAction()
@@ -187,16 +210,20 @@ class ObservationsController extends Controller
         return $observation;
     }
 
+    private $allSpecimenValues;
+
+    private $allObservationValues;
+
     private function instantiateObservationValues($pmName, &$observation, $mustBeFlagged,$mustBeCompleted)
     {
         $em = $this->getDoctrine()->getManager();
         $pm = $em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
         $ov = new ObservationValues();
         $ov->setPmdSeqno($pm);
-        $ov->setEseSeqno($observation);
         $ov->setValueFlagRequired($mustBeFlagged);
         $ov->setValueRequired($mustBeCompleted);
-        return $ov;
+
+        $ov->setEseSeqno($observation);
     }
 
     private function instantiateSpecimenValues($pmName, &$s2e, $mustBeFlagged,$mustBeCompleted)
@@ -205,10 +232,10 @@ class ObservationsController extends Controller
         $pm = $em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
         $sv = new SpecimenValues();
         $sv->setPmdSeqno($pm);
-        $sv->setS2eScnSeqno($s2e);
         $sv->setValueFlagRequired($mustBeFlagged);
         $sv->setValueRequired($mustBeCompleted);
-        return $sv;
+
+        $sv->setS2eScnSeqno($s2e);
     }
 
     public function editAction($id)

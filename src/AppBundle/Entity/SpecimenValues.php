@@ -282,7 +282,7 @@ class SpecimenValues implements EntityValues
     public function setS2eScnSeqno(\AppBundle\Entity\Spec2events $s2eScnSeqno = null)
     {
         $this->s2eScnSeqno = $s2eScnSeqno;
-        $s2eScnSeqno->addToValues($this);
+        $s2eScnSeqno->addValue($this);
         return $this;
     }
 

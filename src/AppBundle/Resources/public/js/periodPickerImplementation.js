@@ -28,19 +28,6 @@
             $firstDateTextbox.datepicker(options);
             $lastDateTextbox.datepicker(options);
 
-            $.validator.addMethod("dateBE&Logical", function (value) {
-                var dt = Date.parseExact(value, ["dd/MM/yyyy"]);
-                var tomorrow = Date.today().addDays(1);
-                return dt != null && Date.today().isBefore(tomorrow);
-            }, 'Not a valid date. The correct date format is dd/mm/yyyy');
-
-            $.validator.addMethod('daterange', function(element) {
-                var $firstDateTextbox = element.find("input:first-of-type");
-                var $lastDateTextbox = element.find("input:last-of-type");
-                var ds = Date.parseExact($firstDateTextbox.val(), ["dd/MM/yyyy"]);
-                var de = Date.parseExact($lastDateTextbox.val(), ["dd/MM/yyyy"]);
-                return (ds <= de);
-            });
 
             /*$firstDateTextbox.change(function () {
                 var ds = Date.parseExact($(this).val(), ["dd/MM/yyyy"]);

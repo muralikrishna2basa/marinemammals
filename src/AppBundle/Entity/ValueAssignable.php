@@ -12,4 +12,6 @@ interface ValueAssignable
 
     public function removeValue(EntityValues $ev);
 
+    public function addValue(EntityValues $ev);
+
 }

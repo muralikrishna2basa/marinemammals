@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form\Read;
+namespace AppBundle\Form\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,7 +10,7 @@ use AppBundle\Form\ChoiceList\StationsTypeList;
 use AppBundle\Form\ChoiceList\TaxaList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ObservationsType extends AbstractType
+class ObservationsFilterType extends AbstractType
 {
     private $doctrine;
 
@@ -21,32 +21,32 @@ class ObservationsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('eventDatetimeStart', 'date', array(
+        $builder->add('eventDatetimeStart', 'filter_date', array(
             'required' => false,
             'input'  => 'datetime',
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy'));
-        $builder->add('eventDatetimeStop', 'date', array(
+        $builder->add('eventDatetimeStop', 'filter_date', array(
             'required' => false,
             'input'  => 'datetime',
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy'));
-        $builder->add('country', 'choice', array(
+        $builder->add('country', 'filter_choice', array(
             'required' => false,
             'empty_value' => 'Country...',
             'choice_list' => new CountryList($this->doctrine)
         ));
-        $builder->add('stationtype', 'choice', array(
+        $builder->add('stationtype', 'filter_choice', array(
             'required' => false,
             'empty_value' => 'Station location...',
             'choice_list' => new StationsTypeList($this->doctrine)
         ));
-        $builder->add('station', 'choice', array(
+        $builder->add('station', 'filter_choice', array(
             'required' => false,
             'empty_value' => 'Station...',
             'choice_list' => new StationsList($this->doctrine)
         ));
-        $builder->add('species', 'choice', array(
+        $builder->add('species', 'filter_choice', array(
             'required' => false,
             'empty_value' => 'Species...',
             'choice_list' => new TaxaList($this->doctrine)
@@ -55,12 +55,14 @@ class ObservationsType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-            ->setDefaults(array());
+        $resolver->setDefaults(array(
+            'csrf_protection'   => false,
+            'validation_groups' => array('filtering') // avoid NotBlank() constraint-related message
+        ));
     }
 
     public function getName()
     {
-        return 'observationsreadtype';
+        return 'observationsfiltertype';
     }
 }

@@ -6,7 +6,6 @@
 {% block stylesheets %}
     {% stylesheets
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css'
-
     %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -14,28 +13,46 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
-    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/date-nl-BE.js'
     '@AppBundle/Resources/public/js/periodPickerImplementation.js'
-    '@AppBundle/Resources/public/js/date-nl-BE.js' %}
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js'
+    'http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.18.4/js/jquery.tablesorter.min.js'
+    'http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js'
+    'http://cdnjs.cloudflare.com/ajax/libs/kartograph-js/0.8.7/kartograph.min.js'%}
     <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <script>
-        var stationSelector = $('#observationsreadtype_station');
-        var speciesSelector = $('#observationsreadtype_species');
+        var stationSelector = $('#observationsfiltertype_station');
+        var speciesSelector = $('#observationsfiltertype_species');
         var containingDiv = $('#periodpicker');
+        var table = $("#myTable");
         $(document).ready(function () {
             stationSelector.select2();
             speciesSelector.select2();
-            containingDiv.initPeriodPicker(1950);
+
             var validator = $this.validate({
                 ignore: "",
                 rules: {
-                    "observationsreadtype[eventDatetimeStart]": 'dateBE&Logical',
-                    "observationsreadtype[eventDatetimeStop]": 'dateBE&Logical',
-                    "name":'daterange'
+                    "observationsfiltertype[eventDatetimeStart]": 'dateBE&Logical',
+                    "observationsfiltertype[eventDatetimeStop]": 'dateBE&Logical',
+                    "name":'validDaterange'
                 }
+            });
+            containingDiv.initPeriodPicker(1950);
+            table.tablesorter({sortList: [[3,0], [4,0]], dateFormat: 'pt'});
+            var map = kartograph.map('#map', 100, 100);
+            map.loadMap('/img/mymap.svg', function() {
+                // do something with your map, add layers etc.
+            });
+            map.addSymbols({
+                type: kartograph.Label,
+                data: [{ name: 'Antwerp', lon: 4.4000, lat: 51.2167 }],
+                location: function(d) { return [d.lon, d.lat] },
+                text: function(d) { return d.name; }
             });
         });
     </script>
-    {% endjavascripts %}
 {% endblock %}
 

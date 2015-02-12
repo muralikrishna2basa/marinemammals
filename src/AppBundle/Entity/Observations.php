@@ -728,7 +728,7 @@ class Observations implements ValueAssignable
     /**
      * @param \AppBundle\Entity\EntityValues $value
      */
-    public function addToValues($value)
+    public function addValue(EntityValues $value)
     {
         $this->getValues()->add($value);
     }

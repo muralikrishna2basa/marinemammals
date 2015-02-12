@@ -275,7 +275,7 @@ class ObservationValues implements EntityValues
     public function setEseSeqno(\AppBundle\Entity\Observations $eseSeqno = null)
     {
         $this->eseSeqno = $eseSeqno;
-        $eseSeqno->addToValues($this);
+        $eseSeqno->addValue($this);
         return $this;
     }
 
