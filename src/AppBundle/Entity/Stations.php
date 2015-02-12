@@ -408,6 +408,16 @@ class Stations
     }
 
     /**
+     * Get fully Qualified Name
+     *
+     * @return \AppBundle\Entity\Places
+     */
+    public function getExtendedName()
+    {
+        return $this->getPceSeqno()->getName().' - '.$this->getCode();
+    }
+
+    /**
      * Get country the station is in
      *
      * @return string

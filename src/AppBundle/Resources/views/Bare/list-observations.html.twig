@@ -1,4 +1,12 @@
-    <h2>List of observations</h2>
+{{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create'),'attr':{'id':'observationform', 'novalidate':'true'}}) }}
+<div class="well">
+    <fieldset>
+        {{ include('AppBundle:Bare:find-observations.html.twig') }}
+    </fieldset>
+</div>
+{{ form_end(form) }}
+
+<h2>List of observations</h2>
     <div class="count">
         {{ pagination.getTotalItemCount }}
     </div>

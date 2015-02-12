@@ -1,35 +1,50 @@
 ﻿
 (function ($) {
-    //Call this method on the wrapper of a startDagTxtBox and a eindDagTxtBox 
+    //Call this method on the wrapper of a $firstDateTextbox and a $lastDateTextbox 
     $.fn.initPeriodPicker = function (minYear) {
         return this.each(function () {
             var $this = $(this);
             var minDateVar = new Date(minYear, 1 - 1, 1);
-            var startDagTxtBox = $('#' + $this.attr('id') + ' .startDagTxtBox');
-            var eindDagTxtBox = $('#' + $this.attr('id') + ' .eindDagTxtBox');
-            //$('#' + $this.attr('id') + ' .startDagTxtBox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
-            //});
-            //$('#' + $this.attr('id') + ' .eindDagTxtBox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
-            //});
-            var randomNum = Math.random()
-            startDagTxtBox.attr('id', 'startDagTxtBox' + randomNum);
-            eindDagTxtBox.attr('id', 'eindDagTxtBox' + randomNum);
-            startDagTxtBox.removeClass('hasDatepicker');
-            eindDagTxtBox.removeClass('hasDatepicker');
+            //var $firstDateTextbox = $('#' + $this.attr('id') + ' .$firstDateTextbox');
+            var $firstDateTextbox = $this.find("input:first-of-type");
+            var $lastDateTextbox = $this.find("input:last-of-type");
+            var firstDateTextboxId = $firstDateTextbox.attr('id');
+            var lastDateTextboxId = $firstDateTextbox.attr('id');
+            var randomNum = Math.random();
+            if(!firstDateTextboxId){
+                firstDateTextboxId='firstDateTextbox' + randomNum;
+                $firstDateTextbox.attr('id', firstDateTextboxId);
+            }
+            if(!lastDateTextboxId){
+                lastDateTextboxId='lastDateTextbox' + randomNum;
+                $lastDateTextbox.attr('id', lastDateTextboxId);
+            }
+            $firstDateTextbox.removeClass('hasDatepicker');
+            $lastDateTextbox.removeClass('hasDatepicker');
 
-            //$this.find('.startDagTxtBox,.eindDagTxtBox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
-            //});
-            var commonVars = {
+            var options = {
                 dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
             };
+            $firstDateTextbox.datepicker(options);
+            $lastDateTextbox.datepicker(options);
 
-            startDagTxtBox.datepicker(commonVars);
-            eindDagTxtBox.datepicker(commonVars);
+            $.validator.addMethod("dateBE&Logical", function (value) {
+                var dt = Date.parseExact(value, ["dd/MM/yyyy"]);
+                var tomorrow = Date.today().addDays(1);
+                return dt != null && Date.today().isBefore(tomorrow);
+            }, 'Not a valid date. The correct date format is dd/mm/yyyy');
 
-            startDagTxtBox.change(function () {
-                //$this.find('.startDagTxtBox').change(function () {
+            $.validator.addMethod('daterange', function(element) {
+                var $firstDateTextbox = element.find("input:first-of-type");
+                var $lastDateTextbox = element.find("input:last-of-type");
+                var ds = Date.parseExact($firstDateTextbox.val(), ["dd/MM/yyyy"]);
+                var de = Date.parseExact($lastDateTextbox.val(), ["dd/MM/yyyy"]);
+                return (ds <= de);
+            });
+
+            /*$firstDateTextbox.change(function () {
                 var ds = Date.parseExact($(this).val(), ["dd/MM/yyyy"]);
-                var de = Date.parseExact($(this).siblings('.eindDagTxtBox').val(), ["dd/MM/yyyy"]);
+                var de = Date.parseExact($(this).siblings('#'+lastDateTextboxId).val(), ["dd/MM/yyyy"]);
                 if (ds != null) {
                     $(this).val(ds.toString("dd/MM/yyyy"))
                 }
@@ -63,9 +78,8 @@
                     }
                 }
             });
-            //$this.find('.eindDagTxtBox').change(function () {
-            eindDagTxtBox.change(function () {
-                var ds = Date.parseExact($(this).siblings('.startDagTxtBox').val(), ["dd/MM/yyyy"]);
+            $lastDateTextbox.change(function () {
+                var ds = Date.parseExact($(this).siblings('#'+firstDateTextboxId).val(), ["dd/MM/yyyy"]);
                 var de = Date.parseExact($(this).val(), ["dd/MM/yyyy"]);
                 if (de != null) {
                     $(this).val(de.toString("dd/MM/yyyy"))
@@ -99,29 +113,29 @@
                         }, 2500);
                     }
                 }
-            });
+            });*/
         });
     };
 })(jQuery);
 
 (function ($) {
-    //Call this method on the wrapper of a startDagTxtBox and a eindDagTxtBox 
+    //Call this method on the wrapper of a $firstDateTextbox and a $lastDateTextbox 
     $.fn.initDatePicker = function (minYear) {
         return this.each(function () {
             var $this = $(this);
             var minDateVar = new Date(minYear, 1 - 1, 1);
             var dagTxtBox = $('#' + $this.attr('id') + ' .dagTxtBox');
-            //$('#' + $this.attr('id') + ' .startDagTxtBox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
+            //$('#' + $this.attr('id') + ' .$firstDateTextbox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
             //});
-            //$('#' + $this.attr('id') + ' .eindDagTxtBox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
+            //$('#' + $this.attr('id') + ' .$lastDateTextbox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
             //});
             //var randomNum = Math.random()
-            //startDagTxtBox.attr('id', 'startDagTxtBox' + randomNum);
-            //eindDagTxtBox.attr('id', 'eindDagTxtBox' + randomNum);
-            //startDagTxtBox.removeClass('hasDatepicker');
-            //eindDagTxtBox.removeClass('hasDatepicker');
+            //$firstDateTextbox.attr('id', '$firstDateTextbox' + randomNum);
+            //$lastDateTextbox.attr('id', '$lastDateTextbox' + randomNum);
+            //$firstDateTextbox.removeClass('hasDatepicker');
+            //$lastDateTextbox.removeClass('hasDatepicker');
 
-            //$this.find('.startDagTxtBox,.eindDagTxtBox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
+            //$this.find('.$firstDateTextbox,.$lastDateTextbox').datepicker({ dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
             //});
             var commonVars = {
                 dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
@@ -130,9 +144,9 @@
             dagTxtBox.datepicker(commonVars);
 
             dagTxtBox.change(function () {
-                //$this.find('.startDagTxtBox').change(function () {
+                //$this.find('.$firstDateTextbox').change(function () {
                 var ds = Date.parseExact($(this).val(), ["dd/MM/yyyy"]);
-                //var de = Date.parseExact($(this).siblings('.eindDagTxtBox').val(), ["dd/MM/yyyy"]);
+                //var de = Date.parseExact($(this).siblings('.$lastDateTextbox').val(), ["dd/MM/yyyy"]);
                 if (ds != null) {
                     $(this).val(ds.toString("dd/MM/yyyy"))
                 }

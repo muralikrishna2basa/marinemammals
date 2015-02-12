@@ -5,12 +5,37 @@
 {% endblock %}
 {% block stylesheets %}
     {% stylesheets
-    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css'
+
+    %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
 {% block javascripts %}
-    {% javascripts 'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
+    {{ parent() }}
+    {% javascripts
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js'
+    '@AppBundle/Resources/public/js/periodPickerImplementation.js'
+    '@AppBundle/Resources/public/js/date-nl-BE.js' %}
     <script type="application/javascript" src="{{ asset_url }}"></script>
+    <script>
+        var stationSelector = $('#observationsreadtype_station');
+        var speciesSelector = $('#observationsreadtype_species');
+        var containingDiv = $('#periodpicker');
+        $(document).ready(function () {
+            stationSelector.select2();
+            speciesSelector.select2();
+            containingDiv.initPeriodPicker(1950);
+            var validator = $this.validate({
+                ignore: "",
+                rules: {
+                    "observationsreadtype[eventDatetimeStart]": 'dateBE&Logical',
+                    "observationsreadtype[eventDatetimeStop]": 'dateBE&Logical',
+                    "name":'daterange'
+                }
+            });
+        });
+    </script>
     {% endjavascripts %}
 {% endblock %}
+

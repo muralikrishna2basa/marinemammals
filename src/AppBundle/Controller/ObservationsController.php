@@ -24,15 +24,14 @@ class ObservationsController extends Controller
 
         $observations = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservation();
-
+        $form = $this->createForm(new \AppBundle\Form\Read\ObservationsType($this->getDoctrine()));
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $observations,
             $request->query->get('page', 1)/*page number*/,
             100/*limit per page*/
         );
-
-        return $this->render('AppBundle:Page:list-observations.html.twig', array('pagination' => $pagination));
+        return $this->render('AppBundle:Page:list-observations.html.twig', array('pagination' => $pagination,'form' => $form->createView()));
     }
 
     public function newAction()

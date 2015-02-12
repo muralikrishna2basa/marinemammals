@@ -26,4 +26,15 @@ class StationsRepository extends EntityRepository
             ->addOrderBy('p.name', 'ASC');
         return $qb;
     }
+
+    public function getAllStationsTypes()
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s.areaType')
+            ->distinct()
+            ->addOrderBy('s.areaType', 'ASC');
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

@@ -1,0 +1,13 @@
+<legend>Observation</legend>
+
+<h3>Date and time</h3>
+
+<div class="form-inline">
+    <div id="periodpicker" name="periodpicker">{{ form_row(form.eventDatetimeStart, {'label':'Date start', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}
+        {{ form_row(form.eventDatetimeStop, {'label':'Date end', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}</div>
+    {{ form_row(form.country, {'label':'Country'}) }}
+    {{ form_row(form.stationtype, {'label':'Station general location'}) }}
+    {{ form_row(form.station, {'label':'Station'}) }}
+    {{ form_row(form.species, {'label':'Species'}) }}
+</div>
+
