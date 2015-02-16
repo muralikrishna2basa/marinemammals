@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OrganLesions
  *
- * @ORM\Table(name="ORGAN_LESIONS", indexes={@ORM\Index(name="OLN_PK", columns={"NCY_ESE_SEQNO","LTE_OGN_CODE","LTE_SEQNO"}), @ORM\Index(name="OLN_LTE_FK_I", columns={"LTE_OGN_CODE","LTE_SEQNO"})})
+ * @ORM\Table(name="ORGAN_LESIONS", indexes={@ORM\Index(name="OLN_PK2", columns={"NCY_ESE_SEQNO","LTE_SEQNO"})})
  * @ORM\Entity
  */
 class OrganLesions implements ValueAssignable
@@ -58,11 +58,10 @@ class OrganLesions implements ValueAssignable
      * @var \AppBundle\Entity\LesionTypes
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\LesionTypes")
+     * @ORM\GeneratedValue(strategy="ASSIGNED")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\LesionTypes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="LTE_SEQNO", referencedColumnName="SEQNO", nullable=false)
-     *   @ORM\JoinColumn(name="LTE_OGN_CODE", referencedColumnName="OGN_CODE", nullable=false)
      * })
      */
     private $lteSeqno;

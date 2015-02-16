@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LesionValues
  *
- * @ORM\Table(name="LESION_VALUES", indexes={@ORM\Index(name="lve_pmd_fk_i", columns={"PMD_SEQNO"}), @ORM\Index(name="lve_oln_fk_i", columns={"OLN_NCY_ESE_SEQNO", "OLN_LTE_OGN_CODE", "OLN_LTE_SEQNO"})})
+ * @ORM\Table(name="LESION_VALUES", indexes={@ORM\Index(name="lve_pmd_fk_i", columns={"PMD_SEQNO"}), @ORM\Index(name="idx_2_lve_oln_fk", columns={"OLN_NCY_ESE_SEQNO"}), @ORM\Index(name="idx_lve_oln_fk", columns={"OLN_LTE_SEQNO"})})
  * @ORM\Entity
  */
 class LesionValues implements EntityValues
@@ -79,12 +79,11 @@ class LesionValues implements EntityValues
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO", nullable=false),
-     *   @ORM\JoinColumn(name="OLN_LTE_OGN_CODE", referencedColumnName="LTE_OGN_CODE", nullable=false),
-     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO", nullable=false)
+     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO", nullable=false),
+     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO", nullable=false)
      * })
      */
-    private $olnNcyEseSeqno;
+    private $olnLteSeqno;
 
     /**
      * @var boolean
@@ -270,28 +269,29 @@ class LesionValues implements EntityValues
     }
 
     /**
-     * Set olnNcyEseSeqno
+     * Set olnLteSeqno
      *
-     * @param \AppBundle\Entity\OrganLesions $olnNcyEseSeqno
+     * @param \AppBundle\Entity\OrganLesions $olnLteSeqno
      * @return LesionValues
      */
-    public function setOlnNcyEseSeqno(\AppBundle\Entity\OrganLesions $olnNcyEseSeqno = null)
+    public function setOlnLteSeqno(\AppBundle\Entity\OrganLesions $olnLteSeqno)
     {
-        $this->olnNcyEseSeqno = $olnNcyEseSeqno;
-    
+        $this->olnLteSeqno = $olnLteSeqno;
+
         return $this;
     }
 
     /**
-     * Get olnNcyEseSeqno
+     * Get olnLteSeqno
      *
      * @return \AppBundle\Entity\OrganLesions 
      */
-    public function getOlnNcyEseSeqno()
+    public function getOlnLteSeqno()
     {
-        return $this->olnNcyEseSeqno;
+        return $this->olnLteSeqno;
     }
-
+    
+    
     /**
      * Get the name of the used parameter method's name
      *

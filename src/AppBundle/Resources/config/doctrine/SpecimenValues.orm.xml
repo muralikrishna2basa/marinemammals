@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\SpecimenValues" table="SPECIMEN_VALUES">
+    <indexes>
+      <index name="sve_s2e_fk_i" columns="S2E_SCN_SEQNO,S2E_ESE_SEQNO"/>
+      <index name="sve_pmd_fk_i" columns="PMD_SEQNO"/>
+      <index name="sve_ese_i" columns="S2E_ESE_SEQNO"/>
+    </indexes>
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="description" type="string" column="DESCRIPTION" length="250" nullable="true"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <field name="value" type="string" column="VALUE" length="50" nullable="false"/>
+    <field name="valueFlag" type="string" column="VALUE_FLAG" length="50" nullable="true"/>
+    <many-to-one field="s2eScnSeqno" target-entity="Spec2events">
+      <join-columns>
+        <join-column name="S2E_SCN_SEQNO" referenced-column-name="SCN_SEQNO"/>
+        <join-column name="S2E_ESE_SEQNO" referenced-column-name="ESE_SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="pmdSeqno" target-entity="ParameterMethods">
+      <join-columns>
+        <join-column name="PMD_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

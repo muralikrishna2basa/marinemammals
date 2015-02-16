@@ -7,18 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Observations
  *
- * @ORM\Table(name="OBSERVATIONS", indexes={@ORM\Index(name="IDX_2EF312B895335730", columns={"PFM_SEQNO"}), @ORM\Index(name="IDX_2EF312B8A3C8473E", columns={"STN_SEQNO"})})
+ * @ORM\Table(name="OBSERVATIONS", indexes={@ORM\Index(name="idx_osn_stn_fk", columns={"STN_SEQNO"}), @ORM\Index(name="idx_osn_ptm_fk", columns={"PFM_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ObservationsRepository")
  */
 class Observations implements ValueAssignable
 {
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="ISCONFIDENTIAL", type="boolean", nullable=true)
-     */
-    private $isconfidential;
-
     /**
      * @var string
      *
@@ -46,6 +39,13 @@ class Observations implements ValueAssignable
      * @ORM\Column(name="ID_ACCESS_TMP", type="integer", nullable=true)
      */
     private $idAccessTmp;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="ISCONFIDENTIAL", type="boolean", nullable=true)
+     */
+    private $isconfidential;
 
     /**
      * @var string
@@ -97,14 +97,14 @@ class Observations implements ValueAssignable
     private $osnType;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="PRECISION_FLAG", type="string", length=50, nullable=true)
      */
     private $precisionFlag;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="SAMPLINGEFFORT", type="string", length=50, nullable=true)
      */
@@ -334,7 +334,7 @@ class Observations implements ValueAssignable
      * @param string $latDec
      * @return Observations
      */
-    public function setlatDec($latDec)
+    public function setLatDec($latDec)
     {
         $this->latDec = $latDec;
     
@@ -346,7 +346,7 @@ class Observations implements ValueAssignable
      *
      * @return string 
      */
-    public function getlatDec()
+    public function getLatDec()
     {
         return $this->latDec;
     }
@@ -380,7 +380,7 @@ class Observations implements ValueAssignable
      * @param string $lonDec
      * @return Observations
      */
-    public function setlonDec($lonDec)
+    public function setLonDec($lonDec)
     {
         $this->lonDec = $lonDec;
     
@@ -392,7 +392,7 @@ class Observations implements ValueAssignable
      *
      * @return string 
      */
-    public function getlonDec()
+    public function getLonDec()
     {
         return $this->lonDec;
     }
@@ -469,7 +469,7 @@ class Observations implements ValueAssignable
     /**
      * Set precisionFlag
      *
-     * @param integer $precisionFlag
+     * @param string $precisionFlag
      * @return Observations
      */
     public function setPrecisionFlag($precisionFlag)
@@ -482,7 +482,7 @@ class Observations implements ValueAssignable
     /**
      * Get precisionFlag
      *
-     * @return integer 
+     * @return string 
      */
     public function getPrecisionFlag()
     {
@@ -492,7 +492,7 @@ class Observations implements ValueAssignable
     /**
      * Set samplingeffort
      *
-     * @param integer $samplingeffort
+     * @param string $samplingeffort
      * @return Observations
      */
     public function setSamplingeffort($samplingeffort)
@@ -505,7 +505,7 @@ class Observations implements ValueAssignable
     /**
      * Get samplingeffort
      *
-     * @return integer 
+     * @return string 
      */
     public function getSamplingeffort()
     {
@@ -544,7 +544,7 @@ class Observations implements ValueAssignable
     public function setWebcommentsFr($webcommentsFr)
     {
         $this->webcommentsFr = $webcommentsFr;
-    
+
         return $this;
     }
 
@@ -663,6 +663,7 @@ class Observations implements ValueAssignable
             $sreSeqno->addOsnSeqno($this);
         }
 
+        return $this;
     }
 
     /**

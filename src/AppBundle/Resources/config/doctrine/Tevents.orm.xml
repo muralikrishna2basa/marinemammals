@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Tevents" table="TEVENTS">
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="date" type="string" column="DATE" length="200" nullable="true"/>
+    <field name="id" type="integer" column="ID" nullable="true"/>
+    <field name="location" type="string" column="LOCATION" length="200" nullable="true"/>
+    <field name="noteEn" type="string" column="NOTE_EN" length="2000" nullable="true"/>
+    <field name="noteFr" type="string" column="NOTE_FR" length="2000" nullable="true"/>
+    <field name="noteNl" type="string" column="NOTE_NL" length="2000" nullable="true"/>
+    <field name="picture" type="string" column="PICTURE" length="200" nullable="true"/>
+    <field name="species" type="string" column="SPECIES" length="200" nullable="true"/>
+    <field name="status" type="string" column="STATUS" length="200" nullable="true"/>
+    <field name="type" type="string" column="TYPE" length="200" nullable="true"/>
+  </entity>
+</doctrine-mapping>

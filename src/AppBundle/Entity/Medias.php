@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Medias
  *
- * @ORM\Table(name="MEDIAS", indexes={@ORM\Index(name="mda_ese_fk_i", columns={"ESE_SEQNO"}), @ORM\Index(name="mda_psn_fk_i", columns={"PSN_SEQNO"}), @ORM\Index(name="mda_oln_fk_i", columns={"OLN_NCY_ESE_SEQNO", "OLN_LTE_OGN_CODE", "OLN_LTE_SEQNO"})})
+ * @ORM\Table(name="MEDIAS", indexes={@ORM\Index(name="idx_mda_oln_fk", columns={"OLN_LTE_SEQNO"}), @ORM\Index(name="idx_2_mda_oln_fk", columns={"OLN_NCY_ESE_SEQNO"}), @ORM\Index(name="mda_psn_fk_i", columns={"PSN_SEQNO"}), @ORM\Index(name="mda_ese_fk_i", columns={"ESE_SEQNO"})})
  * @ORM\Entity
  */
 class Medias
@@ -100,12 +100,11 @@ class Medias
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO"),
-     *   @ORM\JoinColumn(name="OLN_LTE_OGN_CODE", referencedColumnName="LTE_OGN_CODE"),
-     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO")
+     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO"),
+     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO")
      * })
      */
-    private $olnNcyEseSeqno;
+    private $olnLteSeqno;
 
     /**
      * @var \AppBundle\Entity\EventStates
@@ -360,26 +359,26 @@ class Medias
     }
 
     /**
-     * Set olnNcyEseSeqno
+     * Set olnLteSeqno
      *
-     * @param \AppBundle\Entity\OrganLesions $olnNcyEseSeqno
+     * @param \AppBundle\Entity\OrganLesions $olnLteSeqno
      * @return Medias
      */
-    public function setOlnNcyEseSeqno(\AppBundle\Entity\OrganLesions $olnNcyEseSeqno = null)
+    public function setOlnLteSeqno(\AppBundle\Entity\OrganLesions $olnLteSeqno = null)
     {
-        $this->olnNcyEseSeqno = $olnNcyEseSeqno;
-    
+        $this->olnLteSeqno = $olnLteSeqno;
+
         return $this;
     }
 
     /**
-     * Get olnNcyEseSeqno
+     * Get olnLteSeqno
      *
      * @return \AppBundle\Entity\OrganLesions 
      */
-    public function getOlnNcyEseSeqno()
+    public function getOlnLteSeqno()
     {
-        return $this->olnNcyEseSeqno;
+        return $this->olnLteSeqno;
     }
 
     /**

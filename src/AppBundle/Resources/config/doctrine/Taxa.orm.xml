@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Taxa" table="TAXA">
+    <unique-constraints>
+      <unique-constraint name="uk_idod" columns="IDOD_ID"/>
+      <unique-constraint name="uk_scientificnameauthorship" columns="CANONICAL_NAME,SCIENTIFIC_NAME_AUTHORSHIP"/>
+    </unique-constraints>
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="canonicalName" type="string" column="CANONICAL_NAME" length="50" nullable="true"/>
+    <field name="idodId" type="integer" column="IDOD_ID" nullable="false"/>
+    <field name="scientificNameAuthorship" type="string" column="SCIENTIFIC_NAME_AUTHORSHIP" length="50" nullable="true"/>
+    <field name="taxonrank" type="string" column="TAXONRANK" length="30" nullable="true"/>
+    <field name="vernacularNameEn" type="string" column="VERNACULAR_NAME_EN" length="50" nullable="true"/>
+  </entity>
+</doctrine-mapping>

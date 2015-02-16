@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Taxa
  *
- * @ORM\Table(name="TAXA")
+ * @ORM\Table(name="TAXA", uniqueConstraints={@ORM\UniqueConstraint(name="uk_idod", columns={"IDOD_ID"}), @ORM\UniqueConstraint(name="uk_scientificnameauthorship", columns={"CANONICAL_NAME", "SCIENTIFIC_NAME_AUTHORSHIP"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\TaxaRepository")
  */
 class Taxa

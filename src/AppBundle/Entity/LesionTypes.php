@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LesionTypes
  *
- * @ORM\Table(name="LESION_TYPES", indexes={@ORM\Index(name="IDX_B8A6D97EFBE675E9", columns={"OGN_CODE"})})
+ * @ORM\Table(name="LESION_TYPES", uniqueConstraints={@ORM\UniqueConstraint(name="uk_ogn_processus", columns={"OGN_CODE", "PROCESSUS"}), @ORM\UniqueConstraint(name="lte_pk", columns={"OGN_CODE", "SEQNO"})}, indexes={@ORM\Index(name="IDX_B8A6D97EFBE675E9", columns={"OGN_CODE"})})
  * @ORM\Entity
  */
 class LesionTypes
@@ -59,16 +59,15 @@ class LesionTypes
      *
      * @ORM\Column(name="SEQNO", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="LESION_TYPES_SEQ", allocationSize=1, initialValue=1)
      */
     private $seqno;
 
     /**
      * @var \AppBundle\Entity\Organs
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Organs")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="OGN_CODE", referencedColumnName="CODE", nullable=false)
      * })
@@ -78,7 +77,7 @@ class LesionTypes
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Necropsies", mappedBy="lteOgnCode")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Necropsies", mappedBy="lteSeqno")
      */
     private $ncyEseSeqno;
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Specimens" table="SPECIMENS">
+    <indexes>
+      <index name="idx_specimens_taxa_fk" columns="TXN_SEQNO"/>
+    </indexes>
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="identificationCertainty" type="boolean" column="IDENTIFICATION_CERTAINTY" nullable="true"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <field name="mummtag" type="integer" column="MUMMTAG" nullable="true"/>
+    <field name="mummtagserie" type="integer" column="MUMMTAGSERIE" nullable="true"/>
+    <field name="necropsyTag" type="string" column="NECROPSY_TAG" length="14" nullable="true"/>
+    <field name="rbinsTag" type="string" column="RBINS_TAG" length="20" nullable="true"/>
+    <field name="scnNumber" type="integer" column="SCN_NUMBER" nullable="false"/>
+    <field name="sex" type="string" column="SEX" length="50" nullable="true"/>
+    <many-to-one field="txnSeqno" target-entity="Taxa">
+      <join-columns>
+        <join-column name="TXN_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="eseSeqno" target-entity="EventStates" mapped-by="scnSeqno"/>
+  </entity>
+</doctrine-mapping>

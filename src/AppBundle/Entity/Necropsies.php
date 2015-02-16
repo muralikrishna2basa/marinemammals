@@ -78,14 +78,14 @@ class Necropsies
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\LesionTypes", mappedBy="ncyEseSeqno")
      */
-    private $lteOgnCode;
+    private $lteSeqno;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->lteOgnCode = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lteSeqno = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -274,35 +274,35 @@ class Necropsies
     }
 
     /**
-     * Add lteOgnCode
+     * Add lteSeqno
      *
-     * @param \AppBundle\Entity\LesionTypes $lteOgnCode
+     * @param \AppBundle\Entity\LesionTypes $lteSeqno
      * @return Necropsies
      */
-    public function addLteOgnCode(\AppBundle\Entity\LesionTypes $lteOgnCode)
+    public function addLteSeqno(\AppBundle\Entity\LesionTypes $lteSeqno)
     {
-        $this->lteOgnCode[] = $lteOgnCode;
-    
+        $this->lteSeqno[] = $lteSeqno;
+
         return $this;
     }
 
     /**
-     * Remove lteOgnCode
+     * Remove lteSeqno
      *
-     * @param \AppBundle\Entity\LesionTypes $lteOgnCode
+     * @param \AppBundle\Entity\LesionTypes $lteSeqno
      */
-    public function removeLteOgnCode(\AppBundle\Entity\LesionTypes $lteOgnCode)
+    public function removeLteSeqno(\AppBundle\Entity\LesionTypes $lteSeqno)
     {
-        $this->lteOgnCode->removeElement($lteOgnCode);
+        $this->lteSeqno->removeElement($lteSeqno);
     }
 
     /**
-     * Get lteOgnCode
+     * Get lteSeqno
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getLteOgnCode()
+    public function getLteSeqno()
     {
-        return $this->lteOgnCode;
+        return $this->lteSeqno;
     }
 }

@@ -100,7 +100,7 @@ class Samples
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\OrganLesions", mappedBy="speSeqno")
      */
-    private $olnNcyEseSeqno;
+    private $olnLteSeqno;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -114,7 +114,7 @@ class Samples
      */
     public function __construct()
     {
-        $this->olnNcyEseSeqno = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->olnLteSeqno = new \Doctrine\Common\Collections\ArrayCollection();
         $this->rlnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -128,7 +128,7 @@ class Samples
     public function setAnalyzeDest($analyzeDest)
     {
         $this->analyzeDest = $analyzeDest;
-    
+
         return $this;
     }
 
@@ -360,36 +360,36 @@ class Samples
     }
 
     /**
-     * Add olnNcyEseSeqno
+     * Add olnLteSeqno
      *
-     * @param \AppBundle\Entity\OrganLesions $olnNcyEseSeqno
+     * @param \AppBundle\Entity\OrganLesions $olnLteSeqno
      * @return Samples
      */
-    public function addOlnNcyEseSeqno(\AppBundle\Entity\OrganLesions $olnNcyEseSeqno)
+    public function addOlnLteSeqno(\AppBundle\Entity\OrganLesions $olnLteSeqno)
     {
-        $this->olnNcyEseSeqno[] = $olnNcyEseSeqno;
+        $this->olnLteSeqno[] = $olnLteSeqno;
     
         return $this;
     }
 
     /**
-     * Remove olnNcyEseSeqno
+     * Remove olnLteSeqno
      *
-     * @param \AppBundle\Entity\OrganLesions $olnNcyEseSeqno
+     * @param \AppBundle\Entity\OrganLesions $olnLteSeqno
      */
-    public function removeOlnNcyEseSeqno(\AppBundle\Entity\OrganLesions $olnNcyEseSeqno)
+    public function removeOlnLteSeqno(\AppBundle\Entity\OrganLesions $olnLteSeqno)
     {
-        $this->olnNcyEseSeqno->removeElement($olnNcyEseSeqno);
+        $this->olnLteSeqno->removeElement($olnLteSeqno);
     }
 
     /**
-     * Get olnNcyEseSeqno
+     * Get olnLteSeqno
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getOlnNcyEseSeqno()
+    public function getOlnLteSeqno()
     {
-        return $this->olnNcyEseSeqno;
+        return $this->olnLteSeqno;
     }
 
     /**

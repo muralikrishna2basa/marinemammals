@@ -9,7 +9,7 @@ use \DateTime;
 /**
  * EventStates
  *
- * @ORM\Table(name="EVENT_STATES", indexes={@ORM\Index(name="IDX_59D47093A0562FD1", columns={"CLN_SEQNO"})})
+ * @ORM\Table(name="EVENT_STATES", indexes={@ORM\Index(name="idx_ese_cln_fk", columns={"CLN_SEQNO"})})
  * @ORM\Entity
  */
 class EventStates
@@ -348,7 +348,7 @@ class EventStates
     public function addEvent2Persons($event2Person)
     {
         if (!$this->getEvent2Persons()->contains($event2Person)) {
-            $event2Person->addEvent($this);
+           // $event2Person->addEvent($this); //TODO: check removal
             $this->getEvent2Persons()->add($event2Person);
         }
     }

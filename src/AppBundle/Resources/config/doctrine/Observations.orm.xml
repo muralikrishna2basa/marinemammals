@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Observations" table="OBSERVATIONS">
+    <indexes>
+      <index name="idx_osn_stn_fk" columns="STN_SEQNO"/>
+      <index name="idx_osn_ptm_fk" columns="PFM_SEQNO"/>
+    </indexes>
+    <id name="eseSeqno" association-key="true"/>
+    <field name="cpnCode" type="string" column="CPN_CODE" length="20" nullable="true"/>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="idAccessTmp" type="integer" column="ID_ACCESS_TMP" nullable="true"/>
+    <field name="isconfidential" type="boolean" column="ISCONFIDENTIAL" nullable="true"/>
+    <field name="latitude" type="string" column="LATITUDE" length="50" nullable="true"/>
+    <field name="latDec" type="decimal" column="LAT_DEC" precision="25" scale="15" nullable="true"/>
+    <field name="longitude" type="string" column="LONGITUDE" length="50" nullable="true"/>
+    <field name="lonDec" type="decimal" column="LON_DEC" precision="25" scale="15" nullable="true"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <field name="osnType" type="string" column="OSN_TYPE" length="50" nullable="false"/>
+    <field name="precisionFlag" type="string" column="PRECISION_FLAG" length="50" nullable="true"/>
+    <field name="samplingeffort" type="string" column="SAMPLINGEFFORT" length="50" nullable="true"/>
+    <field name="webcommentsEn" type="string" column="WEBCOMMENTS_EN" length="500" nullable="true"/>
+    <field name="webcommentsFr" type="string" column="WEBCOMMENTS_FR" length="500" nullable="true"/>
+    <field name="webcommentsNl" type="string" column="WEBCOMMENTS_NL" length="500" nullable="true"/>
+    <one-to-one field="eseSeqno" target-entity="EventStates">
+      <join-columns>
+        <join-column name="ESE_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </one-to-one>
+    <many-to-one field="stnSeqno" target-entity="Stations">
+      <join-columns>
+        <join-column name="STN_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="pfmSeqno" target-entity="Platforms">
+      <join-columns>
+        <join-column name="PFM_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="sreSeqno" target-entity="Sources" mapped-by="osnSeqno"/>
+  </entity>
+</doctrine-mapping>

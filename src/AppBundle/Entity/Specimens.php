@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Specimens
  *
- * @ORM\Table(name="SPECIMENS", indexes={@ORM\Index(name="IDX_B15B2FF190063FB8", columns={"TXN_SEQNO"})})
+ * @ORM\Table(name="SPECIMENS", indexes={@ORM\Index(name="idx_specimens_taxa_fk", columns={"TXN_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SpecimensRepository")
  */
 class Specimens
@@ -25,6 +25,13 @@ class Specimens
      * @ORM\Column(name="CRE_USER", type="string", length=30, nullable=true)
      */
     private $creUser;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="IDENTIFICATION_CERTAINTY", type="boolean", nullable=true)
+     */
+    private $identificationCertainty;
 
     /**
      * @var \DateTime
@@ -81,13 +88,6 @@ class Specimens
      * @ORM\Column(name="SEX", type="string", length=50, nullable=true)
      */
     private $sex;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="IDENTIFICATION_CERTAINTY", type="boolean", nullable=true)
-     */
-    private $identificationCertainty;
 
     /**
      * @var integer
@@ -170,6 +170,29 @@ class Specimens
     public function getCreUser()
     {
         return $this->creUser;
+    }
+
+    /**
+     * Set identificationCertainty
+     *
+     * @param boolean $identificationCertainty
+     * @return Specimens
+     */
+    public function setIdentificationCertainty($identificationCertainty)
+    {
+        $this->identificationCertainty = $identificationCertainty;
+
+        return $this;
+    }
+
+    /**
+     * Get identificationCertainty
+     *
+     * @return boolean 
+     */
+    public function getIdentificationCertainty()
+    {
+        return $this->identificationCertainty;
     }
 
     /**
@@ -354,29 +377,6 @@ class Specimens
     public function getSex()
     {
         return $this->sex;
-    }
-
-    /**
-     * Set identificationCertainty
-     *
-     * @param string $identificationCertainty
-     * @return Specimens
-     */
-    public function setIdentificationCertainty($identificationCertainty)
-    {
-        $this->identificationCertainty = $identificationCertainty;
-    
-        return $this;
-    }
-
-    /**
-     * Get identificationCertainty
-     *
-     * @return string 
-     */
-    public function getIdentificationCertainty()
-    {
-        return $this->identificationCertainty;
     }
 
     /**

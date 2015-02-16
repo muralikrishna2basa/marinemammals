@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\LesionValues" table="LESION_VALUES">
+    <indexes>
+      <index name="lve_pmd_fk_i" columns="PMD_SEQNO"/>
+      <index name="idx_2_lve_oln_fk" columns="OLN_NCY_ESE_SEQNO"/>
+      <index name="idx_lve_oln_fk" columns="OLN_LTE_SEQNO"/>
+      <index name="IDX_904C96E9587E9D8B54C36D3A" columns="OLN_LTE_SEQNO,OLN_NCY_ESE_SEQNO"/>
+    </indexes>
+    <id name="seqno" type="integer" column="SEQNO">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="creDat" type="datetime" column="CRE_DAT" nullable="true"/>
+    <field name="creUser" type="string" column="CRE_USER" length="30" nullable="true"/>
+    <field name="modDat" type="datetime" column="MOD_DAT" nullable="true"/>
+    <field name="modUser" type="string" column="MOD_USER" length="30" nullable="true"/>
+    <field name="value" type="string" column="VALUE" length="50" nullable="false"/>
+    <field name="valueFlag" type="string" column="VALUE_FLAG" length="50" nullable="true"/>
+    <many-to-one field="pmdSeqno" target-entity="ParameterMethods">
+      <join-columns>
+        <join-column name="PMD_SEQNO" referenced-column-name="SEQNO"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="olnLteSeqno" target-entity="OrganLesions">
+      <join-columns>
+        <join-column name="OLN_LTE_SEQNO" referenced-column-name="LTE_SEQNO"/>
+        <join-column name="OLN_NCY_ESE_SEQNO" referenced-column-name="NCY_ESE_SEQNO"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

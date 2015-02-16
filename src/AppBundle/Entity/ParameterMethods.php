@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ParameterMethods
  *
- * @ORM\Table(name="PARAMETER_METHODS")
+ * @ORM\Table(name="PARAMETER_METHODS", uniqueConstraints={@ORM\UniqueConstraint(name="uk_name", columns={"NAME"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ParameterMethodsRepository")
  */
 class ParameterMethods
@@ -303,7 +303,7 @@ class ParameterMethods
     }
 
     /**
-     * Set type
+     * Set variabletype
      *
      * @param string $variabletype
      * @return ParameterMethods
@@ -316,7 +316,7 @@ class ParameterMethods
     }
 
     /**
-     * Get type
+     * Get variabletype
      *
      * @return string
      */

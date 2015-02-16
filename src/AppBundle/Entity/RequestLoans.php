@@ -62,7 +62,7 @@ class RequestLoans
     private $modUser;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="STATUS", type="string", length=50, nullable=false)
      */
@@ -279,14 +279,14 @@ class RequestLoans
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return integer 
+     * @return string 
      */
     public function getStatus()
     {
@@ -376,6 +376,4 @@ class RequestLoans
         $this->person2Requests = $person2Requests;
         return $this;
     }
-
-
 }

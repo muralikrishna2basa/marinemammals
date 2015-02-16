@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sources
  *
- * @ORM\Table(name="SOURCES")
+ * @ORM\Table(name="SOURCES", uniqueConstraints={@ORM\UniqueConstraint(name="name_uk", columns={"NAME"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SourcesRepository")
  */
 class Sources

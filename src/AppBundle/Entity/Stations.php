@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Stations
  *
- * @ORM\Table(name="STATIONS", uniqueConstraints={@ORM\UniqueConstraint(name="stations_uk1", columns={"AREA_TYPE", "PCE_SEQNO"})}, indexes={@ORM\Index(name="IDX_61C4E9A5EE3C1733", columns={"PCE_SEQNO"})})
+ * @ORM\Table(name="STATIONS", indexes={@ORM\Index(name="idx_stn_pce_fk1", columns={"PCE_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\StationsRepository")
  */
 class Stations
@@ -255,7 +255,7 @@ class Stations
      * @param string $latDec
      * @return Stations
      */
-    public function setlatDec($latDec)
+    public function setLatDec($latDec)
     {
         $this->latDec = $latDec;
     
@@ -267,7 +267,7 @@ class Stations
      *
      * @return string 
      */
-    public function getlatDec()
+    public function getLatDec()
     {
         return $this->latDec;
     }
@@ -301,7 +301,7 @@ class Stations
      * @param string $lonDec
      * @return Stations
      */
-    public function setlonDec($lonDec)
+    public function setLonDec($lonDec)
     {
         $this->lonDec = $lonDec;
     
@@ -313,7 +313,7 @@ class Stations
      *
      * @return string 
      */
-    public function getlonDec()
+    public function getLonDec()
     {
         return $this->lonDec;
     }
