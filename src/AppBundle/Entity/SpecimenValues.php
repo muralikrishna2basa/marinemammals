@@ -85,7 +85,7 @@ class SpecimenValues implements EntityValues
     /**
      * @var \AppBundle\Entity\ParameterMethods
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ParameterMethods", inversedBy="specimenValues")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="PMD_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })

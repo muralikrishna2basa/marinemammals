@@ -9,7 +9,7 @@ use \DateTime;
 /**
  * EventStates
  *
- * @ORM\Table(name="EVENT_STATES", indexes={@ORM\Index(name="idx_ese_cln_fk", columns={"CLN_SEQNO"})})
+ * @ORM\Table(name="EVENT_STATES", indexes={@ORM\Index(name="idx_cln_seqno", columns={"CLN_SEQNO"})})
  * @ORM\Entity
  */
 class EventStates

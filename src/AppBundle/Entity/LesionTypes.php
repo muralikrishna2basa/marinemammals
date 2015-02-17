@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LesionTypes
  *
- * @ORM\Table(name="LESION_TYPES", uniqueConstraints={@ORM\UniqueConstraint(name="uk_ogn_processus", columns={"OGN_CODE", "PROCESSUS"}), @ORM\UniqueConstraint(name="lte_pk", columns={"OGN_CODE", "SEQNO"})}, indexes={@ORM\Index(name="IDX_B8A6D97EFBE675E9", columns={"OGN_CODE"})})
+ * @ORM\Table(name="LESION_TYPES", uniqueConstraints={@ORM\UniqueConstraint(name="lte_pk", columns={"OGN_CODE", "SEQNO"}), @ORM\UniqueConstraint(name="uk_ogn_processus", columns={"OGN_CODE", "PROCESSUS"})}, indexes={@ORM\Index(name="IDX_B8A6D97EFBE675E9", columns={"OGN_CODE"})})
  * @ORM\Entity
  */
 class LesionTypes
@@ -75,20 +75,11 @@ class LesionTypes
     private $ognCode;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Necropsies", mappedBy="lteSeqno")
-     */
-    private $ncyEseSeqno;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->ncyEseSeqno = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Set creDat
@@ -272,38 +263,5 @@ class LesionTypes
     public function getOgnCode()
     {
         return $this->ognCode;
-    }
-
-    /**
-     * Add ncyEseSeqno
-     *
-     * @param \AppBundle\Entity\Necropsies $ncyEseSeqno
-     * @return LesionTypes
-     */
-    public function addNcyEseSeqno(\AppBundle\Entity\Necropsies $ncyEseSeqno)
-    {
-        $this->ncyEseSeqno[] = $ncyEseSeqno;
-    
-        return $this;
-    }
-
-    /**
-     * Remove ncyEseSeqno
-     *
-     * @param \AppBundle\Entity\Necropsies $ncyEseSeqno
-     */
-    public function removeNcyEseSeqno(\AppBundle\Entity\Necropsies $ncyEseSeqno)
-    {
-        $this->ncyEseSeqno->removeElement($ncyEseSeqno);
-    }
-
-    /**
-     * Get ncyEseSeqno
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getNcyEseSeqno()
-    {
-        return $this->ncyEseSeqno;
     }
 }

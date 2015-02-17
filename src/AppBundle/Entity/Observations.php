@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Observations
  *
- * @ORM\Table(name="OBSERVATIONS", indexes={@ORM\Index(name="idx_osn_stn_fk", columns={"STN_SEQNO"}), @ORM\Index(name="idx_osn_ptm_fk", columns={"PFM_SEQNO"})})
+ * @ORM\Table(name="OBSERVATIONS", indexes={@ORM\Index(name="idx_stn_seqno", columns={"STN_SEQNO"}), @ORM\Index(name="idx_pfm_seqno", columns={"PFM_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ObservationsRepository")
  */
 class Observations implements ValueAssignable

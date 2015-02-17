@@ -105,7 +105,9 @@ class Samples
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\RequestLoans", mappedBy="speSeqno")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\RequestLoans", inversedBy="speSeqno")
+     * @ORM\JoinTable(name="SAMPLE2REQUESTS", inverseJoinColumns={@ORM\JoinColumn(name="RLN_SEQNO", referencedColumnName="SEQNO")},
+     *     joinColumns={@ORM\JoinColumn(name="SPE_SEQNO", referencedColumnName="SEQNO")})
      */
     private $rlnSeqno;
 

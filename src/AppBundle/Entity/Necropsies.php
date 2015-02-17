@@ -73,19 +73,20 @@ class Necropsies
      */
     private $eseSeqno;
 
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\LesionTypes", mappedBy="ncyEseSeqno")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrganLesions", mappedBy="ncyEseSeqno")
      */
-    private $lteSeqno;
+    private $olnSeqno;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->lteSeqno = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->olnSeqno = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -274,35 +275,35 @@ class Necropsies
     }
 
     /**
-     * Add lteSeqno
+     * Add olnSeqno
      *
-     * @param \AppBundle\Entity\LesionTypes $lteSeqno
+     * @param \AppBundle\Entity\LesionTypes $olnSeqno
      * @return Necropsies
      */
-    public function addLteSeqno(\AppBundle\Entity\LesionTypes $lteSeqno)
+    public function addOlnSeqno(\AppBundle\Entity\LesionTypes $olnSeqno)
     {
-        $this->lteSeqno[] = $lteSeqno;
+        $this->olnSeqno[] = $olnSeqno;
 
         return $this;
     }
 
     /**
-     * Remove lteSeqno
+     * Remove olnSeqno
      *
-     * @param \AppBundle\Entity\LesionTypes $lteSeqno
+     * @param \AppBundle\Entity\LesionTypes $olnSeqno
      */
-    public function removeLteSeqno(\AppBundle\Entity\LesionTypes $lteSeqno)
+    public function removeOlnSeqno(\AppBundle\Entity\LesionTypes $olnSeqno)
     {
-        $this->lteSeqno->removeElement($lteSeqno);
+        $this->olnSeqno->removeElement($olnSeqno);
     }
 
     /**
-     * Get lteSeqno
+     * Get olnSeqno
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getLteSeqno()
+    public function getOlnSeqno()
     {
-        return $this->lteSeqno;
+        return $this->olnSeqno;
     }
 }

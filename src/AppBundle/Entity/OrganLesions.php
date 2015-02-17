@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OrganLesions
  *
- * @ORM\Table(name="ORGAN_LESIONS", indexes={@ORM\Index(name="OLN_PK2", columns={"NCY_ESE_SEQNO","LTE_SEQNO"})})
+ * @ORM\Table(name="ORGAN_LESIONS", uniqueConstraints={@ORM\UniqueConstraint(name="uk_lte_ncy", columns={"LTE_SEQNO", "NCY_ESE_SEQNO"})}, indexes={@ORM\Index(name="idx_ncy_ese_seqno", columns={"NCY_ESE_SEQNO"}), @ORM\Index(name="IDX_F35B11C4D2B69E64", columns={"LTE_SEQNO"})})
  * @ORM\Entity
  */
 class OrganLesions implements ValueAssignable
@@ -55,10 +55,18 @@ class OrganLesions implements ValueAssignable
     private $scale;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="SEQNO", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="ORGAN_LESIONS_SEQ", allocationSize=1, initialValue=1)
+     */
+    private $seqno;
+
+    /**
      * @var \AppBundle\Entity\LesionTypes
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="ASSIGNED")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\LesionTypes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="LTE_SEQNO", referencedColumnName="SEQNO", nullable=false)
@@ -69,20 +77,46 @@ class OrganLesions implements ValueAssignable
     /**
      * @var \AppBundle\Entity\Necropsies
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Necropsies")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Necropsies", inversedBy="olnSeqno")
      * @ORM\JoinColumns({@ORM\JoinColumn(name="NCY_ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)})
      */
     private $ncyEseSeqno;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LesionValues", mappedBy="olnSeqno")
+     */
+    private $lesionValues;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LesionValues", mappedBy="olnNcyEseSeqno")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Samples", inversedBy="olnLteSeqno")
+     * @ORM\JoinTable(name="LESIONS2SAMPLE", inverseJoinColumns={@ORM\JoinColumn(name="SPE_SEQNO", referencedColumnName="SEQNO")},
+     *     joinColumns={@ORM\JoinColumn(name="OLN_SEQNO", referencedColumnName="SEQNO")})
      */
-    private $lesionValues;
+    private $speSeqno;
+
+    /**
+     * @return int
+     */
+    public function getSeqno()
+    {
+        return $this->seqno;
+    }
+
+    /**
+     * @param int $seqno
+     * @return OrganLesions
+     */
+    public function setSeqno($seqno)
+    {
+        $this->seqno = $seqno;
+        return $this;
+    }
+
+
 
 
     /**
@@ -298,7 +332,26 @@ class OrganLesions implements ValueAssignable
         $this->lesionValues = $lesionValues;
         return $this;
     }
-    
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSpeSeqno()
+    {
+        return $this->speSeqno;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $speSeqno
+     * @return OrganLesions
+     */
+    public function setSpeSeqno($speSeqno)
+    {
+        $this->speSeqno = $speSeqno;
+        return $this;
+    }
+
+
     
 }
 

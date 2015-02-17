@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ObservationValues
  *
- * @ORM\Table(name="OBSERVATION_VALUES", indexes={@ORM\Index(name="idx_ov_pmd_fk", columns={"PMD_SEQNO"}), @ORM\Index(name="idx_ov_ese_fk", columns={"ESE_SEQNO"})})
+ * @ORM\Table(name="OBSERVATION_VALUES", indexes={@ORM\Index(name="idx_pmd_seqno", columns={"PMD_SEQNO"}), @ORM\Index(name="idx_ov_ese_seqno", columns={"ESE_SEQNO"})})
  * @ORM\Entity
  */
 class ObservationValues implements EntityValues

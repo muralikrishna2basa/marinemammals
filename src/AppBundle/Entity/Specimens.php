@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Specimens
  *
- * @ORM\Table(name="SPECIMENS", indexes={@ORM\Index(name="idx_specimens_taxa_fk", columns={"TXN_SEQNO"})})
+ * @ORM\Table(name="SPECIMENS", indexes={@ORM\Index(name="idx_txn_seqno", columns={"TXN_SEQNO"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SpecimensRepository")
  */
 class Specimens

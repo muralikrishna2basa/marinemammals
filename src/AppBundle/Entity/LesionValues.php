@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LesionValues
  *
- * @ORM\Table(name="LESION_VALUES", indexes={@ORM\Index(name="lve_pmd_fk_i", columns={"PMD_SEQNO"}), @ORM\Index(name="idx_2_lve_oln_fk", columns={"OLN_NCY_ESE_SEQNO"}), @ORM\Index(name="idx_lve_oln_fk", columns={"OLN_LTE_SEQNO"})})
+ * @ORM\Table(name="LESION_VALUES", indexes={@ORM\Index(name="lve_pmd_fk_i", columns={"PMD_SEQNO"}), @ORM\Index(name="idx_oln_seqno", columns={"OLN_SEQNO"})})
  * @ORM\Entity
  */
 class LesionValues implements EntityValues
@@ -77,13 +77,12 @@ class LesionValues implements EntityValues
     /**
      * @var \AppBundle\Entity\OrganLesions
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions", inversedBy="lesionValues")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO", nullable=false),
-     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO", nullable=false)
+     *   @ORM\JoinColumn(name="OLN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
-    private $olnLteSeqno;
+    private $olnSeqno;
 
     /**
      * @var boolean
@@ -269,26 +268,26 @@ class LesionValues implements EntityValues
     }
 
     /**
-     * Set olnLteSeqno
+     * Set olnSeqno
      *
-     * @param \AppBundle\Entity\OrganLesions $olnLteSeqno
+     * @param \AppBundle\Entity\OrganLesions $olnSeqno
      * @return LesionValues
      */
-    public function setOlnLteSeqno(\AppBundle\Entity\OrganLesions $olnLteSeqno)
+    public function setOlnSeqno(\AppBundle\Entity\OrganLesions $olnSeqno)
     {
-        $this->olnLteSeqno = $olnLteSeqno;
+        $this->olnSeqno = $olnSeqno;
 
         return $this;
     }
 
     /**
-     * Get olnLteSeqno
+     * Get olnSeqno
      *
      * @return \AppBundle\Entity\OrganLesions 
      */
-    public function getOlnLteSeqno()
+    public function getOlnSeqno()
     {
-        return $this->olnLteSeqno;
+        return $this->olnSeqno;
     }
     
     

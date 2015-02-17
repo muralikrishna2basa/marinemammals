@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Medias
  *
- * @ORM\Table(name="MEDIAS", indexes={@ORM\Index(name="idx_mda_oln_fk", columns={"OLN_LTE_SEQNO"}), @ORM\Index(name="idx_2_mda_oln_fk", columns={"OLN_NCY_ESE_SEQNO"}), @ORM\Index(name="mda_psn_fk_i", columns={"PSN_SEQNO"}), @ORM\Index(name="mda_ese_fk_i", columns={"ESE_SEQNO"})})
+ * @ORM\Table(name="MEDIAS", indexes={@ORM\Index(name="mda_psn_fk_i", columns={"PSN_SEQNO"}), @ORM\Index(name="mda_ese_fk_i", columns={"ESE_SEQNO"}), @ORM\Index(name="idx_mda_oln_seqno", columns={"OLN_SEQNO"})})
  * @ORM\Entity
  */
 class Medias
@@ -100,11 +100,10 @@ class Medias
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="OLN_LTE_SEQNO", referencedColumnName="LTE_SEQNO"),
-     *   @ORM\JoinColumn(name="OLN_NCY_ESE_SEQNO", referencedColumnName="NCY_ESE_SEQNO")
+     *   @ORM\JoinColumn(name="OLN_SEQNO", referencedColumnName="SEQNO")
      * })
      */
-    private $olnLteSeqno;
+    private $olnSeqno;
 
     /**
      * @var \AppBundle\Entity\EventStates
@@ -359,26 +358,26 @@ class Medias
     }
 
     /**
-     * Set olnLteSeqno
+     * Set olnSeqno
      *
-     * @param \AppBundle\Entity\OrganLesions $olnLteSeqno
+     * @param \AppBundle\Entity\OrganLesions $olnSeqno
      * @return Medias
      */
-    public function setOlnLteSeqno(\AppBundle\Entity\OrganLesions $olnLteSeqno = null)
+    public function setOlnSeqno(\AppBundle\Entity\OrganLesions $olnSeqno = null)
     {
-        $this->olnLteSeqno = $olnLteSeqno;
+        $this->olnSeqno = $olnSeqno;
 
         return $this;
     }
 
     /**
-     * Get olnLteSeqno
+     * Get olnSeqno
      *
      * @return \AppBundle\Entity\OrganLesions 
      */
-    public function getOlnLteSeqno()
+    public function getOlnSeqno()
     {
-        return $this->olnLteSeqno;
+        return $this->olnSeqno;
     }
 
     /**
