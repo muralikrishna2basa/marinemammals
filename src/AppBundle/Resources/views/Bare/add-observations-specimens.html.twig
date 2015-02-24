@@ -8,6 +8,12 @@
 </ul>
 <div class="well subformcontainer">
     <p id="formerror"></p>
+    {{ dump(errors) }}
+    {% if success == 'true' %}
+        <p>This observation has been successfully added to the database. You can create a new one if you want.</p>
+    {% elseif  success == 'false' %}
+    <p>There is a problem with your submission. Please check all fields of this tab for error icons.</p>
+    {% endif %}
     <p>Please complete all relevant fields. Required fields have an orange border.</p>
     <fieldset id="tabs-1">
         {{ include('AppBundle:Bare:add-observations.html.twig') }}

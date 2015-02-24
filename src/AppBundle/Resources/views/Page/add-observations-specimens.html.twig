@@ -13,7 +13,6 @@
     {{ parent() }}
     {% javascripts
     '@AppBundle/Resources/public/js/addsymfonyprototype.js'
-    '@AppBundle/Resources/public/js/validationImplementation.js'
     '@AppBundle/Resources/public/js/date.js'
     '@AppBundle/Resources/public/js/date-nl-BE.js'
     '@AppBundle/Resources/public/js/jquery.easytabs.js'
@@ -21,6 +20,7 @@
     '@AppBundle/Resources/public/js/periodPickerImplementation.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/validationImplementation.js'
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -49,10 +49,15 @@
         var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi'); //TODO SHOULD BE INITED AT BEGINNING!
         var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required="required"]');
         var stationSelector = $('#observationstype_stnSeqno');
+        var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
+        var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
+        var newSpecimenBox = $('#new-specimen');
+        var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required="required"]');
         $(document).ready(function () {
             //TODO: chosen persons can't be the same for gathering and observing
 
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
+            hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
             $("#observationform").easytabs({
                 tabs: ".nav-tabs li",
@@ -105,30 +110,12 @@
             //      $(this).find('input[checked]').attr('checked', 'checked');
             //  }
             //  $('.no-multi').find('input[checked]').removeAttr('checked');
-            var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
-            var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
-            var newSpecimenBox = $('#new-specimen');
-            var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required="required"]');
+
             var latDecField = $('#observationstype_latDec');
             var lonDecField = $('#observationstype_lonDec');
             var allNonRequiredInputSelectValues = $("select[id$='value'],input[id$='value']").not("[required='required']");
             existingSpecimenChoiceField.change(function () {
-                var value = $(this).val();
-                var newSpecimenBox_allInput = newSpecimenBox.find('input');
-                var newSpecimenBox_allSelect = newSpecimenBox.find('select');
-                if (/^[0-9]+$/.test(value)) {
-                    $(this).attr('required', 'required');
-                    newSpecimenBox_requiredInputSelect.removeAttr('required');
-                    newSpecimenBox_allInput.val('');
-                    newSpecimenBox_allSelect.prop('selectedIndex', 0);
-                    newSpecimenBox.hide();
-                    return false;
-                }
-                if (value === '') {
-                    newSpecimenBox_requiredInputSelect.attr('required', 'required');
-                    newSpecimenBox.show();
-                    return false;
-                }
+                hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
             });
             newSpecimenChoiceField.change(function () {
                 var value = $(this).val();
@@ -230,6 +217,29 @@
             if (scnNumber < 2) {
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
+                return false;
+            }
+        }
+
+        function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
+            var scnId = existingSpecimenChoiceField.val();
+            var newSpecimenBox_allInput = newSpecimenBox.find('input');
+            var newSpecimenBox_allSelect = newSpecimenBox.find('select');
+            if (/^[0-9]+$/.test(scnId)) {
+                $(this).attr('required', 'required');
+                newSpecimenBox_requiredInputSelect.removeAttr('required');
+                newSpecimenBox_requiredInputSelect.each(function () {
+                    $(this).removeAttr('required')
+                });
+                ;
+                newSpecimenBox_allInput.val('');
+                newSpecimenBox_allSelect.prop('selectedIndex', 0);
+                newSpecimenBox.hide();
+                return false;
+            }
+            if (scnId === '') {
+                newSpecimenBox_requiredInputSelect.attr('required', 'required');
+                newSpecimenBox.show();
                 return false;
             }
         }

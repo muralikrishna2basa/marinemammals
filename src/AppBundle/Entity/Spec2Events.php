@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Spec2Events SPEC2EVENTS
  *
  * @ORM\Table(name="SPEC2EVENTS", indexes={@ORM\Index(name="S2E_PK", columns={"SCN_SEQNO","ESE_SEQNO"}), @ORM\Index(name="S2E_ESE_FK_I", columns={"ESE_SEQNO"})})
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\Spec2ERepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\Spec2EventsRepository")
  */
 class Spec2Events implements ValueAssignable
 {
@@ -67,7 +67,7 @@ class Spec2Events implements ValueAssignable
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SpecimenValues", mappedBy="s2eScnSeqno")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SpecimenValues", mappedBy="valueAssignable")
      */
     private $values;
 
@@ -80,6 +80,11 @@ class Spec2Events implements ValueAssignable
     private $circumstantialValues;
 
     private $measurementValues;
+
+    /**
+     * @var boolean
+     */
+    private $usesExistingSpecimen;
 
     /**
      * Constructor
@@ -451,5 +456,25 @@ class Spec2Events implements ValueAssignable
         }
         return false;
     }
+
+    /**
+     * @return boolean
+     */
+    public function getUsesExistingSpecimen()
+    {
+        return $this->usesExistingSpecimen;
+    }
+
+    /**
+     * @param boolean $usesExistingSpecimen
+     * @return Spec2Events
+     */
+    public function setUsesExistingSpecimen($usesExistingSpecimen)
+    {
+        $this->usesExistingSpecimen = $usesExistingSpecimen;
+        return $this;
+    }
+
+
 }
 

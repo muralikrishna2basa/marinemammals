@@ -37,7 +37,7 @@ class DateTimeToDateTimeArrayTransformer implements DataTransformerInterface
 
         if(null == $date || null == $time)
             return null;
-
+        $date->setTimezone(new \DateTimeZone('Europe/Paris'));
         $date->setTime($time->format('G'), $time->format('i'));
 
         return $date;

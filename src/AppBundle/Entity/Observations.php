@@ -175,7 +175,7 @@ class Observations implements ValueAssignable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ObservationValues", mappedBy="eseSeqno")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ObservationValues", mappedBy="valueAssignable")
      */
     private $values;
 
@@ -739,9 +739,21 @@ class Observations implements ValueAssignable
         $this->getValues()->removeElement($ev);
     }
 
+    public function isPrecisionFlagLegal(){
+        return $this->isOnlyStationCompleted() || ($this->isCoordLegal() && $this->getPrecisionFlag() !== null) ;
+    }
+
+    private function isStationCompleted(){
+        return $this->getStnSeqno() !== null;
+    }
+
+    private function isOnlyStationCompleted(){
+        return $this->isStationCompleted() && $this->getlonDec() === null && $this->getlatDec() === null;
+    }
+
     public function isStationOrCoordLegal() {
         if ($this->getlonDec() === null && $this->getlatDec() === null) {
-            if ($this->getStnSeqno() === null) {
+            if (!$this->isStationCompleted()) {
                 return false;
             }
             else return true;

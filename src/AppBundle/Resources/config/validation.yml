@@ -57,8 +57,8 @@ AppBundle\Entity\EventStates:
                 - NotBlank: ~
                 - NotNull: ~
                 - AppBundle\Validator\Constraints\DateRange:
-                     min: "1950-01-01"
-                     max: "today"
+                     min: "1900-01-01"
+                     max: "now"
         eventDatetimeFlag:
                 - NotBlank: ~
                 - NotNull: ~
@@ -208,6 +208,8 @@ AppBundle\Entity\Observations:
                 - "True": { message: "Either a station, a coordinate or both needs to be present" }
         coordLegal:
                 - "True": { message: "A coordinate consists of both latitude and longitude. Only one of both is given." }
+        precisionFlagLegal:
+                - "True": { message: "This coordinate, as it is set, needs a precision flag as well." }
     properties:
         eseSeqno:
                - NotBlank: ~
@@ -240,8 +242,6 @@ AppBundle\Entity\Observations:
                      max: 50
                 - AppBundle\Validator\Constraints\LegalOsnType: ~
         precisionFlag:
-                - NotBlank: ~
-                - NotNull: ~
                 - Length:
                      min: 0
                      max: 50
@@ -271,7 +271,7 @@ AppBundle\Entity\Observations:
 #                      - NotNull: ~
 AppBundle\Entity\ObservationValues:
     properties:
-        eseSeqno:
+        valueAssignable:
                - NotBlank: ~
                - NotNull: ~
         pmdSeqno:
@@ -539,13 +539,17 @@ AppBundle\Entity\Specimens:
             - "True": { message: "It is not possible to provide any values (eg. sex, necropsy tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details." }
         sexLegal:
             - "True": { message: "This value should not be null." }
+#        txnSeqnoNewSpecimenLegal:
+            - "True": { message: "This value should be completed." }
+#        sexNewSpecimenLegal:
+            - "True": { message: "This value should be completed." }
     properties:
-        txnSeqno:
-               - NotBlank: ~
-               - NotNull: ~
+#       txnSeqno:
+#               - NotBlank: ~
+#               - NotNull: ~
         scnNumber:
-                - NotBlank: ~
-                - NotNull: ~
+#               - NotBlank: ~
+#               - NotNull: ~
                 - Type:
                      type: integer
                      message: The value {{ value }} is not a valid {{ type }}.
@@ -567,7 +571,6 @@ AppBundle\Entity\Specimens:
                      max: 14
                 - AppBundle\Validator\Constraints\Necropsytag: ~
         identificationCertainty:
-                - NotNull: ~
                 - Type:
                      type: bool
                      message: The value {{ value }} is not a valid {{ type }}.
@@ -583,7 +586,7 @@ AppBundle\Entity\SpecimenValues:
         pmdSeqno:
                - NotBlank: ~
                - NotNull: ~
-        s2eScnSeqno:
+        valueAssignable:
                - NotBlank: ~
                - NotNull: ~
         description:

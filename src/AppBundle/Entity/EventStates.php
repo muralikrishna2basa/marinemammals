@@ -454,91 +454,63 @@ class EventStates
             $this->getEvent2Persons()->removeElement($event2Person);
         }
     }
-
-    /**
-     * @param string $time
-     * @return EventStates
-     */
-    public function setTime($time)
-    {
-        $match = $this->isTime($time);
-        if ($this->getEventDatetime()) {
-            if ($match) {
-                //$this->time=$time;
-                $this->getEventDatetime()->setTime($match[1], $match[2]);
-            } else {
-               // throw new InvalidArgumentException("The provided time is not in hh:mm format.");
-            }
-        }
-       /* else{
-            throw new InvalidArgumentException("Time cannot be set when the date is null.");
-        }*/
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTime()
-    {
-        return $this->getEventDatetime()->format("H:i");
-    }
-
-    /**
-     * @param string $time
-     * @return boolean
-     */
-    public static function isTime($time)
-    {
-        $match = array();
-        if (preg_match('/^([0-9]{1,2}):([0-9]{2})/', $time, $match) === 1) {
-            return $match;
-        } else return null;
-    }
-
-    /**
-     * @param string $date
-     * @return EventStates
-     */
-    public function setDate($date)
-    {
-
-        $dt = \DateTime::createFromFormat('d/m/Y', $date);
-        if($dt !== null){
-            //$this->date=$date;
-            $this->setEventDatetime($dt);
-            $this->getEventDatetime()->setTime(0,0,0);
-        }
-        //$d = $dt->format("d");
-        //$m = $dt->format("m");
-        //$y = $dt->format("y");
-        //$this->getEventDatetime()->setDate($y, $m, $d);
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDate()
-    {
-        return $this->getEventDatetime()->format('d/m/Y');
-    }
-
-    /**
-     * @return boolean
-     */
-/*    public function isDateLegal()
-    {
-        return $this->canHaveAsDate($this->getEventDatetime());
-    }*/
-
-    /**
-     * @param string $date
-     * @return boolean
-     */
-/*    public function canHaveAsDate($date)
-    {
-        return $date >= new DateTime('1900-01-01') and $date <= new DateTime('now');
-    }*/
+//
+//    /**
+//     * @param string $time
+//     * @return EventStates
+//     */
+//    public function setTime($time)
+//    {
+//        $match = $this->isTime($time);
+//        if ($this->getEventDatetime()) {
+//            if ($match) {
+//                $this->getEventDatetime()->setTime($match[1], $match[2]);
+//            } else {
+//            }
+//        }
+//        return $this;
+//    }
+//
+//    /**
+//     * @return string
+//     */
+//    public function getTime()
+//    {
+//        return $this->getEventDatetime()->format("H:i");
+//    }
+//
+//    /**
+//     * @param string $time
+//     * @return boolean
+//     */
+//    public static function isTime($time)
+//    {
+//        $match = array();
+//        if (preg_match('/^([0-9]{1,2}):([0-9]{2})/', $time, $match) === 1) {
+//            return $match;
+//        } else return null;
+//    }
+//
+//    /**
+//     * @param string $date
+//     * @return EventStates
+//     */
+//    public function setDate($date)
+//    {
+//
+//        $dt = \DateTime::createFromFormat('d/m/Y', $date, new \DateTimeZone('Europe/Paris'));
+//        if($dt !== null){
+//            $this->setEventDatetime($dt);
+//        }
+//        return $this;
+//    }
+//
+//    /**
+//     * @return string
+//     */
+//    public function getDate()
+//    {
+//        return $this->getEventDatetime()->format('d/m/Y');
+//    }
 
 }

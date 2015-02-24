@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * SpecimenValues
@@ -80,7 +81,7 @@ class SpecimenValues implements EntityValues
      *   @ORM\JoinColumn(name="S2E_ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)
      * })
      */
-    private $s2eScnSeqno;
+    private $valueAssignable;
 
     /**
      * @var \AppBundle\Entity\ParameterMethods
@@ -101,6 +102,20 @@ class SpecimenValues implements EntityValues
      * @var boolean
      */
     private $valueRequired;
+
+    /**
+     * Constructor
+     *
+     * @param \AppBundle\Entity\ParameterMethods $pm
+     * @param boolean $mustBeFlagged
+     * @param boolean $mustBeCompleted
+     */
+    public function __construct(\AppBundle\Entity\ParameterMethods $pm, $mustBeFlagged, $mustBeCompleted)
+    {
+        $this->setPmdSeqno($pm);
+        $this->setValueFlagRequired($mustBeFlagged);
+        $this->setValueRequired($mustBeCompleted);
+    }
 
     /**
      * Set creDat
@@ -274,26 +289,31 @@ class SpecimenValues implements EntityValues
     }
 
     /**
-     * Set s2eScnSeqno
+     * Set valueAssignable
      *
-     * @param \AppBundle\Entity\Spec2events $s2eScnSeqno
+     * @param \AppBundle\Entity\ValueAssignable $valueAssignable
      * @return SpecimenValues
+     * @throws \Exception
      */
-    public function setS2eScnSeqno(\AppBundle\Entity\Spec2events $s2eScnSeqno = null)
+    public function setValueAssignable(ValueAssignable $valueAssignable)
     {
-        $this->s2eScnSeqno = $s2eScnSeqno;
-        $s2eScnSeqno->addValue($this);
-        return $this;
+        if (get_class($valueAssignable) !== 'AppBundle\Entity\Spec2Events') {
+            throw new \Exception('type of $valueAssignable must be of type Spec2Events');
+        } else {
+            $this->valueAssignable = $valueAssignable;
+            $valueAssignable->addValue($this);
+            return $this;
+        }
     }
 
     /**
-     * Get s2eScnSeqno
+     * Get valueAssignable
      *
      * @return \AppBundle\Entity\Spec2events
      */
-    public function getS2eScnSeqno()
+    public function getvalueAssignable()
     {
-        return $this->s2eScnSeqno;
+        return $this->valueAssignable;
     }
 
     /**
@@ -387,10 +407,10 @@ class SpecimenValues implements EntityValues
      */
     public function isValueUnwantedLegal()
     {
-        $unwanted=false;
-        if ($this->getS2eScnSeqno() !== null && $this->getValue()!== null){
-            if ($this->getS2eScnSeqno()->getScnSeqno() !== null){
-                $unwanted=$this->getS2eScnSeqno()->getScnSeqno()->getScnNumber() > 1;
+        $unwanted = false;
+        if ($this->getvalueAssignable() !== null && $this->getValue() !== null) {
+            if ($this->getvalueAssignable()->getScnSeqno() !== null) {
+                $unwanted = $this->getvalueAssignable()->getScnSeqno()->getScnNumber() > 1;
             }
         }
         return $unwanted;
@@ -404,10 +424,10 @@ class SpecimenValues implements EntityValues
      */
     private function isValueUnwanted()
     {
-        $unwanted=false;
-        if ($this->getS2eScnSeqno() !== null){
-            if ($this->getS2eScnSeqno()->getScnSeqno() !== null){
-                $unwanted=$this->getS2eScnSeqno()->getScnSeqno()->getScnNumber() > 1;
+        $unwanted = false;
+        if ($this->getvalueAssignable() !== null) {
+            if ($this->getvalueAssignable()->getScnSeqno() !== null) {
+                $unwanted = $this->getvalueAssignable()->getScnSeqno()->getScnNumber() > 1;
             }
         }
         return $unwanted;
@@ -418,12 +438,14 @@ class SpecimenValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueLegal(){
+    public function isValueLegal()
+    {
         return ($this->getValue() !== null && $this->getValueRequired()) ||
         ($this->getValue() === null && !$this->getValueRequired()) || $this->isValueUnwanted();
     }
 
-    public function delete(){
-        $this->getS2eScnSeqno()->removeValue($this);
+    public function delete()
+    {
+        $this->getvalueAssignable()->removeValue($this);
     }
 }

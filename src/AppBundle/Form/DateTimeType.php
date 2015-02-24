@@ -23,15 +23,11 @@ class DateTimeType extends AbstractType
             'input'  => 'datetime',
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy',
-            'constraints'=> array(new NotNull(),new NotBlank(),new DateRange(array(
-                'min'  => '1900-01-01',
-                'max' => 'today'
-            )))
+            'model_timezone'=>'Europe/Paris'
         ));
         $builder->add('time', 'time', array(
             'input'  => 'datetime',
-            'widget' => 'single_text',
-            'constraints'=> array(new Time())));
+            'widget' => 'single_text'));
         $builder->addViewTransformer(new DateTimeToDateTimeArrayTransformer());
        /* $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
             $timeField=$event->getForm()->get('time');

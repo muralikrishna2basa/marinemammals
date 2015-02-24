@@ -1,8 +1,8 @@
 $.validator.addMethod("dateBE&Logical", function (value) {
     var dt = Date.parseExact(value, ["dd/MM/yyyy"]);
     var tomorrow = Date.today().addDays(1);
-    return dt != null && Date.today().isBefore(tomorrow);
-}, 'Not a valid date. The correct date format is dd/mm/yyyy');
+    return dt != null && dt.isBefore(tomorrow);
+}, '2 problems: either an invalid date (not dd/mm/yyyy) or either the date is in the future');
 
 $.validator.addMethod('validDaterange', function(element) {
     var $firstDateTextbox = element.find("input:first-of-type");
@@ -16,13 +16,21 @@ $.validator.addMethod("validNecropsyTag", function (value) {
     return /^$|^[a-zA-Z]{2}[_][0-9]{4}[_][0-9]{1,6}$/.test(value);
 }, 'Not a necropsy tag. The correct format is BE/FR_yyyy_integer, eg. BE_1996_15');
 
-$.validator.addMethod("validLatDec", function (value) {
+$.validator.addMethod("validLatDec", function (value,element) {
+    var elClass=element.getAttribute('class');
+    var re = /refer-to_(.*?)\b/;
+    var othId = re.exec(elClass)[1];
+    var lonDecField=$('#'+othId);
     return validCoord(value, lonDecField.val()) && validLatDec(value);
-}, '2 problems: either complete longitude or this value is not a decimal latitude (-90.0 <= x <= 90.0)');
+}, '2 problems: either complete longitude or either this value is not a decimal latitude (-90.0 <= x <= 90.0)');
 
-$.validator.addMethod("validLonDec", function (value) {
+$.validator.addMethod("validLonDec", function (value,element) {
+    var elClass=element.getAttribute('class');
+    var re = /refer-to_(.*?)\b/;
+    var othId = re.exec(elClass)[1];
+    var latDecField=$('#'+othId);
     return validCoord(latDecField.val(), value) && validLonDec(value);
-}, '2 problems: either complete latitude or this value is not a decimal longitude (-180.0 <= x <= 180.0)');
+}, '2 problems: either complete latitude or either this value is not a decimal longitude (-180.0 <= x <= 180.0)');
 
 $.validator.addMethod("validStation", function (value) {
     return stationOrCoord(value, latDecField.val(), lonDecField.val());

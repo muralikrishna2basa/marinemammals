@@ -54,12 +54,14 @@ class Spec2EventsType extends AbstractType
             $form = $event->getForm();
             if (null !== $form->get('scnSeqnoExisting')->getData()) {
                 $specimen = $form->get('scnSeqnoExisting')->getData();
-                $s2e->setScnSeqno($specimen); //TODO check bidirectionality
+                $s2e->setScnSeqno($specimen);
+               // $s2e->setUsesExistingSpecimen(true);
                 $this->doctrine->getManager()->persist($specimen);
             } elseif (null !== $form->get('scnSeqnoNew')->getData()) {
                 //$specimen = new Specimens();
                 $specimen = $form->get('scnSeqnoNew')->getData();
-                $s2e->setScnSeqno($specimen); //TODO check bidirectionality
+                $s2e->setScnSeqno($specimen);
+               // $s2e->setUsesExistingSpecimen(false);
                 $this->doctrine->getManager()->persist($specimen);
             } else throw new LogicException('no specimen given');
         });

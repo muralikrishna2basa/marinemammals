@@ -8,8 +8,8 @@
     {{ form_row(form.eseSeqno.eventDatetimeFlag, {'label':'Date flag'}) }}</div>
 <h3>Location</h3>
 <h4>Exact Coordinates</h4>
-<div class="form-inline">{{ form_row(form.latDec, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723'} }) }}
-    {{ form_row(form.lonDec, {'label':'Decimal longitude', 'attr': {'placeholder': 'eg. 2.9254719'} }) }}
+<div class="form-inline">{{ form_row(form.latDec, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723','class':'refer-to_observationstype_lonDec'} }) }}
+    {{ form_row(form.lonDec, {'label':'Decimal longitude', 'attr': {'placeholder': 'eg. 2.9254719','class':'refer-to_observationstype_latDec'} }) }}
     {{ form_row(form.precisionFlag, {'label':'Location precision','attr': { 'class': 'observationstype_latDecFlag' }}) }}</div>
 <h4>Station</h4>
 

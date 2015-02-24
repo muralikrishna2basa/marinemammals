@@ -1,0 +1,8 @@
+{% macro errors(element,errors) %}
+    <span class="help-block">
+    <ul class="list-unstyled">
+        {% if errors[element] is defined %}
+            <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ errors[element] }}</li>
+        {% endif %}
+    </ul>
+{% endmacro %}

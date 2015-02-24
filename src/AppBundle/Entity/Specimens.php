@@ -493,7 +493,10 @@ class Specimens
 
     public function isSexLegal()
     {
-        if($this->getScnNumber() > 1) {
+        if($this->getScnNumber() === null && $this->getSex() === null){
+            return true;
+        }
+        elseif($this->getScnNumber() > 1) {
             return $this->getSex() === null;
         }
         else return $this->getSex() !== null;

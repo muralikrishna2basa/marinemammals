@@ -79,7 +79,6 @@
                 {{- block('choice_widget_options') -}}
             </optgroup>
         {%- else -%}
-            {{ dump(choice) }}
             <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
         {%- endif -%}
     {% endfor %}

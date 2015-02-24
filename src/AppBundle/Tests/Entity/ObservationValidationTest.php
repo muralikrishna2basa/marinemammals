@@ -57,7 +57,7 @@ class ObservationValidationTest extends \Symfony\Bundle\FrameworkBundle\Test\Web
         $to['t']->setVernacularNameEn('Wombat');
         $to['t']->setCanonicalName('Vombatus vombo');
 
-        $to['sv']->setS2eScnSeqno($to['s2e']);
+        $to['sv']->setvalueAssignable($to['s2e']);
         $to['sv']->setPmdSeqno($to['pm']);
         $to['sv']->setValue("Slight decoloration of the ...");
         $to['sv']->setValueFlag("euhmdrfgffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");

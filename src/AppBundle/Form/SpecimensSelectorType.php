@@ -29,10 +29,10 @@ class SpecimensSelectorType extends AbstractType
         ));
     }
 
-/*    public function getParent()
+    public function getParent()
     {
-        return 'integer';
-    }*/
+        return 'text';
+    }
 
     public function getName()
     {

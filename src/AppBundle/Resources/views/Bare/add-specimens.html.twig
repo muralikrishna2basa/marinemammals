@@ -3,6 +3,9 @@
     <legend><h3>Enter existing specimen</h3></legend>
     <div class="form-inline">
         {{ form_row(form.eseSeqno.spec2events.scnSeqnoExisting, {'label':'Specimen id','attr':{'placeholder':'A valid specimen seqno'} }) }}
+        {% import "AppBundle::errors.html.twig" as forgotten %}
+        {{ forgotten.errors('scnSeqnoNew[eseSeqno][spec2events][scnSeqnoExisting]',errors) }}
+        {# errors[form.eseSeqno.spec2events.scnSeqnoExisting.vars["full_name"]] #}
         <button id="b_search_scn">Search for existing specimen in list</button>
     </div>
 </fieldset>
@@ -33,7 +36,7 @@
         {% for sv in form.eseSeqno.spec2events.circumstantialValues %}
             <h5>{{ sv.vars.value.pmdName }}</h5>
             <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
-            {#    {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}#}</div>
+                {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
         {% endfor %}
     </fieldset>
    <fieldset id="measurement_values" class="no-multi">
@@ -41,6 +44,6 @@
         {% for sv in form.eseSeqno.spec2events.measurementValues %}
             <h5>{{ sv.vars.value.pmdName }}</h5>
             <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
-                {#    {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}#}}</div>
+                {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
         {% endfor %}
     </fieldset>

@@ -6,6 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 interface EntityValues
 {
+    public function getValueAssignable();
+
+    public function setValueAssignable(ValueAssignable $va);
+
     public function setValue($value);
 
     public function getValue();

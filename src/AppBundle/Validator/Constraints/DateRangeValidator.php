@@ -42,7 +42,7 @@ class DateRangeValidator extends ConstraintValidator
         $formatter = new \IntlDateFormatter(
             'nl-BE',
             \IntlDateFormatter::SHORT,
-            \IntlDateFormatter::NONE,
+            \IntlDateFormatter::SHORT,
             date_default_timezone_get(),
             \IntlDateFormatter::GREGORIAN
         );

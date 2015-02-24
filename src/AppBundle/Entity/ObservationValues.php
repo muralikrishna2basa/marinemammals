@@ -82,7 +82,7 @@ class ObservationValues implements EntityValues
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="ESE_SEQNO", nullable=false)
      * })
      */
-    private $eseSeqno;
+    private $valueAssignable;
 
     /**
      * @var boolean
@@ -94,6 +94,20 @@ class ObservationValues implements EntityValues
      * @var boolean
      */
     private $valueRequired;
+
+    /**
+     * Constructor
+     *
+     * @param \AppBundle\Entity\ParameterMethods $pm
+     * @param boolean $mustBeFlagged
+     * @param boolean $mustBeCompleted
+     */
+    public function __construct(\AppBundle\Entity\ParameterMethods $pm, $mustBeFlagged,$mustBeCompleted)
+    {
+        $this->setPmdSeqno($pm);
+        $this->setValueFlagRequired($mustBeFlagged);
+        $this->setValueRequired($mustBeCompleted);
+    }
 
     /**
      * Set creDat
@@ -267,26 +281,31 @@ class ObservationValues implements EntityValues
     }
 
     /**
-     * Set eseSeqno
+     * Set valueAssignable
      *
-     * @param \AppBundle\Entity\Observations $eseSeqno
+     * @param \AppBundle\Entity\ValueAssignable $valueAssignable
      * @return ObservationValues
+     * @throws \Exception
      */
-    public function setEseSeqno(\AppBundle\Entity\Observations $eseSeqno = null)
+    public function setValueAssignable(ValueAssignable $valueAssignable)
     {
-        $this->eseSeqno = $eseSeqno;
-        $eseSeqno->addValue($this);
-        return $this;
+        if (get_class($valueAssignable) !== 'AppBundle\Entity\Observations') {
+            throw new \Exception('type of $valueAssignable must be of type Observations');
+        } else {
+            $this->valueAssignable = $valueAssignable;
+            $valueAssignable->addValue($this);
+            return $this;
+        }
     }
 
     /**
-     * Get eseSeqno
+     * Get valueAssignable
      *
      * @return \AppBundle\Entity\Observations 
      */
-    public function getEseSeqno()
+    public function getValueAssignable()
     {
-        return $this->eseSeqno;
+        return $this->valueAssignable;
     }
 
     /**
