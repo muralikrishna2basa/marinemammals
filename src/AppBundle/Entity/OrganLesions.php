@@ -85,9 +85,9 @@ class OrganLesions implements ValueAssignable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LesionValues", mappedBy="olnSeqno")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\LesionValues", mappedBy="valueAssignable")
      */
-    private $lesionValues;
+    private $values;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -115,8 +115,6 @@ class OrganLesions implements ValueAssignable
         $this->seqno = $seqno;
         return $this;
     }
-
-
 
 
     /**
@@ -253,16 +251,16 @@ class OrganLesions implements ValueAssignable
      */
     public function getValues()
     {
-        return $this->lesionValues;
+        return $this->values;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $lesionValues
+     * @param \Doctrine\Common\Collections\Collection $values
      * @return OrganLesions
      */
-    public function setValues(\Doctrine\Common\Collections\Collection $lesionValues)
+    public function setValues(\Doctrine\Common\Collections\Collection $values)
     {
-        $this->lesionValues = $lesionValues;
+        $this->values = $values;
         return $this;
     }
 
@@ -312,24 +310,6 @@ class OrganLesions implements ValueAssignable
     public function setScale($scale)
     {
         $this->scale = $scale;
-        return $this;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLesionValues()
-    {
-        return $this->lesionValues;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $lesionValues
-     * @return OrganLesions
-     */
-    public function setLesionValues($lesionValues)
-    {
-        $this->lesionValues = $lesionValues;
         return $this;
     }
 

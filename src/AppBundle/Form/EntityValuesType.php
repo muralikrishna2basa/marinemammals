@@ -110,7 +110,7 @@ class EntityValuesType extends AbstractType
                 'required' => false,
                 'default_value' => 'unknown',
                 'error_bubbling' => false,
-                'error_mapping' => array('valueFlagLegal' => 'valueFlag', 'valueUnwantedLegal' => 'value', 'valueLegal' => 'value')
+                'error_mapping' => array('valueFlagLegal' => 'valueFlag', 'valueUnwantedLegal' => 'value', 'valueLegal' => 'value','valueUnwantedLegal2' => 'value')
             ));
     }
 

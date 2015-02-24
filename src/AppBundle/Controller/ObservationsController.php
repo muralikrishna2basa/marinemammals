@@ -54,7 +54,7 @@ class ObservationsController extends Controller
         $pagination = $paginator->paginate(
             $array,
             $this->get('request')->query->get('page', 1)/*page number*/,
-            20/*limit per page*/
+            2000/*limit per page*/
         );
         return $pagination;
     }

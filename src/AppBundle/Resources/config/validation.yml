@@ -581,7 +581,9 @@ AppBundle\Entity\SpecimenValues:
         valueLegal:
                 - "True": { message: "This value must be completed."}
         valueUnwantedLegal:
-                - "False": { message: "This value may not be provided for specimens that have been observed in group. Make separate observations if you wish to provide this value." }
+                - "True": { message: "This value may not be provided for specimens that have been observed in group. Make separate observations if you wish to provide this value." }
+        valueUnwantedLegal2:
+                - "True": { message: "This value may not be provided for specimens that are alive." }
     properties:
         pmdSeqno:
                - NotBlank: ~

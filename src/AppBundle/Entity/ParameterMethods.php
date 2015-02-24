@@ -404,6 +404,11 @@ class ParameterMethods
         return $this;
     }
 
+    public function isCodParameter(){
+        $a=strpos($this->getName(),'Cause of death');
+        return $a !==  false && $a>=0;
+    }
+
 
 
 }

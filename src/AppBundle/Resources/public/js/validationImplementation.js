@@ -37,7 +37,8 @@ $.validator.addMethod("validStation", function (value) {
 }, 'Please provide either a valid coordinate or a station, or both');
 
 function validateContainer($container, validator) {
-    var $elements = $('#' + $container.attr('id') + ' :input');
+    var id=$container.attr('id');
+    var $elements = $('#' + id + ' :input');
     var valid = true;
     $elements.each(function () {
         var id = $(this).attr('id');
@@ -46,7 +47,10 @@ function validateContainer($container, validator) {
         }
     });
     if (!valid) {
-        $('#formerror').html("There is a problem with your submission. Please check all fields of this tab for error icons.");
+        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +"with an error message.");
+    }
+    else{
+        $('#formerror').html("");
     }
     return valid;
 }

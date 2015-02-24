@@ -136,7 +136,7 @@ class Observations implements ValueAssignable
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="observation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
@@ -590,6 +590,7 @@ class Observations implements ValueAssignable
     public function setEseSeqno(\AppBundle\Entity\EventStates $eseSeqno)
     {
         $this->eseSeqno = $eseSeqno;
+        $eseSeqno->setObservation($this);
     
         return $this;
     }

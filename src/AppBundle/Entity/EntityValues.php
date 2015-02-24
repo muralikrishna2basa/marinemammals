@@ -32,5 +32,7 @@ interface EntityValues
 
     public function isValueUnwantedLegal();
 
+    //public function isValueUnwantedLegal2();
+
     public function isValueLegal();
 }

@@ -121,7 +121,7 @@ class Specimens
      */
     public function __construct()
     {
-        $this->identificationCertainty=false;
+        $this->identificationCertainty = false;
         $this->spec2events = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -135,14 +135,14 @@ class Specimens
     public function setCreDat($creDat)
     {
         $this->creDat = $creDat;
-    
+
         return $this;
     }
 
     /**
      * Get creDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreDat()
     {
@@ -158,14 +158,14 @@ class Specimens
     public function setCreUser($creUser)
     {
         $this->creUser = $creUser;
-    
+
         return $this;
     }
 
     /**
      * Get creUser
      *
-     * @return string 
+     * @return string
      */
     public function getCreUser()
     {
@@ -188,7 +188,7 @@ class Specimens
     /**
      * Get identificationCertainty
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIdentificationCertainty()
     {
@@ -204,14 +204,14 @@ class Specimens
     public function setModDat($modDat)
     {
         $this->modDat = $modDat;
-    
+
         return $this;
     }
 
     /**
      * Get modDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModDat()
     {
@@ -227,14 +227,14 @@ class Specimens
     public function setModUser($modUser)
     {
         $this->modUser = $modUser;
-    
+
         return $this;
     }
 
     /**
      * Get modUser
      *
-     * @return string 
+     * @return string
      */
     public function getModUser()
     {
@@ -250,14 +250,14 @@ class Specimens
     public function setMummtag($mummtag)
     {
         $this->mummtag = $mummtag;
-    
+
         return $this;
     }
 
     /**
      * Get mummtag
      *
-     * @return integer 
+     * @return integer
      */
     public function getMummtag()
     {
@@ -273,14 +273,14 @@ class Specimens
     public function setMummtagserie($mummtagserie)
     {
         $this->mummtagserie = $mummtagserie;
-    
+
         return $this;
     }
 
     /**
      * Get mummtagserie
      *
-     * @return integer 
+     * @return integer
      */
     public function getMummtagserie()
     {
@@ -296,14 +296,14 @@ class Specimens
     public function setNecropsyTag($necropsyTag)
     {
         $this->necropsyTag = $necropsyTag;
-    
+
         return $this;
     }
 
     /**
      * Get necropsyTag
      *
-     * @return string 
+     * @return string
      */
     public function getNecropsyTag()
     {
@@ -319,14 +319,14 @@ class Specimens
     public function setRbinsTag($rbinsTag)
     {
         $this->rbinsTag = $rbinsTag;
-    
+
         return $this;
     }
 
     /**
      * Get rbinsTag
      *
-     * @return string 
+     * @return string
      */
     public function getRbinsTag()
     {
@@ -342,14 +342,14 @@ class Specimens
     public function setScnNumber($scnNumber)
     {
         $this->scnNumber = $scnNumber;
-    
+
         return $this;
     }
 
     /**
      * Get scnNumber
      *
-     * @return integer 
+     * @return integer
      */
     public function getScnNumber()
     {
@@ -365,14 +365,14 @@ class Specimens
     public function setSex($sex)
     {
         $this->sex = $sex;
-    
+
         return $this;
     }
 
     /**
      * Get sex
      *
-     * @return string 
+     * @return string
      */
     public function getSex()
     {
@@ -382,7 +382,7 @@ class Specimens
     /**
      * Get seqno
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeqno()
     {
@@ -398,14 +398,14 @@ class Specimens
     public function setTxnSeqno(\AppBundle\Entity\Taxa $txnSeqno = null)
     {
         $this->txnSeqno = $txnSeqno;
-    
+
         return $this;
     }
 
     /**
      * Get txnSeqno
      *
-     * @return \AppBundle\Entity\Taxa 
+     * @return \AppBundle\Entity\Taxa
      */
     public function getTxnSeqno()
     {
@@ -440,51 +440,51 @@ class Specimens
         $this->getSpec2Events()->add($spec2event);
     }
 
-    private function IsNullOrEmptyString($question){
-        return (!isset($question) || trim($question)==='');
+    private function IsNullOrEmptyString($question)
+    {
+        return (!isset($question) || trim($question) === '');
     }
 
-    public function getNecropsyTagNice(){
-        if (!$this->IsNullOrEmptyString($this->getNecropsyTag())){
-            return 'mumm:'.$this->getNecropsyTag();
-        }
-        else{
+    public function getNecropsyTagNice()
+    {
+        if (!$this->IsNullOrEmptyString($this->getNecropsyTag())) {
+            return 'mumm:' . $this->getNecropsyTag();
+        } else {
             return null;
         }
     }
 
-    public function getRbinsTagNice(){
-        if (!$this->IsNullOrEmptyString($this->getRbinsTag())){
-            return 'rbins:'.$this->getRbinsTag();
-        }
-        else{
+    public function getRbinsTagNice()
+    {
+        if (!$this->IsNullOrEmptyString($this->getRbinsTag())) {
+            return 'rbins:' . $this->getRbinsTag();
+        } else {
             return null;
         }
     }
 
-    public function getTagString(){
-        $mumm=$this->getNecropsyTagNice();
-        $rbins=$this->getNecropsyTagNice();
-        if ($mumm and $rbins){
-            return '('.$mumm .'/'. $rbins.')';
-        }
-        elseif ($mumm){
-            return '('.$mumm.')';
-        }
-        elseif ($rbins){
-            return '('.$rbins.')';
-        }
-        else return '';
+    public function getTagString()
+    {
+        $mumm = $this->getNecropsyTagNice();
+        $rbins = $this->getNecropsyTagNice();
+        if ($mumm and $rbins) {
+            return '(' . $mumm . '/' . $rbins . ')';
+        } elseif ($mumm) {
+            return '(' . $mumm . ')';
+        } elseif ($rbins) {
+            return '(' . $rbins . ')';
+        } else return '';
     }
 
-    public function getFullyQualifiedName(){
-        return $this->getSeqno().' - '.$this->getTxnSeqno()->getVernacularNameEn().' '.$this->getTagString();
+    public function getFullyQualifiedName()
+    {
+        return $this->getSeqno() . ' - ' . $this->getTxnSeqno()->getVernacularNameEn() . ' ' . $this->getTagString();
     }
 
     public function isScnNumberLegal()
     {
-        foreach ($this->getSpec2Events() as $s2e){
-            if ($this->getScnNumber() > 1 and ($s2e->hasPertinentValues() or $this->getSex() !== null or $this->getRbinsTag() !== null  or $this->getNecropsyTag() !== null)){
+        foreach ($this->getSpec2Events() as $s2e) {
+            if ($this->getScnNumber() > 1 and ($s2e->hasPertinentValues() or $this->getSex() !== null or $this->getRbinsTag() !== null or $this->getNecropsyTag() !== null)) {
                 return false;
             }
         }
@@ -493,12 +493,155 @@ class Specimens
 
     public function isSexLegal()
     {
-        if($this->getScnNumber() === null && $this->getSex() === null){
+        if ($this->getScnNumber() === null && $this->getSex() === null) {
             return true;
-        }
-        elseif($this->getScnNumber() > 1) {
+        } elseif ($this->getScnNumber() > 1) {
             return $this->getSex() === null;
+        } else return $this->getSex() !== null;
+    }
+
+    public function AliveNow(){
+        return $this->isAliveAtMoment(new \DateTime());
+    }
+    /**
+     * Get whether the specimen is alive or dead at the given time. Time is measured in days.
+     * Returns:
+     * -1: if the dead or alive status cannot be gathered for this time
+     * 0: if the specimen is dead at this time
+     * 1: if the specimen is alive at this time
+     * 2: the specimen is alive according to latest info
+     * @param \DateTime $m
+     * @return integer
+     *
+     */
+    public function isAliveAtMoment(\DateTime $m)
+    {
+        $ebefore = $this->getNearestEventAndSpec2EventsBefore($m);
+        $eseBefore = $ebefore['EventStates'];
+        $seBefore = $ebefore['Spec2Events'];
+        $osnTypeBefore = '';
+        $t1 = new \DateTime();
+        $dcBefore = '';
+        $diBefore = '';
+        $diBeforeAlive = -1;
+        $dcBeforeAlive = -1;
+
+        if ($eseBefore !== null) {
+            $oBefore = $eseBefore->getObservation();
+            if ($oBefore !== null) {
+                $osnTypeBefore = $oBefore->getOsnType();
+            }
+            $t1 = $eseBefore->getEventDatetime();
         }
-        else return $this->getSex() !== null;
+        if ($seBefore !== null) {
+            $svL=$seBefore->getValues();
+            foreach ($seBefore->getValues() as $sv) {
+                if ($sv->getPmdName() === 'Decomposition Code') {
+                    $dcBefore = $sv->getValue();
+                }
+                if ($sv->getPmdName() === 'During intervention') {
+                    $diBefore = $sv->getValue();
+                }
+            }
+        }
+
+        if (in_array($diBefore, array('died during intervention/rehab same day', 'euthanized'))) {
+            $diBeforeAlive = 0;
+        } elseif (in_array($diBefore, array('released alive', 'taken to rehab'))) {
+            $diBeforeAlive = 1;
+        }
+        if ($dcBefore == 1) {
+            $dcBeforeAlive = 1;
+        } elseif ($dcBefore > 1) {$dcBeforeAlive = 0;}
+        switch ($osnTypeBefore) {
+            case '':
+                break;
+            case 'FDH':
+            case 'FDS':
+            case 'FDB':
+            case 'DTR':
+                return 0;
+            case 'B':
+            case 'C':
+            case 'CI':
+                if ($dcBefore > 1) {
+                    return 0;
+                } else {
+                    if ($t1 == $m) {
+                        return 1;
+                    } elseif ($t1 > $m) {
+                        return $this->refineUnknownCod($m);
+                    }
+                }
+            case 'FAB': //dc must be 1
+                if ($t1 >= $m && $diBeforeAlive == 0) {
+                    return 0;
+                } elseif ($t1 == $m && $diBeforeAlive == 1) {
+                    return 1;
+                } elseif ($t1 > $m && $diBeforeAlive == 1) {
+                    return $this->refineUnknownCod($m);
+                } else {
+                    return $this->refineUnknownCod($m);
+                }
+        }
+    }
+
+    private function refineUnknownCod($m)
+    {
+        /*$eafter = $this->getNearestEventAndSpec2EventsAfter($m);
+        $eseAfter = $eafter['EventStates'];
+        $seAfter = $eafter['Spec2Events'];
+        $osnTypeAfter = '';
+        $t1 = new \DateTime();
+        $dcAfter = '';
+        $diAfter = '';
+        $diAfterAlive = -1;
+        $dcAfterAlive = -1;
+
+*/
+
+        return -1;
+    }
+
+    /**
+     * @param \DateTime $m
+     * @return array
+     *
+     */
+    private function getNearestEventAndSpec2EventsBefore(\DateTime $m)
+    {
+        foreach ($this->getSpec2Events() as $se) {
+            $ese = $se->getEseSeqno();
+            $eseDate = $ese->getEventDatetime();
+            if ($eseDate <= $m) {
+                $r = array();
+                $r['EventStates'] = $ese;
+                $r['Spec2Events'] = $se;
+                return $r;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param \DateTime $m
+     * @return array
+     *
+     */
+    private function getNearestEventAndSpec2EventsAfter(\DateTime $m)
+    {
+        $s2eL = $this->getSpec2Events();
+        for ($i = $s2eL->count(); $i >= 0; $i--) {
+            $s2e = $s2eL->get($i);
+            $ese = $s2e->getEseSeqno();
+            $eseDate = $ese->getEventDatetime();
+            if ($eseDate <= $m) {
+                $r = array();
+                $r['EventStates'] = $ese;
+                $r['Spec2Events'] = $s2e;
+                return $r;
+            }
+        }
+        return null;
     }
 }

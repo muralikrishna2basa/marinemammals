@@ -56,7 +56,7 @@ class EntityValuesCollectionForOC
         $this->instantiateSpecimenValues('Stomach Content', false, true);
         $this->instantiateSpecimenValues('Other remarks', false, false);
 
-        $this->instantiateSpecimenValues('Cause of death::Natural', false, true);
+        $this->instantiateSpecimenValues('Cause of death::Natural', false, false); //TODO:js: set to required if dead (now other way around)
         $this->instantiateSpecimenValues('Cause of death::Bycatch', false, true);
         $this->instantiateSpecimenValues('Cause of death::Ship strike', false, true);
         $this->instantiateSpecimenValues('Cause of death::Predation', false, true);

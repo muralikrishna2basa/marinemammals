@@ -77,12 +77,12 @@ class LesionValues implements EntityValues
     /**
      * @var \AppBundle\Entity\OrganLesions
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions", inversedBy="lesionValues")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrganLesions", inversedBy="values")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="OLN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
-    private $olnSeqno;
+    private $valueAssignable;
 
     /**
      * @var boolean
@@ -268,28 +268,32 @@ class LesionValues implements EntityValues
     }
 
     /**
-     * Set olnSeqno
+     * Set valueAssignable
      *
-     * @param \AppBundle\Entity\OrganLesions $olnSeqno
+     * @param \AppBundle\Entity\ValueAssignable $valueAssignable
      * @return LesionValues
+     * @throws \Exception
      */
-    public function setOlnSeqno(\AppBundle\Entity\OrganLesions $olnSeqno)
+    public function setValueAssignable(ValueAssignable $valueAssignable)
     {
-        $this->olnSeqno = $olnSeqno;
-
-        return $this;
+        if (get_class($valueAssignable) !== 'AppBundle\Entity\OrganLesions') {
+            throw new \Exception('type of $valueAssignable must be of type OrganLesions');
+        } else {
+            $this->valueAssignable = $valueAssignable;
+            $valueAssignable->addValue($this);
+            return $this;
+        }
     }
 
     /**
-     * Get olnSeqno
+     * Get valueAssignable
      *
-     * @return \AppBundle\Entity\OrganLesions 
+     * @return \AppBundle\Entity\OrganLesions
      */
-    public function getOlnSeqno()
+    public function getValueAssignable()
     {
-        return $this->olnSeqno;
+        return $this->valueAssignable;
     }
-    
     
     /**
      * Get the name of the used parameter method's name

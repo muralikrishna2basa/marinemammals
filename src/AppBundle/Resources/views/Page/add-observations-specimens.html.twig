@@ -40,8 +40,8 @@
         var $tabs = $('.tab');
         var wholeForm = $('#observationform');
         var $wholeFormErrors = $('#formerror');
-        var $currentTab = $("a[href='tabs-1']").parent();
-        var $currentPanel = $('#tabs-1');
+        var $currentTab = $("a[href='tab-1']").parent();
+        var $currentPanel = $('#tab-1');
         var $previousTab;
         var $previousPanel;
 
@@ -53,6 +53,9 @@
         var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
         var newSpecimenBox = $('#new-specimen');
         var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required="required"]');
+        var $onlyForDeadBox = $('.only-dead');
+        var $onlyForDeadBox_requiredInputSelect = $onlyForDeadBox.find('[required="required"]');
+        var $anyFieldIndicatingDeadness = $("#observationstype_osnType, #observationstype_eseSeqno_spec2events_circumstantialValues_3_value");
         $(document).ready(function () {
             //TODO: chosen persons can't be the same for gathering and observing
 
@@ -132,14 +135,18 @@
             });
 
             latDecField.change(function () {
-                        makeAssociatedFlagRequired($(this), validator)
+                        makeAssociatedFlagRequired($(this), validator);
                     }
             );
 
             allNonRequiredInputSelectValues.change(function () {
-                        makeAssociatedFlagRequired($(this), validator)
+                        makeAssociatedFlagRequired($(this), validator);
                     }
             );
+
+            $anyFieldIndicatingDeadness.change(function () {
+                hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
+            });
 
             var sfp1 = new SymfonyPrototype($('ul.e2p_observer'), $('<a href="#" id="add_observer">Add a person</a>'), '__observers_name__');
             sfp1.addAddLink();
@@ -261,6 +268,23 @@
                 validator.element($associatedFlag);
             }
         }
+
+        function animalIsAliveDuringIntervention() {
+            var decompositionCode = $('#observationstype_eseSeqno_spec2events_circumstantialValues_3_value').val();
+            var osnType = $(observationstype_osnType).val();
+            var deadOsnTypes = ["Found dead in Harbour", "Died during transport/rehab", "Found dead on beach", "Found dead at Sea"];
+            var certainlyDead = ($.inArray(osnType, deadOsnTypes) != -1);
+            return !certainlyDead || decompositionCode == 1;
+        }
+
+        function hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens() {
+            if (animalIsAliveDuringIntervention()) {
+                $onlyForDeadBox_requiredInputSelect.removeAttr('required');
+                $onlyForDeadBox.hide();
+            }
+
+        }
+
     </script>
 {% endblock %}
 {% block main_content %}

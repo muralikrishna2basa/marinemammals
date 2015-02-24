@@ -393,7 +393,7 @@ class SpecimenValues implements EntityValues
     public function isValueFlagLegal()
     {
         if ($this->getValueFlagRequired() && $this->getValueFlag() === null && $this->getValue() !== null) {
-            return $this->isValueUnwantedLegal(); //false
+            return !$this->isValueUnwantedLegal(); //false
         } else {
             return true;
         }
@@ -401,23 +401,27 @@ class SpecimenValues implements EntityValues
 
     /**
      * Get whether the value itself is unwanted. Determined dynamically based on the scnNumber of the attached specimen.
+     * The value is legal if it is unwanted and if it is empty.
      * In this case, the whole specimenvalue should be deleted (all references to it are deleted, so the object can be garbage collected).
      *
      * @return boolean
      */
     public function isValueUnwantedLegal()
     {
-        $unwanted = false;
+        /*$unwanted = false;
+
         if ($this->getvalueAssignable() !== null && $this->getValue() !== null) {
             if ($this->getvalueAssignable()->getScnSeqno() !== null) {
                 $unwanted = $this->getvalueAssignable()->getScnSeqno()->getScnNumber() > 1;
             }
         }
-        return $unwanted;
+        return $unwanted;*/
+        return !($this->isValueUnwanted() && $this->getValue() !== null);
     }
 
     /**
-     * Get whether the value itself is unwanted. Determined dynamically based on the scnNumber of the attached specimen.
+     * Get whether the value itself is unwanted. Determined dynamically based on
+     * -the scnNumber of the attached specimen: the values are unwanted if the number of individuals in the specimen is more than 1.
      * In this case, the whole specimenvalue should be deleted (all references to it are deleted, so the object can be garbage collected).
      *
      * @return boolean
@@ -425,9 +429,48 @@ class SpecimenValues implements EntityValues
     private function isValueUnwanted()
     {
         $unwanted = false;
-        if ($this->getvalueAssignable() !== null) {
-            if ($this->getvalueAssignable()->getScnSeqno() !== null) {
-                $unwanted = $this->getvalueAssignable()->getScnSeqno()->getScnNumber() > 1;
+        $s2e = $this->getvalueAssignable();
+        if ($s2e !== null) {
+            if ($s2e->getScnSeqno() !== null) {
+                $unwanted = $s2e->getScnSeqno()->getScnNumber() > 1;
+            }
+        }
+        return $unwanted;
+    }
+
+    /**
+     * Get whether the value itself is unwanted. Determined dynamically based on the scnNumber of the attached specimen.
+     * The value is legal if it is unwanted and if it is empty.
+     * In this case, the whole specimenvalue should be deleted (all references to it are deleted, so the object can be garbage collected).
+     *
+     * @return boolean
+     */
+    public function isValueUnwantedLegal2()
+    {
+        return !($this->isValueUnwanted2() && $this->getValue() !== null);
+    }
+
+    /**
+     * Get whether the value itself is unwanted. Determined dynamically based on
+     * -the fact the specimen is alive or dead: the values are unwanted if they are pertaining the cause of death and the specimen is alive.
+     * In this case, the whole specimenvalue should be deleted (all references to it are deleted, so the object can be garbage collected).
+     *
+     * @return boolean
+     */
+    private function isValueUnwanted2()
+    {
+        $unwanted = false;
+        $s2e = $this->getvalueAssignable();
+        if ($s2e !== null) {
+            if ($s2e->getScnSeqno() !== null) {
+                $moment = $s2e->getEseSeqno()->getEventDatetime();
+                if ($moment) {
+                    $pertainingToDeath=$this->getPmdSeqno()->isCodParameter();
+                    $isAlive=$s2e->getScnSeqno()->isAliveAtMoment($moment);
+                    if ($pertainingToDeath && $isAlive) {
+                        $unwanted = true;
+                    }
+                }
             }
         }
         return $unwanted;
@@ -435,13 +478,14 @@ class SpecimenValues implements EntityValues
 
     /**
      * Get whether the value itself must be completed.
+     * unwanted values, whether empty or not are legal. However, them being completed is verified by $this->isValueUnwanted()
      *
      * @return boolean
      */
     public function isValueLegal()
     {
         return ($this->getValue() !== null && $this->getValueRequired()) ||
-        ($this->getValue() === null && !$this->getValueRequired()) || $this->isValueUnwanted();
+        ($this->getValue() === null && !$this->getValueRequired()) || ($this->getValue() !== null && !$this->getValueRequired()) || $this->isValueUnwanted() || $this->isValueUnwanted2();
     }
 
     public function delete()

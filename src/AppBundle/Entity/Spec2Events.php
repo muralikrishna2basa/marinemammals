@@ -59,6 +59,7 @@ class Spec2Events implements ValueAssignable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="spec2events")
+     * @ORM\OrderBy({"eventDateTime" = "DESC"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })

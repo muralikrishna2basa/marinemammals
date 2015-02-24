@@ -74,6 +74,12 @@ class EventStates
     private $seqno;
 
     /**
+     * @var \AppBundle\Entity\Observations
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Observations", mappedBy="eseSeqno")
+     */
+    private $observation;
+
+    /**
      * @var \AppBundle\Entity\ContainerLocalizations
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ContainerLocalizations")
@@ -454,6 +460,26 @@ class EventStates
             $this->getEvent2Persons()->removeElement($event2Person);
         }
     }
+
+    /**
+     * @return \AppBundle\Entity\Observations
+     */
+    public function getObservation()
+    {
+        return $this->observation;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Observations $observation
+     * @return EventStates
+     */
+    public function setObservation($observation)
+    {
+        $this->observation = $observation;
+        return $this;
+    }
+
+
 //
 //    /**
 //     * @param string $time
