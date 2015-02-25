@@ -1,8 +1,4 @@
-taxa:
-    resource: "@TaxaBundle/Resources/config/routing.yml"
-    prefix:   /
-
-marinemammals_observation:
+marinemammals:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /
 

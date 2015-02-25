@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "638ff27141b4639288451bc9d8d2a94c",
+    "hash": "415929e89bd1f33fdc29e60858fd87a0",
     "packages": [
         {
             "name": "cbsi/doctrine2-nestedset",
@@ -1064,12 +1064,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikFormFilterBundle.git",
-                "reference": "4aec96995b00b1a2bf2ed877681de9700159da89"
+                "reference": "afea6685291c4196a497dc2fcaf4a801b96c3680"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikFormFilterBundle/zipball/4aec96995b00b1a2bf2ed877681de9700159da89",
-                "reference": "4aec96995b00b1a2bf2ed877681de9700159da89",
+                "url": "https://api.github.com/repos/lexik/LexikFormFilterBundle/zipball/afea6685291c4196a497dc2fcaf4a801b96c3680",
+                "reference": "afea6685291c4196a497dc2fcaf4a801b96c3680",
                 "shasum": ""
             },
             "require": {
@@ -1115,7 +1115,7 @@
                 "filter",
                 "form"
             ],
-            "time": "2015-02-05 08:35:43"
+            "time": "2015-02-16 09:56:25"
         },
         {
             "name": "monolog/monolog",

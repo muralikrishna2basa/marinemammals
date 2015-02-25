@@ -5,34 +5,36 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class PlatformsController extends Controller
+class TaxaController extends Controller
 {
 
     public function newAction()
     {
-        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Platforms',null,'platformstype',null,'AppBundle:Platforms',null,'AppBundle:Page:add-platforms.html.twig');
+        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Taxa',null,'taxatype',null,'AppBundle:Taxa',null,'AppBundle:Page:add-taxa.html.twig');
         return $cp->createEntitiesAndRenderForm('na');
     }
 
     public function createAction(Request $request)
     {
-        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Platforms',null,'platformstype',null,'AppBundle:Platforms',null,'AppBundle:Page:add-platforms.html.twig');
+        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Taxa',null,'taxatype',null,'AppBundle:Taxa',null,'AppBundle:Page:add-taxa.html.twig');
 
         $a = $cp->createEntitiesFormsAndLists();
 
-        $platform = $a['entity1'];
-        $platforms = $a['entity1List'];
+        $taxon = $a['entity1'];
+        $taxa = $a['entity1List'];
         $form = $a['form1'];
 
         $form->handleRequest($request);
+
         if ($form->isValid()) {
+
             $em = $this->getDoctrine()
                 ->getEntityManager();
-            $em->persist($platform);
+            $em->persist($taxon);
             $em->flush();
 
             return $cp->createEntitiesAndRenderForm('true');
         }
-        return $cp->renderForm($form, 'false', $platforms);
+        return $cp->renderForm($form, 'false', $taxa);
     }
 }

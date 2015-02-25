@@ -1,3 +1,0 @@
-taxa_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: TaxaBundle:Default:index }

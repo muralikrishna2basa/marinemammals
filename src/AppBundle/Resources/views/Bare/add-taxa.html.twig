@@ -1,0 +1,25 @@
+<h2>Add new Taxon</h2>
+{{ form_start(form1, {'method': 'POST','action': path('mm_taxa_add_create'),'attr':{'id':'taxonform','novalidate':'true'}}) }}
+<div class="well">
+    <p id="formerror" class="text-danger">
+        {% if  success1 == 'false' %}
+            Validation failed: please check the error messages.
+        {% endif %}
+    </p>
+    {% if success1 == 'true' %}
+        <p id="formsuccess" class="text-success">This taxon has been successfully added to the database. You can
+            create a new one if you want.</p>
+    {% endif %}
+    <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>
+    <ul class="formelements">
+        <li>{{ form_row(form1.canonicalName,{'label':'Canonical name', 'attr': {'placeholder': 'e.g. Delphinus capensis'} }) }}</li>
+        <li>{{ form_row(form1.scientificNameAuthorship,{'label':'Authorship', 'attr': {'placeholder': 'e.g. Gray, 1828'} }) }}</li>
+        <li>{{ form_row(form1.vernacularNameEn,{'label':'Vernacular name', 'attr': {'placeholder': 'e.g. long-beaked common dolphin'} }) }}</li>
+        <li>{{ form_row(form1.taxonrank, {'label':'Taxon rank', 'attr': {'placeholder': 'e.g. species'} }) }}</li>
+        <li>{{ form_row(form1.idodId, {'label':'IDOD id', 'attr': {'placeholder': 'verify in IDOD, add there if needed'} }) }}</li>
+    </ul>
+    <p>
+        <input type="submit" value="Submit" class="btn btn-od">
+    </p>
+</div>
+{{ form_end(form1) }}

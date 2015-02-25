@@ -16,7 +16,7 @@ class TaxaList extends LazyChoiceList
     protected function loadChoiceList()
     {
         $stations = $this
-            ->doctrine->getRepository('AppBundle:Taxa')->getAllTaxa();
+            ->doctrine->getRepository('AppBundle:Taxa')->getAll();
         $values=array();
         $labels=array();
         foreach ($stations as $station) {

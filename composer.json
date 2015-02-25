@@ -33,7 +33,7 @@
 	"lexik/form-filter-bundle": "3.*@dev"
     },
     "autoload": {
-	"psr-0": {"TaxaBundle": "src/","AppBundle": "src/"}
+	"psr-0": {"AppBundle": "src/"}
     
 }
 }

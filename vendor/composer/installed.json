@@ -2747,12 +2747,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/lexik/LexikFormFilterBundle.git",
-            "reference": "4aec96995b00b1a2bf2ed877681de9700159da89"
+            "reference": "afea6685291c4196a497dc2fcaf4a801b96c3680"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/lexik/LexikFormFilterBundle/zipball/4aec96995b00b1a2bf2ed877681de9700159da89",
-            "reference": "4aec96995b00b1a2bf2ed877681de9700159da89",
+            "url": "https://api.github.com/repos/lexik/LexikFormFilterBundle/zipball/afea6685291c4196a497dc2fcaf4a801b96c3680",
+            "reference": "afea6685291c4196a497dc2fcaf4a801b96c3680",
             "shasum": ""
         },
         "require": {
@@ -2764,7 +2764,7 @@
         "require-dev": {
             "phpunit/phpunit": "~3.7"
         },
-        "time": "2015-02-05 08:35:43",
+        "time": "2015-02-16 09:56:25",
         "type": "symfony-bundle",
         "extra": {
             "branch-alias": {

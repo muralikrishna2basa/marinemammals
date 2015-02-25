@@ -10,12 +10,6 @@ mm_about:
     requirements:
         _method:  GET
 
-mm_taxa_index:
-    pattern:  /taxa
-    defaults: { _controller: TaxaBundle:Page:index }
-    requirements:
-        _method:  GET
-
 mm_observations_index:
     pattern:  /observations
     defaults: { _controller: AppBundle:Observations:index }
@@ -24,13 +18,13 @@ mm_observations_index:
 
 mm_taxa_add_new:
     pattern:  /taxa/add
-    defaults: { _controller: TaxaBundle:Page:new }
+    defaults: { _controller: AppBundle:Taxa:new }
     requirements:
         _method:  GET
 
 mm_taxa_add_create:
     pattern:  /taxa/add
-    defaults: { _controller: TaxaBundle:Page:create }
+    defaults: { _controller: AppBundle:Taxa:create }
     requirements:
         _method:  POST
 

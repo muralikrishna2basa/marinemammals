@@ -1,5 +1,5 @@
     <h2>List of taxa</h2>
-    <table>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>Species</th>
@@ -7,7 +7,7 @@
             <th>Idod id</th>
         </tr>
         </thead>
-        {% for taxon in taxa %}
+        {% for taxon in entity1List %}
             <tr>
                 <td>{{taxon.canonicalName}}</td>
                 <td>{{taxon.vernacularNameEn}}</td>

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class TaxaRepository extends EntityRepository
 {
-    public function getAllTaxa()
+    public function getAll()
     {
 		$qb = $this->createQueryBuilder('t')
 		->select('t')

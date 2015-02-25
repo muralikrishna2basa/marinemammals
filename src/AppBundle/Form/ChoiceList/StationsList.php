@@ -16,7 +16,7 @@ class StationsList extends LazyChoiceList
     protected function loadChoiceList()
     {
         $stations = $this
-            ->doctrine->getRepository('AppBundle:Stations')->getAllStations();
+            ->doctrine->getRepository('AppBundle:Stations')->getAll();
         $values=array();
         $labels=array();
         foreach ($stations as $station) {

@@ -1,0 +1,51 @@
+{# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig #}
+{% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/validationImplementation.js'
+    %}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="application/javascript">
+        var $taxonform = $('#taxonform');
+        $(document).ready(function () {
+            $taxonform.validate({
+                ignore: "",
+                rules: {
+                    "taxatype[canonicalName]": {
+                        minlength: 0,
+                        maxlength: 50
+                    },
+                    "taxatype[scientificNameAuthorship]": {
+                        minlength: 0,
+                        maxlength: 50
+                    },
+                    "taxatype[vernacularNameEn]": {
+                        minlength: 0,
+                        maxlength: 50
+                    },
+                    "taxatype[taxonrank]": {
+                        minlength: 0,
+                        maxlength: 30
+                    },
+                    "taxatype[idodId]": {
+                        digits: true,
+                        min: 0
+                    }
+
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+{% block main_content %}
+    <div class="col-lg-6">    {{ include('AppBundle:Bare:add-taxa.html.twig') }}</div>
+    <div class="col-lg-6">    {{ include('AppBundle:Bare:list-taxa.html.twig') }}</div>
+{% endblock %}

@@ -2,10 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Stations;
-use AppBundle\Form\StationsType;
-use AppBundle\Entity\Places;
-use AppBundle\Form\PlacesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 

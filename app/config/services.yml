@@ -39,6 +39,12 @@ services:
         tags:
             - { name: form.type, alias: sourcestype }
 
+    type.taxatype:
+        class: AppBundle\Form\TaxaType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: taxatype }
+
     type.specimen_selector:
         class: AppBundle\Form\SpecimensSelectorType
         arguments: ["@doctrine.orm.entity_manager"]

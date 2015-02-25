@@ -2,10 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Persons;
-use AppBundle\Form\PersonsType;
-use AppBundle\Entity\Institutes;
-use AppBundle\Form\InstitutesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,41 +12,10 @@ class PersonsController extends Controller
     {
         $cp = new ControllerFormSuccessPlugin($this, 'AppBundle\Entity\Persons', 'AppBundle\Entity\Institutes', 'personstype', 'institutestype', 'AppBundle:Persons', 'AppBundle:Institutes', 'AppBundle:Page:add-persons.html.twig');
         return $cp->createEntitiesAndRenderForm('na', 'na');
-        /*
-                $em = $this->getDoctrine()->getEntityManager();
-
-                $persons = $em->getRepository('AppBundle:Persons')
-                    ->getAllPersons();
-                $person=new Persons();
-                $pform   = $this->createForm(new PersonsType($this->getDoctrine()), $person);
-
-                $institutes = $em->getRepository('AppBundle:Institutes')
-                    ->getAllInstitutes();
-                $institute=new Institutes();
-                $iform   = $this->createForm( new InstitutesType(), $institute);
-
-                return $this->render('AppBundle:Page:add-persons.html.twig',array(
-                    'persons' => $persons,
-                    'pform'   => $pform->createView(),
-                    'institutes' => $institutes,
-                    'iform'   => $iform->createView()
-                ));*/
     }
 
     public function createAction(Request $request)
     {
-        /* $em = $this->getDoctrine()->getEntityManager();
-
-         $persons = $em->getRepository('AppBundle:Persons')
-             ->getAllPersons();
-         $person=new Persons();
-         $pform   = $this->createForm(new PersonsType($this->getDoctrine()), $person);
-
-         $institutes = $em->getRepository('AppBundle:Institutes')
-             ->getAllInstitutes();
-         $institute=new Institutes();
-         $iform   = $this->createForm(new InstitutesType(), $institute);
- */
         $cp = new ControllerFormSuccessPlugin($this, 'AppBundle\Entity\Persons', 'AppBundle\Entity\Institutes', 'personstype', 'institutestype', 'AppBundle:Persons', 'AppBundle:Institutes', 'AppBundle:Page:add-persons.html.twig');
 
         $a = $cp->createEntitiesFormsAndLists();

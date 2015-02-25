@@ -2,11 +2,11 @@
 {{ form_start(form2, {'method': 'POST','action': path('mm_persons_add_create'),'attr':{'id':'instituteform', 'novalidate':'true'}}) }}
 <div class="well">
     <p id="formerror" class="text-danger">
-        {% if  success1 == 'false' %}
+        {% if  success2 == 'false' %}
             Validation failed: please check the error messages.
         {% endif %}
     </p>
-    {% if success1 == 'true' %}
+    {% if success2 == 'true' %}
         <p id="formsuccess" class="text-success">This person has been successfully added to the database. You can
             create a new one if you want.</p>
     {% endif %}
