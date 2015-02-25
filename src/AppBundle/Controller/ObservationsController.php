@@ -66,7 +66,7 @@ class ObservationsController extends Controller
         return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
             'form' => $form->createView(),
             'success' => 'na',
-            'errors' => array('')
+            'errors' => array()
         ));
     }
 
@@ -99,7 +99,7 @@ class ObservationsController extends Controller
             return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
                 'form' => $form2->createView(),
                 'success' => 'true',
-                'errors' => array('')
+                'errors' => array()
             ));
         }
 

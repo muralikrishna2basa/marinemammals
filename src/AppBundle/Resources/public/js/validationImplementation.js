@@ -47,7 +47,7 @@ function validateContainer($container, validator) {
         }
     });
     if (!valid) {
-        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +"with an error message.");
+        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message.");
     }
     else{
         $('#formerror').html("");

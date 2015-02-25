@@ -24,18 +24,6 @@
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    {#<script type="application/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
-    <script type="application/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js"></script>
-    <script type="application/javascript"
-            src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js"></script>
-    <script type="application/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/localization/messages_uk.js"></script>
-    <script type="application/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/localization/messages_nl.js"></script>
-    <script type="application/javascript"
-            src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/localization/messages_fr.js"></script>#}
     <script type="application/javascript">
         var $tabs = $('.tab');
         var wholeForm = $('#observationform');
@@ -46,7 +34,7 @@
         var $previousPanel;
 
         var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
-        var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi'); //TODO SHOULD BE INITED AT BEGINNING!
+        var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi');
         var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required="required"]');
         var stationSelector = $('#observationstype_stnSeqno');
         var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
@@ -57,10 +45,9 @@
         var $onlyForDeadBox_requiredInputSelect = $onlyForDeadBox.find('[required="required"]');
         var $anyFieldIndicatingDeadness = $("#observationstype_osnType, #observationstype_eseSeqno_spec2events_circumstantialValues_3_value");
         $(document).ready(function () {
-
-            //TODO: chosen persons can't be the same for gathering and observing
             $('.help-block').closest('div').not('.has-error').attr('class','has-error');
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
+            $('#formsuccess').delay(5000).hide();
             hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
             hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
