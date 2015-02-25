@@ -1,17 +1,29 @@
 <h2>Add new person</h2>
-{{ form_start(pform, {'method': 'POST','action': path('mm_persons_add_create')}) }}
+{{ form_start(form1, {'method': 'POST','action': path('mm_persons_add_create'),'attr':{'id':'personform', 'novalidate':'true'}}) }}
+<div class="well">
+    <p id="formerror" class="text-danger">
+        {% if  success1 == 'false' %}
+            Validation failed: please check the error messages.
+        {% endif %}
+    </p>
+    {% if success1 == 'true' %}
+        <p id="formsuccess" class="text-success">This person has been successfully added to the database. You can
+            create a new one if you want.</p>
+    {% endif %}
+    <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>
 <fieldset>
-    <div class="form-inline">{{ form_row(pform.firstName,{'label':'First name'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.lastName,{'label':'Last name'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.address, {'label':'Address', 'attr': {'placeholder': '<street> <streetnumber>, <postal code> <municipality>'} }) }}</div>
-    <div class="form-inline">{{ form_row(pform.iteSeqno, {'label':'Institute'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.phoneNumber, {'label':'Phone number', 'attr': {'placeholder': 'dd(d)(d)/dddddd(d)'} }) }}</div>
-    <div class="form-inline">{{ form_row(pform.email, {'label':'mail'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.sex, {'label':'Sex'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.title, {'label':'Title'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.idodId, {'label':'IDOD id', 'attr': {'placeholder': 'verify in IDOD, add there if needed'} }) }}</div>
+    <div class="form-inline">{{ form_row(form1.firstName,{'label':'First name'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.lastName,{'label':'Last name'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.address, {'label':'Address', 'attr': {'placeholder': '<street> <streetnumber>, <postal code> <municipality>'} }) }}</div>
+    <div class="form-inline">{{ form_row(form1.iteSeqno, {'label':'Institute'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.phoneNumber, {'label':'Phone number', 'attr': {'placeholder': 'dd(d)(d)/dddddd(d)'} }) }}</div>
+    <div class="form-inline">{{ form_row(form1.email, {'label':'E-mail'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.sex, {'label':'Sex'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.title, {'label':'Title'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.idodId, {'label':'IDOD id', 'attr': {'placeholder': 'verify in IDOD, add there if needed'} }) }}</div>
 </fieldset>
 <p>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-od">
 </p>
-{{ form_end(pform) }}
+    </div>
+{{ form_end(form1) }}

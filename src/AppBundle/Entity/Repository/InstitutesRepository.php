@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class InstitutesRepository extends EntityRepository
 {
-    public function getAllInstitutes()
+    public function getAll()
     {
         $qb = $this->createQueryBuilder('i')
             ->select('i')

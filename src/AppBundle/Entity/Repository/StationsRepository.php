@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class StationsRepository extends EntityRepository
 {
-    public function getAllStations()
+    public function getAll()
     {
         $qb = $this->createQueryBuilder('s')
             ->select('s')

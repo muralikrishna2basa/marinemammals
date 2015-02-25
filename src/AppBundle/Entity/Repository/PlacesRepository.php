@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class PlacesRepository extends EntityRepository
 {
-    public function getAllPlaces()
+    public function getAll()
     {
         $qb = $this->createQueryBuilder('p')
             ->select('p')

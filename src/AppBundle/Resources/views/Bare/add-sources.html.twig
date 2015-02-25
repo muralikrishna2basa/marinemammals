@@ -1,10 +1,22 @@
 <h2>Add new source</h2>
-{{ form_start(form, {'method': 'POST','action': path('mm_sources_add_create')}) }}
+{{ form_start(form1, {'method': 'POST','action': path('mm_sources_add_create'),'attr':{'id':'sourceform', 'novalidate':'true'}}) }}
+<div class="well">
+    <p id="formerror" class="text-danger">
+        {% if  success1 == 'false' %}
+            Validation failed: please check the error messages.
+        {% endif %}
+    </p>
+    {% if success1 == 'true' %}
+        <p id="formsuccess" class="text-success">This source has been successfully added to the database. You can
+            create a new one if you want.</p>
+    {% endif %}
+    <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>
 <fieldset>
-    <div class="form-inline">{{ form_row(form.name, {'label':'Name'}) }}</div>
-    <div class="form-inline">{{ form_row(form.type, {'label':'Source type'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.name, {'label':'Name'}) }}</div>
+    <div class="form-inline">{{ form_row(form1.type, {'label':'Source type'}) }}</div>
 </fieldset>
 <p>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-od">
 </p>
-{{ form_end(form) }}
+    </div>
+{{ form_end(form1) }}

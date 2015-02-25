@@ -30,10 +30,12 @@ class StationsType extends AbstractType
             'required' => false
         ));
         $builder->add('latDec', 'text',array(
-            'required' => true
+            'required' => true,
+            'attr'=>array('maxlength'=>9)
         ));
         $builder->add('lonDec', 'text',array(
-            'required' => true
+            'required' => true,
+            'attr'=>array('maxlength'=>10)
         ));
         $builder->add('pceSeqno', 'entity', array(
             'empty_value' => 'Select...',

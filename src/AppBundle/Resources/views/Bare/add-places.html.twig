@@ -1,12 +1,24 @@
 <h2>Add new place</h2>
-{{ form_start(pform, {'method': 'POST','action': path('mm_stations_add_create')}) }}
-<fieldset>
-    <div class="form-inline">{{ form_row(pform.name,{'label':'Name'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.type,{'label':'Type'}) }}</div>
-    <div class="form-inline">{{ form_row(pform.pceSeqno, {'label':'Place' }) }}</div>
-</fieldset>
-<p>
-    <input type="submit" value="Submit">
-</p>
-{{ form_end(pform) }}
+{{ form_start(form2, {'method': 'POST','action': path('mm_stations_add_create'),'attr':{'id':'placeform', 'novalidate':'true'}}) }}
+<div class="well">
+    <p id="formerror" class="text-danger">
+        {% if  success2 == 'false' %}
+            Validation failed: please check the error messages.
+        {% endif %}
+    </p>
+    {% if success2 == 'true' %}
+        <p id="formsuccess" class="text-success">This place has been successfully added to the database. You can
+            create a new one if you want.</p>
+    {% endif %}
+    <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>
+    <fieldset>
+        <div class="form-inline">{{ form_row(form2.name,{'label':'Name'}) }}</div>
+        <div class="form-inline">{{ form_row(form2.type,{'label':'Type'}) }}</div>
+        <div class="form-inline">{{ form_row(form2.pceSeqno, {'label':'Place' }) }}</div>
+    </fieldset>
+    <p>
+        <input type="submit" value="Submit" class="btn btn-od">
+    </p>
+</div>
+{{ form_end(form2) }}
 

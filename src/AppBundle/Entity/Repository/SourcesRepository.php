@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class SourcesRepository extends EntityRepository
 {
-    public function getAllSources()
+    public function getAll()
     {
 		$qb = $this->createQueryBuilder('s')
 		->select('s')

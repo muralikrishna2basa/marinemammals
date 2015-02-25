@@ -3,6 +3,42 @@
 parameters:
 #    parameter_name: value
 services:
+    type.stationstype:
+        class: AppBundle\Form\StationsType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: stationstype }
+
+    type.placestype:
+        class: AppBundle\Form\PlacesType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: placestype }
+
+    type.platformstype:
+        class: AppBundle\Form\PlatformsType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: platformstype }
+
+    type.personstype:
+        class: AppBundle\Form\PersonsType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: personstype }
+
+    type.institutestype:
+        class: AppBundle\Form\InstitutesType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: institutestype }
+
+    type.sourcestype:
+        class: AppBundle\Form\SourcesType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: sourcestype }
+
     type.specimen_selector:
         class: AppBundle\Form\SpecimensSelectorType
         arguments: ["@doctrine.orm.entity_manager"]
@@ -44,6 +80,12 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: validator.constraint_validator, alias: parametermethodorigin_indb }
+
+    validator.node.persontitle_indb:
+        class: AppBundle\Validator\Constraints\LegalPersonTitleValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: persontitle_indb }
 
     validator.node.pfmtype_indb:
         class: AppBundle\Validator\Constraints\LegalPfmTypeValidator

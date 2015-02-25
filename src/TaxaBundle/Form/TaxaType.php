@@ -13,7 +13,7 @@ class TaxaType extends AbstractType
         $builder->add('scientificNameAuthorship', 'text');
         $builder->add('vernacularNameEn', 'text');
         $builder->add('taxonrank', 'text');
-        $builder->add('idodId', 'text');
+        $builder->add('idodId', 'integer');
     }
 
     public function getName()

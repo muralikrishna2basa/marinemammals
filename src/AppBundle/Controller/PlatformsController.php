@@ -12,26 +12,19 @@ class PlatformsController extends Controller
 
     public function newAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $platforms = $em->getRepository('AppBundle:Platforms')
-            ->getAllPlatforms();
-        $platform=new Platforms();
-        $form   = $this->createForm(new PlatformsType($this->getDoctrine()), $platform);
-        return $this->render('AppBundle:Page:add-platforms.html.twig',array(
-            'platforms' => $platforms,
-            'form'   => $form->createView(),
-        ));
+        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Platforms',null,'platformstype',null,'AppBundle:Platforms',null,'AppBundle:Page:add-platforms.html.twig');
+        return $cp->createEntitiesAndRenderForm('na');
     }
 
     public function createAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Platforms',null,'platformstype',null,'AppBundle:Platforms',null,'AppBundle:Page:add-platforms.html.twig');
 
-        $platforms = $em->getRepository('AppBundle:Platforms')
-            ->getAllPlatforms();
-        $platform=new Platforms();
-        $form   = $this->createForm(new PlatformsType($this->getDoctrine()), $platform);
+        $a = $cp->createEntitiesFormsAndLists();
+
+        $platform = $a['entity1'];
+        $platforms = $a['entity1List'];
+        $form = $a['form1'];
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -40,12 +33,8 @@ class PlatformsController extends Controller
             $em->persist($platform);
             $em->flush();
 
-            return $this->redirect($request->getUri());
+            return $cp->createEntitiesAndRenderForm('true');
         }
-
-        return $this->render('AppBundle:Page:add-platforms.html.twig',array(
-            'platforms' => $platforms,
-            'form'   => $form->createView(),
-        ));
+        return $cp->renderForm($form, 'false', $platforms);
     }
 }

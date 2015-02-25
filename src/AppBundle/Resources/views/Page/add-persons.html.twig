@@ -1,4 +1,62 @@
 {% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/validationImplementation.js' %}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="application/javascript">
+        var $personform = $('#personform');
+        var $instituteform = $('#instituteform');
+        $(document).ready(function () {
+            $personform.validate({
+                ignore: "",
+                rules: {
+                    "personstype[firstName]": {
+                        minlength: 0,
+                        maxlength: 30
+                    },
+                    "personstype[lastName]": {
+                        minlength: 0,
+                        maxlength: 30
+                    },
+                    "personstype[email]": {
+                        minlength: 0,
+                        maxlength: 80,
+                        email: true
+                    },
+                    "personstype[idodId]": {
+                        digits: true,
+                        min: 0
+                    }
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+            $instituteform.validate({
+                ignore: "",
+                rules: {
+                    "institutestype[name]": {
+                        minlength: 0,
+                        maxlength: 250
+                    },
+                    "institutestype[code]": {
+                        minlength: 0,
+                        maxlength: 15
+                    }
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+        });
+    </script>
+{% endblock %}
 {% block main_content %}
     <div class="col-lg-6">
         {{ include('AppBundle:Bare:add-persons.html.twig') }}

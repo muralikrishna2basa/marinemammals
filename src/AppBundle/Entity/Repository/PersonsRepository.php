@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class PersonsRepository extends EntityRepository
 {
-    public function getAllPersons()
+    public function getAll()
     {
         return $this->getAllPersonsQb()->getQuery()
             ->getResult();

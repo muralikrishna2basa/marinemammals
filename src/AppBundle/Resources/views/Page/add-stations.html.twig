@@ -1,8 +1,64 @@
 {% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block stylesheets %}
+    {% stylesheets
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/validationImplementation.js'
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="application/javascript">
+        var $stationform = $('#stationform');
+        var $placeform = $('#placeform');
+        var $placeselectors = $("#stationstype_pceSeqno, #placestype_pceSeqno");
+        $(document).ready(function () {
+            $placeselectors.select2();
+            $stationform.validate({
+                ignore: "",
+                rules: {
+                    "stationstype[description]": {
+                        minlength: 0,
+                        maxlength: 500
+                    },
+                    "stationstype[code]": {
+                        minlength: 0,
+                        maxlength: 50
+                    },
+                    "stationstype[latDec]": 'validLatDec',
+                    "stationstype[lonDec]": 'validLonDec'
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+            $placeform.validate({
+                ignore: "",
+                rules: {
+                    "stationstype[name]": {
+                        minlength: 0,
+                        maxlength: 100
+                    }
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+        });
+    </script>
+{% endblock %}
 {% block main_content %}
     <div class="col-lg-6">
         {{ include('AppBundle:Bare:add-stations.html.twig') }}
         {{ include('AppBundle:Bare:add-places.html.twig') }}
-       </div>
+    </div>
     <div class="col-lg-6">    {{ include('AppBundle:Bare:list-stations.html.twig') }}</div>
 {% endblock %}

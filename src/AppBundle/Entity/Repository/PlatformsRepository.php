@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class PlatformsRepository extends EntityRepository
 {
-    public function getAllPlatforms()
+    public function getAll()
     {
 		$qb = $this->createQueryBuilder('p')
 		->select('p')

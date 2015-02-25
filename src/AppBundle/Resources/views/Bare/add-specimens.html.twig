@@ -5,8 +5,7 @@
         {{ form_row(form.eseSeqno.spec2events.scnSeqnoExisting, {'label':'Specimen id','attr':{'placeholder':'A valid specimen seqno'} }) }}
         {% import "AppBundle::errors.html.twig" as forgotten %}
         {{ forgotten.errors('scnSeqnoNew[eseSeqno][spec2events][scnSeqnoExisting]',errors) }}
-        {# errors[form.eseSeqno.spec2events.scnSeqnoExisting.vars["full_name"]] #}
-        <button id="b_search_scn">Search for existing specimen in list</button>
+        {#<button id="b_search_scn">Search for existing specimen in list</button>#}
     </div>
 </fieldset>
 <fieldset id="new-specimen">

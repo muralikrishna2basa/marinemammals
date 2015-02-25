@@ -1,4 +1,32 @@
 {% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/validationImplementation.js'
+ %}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="application/javascript">
+        var $platformform = $('#platformform');
+        $(document).ready(function () {
+            $platformform.validate({
+                ignore: "",
+                rules: {
+                    "platformstype[name]": {
+                        minlength: 0,
+                        maxlength: 50
+                    }
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+        });
+    </script>
+{% endblock %}
 {% block main_content %}
     <div class="col-lg-6">
         {{ include('AppBundle:Bare:add-platforms.html.twig') }}

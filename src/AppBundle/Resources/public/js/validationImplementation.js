@@ -59,8 +59,9 @@ function createError(index, error) {
     var $element = $(error.element).closest("div");
     var $group = $(error.element).closest(".form-group");
 
-    $tabs.not($currentTab).not($previousTab).addClass('disabled');
-
+    if(typeof $tabs !== 'undefined'){
+        $tabs.not($currentTab).not($previousTab).addClass('disabled');
+    }
     $element.tooltip("destroy")
         .data("title", error.message)
         .tooltip();
@@ -77,8 +78,9 @@ function cleanError(index, element) {
     var $group = $(element).closest(".form-group");
     $element.data("title", "").tooltip("destroy");
 
-    $tabs.not($currentTab).removeClass('disabled');
-
+    if(typeof $tabs !== 'undefined') {
+        $tabs.not($currentTab).removeClass('disabled');
+    }
     $group.removeClass("has-error").addClass("has-success has-feedback");
     if ($group.find("span.glyphicon").length === 0) {
         $group.append('<span class="glyphicon glyphicon-ok form-control-feedback"> </span>');

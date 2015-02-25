@@ -31,7 +31,7 @@ class PersonsType extends AbstractType
         $builder->add('email', 'text', array('required' => false));
         $builder->add('sex', 'choice',array('empty_value' => 'Select...','required' => true,'choice_list'=>new CgRefChoiceList($this->doctrine,'SEX')));
         $builder->add('title', 'choice',array('empty_value' => 'Select or leave empty...','required' => false,'choice_list'=>new CgRefChoiceList($this->doctrine,'PSN_TITLE')));
-        $builder->add('idodId', 'text', array('required' => false));
+        $builder->add('idodId', 'integer', array('required' => false));
     }
 
     public function getName()

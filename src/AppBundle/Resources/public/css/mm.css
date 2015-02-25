@@ -71,7 +71,7 @@ form li.form-inline > div{
     display: inline !important;
 }
 
-:required { border:1px solid orange; }
+:required { border:1px solid orange !important; }
 
 @font-face {
     font-family: 'Glyphicons Halflings';

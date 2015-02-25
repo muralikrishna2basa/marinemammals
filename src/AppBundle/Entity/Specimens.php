@@ -569,10 +569,18 @@ class Specimens
                 } else {
                     if ($t1 == $m) {
                         return 1;
-                    } elseif ($t1 > $m) {
+                    } elseif ($m > $t1) {
                         return $this->refineUnknownCod($m);
                     }
                 }
+            case 'R':
+            case 'S':
+            if ($t1 == $m) {
+                return 1;
+            }
+            elseif($m > $t1){
+                return -1;
+            }
             case 'FAB': //dc must be 1
                 if ($t1 >= $m && $diBeforeAlive == 0) {
                     return 0;
@@ -583,6 +591,8 @@ class Specimens
                 } else {
                     return $this->refineUnknownCod($m);
                 }
+            default:
+                return -1;
         }
     }
 

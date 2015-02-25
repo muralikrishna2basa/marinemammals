@@ -1,14 +1,26 @@
 <h2>Add new station</h2>
-{{ form_start(sform, {'method': 'POST','action': path('mm_stations_add_create')}) }}
-<fieldset>
-    <div class="form-inline">{{ form_row(sform.code,{'label':'Code'}) }}</div>
-    <div class="form-inline">{{ form_row(sform.areaType,{'label':'Area type'}) }}</div>
-    <div class="form-inline">{{ form_row(sform.description, {'label':'Description'}) }}</div>
-    <div class="form-inline">{{ form_row(sform.latDec, {'label':'Latitude'}) }}</div>
-    <div class="form-inline">{{ form_row(sform.lonDec, {'label':'Longitude'}) }}</div>
-    <div class="form-inline">{{ form_row(sform.pceSeqno, {'label':'place'}) }}</div>
-</fieldset>
-<p>
-    <input type="submit" value="Submit">
-</p>
-{{ form_end(sform) }}
+{{ form_start(form1, {'method': 'POST','action': path('mm_stations_add_create'),'attr':{'id':'stationform','novalidate':'true'}}) }}
+<div class="well">
+    <p id="formerror" class="text-danger">
+        {% if  success1 == 'false' %}
+            Validation failed: please check the error messages.
+        {% endif %}
+    </p>
+    {% if success1 == 'true' %}
+        <p id="formsuccess" class="text-success">This station has been successfully added to the database. You can
+            create a new one if you want.</p>
+    {% endif %}
+    <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>
+    <fieldset>
+        <div class="form-inline">{{ form_row(form1.code,{'label':'Code'}) }}</div>
+        <div class="form-inline">{{ form_row(form1.areaType,{'label':'Area type'}) }}</div>
+        <div class="form-inline">{{ form_row(form1.description, {'label':'Description'}) }}</div>
+        <div class="form-inline">{{ form_row(form1.latDec, {'label':'Latitude','attr':{'class':'refer-to_stationstype_lonDec'}}) }}</div>
+        <div class="form-inline">{{ form_row(form1.lonDec, {'label':'Longitude','attr':{'class':'refer-to_stationstype_latDec'}}) }}</div>
+        <div class="form-inline">{{ form_row(form1.pceSeqno, {'label':'place'}) }}</div>
+    </fieldset>
+    <p>
+        <input type="submit" value="Submit" class="btn btn-od">
+    </p>
+</div>
+{{ form_end(form1) }}

@@ -14,81 +14,52 @@ class StationsController extends Controller
 
     public function newAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $stations = $em->getRepository('AppBundle:Stations')
-            ->getAllStations();
-        $station=new Stations();
-        $sform   = $this->createForm(new StationsType($this->getDoctrine()), $station);
-
-        $places = $em->getRepository('AppBundle:Places')
-            ->getAllPlaces();
-        $place=new Places();
-        $pform   = $this->createForm(new PlacesType($this->getDoctrine()), $place);
-
-        return $this->render('AppBundle:Page:add-stations.html.twig',array(
-            'stations' => $stations,
-            'sform'   => $sform->createView(),
-            'places' => $places,
-            'pform'   => $pform->createView()
-        ));
+        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Stations','AppBundle\Entity\Places','stationstype','placestype','AppBundle:Stations','AppBundle:Places','AppBundle:Page:add-stations.html.twig');
+        return $cp->createEntitiesAndRenderForm('na', 'na');
     }
 
     public function createAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $cp=new ControllerFormSuccessPlugin($this,'AppBundle\Entity\Stations','AppBundle\Entity\Places','stationstype','placestype','AppBundle:Stations','AppBundle:Places','AppBundle:Page:add-stations.html.twig');
 
-        $stations = $em->getRepository('AppBundle:Stations')
-            ->getAllStations();
-        $station=new Stations();
-        $sform   = $this->createForm(new StationsType($this->getDoctrine()), $station);
+        $a = $cp->createEntitiesFormsAndLists();
 
-        $places = $em->getRepository('AppBundle:Places')
-            ->getAllPlaces();
-        $place=new Places();
-        $pform   = $this->createForm(new PlacesType($this->getDoctrine()), $place);
+        $station = $a['entity1'];
+        $stations = $a['entity1List'];
+        $sform = $a['form1'];
+
+        $place = $a['entity2'];
+        $places = $a['entity2List'];
+        $pform = $a['form2'];
 
         $sform->handleRequest($request);
-        if ($sform->isValid()) {
+        if ($sform->isSubmitted()) {
+            if ($sform->isValid()) {
 
-            $em = $this->getDoctrine()
-                ->getEntityManager();
-            $em->persist($station);
-            $em->flush();
+                $em = $this->getDoctrine()
+                    ->getEntityManager();
+                $em->persist($station);
+                $em->flush();
+                return $cp->createEntitiesAndRenderForm('true', 'na');
 
-            return $this->redirect($request->getUri());
+            } else {
+                return $cp->renderForm($sform, $pform, 'false', 'na', $stations, $places);
+            }
         }
 
         $pform->handleRequest($request);
-        if ($pform->isValid()) {
+        if ($pform->isSubmitted()) {
+            if ($pform->isValid()) {
 
-            $em = $this->getDoctrine()
-                ->getEntityManager();
-            $em->persist($place);
-            $em->flush();
+                $em = $this->getDoctrine()
+                    ->getEntityManager();
+                $em->persist($place);
+                $em->flush();
+                return $cp->createEntitiesAndRenderForm('na', 'true');
 
-            return $this->redirect($request->getUri());
+            } else {
+                return $cp->renderForm($sform, $pform, 'na', 'false', $stations, $places);
+            }
         }
-
-        return $this->render('AppBundle:Page:add-stations.html.twig',array(
-            'stations' => $stations,
-            'sform'   => $sform->createView(),
-            'places' => $places,
-            'pform'   => $pform->createView()
-        ));
-    }
-
-    protected function getInstitute($iteSeqno)
-    {
-        $em = $this->getDoctrine()
-            ->getEntityManager();
-
-        $institute = $em->getRepository('AppBundle:Institutes')->find($iteSeqno);
-
-        if (!$institute) {
-            throw $this->createNotFoundException('Unable to find Institute.');
-        }
-
-        return $institute;
     }
 }

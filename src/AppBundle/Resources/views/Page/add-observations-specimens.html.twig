@@ -57,11 +57,13 @@
         var $onlyForDeadBox_requiredInputSelect = $onlyForDeadBox.find('[required="required"]');
         var $anyFieldIndicatingDeadness = $("#observationstype_osnType, #observationstype_eseSeqno_spec2events_circumstantialValues_3_value");
         $(document).ready(function () {
-            //TODO: chosen persons can't be the same for gathering and observing
 
+            //TODO: chosen persons can't be the same for gathering and observing
+            $('.help-block').closest('div').not('.has-error').attr('class','has-error');
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
             hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+            hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
             $("#observationform").easytabs({
                 tabs: ".nav-tabs li",
                 animate: false,
@@ -271,7 +273,7 @@
 
         function animalIsAliveDuringIntervention() {
             var decompositionCode = $('#observationstype_eseSeqno_spec2events_circumstantialValues_3_value').val();
-            var osnType = $(observationstype_osnType).val();
+            var osnType = $('#observationstype_osnType').val();
             var deadOsnTypes = ["Found dead in Harbour", "Died during transport/rehab", "Found dead on beach", "Found dead at Sea"];
             var certainlyDead = ($.inArray(osnType, deadOsnTypes) != -1);
             return !certainlyDead || decompositionCode == 1;
