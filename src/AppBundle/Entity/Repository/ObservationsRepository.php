@@ -3,15 +3,27 @@
 namespace AppBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query;
 
 class ObservationsRepository extends EntityRepository
 {
     public function getCompleteObservation()
     {
-        $query = $this->getEntityManager()->createQuery('select o from AppBundle:Observations o join o.eseSeqno e join AppBundle:Spec2Events s2e with s2e.eseSeqno=e.seqno join AppBundle:Specimens s with s.seqno=s2e.scnSeqno join s.txnSeqno t');
-        //$query->setMaxResults(200);
-        return $query->getResult();
+        $q=$this->getCompleteObservationQb()->getQuery();
+        $sql=$q->getSQL();
+        return $q->getResult(Query::HYDRATE_OBJECT); //unfortunately, hydrate object is needed to make use of the bidirectional asociations!
+    }
+
+    public function getCompleteObservationQb()
+    {
+        return $this->createQueryBuilder('o')
+            ->select('partial o.{eseSeqno,latDec, lonDec}, partial st.{seqno,code,areaType}, partial e.{seqno,eventDatetime}, partial s2e.{eseSeqno,scnSeqno}, partial s.{seqno,scnNumber}, partial t.{seqno,canonicalName,vernacularNameEn}')
+            ->leftJoin('o.stnSeqno', 'st')
+            ->leftJoin('st.pceSeqno', 'p')
+            ->innerJoin('o.eseSeqno', 'e')
+            ->innerJoin('AppBundle\Entity\Spec2Events', 's2e', Expr\Join::WITH, 's2e.eseSeqno = e.seqno')
+            ->leftJoin('s2e.scnSeqno', 's')
+            ->leftJoin('s.txnSeqno', 't');
     }
 }
-
-//        $query = $this->getEntityManager()->createQuery('select o,e from AppBundle:Observations o join AppBundle:EventStates e with o.eseSeqno=e.seqno');

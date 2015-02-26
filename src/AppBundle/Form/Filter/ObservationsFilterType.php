@@ -2,10 +2,11 @@
 
 namespace AppBundle\Form\Filter;
 
+use AppBundle\Entity\Repository\TaxaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\ChoiceList\CountryList;
-use AppBundle\Form\ChoiceList\StationsList;
+use AppBundle\Entity\Repository\StationsRepository;
 use AppBundle\Form\ChoiceList\StationsTypeList;
 use AppBundle\Form\ChoiceList\TaxaList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -41,15 +42,23 @@ class ObservationsFilterType extends AbstractType
             'empty_value' => 'Station location...',
             'choice_list' => new StationsTypeList($this->doctrine)
         ));
-        $builder->add('station', 'filter_choice', array(
-            'required' => false,
+        $builder->add('stnSeqno', 'filter_entity', array(
             'empty_value' => 'Station...',
-            'choice_list' => new StationsList($this->doctrine)
-        ));
-        $builder->add('species', 'filter_choice', array(
             'required' => false,
+            'class' => 'AppBundle:Stations',
+            'property' => 'fullyQualifiedName',
+            'query_builder' => function (StationsRepository $er) {
+                return $er->getAllStationsPlaceQb();
+            }
+        ));
+        $builder->add('txnSeqno', 'filter_entity', array(
             'empty_value' => 'Species...',
-            'choice_list' => new TaxaList($this->doctrine)
+            'required' => false,
+            'class' => 'AppBundle:Taxa',
+            'property' => 'canonicalName',
+            'query_builder' => function (TaxaRepository $er) {
+                return $er->getAllTaxaQb();
+            }
         ));
     }
 

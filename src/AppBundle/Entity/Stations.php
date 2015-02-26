@@ -374,6 +374,10 @@ class Stations
         return $this->seqno;
     }
 
+    public function getId(){
+        return $this->getSeqno();
+    }
+
     /**
      * Set pceSeqno
      *

@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Form\ChoiceList;
+
 use Symfony\Component\Form\Extension\Core\ChoiceList\LazyChoiceList;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 
@@ -17,15 +18,19 @@ class StationsTypeList extends LazyChoiceList
     {
         $types = $this
             ->doctrine->getRepository('AppBundle:Stations')->getAllStationsTypes();
-        $values=array();
-        $labels=array();
+        $values = array();
+        //$labels=array();
+        $previousValue='';
         foreach ($types as $type) {
-            $value = $type;
-            $label = $type;
-            array_push($values,$value);
-            array_push($labels,$label);
+            if ($type['areaType'] !== null) {
+                $value = $type['areaType'];
+                if(strcasecmp($value, $previousValue) != 0) {
+                    $values[$value] = $value;
+                }
+                $previousValue=$value;
+            }
         }
-        $cl=new ChoiceList($values,$labels);
+        $cl = new ChoiceList($values, $values);
         return $cl;
     }
 }

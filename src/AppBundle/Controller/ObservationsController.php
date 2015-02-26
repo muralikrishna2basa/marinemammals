@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ObservationsController extends Controller
 {
 
-    public function indexAction(Request $request)
+    public function filterAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -28,20 +28,48 @@ class ObservationsController extends Controller
         if ($request->query->has($form->getName())) {
             // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
-            // initialize a query builder
-            $filterBuilder = $em->getRepository('AppBundle:Observations')->createQueryBuilder('e');
-            // build the query from the given form object
-            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
-            //var_dump($filterBuilder->getDql());
-            //this is the place where everything happen, the $filterBuilder only creates the query for the filters but can't get the
-            //objects by itself so we need to "getQuery()" and then "getArrayResult()", thats all, the filtered have been loaded
-            $resultQuery = $filterBuilder->getQuery();
-            $filteredEntities = $resultQuery->getArrayResult();
+            $filterBuilder = $em->getRepository('AppBundle:Observations')->getCompleteObservationQb();
+            $fd=$form->getData();
+            $eventDatetimeStart=$fd['eventDatetimeStart'];
+            $eventDatetimeStop=$fd['eventDatetimeStop'];
+            $country=$fd['country'];
+            $stationtype=$fd['stationtype'];
+            $stn=$fd['stnSeqno'];
+            $txn=$fd['txnSeqno'];
+            if($eventDatetimeStart && $eventDatetimeStop){
+                $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
+                $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
+                $filterBuilder->setParameter('eventDatetimeStop', $eventDatetimeStop);
+            }
+            if($stationtype){
+                $filterBuilder->andWhere('st.areaType=:areaType');
+                $filterBuilder->setParameter('areaType', $stationtype);
+            }
+            if($stn){
+                $filterBuilder->andWhere('st.seqno=:stnSeqno');
+                $filterBuilder->setParameter('stnseqno', $stn);
+            }
+            if($txn){
+                $filterBuilder->andWhere('t.canonicalName=:canonicalName');
+                $filterBuilder->setParameter('canonicalName', $txn->getCanonicalName());
+            }
+            //$this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+            $filteredEntities = $filterBuilder->getQuery()->getResult();
             $filteredAndPaginatedEntities = $this->paginate($filteredEntities);
             return $this->render('AppBundle:Page:list-observations.html.twig', array(
-                'entities' => $filteredAndPaginatedEntities
+                'entities' => $filteredAndPaginatedEntities, 'form' => $form->createView()
             ));
         }
+        $observations = $em->getRepository('AppBundle:Observations')
+            ->getCompleteObservation();
+        $paginatedEntities = $this->paginate($observations);
+        return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $paginatedEntities, 'form' => $form->createView()));
+    }
+
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $observations = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservation();
         $paginatedEntities = $this->paginate($observations);
@@ -54,7 +82,7 @@ class ObservationsController extends Controller
         $pagination = $paginator->paginate(
             $array,
             $this->get('request')->query->get('page', 1)/*page number*/,
-            100/*limit per page*/
+            50/*limit per page*/
         );
         return $pagination;
     }

@@ -1,16 +1,20 @@
-$.validator.addMethod("dateBE&Logical", function (value) {
+$.validator.addMethod("dateBELogical", function (value) {
     var dt = Date.parseExact(value, ["dd/MM/yyyy"]);
     var tomorrow = Date.today().addDays(1);
-    return dt != null && dt.isBefore(tomorrow);
+    return value==null || value=='' ||dt != null && dt.isBefore(tomorrow); //empty values are allowed
 }, '2 problems: either an invalid date (not dd/mm/yyyy) or either the date is in the future');
 
-$.validator.addMethod('validDaterange', function(element) {
-    var $firstDateTextbox = element.find("input:first-of-type");
-    var $lastDateTextbox = element.find("input:last-of-type");
+$.validator.addMethod('validDaterange', function(value,element) {
+    var $parent=$(element).closest("#periodpicker");
+    var $firstDateTextbox = $($parent.find("input")[0]);
+    var $lastDateTextbox = $($parent.find("input")[1]);
     var ds = Date.parseExact($firstDateTextbox.val(), ["dd/MM/yyyy"]);
     var de = Date.parseExact($lastDateTextbox.val(), ["dd/MM/yyyy"]);
-    return (ds <= de);
-});
+    if(ds && de){
+        return (ds.isBefore(de));
+    }
+    else return true;
+}, 'The start date lies after the end date.');
 
 $.validator.addMethod("validNecropsyTag", function (value) {
     return /^$|^[a-zA-Z]{2}[_][0-9]{4}[_][0-9]{1,6}$/.test(value);

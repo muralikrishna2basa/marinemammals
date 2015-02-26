@@ -1,9 +1,12 @@
-{{ form_start(form, {'method': 'POST','action': path('mm_observations_add_create'),'attr':{'id':'observationform', 'novalidate':'true'}}) }}
+{{ form_start(form, {'method': 'GET','action': path('mm_observations_filter'),'attr':{'id':'observationfilterform', 'novalidate':'true'}}) }}
 EXPERIMENTAL PAGE
 <div class="well">
     <fieldset>
         {{ include('AppBundle:Bare:filter-observations.html.twig') }}
     </fieldset>
+    <p>
+        <input type="submit" value="Submit" id="submit" class="btn btn-od">
+    </p>
 </div>
 {{ form_end(form) }}
 <div id="map"></div>
@@ -11,7 +14,7 @@ EXPERIMENTAL PAGE
     <div class="count">
         {{ entities.getTotalItemCount }}
     </div>
-    <table class="table table-striped">
+    <table id="observationstable" class="table table-striped">
         <thead>
         <tr>
             <th>Station</th>
@@ -19,22 +22,29 @@ EXPERIMENTAL PAGE
             <th>Longitude</th>
             <th>Date and time</th>
             <th>Species</th>
-{#            <th{% if pagination.isSorted('e.eseSeqno.eventDatetime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date and time', 'e.eseSeqno.eventDatetime') }}</th>
-            <th{% if pagination.isSorted('e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Species', 'e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') }}</th>#}
-            <th>Is alive</th>
             <th>Edit</th>
+            {#<th{% if pagination.isSorted('e.eseSeqno.eventDatetime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date and time', 'e.eseSeqno.eventDatetime') }}</th>
+            <th{% if pagination.isSorted('e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Species', 'e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') }}</th>
+            <th>Is alive</th>#}
         </tr>
         </thead>
         {% for e in entities %}
             <tr>
                 {#<td>{% if e.stnSeqno is not null%}{{e.stnSeqno.country}}{% endif%}</td>#}
-                <td>{% if e.stnSeqno is not null%}{{e.stnSeqno.fullyQualifiedName}}{% endif%}</td>
-                <td>{{e.latDec}}</td>
-                <td>{{e.lonDec}}</td>
+                {# <td>{% if e.eseSeqno.observation.stnSeqno is not null%}{{e.eseSeqno.observation.stnSeqno.fullyQualifiedName}}{% endif%}</td>#}
+                 {#<td>{{e.stnSeqno.code}}</td>
+                 <td>{{e.latDec}}</td>
+                 <td>{{e.lonDec}}</td>
+                 <td>{{e.eseSeqno.eventDatetime|date("d/m/Y")}}</td>
+                 <td>{{e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName}}</td>#}
+                 {#<td>{{e.eseSeqno.spec2events.scnSeqno.AliveNow}}</td>
+                 <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT</a></td>#}
+                <td>{{e.eseSeqno.observation.stnSeqno.code}}</td>
+                <td>{{e.eseSeqno.observation.latDec}}</td>
+                <td>{{e.eseSeqno.observation.lonDec}}</td>
                 <td>{{e.eseSeqno.eventDatetime|date("d/m/Y")}}</td>
                 <td>{{e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName}}</td>
-                <td>{{e.eseSeqno.spec2events.scnSeqno.AliveNow}}</td>
-                <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT</a></td>
+                <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT OBSERVATION</a></td>
             </tr>
         {% else %}
             <tr>

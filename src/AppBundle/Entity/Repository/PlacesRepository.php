@@ -3,6 +3,7 @@
 namespace AppBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class PlacesRepository extends EntityRepository
 {

@@ -16,6 +16,12 @@ mm_observations_index:
     requirements:
         _method:  GET
 
+mm_observations_filter:
+    pattern:  /observations/filtered
+    defaults: { _controller: AppBundle:Observations:filter }
+    requirements:
+        _method:  GET
+
 mm_taxa_add_new:
     pattern:  /taxa/add
     defaults: { _controller: AppBundle:Taxa:new }

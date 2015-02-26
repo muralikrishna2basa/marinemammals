@@ -145,7 +145,7 @@
             var validator = wholeForm.validate({
                 ignore: "",
                 rules: {
-                    "observationstype[eseSeqno][eventDatetime][date]": 'dateBE&Logical',
+                    "observationstype[eseSeqno][eventDatetime][date]": {dateBELogical:true, required:true},
                     "observationstype[eseSeqno][description]": {
                         minlength: 0,
                         maxlength: 4000
