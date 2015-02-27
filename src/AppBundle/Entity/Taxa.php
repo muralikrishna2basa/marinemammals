@@ -183,4 +183,8 @@ class Taxa
     {
         return $this->seqno;
     }
+
+    public function getFullyQualifiedName(){
+        return $this->getCanonicalName().' ('.$this->getVernacularNameEn().')';
+    }
 }

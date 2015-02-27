@@ -55,7 +55,7 @@ class ObservationsFilterType extends AbstractType
             'empty_value' => 'Species...',
             'required' => false,
             'class' => 'AppBundle:Taxa',
-            'property' => 'canonicalName',
+            'property' => 'fullyQualifiedName',
             'query_builder' => function (TaxaRepository $er) {
                 return $er->getAllTaxaQb();
             }

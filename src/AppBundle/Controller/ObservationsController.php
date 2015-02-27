@@ -81,7 +81,7 @@ class ObservationsController extends Controller
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $observations = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservation();
-        //$observations = $this->paginate($observations);
+        $observations = $this->paginate($observations);
         return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $observations, 'form' => $form->createView()));
     }
 
@@ -91,7 +91,7 @@ class ObservationsController extends Controller
         $pagination = $paginator->paginate(
             $array,
             $this->get('request')->query->get('page', 1)/*page number*/,
-            50/*limit per page*/
+            500/*limit per page*/
         );
         return $pagination;
     }

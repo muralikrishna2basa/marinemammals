@@ -1,19 +1,19 @@
 {{ form_start(form, {'method': 'GET','action': path('mm_observations_filter'),'attr':{'id':'observationfilterform', 'novalidate':'true'}}) }}
-EXPERIMENTAL PAGE
 <div class="well">
     <fieldset>
         {{ include('AppBundle:Bare:filter-observations.html.twig') }}
     </fieldset>
     <p>
-        <input type="submit" value="Submit" id="submit" class="btn btn-od">
+        <input type="submit" value="Search" id="submit" class="btn btn-od">
     </p>
 </div>
 {{ form_end(form) }}
 <div id="map"></div>
 <h2>List of observations</h2>
 <p class="count">
-    {#{{ entities.getTotalItemCount }} observations matched your search.#}
+    The above criteria match {{ entities.getTotalItemCount }} observations.
 </p>
+{{ knp_pagination_render(entities) }}
 <table id="observationstable" class="table table-striped">
     <thead>
     <tr>
@@ -21,7 +21,7 @@ EXPERIMENTAL PAGE
         <th>Station</th>
         <th>Latitude</th>
         <th>Longitude</th>
-        <th>Date and time</th>
+        <th>Date</th>
         <th>Species</th>
         <th>Edit</th>
         {#<th>Is alive</th>#}
@@ -30,12 +30,12 @@ EXPERIMENTAL PAGE
     {% for e in entities %}
         <tr>
             {#<td>{{e.eseSeqno.spec2events.scnSeqno.AliveNow}}</td>#}
-            <td>{% if e.stnSeqno is not null%}{{e.stnSeqno.country}}{% endif%}</td>
+            <td>{% if e.stnSeqno is not null %}{{ e.stnSeqno.country }}{% endif %}</td>
             <td>    {% if e.eseSeqno.observation.stnSeqno is defined and e.eseSeqno.observation.stnSeqno is not null %}{{ e.eseSeqno.observation.stnSeqno.fullyQualifiedName }} {% endif %}</td>
             <td>{{ e.eseSeqno.observation.latDec }}</td>
             <td>{{ e.eseSeqno.observation.lonDec }}</td>
             <td>{{ e.eseSeqno.eventDatetime|date("d/m/Y") }}</td>
-            <td>{{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName }}</td>
+            <td>{% if e.eseSeqno.spec2events is defined and e.eseSeqno.spec2events is not null and e.eseSeqno.spec2events.scnSeqno.txnSeqno is defined %}{{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.getFullyQualifiedName }}{% endif %}</td>
             <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT OBSERVATION</a></td>
         </tr>
     {% else %}
@@ -45,5 +45,5 @@ EXPERIMENTAL PAGE
     {% endfor %}
 </table>
 <div class="navigation">
-    {{ knp_pagination_render(entities) }}
+{{ knp_pagination_render(entities) }}
 </div>

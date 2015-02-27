@@ -110,7 +110,6 @@ class Stations
     private $pceSeqno;
 
 
-
     /**
      * Set areaType
      *
@@ -120,14 +119,14 @@ class Stations
     public function setAreaType($areaType)
     {
         $this->areaType = $areaType;
-    
+
         return $this;
     }
 
     /**
      * Get areaType
      *
-     * @return string 
+     * @return string
      */
     public function getAreaType()
     {
@@ -143,14 +142,14 @@ class Stations
     public function setCode($code)
     {
         $this->code = $code;
-    
+
         return $this;
     }
 
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -166,14 +165,14 @@ class Stations
     public function setCreDat($creDat)
     {
         $this->creDat = $creDat;
-    
+
         return $this;
     }
 
     /**
      * Get creDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreDat()
     {
@@ -189,14 +188,14 @@ class Stations
     public function setCreUser($creUser)
     {
         $this->creUser = $creUser;
-    
+
         return $this;
     }
 
     /**
      * Get creUser
      *
-     * @return string 
+     * @return string
      */
     public function getCreUser()
     {
@@ -212,14 +211,14 @@ class Stations
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -235,14 +234,14 @@ class Stations
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
-    
+
         return $this;
     }
 
     /**
      * Get latitude
      *
-     * @return string 
+     * @return string
      */
     public function getLatitude()
     {
@@ -258,14 +257,14 @@ class Stations
     public function setLatDec($latDec)
     {
         $this->latDec = $latDec;
-    
+
         return $this;
     }
 
     /**
      * Get latDec
      *
-     * @return string 
+     * @return string
      */
     public function getLatDec()
     {
@@ -281,14 +280,14 @@ class Stations
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
-    
+
         return $this;
     }
 
     /**
      * Get longitude
      *
-     * @return string 
+     * @return string
      */
     public function getLongitude()
     {
@@ -304,14 +303,14 @@ class Stations
     public function setLonDec($lonDec)
     {
         $this->lonDec = $lonDec;
-    
+
         return $this;
     }
 
     /**
      * Get lonDec
      *
-     * @return string 
+     * @return string
      */
     public function getLonDec()
     {
@@ -327,14 +326,14 @@ class Stations
     public function setModDat($modDat)
     {
         $this->modDat = $modDat;
-    
+
         return $this;
     }
 
     /**
      * Get modDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModDat()
     {
@@ -350,14 +349,14 @@ class Stations
     public function setModUser($modUser)
     {
         $this->modUser = $modUser;
-    
+
         return $this;
     }
 
     /**
      * Get modUser
      *
-     * @return string 
+     * @return string
      */
     public function getModUser()
     {
@@ -367,14 +366,15 @@ class Stations
     /**
      * Get seqno
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeqno()
     {
         return $this->seqno;
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->getSeqno();
     }
 
@@ -387,14 +387,14 @@ class Stations
     public function setPceSeqno(\AppBundle\Entity\Places $pceSeqno = null)
     {
         $this->pceSeqno = $pceSeqno;
-    
+
         return $this;
     }
 
     /**
      * Get pceSeqno
      *
-     * @return \AppBundle\Entity\Places 
+     * @return \AppBundle\Entity\Places
      */
     public function getPceSeqno()
     {
@@ -408,7 +408,21 @@ class Stations
      */
     public function getFullyQualifiedName()
     {
-        return $this->getPceSeqno()->getName().' - '.$this->getCode().' ('.$this->getAreaType().')';
+        $name = $this->getPceSeqno()->getName();
+        $code = $this->getCode();
+        $type = $this->getAreaType();
+        $codeZilch = $code === '' || $code === null;
+        $typeZilch = $type === '' || $type === null;
+        if ($codeZilch && $typeZilch) {
+            return $name;
+        } elseif ($codeZilch) {
+            return $name . ' (' . $type . ')';
+        } elseif ($typeZilch) {
+            return $name . ' - ' . $code;
+        } else {
+            return $name . ' - ' . $code . ' (' . $type . ')';
+        }
+
     }
 
     /**
@@ -418,7 +432,7 @@ class Stations
      */
     public function getExtendedName()
     {
-        return $this->getPceSeqno()->getName().' - '.$this->getCode();
+        return $this->getPceSeqno()->getName() . ' - ' . $this->getCode();
     }
 
     /**
@@ -428,10 +442,9 @@ class Stations
      */
     public function getCountry()
     {
-        if ($this->getPceSeqno() !== null){
+        if ($this->getPceSeqno() !== null) {
             return $this->getPceSeqno()->getCountry();
-        }
-        else return '';
+        } else return '';
 
     }
 }
