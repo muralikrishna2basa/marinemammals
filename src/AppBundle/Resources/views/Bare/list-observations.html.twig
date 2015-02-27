@@ -11,47 +11,39 @@ EXPERIMENTAL PAGE
 {{ form_end(form) }}
 <div id="map"></div>
 <h2>List of observations</h2>
-    <div class="count">
-        {{ entities.getTotalItemCount }}
-    </div>
-    <table id="observationstable" class="table table-striped">
-        <thead>
+<p class="count">
+    {#{{ entities.getTotalItemCount }} observations matched your search.#}
+</p>
+<table id="observationstable" class="table table-striped">
+    <thead>
+    <tr>
+        <th>Country</th>
+        <th>Station</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Date and time</th>
+        <th>Species</th>
+        <th>Edit</th>
+        {#<th>Is alive</th>#}
+    </tr>
+    </thead>
+    {% for e in entities %}
         <tr>
-            <th>Station</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Date and time</th>
-            <th>Species</th>
-            <th>Edit</th>
-            {#<th{% if pagination.isSorted('e.eseSeqno.eventDatetime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date and time', 'e.eseSeqno.eventDatetime') }}</th>
-            <th{% if pagination.isSorted('e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Species', 'e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName') }}</th>
-            <th>Is alive</th>#}
+            {#<td>{{e.eseSeqno.spec2events.scnSeqno.AliveNow}}</td>#}
+            <td>{% if e.stnSeqno is not null%}{{e.stnSeqno.country}}{% endif%}</td>
+            <td>    {% if e.eseSeqno.observation.stnSeqno is defined and e.eseSeqno.observation.stnSeqno is not null %}{{ e.eseSeqno.observation.stnSeqno.fullyQualifiedName }} {% endif %}</td>
+            <td>{{ e.eseSeqno.observation.latDec }}</td>
+            <td>{{ e.eseSeqno.observation.lonDec }}</td>
+            <td>{{ e.eseSeqno.eventDatetime|date("d/m/Y") }}</td>
+            <td>{{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName }}</td>
+            <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT OBSERVATION</a></td>
         </tr>
-        </thead>
-        {% for e in entities %}
-            <tr>
-                {#<td>{% if e.stnSeqno is not null%}{{e.stnSeqno.country}}{% endif%}</td>#}
-                {# <td>{% if e.eseSeqno.observation.stnSeqno is not null%}{{e.eseSeqno.observation.stnSeqno.fullyQualifiedName}}{% endif%}</td>#}
-                 {#<td>{{e.stnSeqno.code}}</td>
-                 <td>{{e.latDec}}</td>
-                 <td>{{e.lonDec}}</td>
-                 <td>{{e.eseSeqno.eventDatetime|date("d/m/Y")}}</td>
-                 <td>{{e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName}}</td>#}
-                 {#<td>{{e.eseSeqno.spec2events.scnSeqno.AliveNow}}</td>
-                 <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT</a></td>#}
-                <td>{{e.eseSeqno.observation.stnSeqno.code}}</td>
-                <td>{{e.eseSeqno.observation.latDec}}</td>
-                <td>{{e.eseSeqno.observation.lonDec}}</td>
-                <td>{{e.eseSeqno.eventDatetime|date("d/m/Y")}}</td>
-                <td>{{e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName}}</td>
-                <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT OBSERVATION</a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td>No observations found.</td>
-            </tr>
-        {% endfor %}
-    </table>
-    <div class="navigation">
-        {{ knp_pagination_render(entities) }}
-    </div>
+    {% else %}
+        <tr>
+            <td>No observations found.</td>
+        </tr>
+    {% endfor %}
+</table>
+<div class="navigation">
+    {{ knp_pagination_render(entities) }}
+</div>

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * Places
@@ -275,15 +276,27 @@ class Places
      */
     public function getCountry()
     {
-        if($this->type==='CTY'){
+        $type=$this->getType();
+        $name=$this->getName();
+        if($type==='CTY'){
             $this->iterationstring=$this->iterationstring.'-- end: '.$this->iteration;
             return $this->getName();
         }
-        else {
+        if($name==='WORLD'){
+            return 'THE_VOID_BETWEEN_THE_STARS';
+        }
+        if($type==='CTY'){
+            $this->iterationstring=$this->iterationstring.'-- end: '.$this->iteration;
+            return $this->getName();
+        }
+        elseif(in_array($type,array('LTY','RVR','OTR'))) {
             $this->iteration++;
             $this->iterationstring=$this->iterationstring.'--'.$this->getName();
-            return $this->getPceSeqno()->getCountry();
+            $parentPlace=$this->getPceSeqno();
+          // \Doctrine\Common\Util\Debug::dump($name.'----'.get_class($parentPlace));
+            return $parentPlace->getCountry();
         }
+        else return null;
         /*elseif ($this->iteration=100){
             return '';
         }*/

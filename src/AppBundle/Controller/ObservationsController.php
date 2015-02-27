@@ -21,14 +21,14 @@ class ObservationsController extends Controller
 
     public function filterAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations');
 
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
 
         if ($request->query->has($form->getName())) {
             // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
-            $filterBuilder = $em->getRepository('AppBundle:Observations')->getCompleteObservationQb();
+            $filterBuilder = $repo->getCompleteObservationQb();
             $fd=$form->getData();
             $eventDatetimeStart=$fd['eventDatetimeStart'];
             $eventDatetimeStop=$fd['eventDatetimeStop'];
@@ -55,13 +55,22 @@ class ObservationsController extends Controller
             }
             //$this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $filteredEntities = $filterBuilder->getQuery()->getResult();
+            //$filteredEntities = $repo->removeDoubles($filterBuilder->getQuery()->getResult());
+            if($country){
+                $filteredEntities=array_filter ($filteredEntities,function($e) use($country){
+                    if($e->getStnSeqno() !== null){
+                        return $e->getStnSeqno()->getCountry()===$country;
+                    }
+                    else return false;
+
+                });
+            }
             $filteredAndPaginatedEntities = $this->paginate($filteredEntities);
             return $this->render('AppBundle:Page:list-observations.html.twig', array(
                 'entities' => $filteredAndPaginatedEntities, 'form' => $form->createView()
             ));
         }
-        $observations = $em->getRepository('AppBundle:Observations')
-            ->getCompleteObservation();
+        $observations = $repo->getCompleteObservation();
         $paginatedEntities = $this->paginate($observations);
         return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $paginatedEntities, 'form' => $form->createView()));
     }
@@ -72,8 +81,8 @@ class ObservationsController extends Controller
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $observations = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservation();
-        $paginatedEntities = $this->paginate($observations);
-        return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $paginatedEntities, 'form' => $form->createView()));
+        //$observations = $this->paginate($observations);
+        return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $observations, 'form' => $form->createView()));
     }
 
     private function paginate($array)

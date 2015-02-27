@@ -104,7 +104,7 @@ class Specimens
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Taxa")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="TXN_SEQNO", referencedColumnName="SEQNO")
+     *   @ORM\JoinColumn(name="TXN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
     private $txnSeqno;
