@@ -773,4 +773,12 @@ class Observations implements ValueAssignable
         }
         else return true;
     }
+
+    public function getValueByKey($key){
+        foreach($this->getValues() as $ev){
+            if($ev->getPmdName()===$key){
+                return $ev;
+            }
+        }
+    }
 }

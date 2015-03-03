@@ -24,9 +24,9 @@ interface EntityValues
 
     public function setValueRequired($valueRequired);
 
-    public function getValueFlagRequired();
+    public function getHasFlag();
 
-    public function setValueFlagRequired($valueFlagRequired);
+    public function setHasFlag($valueFlagRequired);
 
     public function isValueFlagLegal();
 

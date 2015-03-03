@@ -88,7 +88,7 @@ class LesionValues implements EntityValues
      * @var boolean
      *
      */
-    private $valueFlagRequired;
+    private $hasFlag;
 
     /**
      * @var boolean
@@ -307,18 +307,18 @@ class LesionValues implements EntityValues
     /**
      * @return boolean
      */
-    public function getValueFlagRequired()
+    public function getHasFlag()
     {
-        return $this->valueFlagRequired;
+        return $this->hasFlag;
     }
 
     /**
-     * @param boolean $valueFlagRequired
+     * @param boolean $hasFlag
      * @return LesionValues
      */
-    public function setValueFlagRequired($valueFlagRequired)
+    public function setHasFlag($hasFlag)
     {
-        $this->valueFlagRequired = $valueFlagRequired;
+        $this->hasFlag = $hasFlag;
         return $this;
     }
 
@@ -347,7 +347,7 @@ class LesionValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
+        if ($this->getHasFlag() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
             return false;
         } else {
             return true;

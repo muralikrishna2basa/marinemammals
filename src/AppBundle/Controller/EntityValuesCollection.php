@@ -15,6 +15,8 @@ class EntityValuesCollection
      */
     private $collection;
 
+    private $keys;
+
     /**
      * @return ArrayCollection
      */
@@ -29,6 +31,9 @@ class EntityValuesCollection
     public function setCollection(ArrayCollection $collection)
     {
         $this->collection = $collection;
+        foreach ($collection as $key => $ev) {
+            $this->keys[$key] = '';
+        }
     }
 
     public function  __construct()
@@ -43,8 +48,14 @@ class EntityValuesCollection
      */
     public function add(EntityValues $ev)
     {
-        if(!$this->hasValueForParameter($ev->getPmdName())){
-            $this->getCollection()->add($ev);
+        $key = $ev->getPmdName();
+        if (!$this->hasValueForParameter($key)) {
+            //$this->getCollection()->add($ev);
+            $this->getCollection()->set($key, $ev);
+
+            //foreach($collection as $key=>$ev){
+            $this->keys[$key] = '';
+            //}
         }
     }
 
@@ -56,41 +67,37 @@ class EntityValuesCollection
      */
     public function supplementEntityValues(ValueAssignable $va)
     {
-        /*foreach ($this->collection as $ev) {
-            //$name=$ev->getName();
-            if (!$va->getValues()->isEmpty()) {
-                $name = $ev->getPmdSeqno()->getName();
-                if (!$va->getValues()->exists(function ($entry) use ($name) {
-                    $a = $entry;
-                    return $entry->getPmdSeqno()->getName() === $name;
-                })
-                ) {
-                    $va->addValue($ev);
+        foreach ($this->collection as $canonicalEvKey => $canonicalEntityValues) {
+            $found = false;
+            foreach ($va->getValues() as $entityValue) {
+                $evKey = $entityValue->getPmdName();
+                if ($canonicalEvKey === $evKey) {
+                    $found = true;
+                    $this->keys[$canonicalEvKey] = $evKey;
+                    $entityValue->setHasFlag($canonicalEntityValues->getHasFlag());
+                    $entityValue->setValueRequired($canonicalEntityValues->getValueRequired());
                 }
             }
-            else {
-                $va->addValue($ev);
-            }
-        }*/
-        foreach ($this->collection as $ev) {
-            $name = $ev->getPmdName();
-            $found=false;
-            foreach ($va->getValues() as $vaev) {
-                $vaevName = $vaev->getPmdName();
-                if($name===$vaevName){
-                    $found=true;
-                }
-            }
-            if(!$found){
-                $ev->setValueAssignable($va);
+            if ($found === false) {
+                $canonicalEntityValues->setValueAssignable($va);
+                $this->keys[$canonicalEvKey] = $canonicalEvKey;
             }
         }
+        $keys=$this->keys;//database-fetched entityValues that are not predefined in the canonicalKeys are to be excluded.
+        $nonMatchingEv=array_filter($va->getValues()->toArray(),function($ev) use($keys){
+                return !in_array($ev->getPmdName(),$keys);
+        });
+        foreach ($nonMatchingEv as $nmEv){
+            $va->removeValue($nmEv);
+        }
+
     }
 
-    public function hasValueForParameter($pmName){
+    public function hasValueForParameter($pmName)
+    {
         foreach ($this->collection as $ev) {
             $name = $ev->getPmdName();
-            if($name===$pmName){
+            if ($name === $pmName) {
                 return true;
             }
         }

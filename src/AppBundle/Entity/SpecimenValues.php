@@ -96,7 +96,7 @@ class SpecimenValues implements EntityValues
     /**
      * @var boolean
      */
-    private $valueFlagRequired;
+    private $hasFlag;
 
     /**
      * @var boolean
@@ -107,13 +107,13 @@ class SpecimenValues implements EntityValues
      * Constructor
      *
      * @param \AppBundle\Entity\ParameterMethods $pm
-     * @param boolean $mustBeFlagged
+     * @param boolean $hasFlag
      * @param boolean $mustBeCompleted
      */
-    public function __construct(\AppBundle\Entity\ParameterMethods $pm, $mustBeFlagged, $mustBeCompleted)
+    public function __construct(\AppBundle\Entity\ParameterMethods $pm, $hasFlag, $mustBeCompleted)
     {
         $this->setPmdSeqno($pm);
-        $this->setValueFlagRequired($mustBeFlagged);
+        $this->setHasFlag($hasFlag);
         $this->setValueRequired($mustBeCompleted);
     }
 
@@ -275,6 +275,9 @@ class SpecimenValues implements EntityValues
      */
     public function getValueFlag()
     {
+        if($this->valueFlag === null ){
+            $a=5;
+        }
         return $this->valueFlag;
     }
 
@@ -352,18 +355,18 @@ class SpecimenValues implements EntityValues
     /**
      * @return boolean
      */
-    public function getValueFlagRequired()
+    public function getHasFlag()
     {
-        return $this->valueFlagRequired;
+        return $this->hasFlag;
     }
 
     /**
-     * @param boolean $valueFlagRequired
+     * @param boolean $hasFlag
      * @return SpecimenValues
      */
-    public function setValueFlagRequired($valueFlagRequired)
+    public function setHasFlag($hasFlag)
     {
-        $this->valueFlagRequired = $valueFlagRequired;
+        $this->hasFlag = $hasFlag;
         return $this;
     }
 
@@ -392,7 +395,7 @@ class SpecimenValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getValueFlagRequired() && $this->getValueFlag() === null && $this->getValue() !== null) {
+        if ($this->getHasFlag() && $this->getValueFlag() === null && $this->getValue() !== null) {
             return !$this->isValueUnwantedLegal(); //false
         } else {
             return true;

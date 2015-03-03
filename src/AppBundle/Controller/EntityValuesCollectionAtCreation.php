@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ObservationValues;
 use AppBundle\Entity\SpecimenValues;
 
-class EntityValuesCollectionForOC
+class EntityValuesCollectionAtCreation
 {
 
     public function __construct($em)
@@ -56,7 +56,7 @@ class EntityValuesCollectionForOC
         $this->instantiateSpecimenValues('Stomach Content', false, true);
         $this->instantiateSpecimenValues('Other remarks', false, false);
 
-        $this->instantiateSpecimenValues('Cause of death::Natural', false, false); //TODO:js: set to required if dead (now other way around)
+        $this->instantiateSpecimenValues('Cause of death::Natural', false, true);
         $this->instantiateSpecimenValues('Cause of death::Bycatch', false, true);
         $this->instantiateSpecimenValues('Cause of death::Ship strike', false, true);
         $this->instantiateSpecimenValues('Cause of death::Predation', false, true);
@@ -88,17 +88,17 @@ class EntityValuesCollectionForOC
      */
     public $allObservationValues;
 
-    private function instantiateObservationValues($pmName, $mustBeFlagged, $mustBeCompleted)
+    private function instantiateObservationValues($pmName, $hasFlag, $mustBeCompleted)
     {
         $pm = $this->em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
-        $ov = new ObservationValues($pm, $mustBeFlagged, $mustBeCompleted);
+        $ov = new ObservationValues($pm, $hasFlag, $mustBeCompleted);
         $this->allObservationValues->add($ov);
     }
 
-    private function instantiateSpecimenValues($pmName, $mustBeFlagged, $mustBeCompleted)
+    private function instantiateSpecimenValues($pmName, $hasFlag, $mustBeCompleted)
     {
         $pm = $this->em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
-        $sv = new SpecimenValues($pm, $mustBeFlagged, $mustBeCompleted);
+        $sv = new SpecimenValues($pm, $hasFlag, $mustBeCompleted);
         $this->allSpecimenValues->add($sv);
     }
 }

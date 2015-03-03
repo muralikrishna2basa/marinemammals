@@ -331,7 +331,13 @@ class OrganLesions implements ValueAssignable
         return $this;
     }
 
-
+    public function getValueByKey($key){
+        foreach($this->getValues() as $ev){
+            if($ev->getPmdName()===$key){
+                return $ev;
+            }
+        }
+    }
     
 }
 

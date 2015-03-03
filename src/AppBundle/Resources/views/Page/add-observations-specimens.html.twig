@@ -45,11 +45,11 @@
         var $onlyForDeadBox_requiredInputSelect = $onlyForDeadBox.find('[required="required"]');
         var $anyFieldIndicatingDeadness = $("#observationstype_osnType, #observationstype_eseSeqno_spec2events_circumstantialValues_3_value");
         $(document).ready(function () {
-            $('.help-block').closest('div').not('.has-error').attr('class','has-error');
+            $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
             $('#formsuccess').delay(5000).hide();
-            hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+            hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
             $("#observationform").easytabs({
                 tabs: ".nav-tabs li",
@@ -145,7 +145,7 @@
             var validator = wholeForm.validate({
                 ignore: "",
                 rules: {
-                    "observationstype[eseSeqno][eventDatetime][date]": {dateBELogical:true, required:true},
+                    "observationstype[eseSeqno][eventDatetime][date]": {dateBELogical: true, required: true},
                     "observationstype[eseSeqno][description]": {
                         minlength: 0,
                         maxlength: 4000
@@ -188,7 +188,8 @@
                     $.each(errorList, createError);
                 }
             });
-        });
+        })
+        ;
 
         (function ($) {
             $.fn.isAfter = function (sel) {
@@ -218,6 +219,7 @@
         }
 
         function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
+
             var scnId = existingSpecimenChoiceField.val();
             var newSpecimenBox_allInput = newSpecimenBox.find('input');
             var newSpecimenBox_allSelect = newSpecimenBox.find('select');
@@ -238,6 +240,7 @@
                 newSpecimenBox.show();
                 return false;
             }
+            $logger.prepend('sex: '+$sex.attr('required'));
         }
 
         function makeAssociatedFlagRequired($element, validator) {

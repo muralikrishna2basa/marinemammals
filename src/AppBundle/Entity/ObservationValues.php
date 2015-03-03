@@ -88,7 +88,7 @@ class ObservationValues implements EntityValues
      * @var boolean
      *
      */
-    private $valueFlagRequired;
+    private $hasFlag;
 
     /**
      * @var boolean
@@ -99,13 +99,13 @@ class ObservationValues implements EntityValues
      * Constructor
      *
      * @param \AppBundle\Entity\ParameterMethods $pm
-     * @param boolean $mustBeFlagged
+     * @param boolean $hasFlag
      * @param boolean $mustBeCompleted
      */
-    public function __construct(\AppBundle\Entity\ParameterMethods $pm, $mustBeFlagged,$mustBeCompleted)
+    public function __construct(\AppBundle\Entity\ParameterMethods $pm, $hasFlag,$mustBeCompleted)
     {
         $this->setPmdSeqno($pm);
-        $this->setValueFlagRequired($mustBeFlagged);
+        $this->setHasFlag($hasFlag);
         $this->setValueRequired($mustBeCompleted);
     }
 
@@ -320,18 +320,18 @@ class ObservationValues implements EntityValues
     /**
      * @return boolean
      */
-    public function getValueFlagRequired()
+    public function getHasFlag()
     {
-        return $this->valueFlagRequired;
+        return $this->hasFlag;
     }
 
     /**
-     * @param boolean $valueFlagRequired
+     * @param boolean $hasFlag
      * @return SpecimenValues
      */
-    public function setValueFlagRequired($valueFlagRequired)
+    public function setHasFlag($hasFlag)
     {
-        $this->valueFlagRequired = $valueFlagRequired;
+        $this->hasFlag = $hasFlag;
         return $this;
     }
 
@@ -360,7 +360,7 @@ class ObservationValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getValueFlagRequired() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
+        if ($this->getHasFlag() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
             return false;
         } else {
             return true;

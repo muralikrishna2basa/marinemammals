@@ -243,7 +243,7 @@ class ObservationsController extends Controller
         $event2Persons2->setE2pType(EventStates::GATHERED);
         $event->getEvent2Persons()->add($event2Persons2);
 
-        $evcfoc = new EntityValuesCollectionForOC($this->getDoctrine()->getManager());
+        $evcfoc = new EntityValuesCollectionAtCreation($this->getDoctrine()->getManager());
 
         $evcfoc->allObservationValues->supplementEntityValues($observation);
 
@@ -263,7 +263,9 @@ class ObservationsController extends Controller
         $observation = $this->loadObservation($id);
         $form = $this->createForm(new ObservationsType($this->getDoctrine()), $observation);
         return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'success' => 'na',
+            'errors' => array()
         ));
     }
 
@@ -282,13 +284,13 @@ class ObservationsController extends Controller
     private function loadObservation($id)
     {
         $observation = $this->getDoctrine()->getRepository('AppBundle:Observations')->find($id);
-        $evcfoc = new EntityValuesCollectionForOC($this->getDoctrine()->getManager());
+        $evcfoc = new EntityValuesCollectionAtUpdate($this->getDoctrine()->getManager());
         $evcfoc->allObservationValues->supplementEntityValues($observation);
         $s2e = $observation->getEseSeqno()->getSpec2Events();
         $evcfoc->allSpecimenValues->supplementEntityValues($s2e);
 
         if (!$observation) {
-            throw $this->createNotFoundException(sprintf('omg this observation could not be loaded: %s', $id));
+            throw $this->createNotFoundException(sprintf('This observation does not exist: %s', $id));
         }
         return $observation;
     }

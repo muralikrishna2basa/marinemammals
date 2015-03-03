@@ -44,14 +44,16 @@ function validateContainer($container, validator) {
     var id=$container.attr('id');
     var $elements = $('#' + id + ' :input');
     var valid = true;
+    var badId=[];
     $elements.each(function () {
-        var id = $(this).attr('id');
-        if (!validator.element($('#' + id))) {
+        var elId = $(this).attr('id');
+        if (!validator.element($('#' + elId))) {
             valid = false;
+            badId.push(elId);
         }
     });
     if (!valid) {
-        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message.");
+        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message. The following elements are invalid: "+badId.toString()+'.');
     }
     else{
         $('#formerror').html("");

@@ -24,9 +24,21 @@ class EntityValuesType extends AbstractType
         $options2 = array();
 
         $ev = $event->getData();
-        $valueFlagRequired = $ev->getValueFlagRequired();
-        $valueRequired = $ev->getValueRequired();
-        if ($valueRequired && $options['required']) {
+        if($ev->getValueRequired() !== null){
+            $valueRequired = $ev->getValueRequired();
+        }
+       /* else{
+            $valueRequired =true;
+        }*/
+        if($ev->getHasFlag() !== null){
+            $hasFlag = $ev->getHasFlag();
+        }
+        /*else{
+            $hasFlag=true;
+        }*/
+        $valueFlagRequired=($hasFlag && $valueRequired);
+        //if ($valueRequired && $options['required']) {
+        if ($valueRequired) {
             $options2['required'] = true;
         }
         else{
@@ -56,16 +68,18 @@ class EntityValuesType extends AbstractType
                     'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName())));
                 $form->add('value', 'choice', $options2);
             }
-            $ev->setValue($options['default_value']);
+            if($ev->getValue() === null){
+                $ev->setValue($options['default_value']);
+            }
         } else {
             $form->add('value', 'text', array(
                 'required' => false
             ));
         }
-        if ($valueFlagRequired === true) {
+        if ($hasFlag === true) {
             $form->add('valueFlag', 'choice', array(
                 'placeholder' => 'Select...',
-                'required' => true,
+                'required' => $valueFlagRequired,
                 'choice_list' => new CgRefChoiceList($this->doctrine, 'VALUE_FLAG')
             ));
         }
@@ -76,29 +90,6 @@ class EntityValuesType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
             $this->buildBasicForm($event, $options);
         });
-       /* $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
-            //$required = $options['required'];
-            $form=$event->getForm();
-            $ev = $event->getData();
-            $valueField=$form->get('value');
-            $valueUnwanted = $ev->isValueUnwantedLegal();
-            $valueRequired = $ev->getValueRequired();
-            //$name = $ev->getPmdSeqno()->getName();
-
-            if ($valueUnwanted) {
-
-                $options['constraints'] = null;
-                $this->buildBasicForm($event, $options);
-                $event->setData($ev);
-            }
-
-            if (!$valueRequired) {
-
-                $options['constraints'] = null;
-                $this->buildBasicForm($event, $options);
-                $event->setData($ev);
-            }
-        });*/
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -107,7 +98,7 @@ class EntityValuesType extends AbstractType
             ->setDefaults(array(
                 'data_class' => 'AppBundle\Entity\EntityValues',
                 'radio' => false,
-                'required' => false,
+               // 'required' => false,
                 'default_value' => 'unknown',
                 'error_bubbling' => false,
                 'error_mapping' => array('valueFlagLegal' => 'valueFlag', 'valueUnwantedLegal' => 'value', 'valueLegal' => 'value','valueUnwantedLegal2' => 'value')

@@ -30,19 +30,23 @@
         {{ form_row(form.eseSeqno.spec2events.scnSeqnoNew.necropsyTag, {'label':'Necropsy tag' }) }}
     </div>
 </fieldset>
-    <fieldset id="circumstantial_values" class="no-multi">
-        <legend><h4>Circumstantial parameters</h4></legend>
-        {% for sv in form.eseSeqno.spec2events.circumstantialValues %}
-            <h5>{{ sv.vars.value.pmdName }}</h5>
-            <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
-                {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
-        {% endfor %}
-    </fieldset>
-   <fieldset id="measurement_values" class="no-multi">
-        <legend><h4>Measurements</h4></legend>
-        {% for sv in form.eseSeqno.spec2events.measurementValues %}
-            <h5>{{ sv.vars.value.pmdName }}</h5>
-            <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
-                {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
-        {% endfor %}
-    </fieldset>
+<fieldset id="circumstantial_values" class="no-multi">
+    <legend><h4>Circumstantial parameters</h4></legend>
+    {#{% if form.eseSeqno.spec2events.circumstantialValues|first.vars.data.valueRequired == false %}<p class="text-danger">Although the
+        circumstantial parameters are not required to be completed when updating an existing observation, we would like
+        you to provide this information nonetheless. The level of uncertainty can be expressed in the value
+        flag.</p>{% endif %}#}
+    {% for sv in form.eseSeqno.spec2events.circumstantialValues %}
+        <h5>{{ sv.vars.value.pmdName }}</h5>
+        <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
+            {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
+    {% endfor %}
+</fieldset>
+<fieldset id="measurement_values" class="no-multi">
+    <legend><h4>Measurements</h4></legend>
+    {% for sv in form.eseSeqno.spec2events.measurementValues %}
+        <h5>{{ sv.vars.value.pmdName }}</h5>
+        <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
+            {{ form_row(sv.valueFlag, {'label':'Value flag'}) }}</div>
+    {% endfor %}
+</fieldset>

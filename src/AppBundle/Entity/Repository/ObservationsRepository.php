@@ -21,7 +21,8 @@ class ObservationsRepository extends EntityRepository
     public function getCompleteObservation()
     {
         $res=$this->getCompleteObservationQb()->getQuery()->getResult(Query::HYDRATE_OBJECT); //unfortunately, hydrate object is needed to make use of the bidirectional asociations!
-        return $this->removeDoubles($res);
+        //return $this->removeDoubles($res);
+        return($res);
     }
 
     public function getCompleteObservationQb()

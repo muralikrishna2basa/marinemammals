@@ -10,6 +10,8 @@ interface ValueAssignable
 
     public function getValues();
 
+    public function getValueByKey($key);
+
     public function removeValue(EntityValues $ev);
 
     public function addValue(EntityValues $ev);

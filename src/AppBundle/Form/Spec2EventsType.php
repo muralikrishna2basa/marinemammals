@@ -25,27 +25,27 @@ class Spec2EventsType extends AbstractType
         $builder->add('scnSeqnoNew', new SpecimensType($this->doctrine), array('property_path' => 'scnSeqno'));
 
         $builder->add('circumstantialValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => false, 'required'=>true, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'), //required=true
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('measurementValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => false, 'required'=>false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('pathologyValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => false, 'required'=>true, 'default_value' => 'unknown', 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'default_value' => 'unknown', 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('causeOfDeathValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => false, 'required'=>true, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
         $builder->add('bycatchProbabilityValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => false, 'required'=>false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));
