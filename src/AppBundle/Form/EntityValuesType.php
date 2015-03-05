@@ -77,7 +77,7 @@ class EntityValuesType extends AbstractType
                 $ev->setValue($options['default_value']);
             }
         } else {
-            $form->add('value', 'text', array(
+            $form->add('value', 'textarea', array(
                 'required' => false
             ));
         }

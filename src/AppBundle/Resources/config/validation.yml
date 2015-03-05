@@ -538,18 +538,18 @@ AppBundle\Entity\Specimens:
         scnNumberLegal:
             - "True": { message: "It is not possible to provide any values (eg. sex, necropsy tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details." }
         sexLegal:
-            - "True": { message: "This value should not be null.", groups: [ObservationCreation] }
+            - "True": { message: "This value should not be null." }
 #        txnSeqnoNewSpecimenLegal:
 #            - "True": { message: "This value should be completed." }
 #        sexNewSpecimenLegal:
 #            - "True": { message: "This value should be completed." }
     properties:
-#       txnSeqno:
-#               - NotBlank: ~
-#               - NotNull: ~
+        txnSeqno:
+                - NotBlank: ~
+                - NotNull: ~
         scnNumber:
-#               - NotBlank: ~
-#               - NotNull: ~
+                - NotBlank: { groups: [ObservationCreation] }
+                - NotNull: { groups: [ObservationCreation] }
                 - Type:
                      type: integer
                      message: The value {{ value }} is not a valid {{ type }}.
@@ -586,11 +586,11 @@ AppBundle\Entity\SpecimenValues:
                 - "True": { message: "This value may not be provided for specimens that are alive." }
     properties:
         pmdSeqno:
-               - NotBlank: ~
-               - NotNull: ~
+                - NotBlank: ~
+                - NotNull: ~
         valueAssignable:
-               - NotBlank: ~
-               - NotNull: ~
+                - NotBlank: ~
+                - NotNull: ~
         description:
                 - Length:
                      min: 0

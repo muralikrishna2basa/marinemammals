@@ -503,6 +503,7 @@ class Specimens
     public function AliveNow(){
         return $this->isAliveAtMoment(new \DateTime());
     }
+
     /**
      * Get whether the specimen is alive or dead at the given time. Time is measured in days.
      * Returns:
@@ -576,12 +577,12 @@ class Specimens
             case 'R':
             case 'S':
             if ($t1 == $m) {
-                return 1;
+                return $diBeforeAlive;
             }
             elseif($m > $t1){
                 return -1;
             }
-            case 'FAB': //dc must be 1
+            case 'FAB':
                 if ($t1 >= $m && $diBeforeAlive == 0) {
                     return 0;
                 } elseif ($t1 == $m && $diBeforeAlive == 1) {

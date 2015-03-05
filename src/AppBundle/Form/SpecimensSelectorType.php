@@ -26,7 +26,8 @@ class SpecimensSelectorType extends AbstractType
     {
         $resolver->setDefaults(array(
             'invalid_message' => 'The selected specimen does not exist', //'attr'=>array('min'=>'0')
-            'required'=>false
+            'required'=>false,
+            'validation_groups' => array()
         ));
     }
 

@@ -161,7 +161,13 @@ class ObservationsController extends Controller
                 $return = $this->getErrorList($error, $return);
             } elseif ($cl === 'Symfony\Component\Form\FormError') {
                 $message = $error->getMessage();
-                $property = $error->getCause()->getPropertyPath();
+                if($error->getCause() !== null){
+                    $property = $error->getCause()->getPropertyPath();
+                }
+                else{
+                    $property = 'error_wo_propertypath';
+                }
+
                 $property = str_replace(".children", "", $property);
                 $property = str_replace("children", $parentFormName, $property);
                 $return[$property] = $message;

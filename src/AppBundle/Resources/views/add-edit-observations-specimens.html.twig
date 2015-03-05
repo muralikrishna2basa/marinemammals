@@ -90,7 +90,7 @@
 
             $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
-            //$('#formsuccess').delay(100000).hide();
+            $('#formsuccess').delay(200000).hide();
             instantiateRemoteSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
             hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
@@ -251,13 +251,13 @@
 
         function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
             var scnNumber = newSpecimenNumberField.val();
+            var remoteScnNumber=null;
             if (typeof remoteSpecimen !== 'undefined') {
                 if(remoteSpecimen.found){
-                    scnNumber=remoteSpecimen.scnNumber;
+                    remoteScnNumber=remoteSpecimen.scnNumber;
                 }
             }
-
-            if (scnNumber > 1) {
+            if (scnNumber > 1 || remoteScnNumber > 1) {
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input').val('');
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('select').prop('selectedIndex', 0);
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input[checked]').removeAttr('checked');
@@ -268,8 +268,10 @@
                 return false;
             }
             if (scnNumber < 2) {
-                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
-                $sexBox.attr('required', 'required');
+                if(remoteScnNumber === null){
+                    fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
+                    $sexBox.attr('required', 'required');
+                }
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
                 $multipleSpecimensFeedback.hide();
                 return false;

@@ -117,7 +117,7 @@ class ObservationsType extends AbstractType
                 'stationOrCoordLegal' => 'stnSeqno',
                 'coordLegal' => 'lonDec'
             ),
-            'validation_groups' => array('ObservationCreation')
+            'validation_groups' => array()
         ));
     }
 

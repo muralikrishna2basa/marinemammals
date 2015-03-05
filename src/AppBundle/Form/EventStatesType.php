@@ -72,7 +72,7 @@ class EventStatesType extends AbstractType
                 'data_class' => 'AppBundle\Entity\EventStates',
                 'cascade_validation' => true,
                 'error_mapping'=>array('eventDatetime'=>'eventDatetimeFlag'),
-                'validation_groups' => array('ObservationCreation')
+                'validation_groups' => array()
             ));
     }
 

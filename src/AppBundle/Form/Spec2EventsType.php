@@ -24,8 +24,7 @@ class Spec2EventsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $vd=$this->additionalOptions['validation_groups'];
-        //$options=array_merge($options,$this->additionalOptions);
-        $builder->add('scnSeqnoExisting', new SpecimensSelectorType($this->doctrine,$this->additionalOptions), array('property_path' => 'scnSeqno','validation_groups'=>$vd));//'specimen_selector'
+        $builder->add('scnSeqnoExisting', new SpecimensSelectorType($this->doctrine), array('property_path' => 'scnSeqno','validation_groups'=>$vd));
         //$builder->add('scnSeqnoNew', new SpecimensType($this->doctrine), array('property_path' => 'scnSeqno','mapped'=>false));
 
         $builder->add('circumstantialValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
@@ -56,9 +55,12 @@ class Spec2EventsType extends AbstractType
         $doctrine = $this->doctrine;
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($doctrine) {
             $form = $event->getForm();
-            $form->add('scnSeqnoNew', new SpecimensType($doctrine), array('property_path' => 'scnSeqno','mapped'=>true));
+            $s2e = $event->getData();
+            $form->add('scnSeqnoNew', new SpecimensType($doctrine), array('property_path' => 'scnSeqno','mapped'=>false));
             $scnSeqnoNew=$form->get('scnSeqnoNew');
             $scnSeqnoNew->setData(null);
+
+
             /* $s2e = $event->getData();
              $form = $event->getForm();
              $scnSeqnoNew = $form->get('scnSeqnoNew');
@@ -69,12 +71,28 @@ class Spec2EventsType extends AbstractType
                  }
              } else throw new LogicException('no specimen given');*/
         });
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($doctrine) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($doctrine) {
             //set mapped option to false
             $s2e = $event->getData();
             $form = $event->getForm();
-            if (null !== $form->get('scnSeqnoExisting')->getData()) {
-                $specimen = $form->get('scnSeqnoExisting')->getData();
+            $existingScnSeqno=$s2e['scnSeqnoExisting'];
+            $newTxnSeqno=$s2e['scnSeqnoNew']['txnSeqno'];
+            if ($existingScnSeqno !== null && $existingScnSeqno !== '') {
+                $form->add('scnSeqnoNew', new SpecimensType($doctrine), array('property_path' => 'scnSeqno','validation_groups'=>false,'mapped'=>false));
+            }
+            elseif ($newTxnSeqno !== null && $newTxnSeqno !== '') {
+                $form->add('scnSeqnoNew', new SpecimensType($doctrine), array('property_path' => 'scnSeqno','mapped'=>true));
+                $form->add('scnSeqnoExisting', new SpecimensSelectorType($doctrine), array('property_path' => 'scnSeqno','validation_groups'=>false));
+            }
+        });
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($doctrine) {
+            $s2e = $event->getData();
+            $form = $event->getForm();
+            $scnSeqnoNew=$form->get('scnSeqnoNew');
+            $scnSeqnoExisting=$form->get('scnSeqnoExisting');
+            if (null !== $scnSeqnoExisting->getData()) {
+                $specimen = $scnSeqnoExisting->getData();
+                //$form->remove('scnSeqnoNew');
                 if ($specimen->getScnNumber() === null) {
                     $seqno = $specimen->getSeqno();
                     $dt = new DataTransformer\SeqnoToSpecimenTransformer($doctrine);
@@ -82,11 +100,12 @@ class Spec2EventsType extends AbstractType
                 }
                 $s2e->setScnSeqno($specimen);
                 // $s2e->setUsesExistingSpecimen(true);
-                $this->doctrine->getManager()->persist($specimen);
+                //$this->doctrine->getManager()->persist($specimen);
             }
-            if (null !== $form->get('scnSeqnoNew')->getData()) {
+            elseif (null !== $scnSeqnoNew->getData()) {
                 //$specimen = new Specimens();
-                $specimen = $form->get('scnSeqnoNew')->getData();
+                $specimen = $scnSeqnoNew->getData();
+                //$form->remove('scnSeqnoExisting');
                 $s2e->setScnSeqno($specimen);
                 // $s2e->setUsesExistingSpecimen(false);
                 $this->doctrine->getManager()->persist($specimen);
@@ -101,8 +120,7 @@ class Spec2EventsType extends AbstractType
                 'cascade_validation' => true,
                 'error_bubbling' => false,
                 'data_class' => 'AppBundle\Entity\Spec2Events',
-                'validation_groups' => array('ObservationCreation')
-
+                'validation_groups' => array()
             ));
     }
 
