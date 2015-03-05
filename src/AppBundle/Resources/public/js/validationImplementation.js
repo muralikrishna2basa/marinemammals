@@ -20,6 +20,7 @@ $.validator.addMethod("validNecropsyTag", function (value) {
     return /^$|^[a-zA-Z]{2}[_][0-9]{4}[_][0-9]{1,6}$/.test(value);
 }, 'Not a necropsy tag. The correct format is BE/FR_yyyy_integer, eg. BE_1996_15');
 
+
 $.validator.addMethod("validLatDec", function (value,element) {
     var elClass=element.getAttribute('class');
     var re = /refer-to_(.*?)\b/;
@@ -53,7 +54,7 @@ function validateContainer($container, validator) {
         }
     });
     if (!valid) {
-        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message. The following elements are invalid: "+badId.toString()+'.');
+        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message. The following elements are invalid: "+badId.join("<br />"));
     }
     else{
         $('#formerror').html("");

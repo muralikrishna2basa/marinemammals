@@ -13,16 +13,20 @@ use Symfony\Component\Form\FormEvent;
 class Spec2EventsType extends AbstractType
 {
     private $doctrine;
+    private $additionalOptions;
 
-    public function __construct($doctrine)
+    public function __construct($doctrine,$additionalOptions)
     {
         $this->doctrine = $doctrine;
+        $this->additionalOptions = $additionalOptions;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('scnSeqnoExisting', new SpecimensSelectorType($this->doctrine), array('property_path' => 'scnSeqno'));//'specimen_selector'
-        $builder->add('scnSeqnoNew', new SpecimensType($this->doctrine), array('property_path' => 'scnSeqno'));
+        $vd=$this->additionalOptions['validation_groups'];
+        //$options=array_merge($options,$this->additionalOptions);
+        $builder->add('scnSeqnoExisting', new SpecimensSelectorType($this->doctrine,$this->additionalOptions), array('property_path' => 'scnSeqno','validation_groups'=>$vd));//'specimen_selector'
+        //$builder->add('scnSeqnoNew', new SpecimensType($this->doctrine), array('property_path' => 'scnSeqno','mapped'=>false));
 
         $builder->add('circumstantialValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
             'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'), //required=true
@@ -49,19 +53,42 @@ class Spec2EventsType extends AbstractType
             'allow_delete' => true,
             'delete_empty' => true
         ));
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+        $doctrine = $this->doctrine;
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($doctrine) {
+            $form = $event->getForm();
+            $form->add('scnSeqnoNew', new SpecimensType($doctrine), array('property_path' => 'scnSeqno','mapped'=>true));
+            $scnSeqnoNew=$form->get('scnSeqnoNew');
+            $scnSeqnoNew->setData(null);
+            /* $s2e = $event->getData();
+             $form = $event->getForm();
+             $scnSeqnoNew = $form->get('scnSeqnoNew');
+             $scnSeqnoNewData = $scnSeqnoNew->getData();
+             if (null !== $scnSeqnoNewData) {
+                 if($scnSeqnoNewData['txnSeqno'] === null){
+                     $scnSeqnoNew->setData(null);
+                 }
+             } else throw new LogicException('no specimen given');*/
+        });
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($doctrine) {
+            //set mapped option to false
             $s2e = $event->getData();
             $form = $event->getForm();
             if (null !== $form->get('scnSeqnoExisting')->getData()) {
                 $specimen = $form->get('scnSeqnoExisting')->getData();
+                if ($specimen->getScnNumber() === null) {
+                    $seqno = $specimen->getSeqno();
+                    $dt = new DataTransformer\SeqnoToSpecimenTransformer($doctrine);
+                    $specimen = $dt->reverseTransform($seqno);
+                }
                 $s2e->setScnSeqno($specimen);
-               // $s2e->setUsesExistingSpecimen(true);
+                // $s2e->setUsesExistingSpecimen(true);
                 $this->doctrine->getManager()->persist($specimen);
-            } elseif (null !== $form->get('scnSeqnoNew')->getData()) {
+            }
+            if (null !== $form->get('scnSeqnoNew')->getData()) {
                 //$specimen = new Specimens();
                 $specimen = $form->get('scnSeqnoNew')->getData();
                 $s2e->setScnSeqno($specimen);
-               // $s2e->setUsesExistingSpecimen(false);
+                // $s2e->setUsesExistingSpecimen(false);
                 $this->doctrine->getManager()->persist($specimen);
             } else throw new LogicException('no specimen given');
         });
@@ -72,8 +99,9 @@ class Spec2EventsType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'cascade_validation' => true,
-                'error_bubbling'=>false,
+                'error_bubbling' => false,
                 'data_class' => 'AppBundle\Entity\Spec2Events',
+                'validation_groups' => array('ObservationCreation')
 
             ));
     }

@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\PlacesRepository;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class StationsType extends AbstractType
 {
@@ -50,5 +51,12 @@ class StationsType extends AbstractType
     public function getName()
     {
         return 'stationstype';
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'validation_groups' => array('StationCreation'),
+        ));
     }
 }

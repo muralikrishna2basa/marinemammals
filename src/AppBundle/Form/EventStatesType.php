@@ -13,10 +13,12 @@ use Symfony\Component\Form\FormEvent;
 class EventStatesType extends AbstractType
 {
     private $doctrine;
+    private $additionalOptions;
 
-    public function __construct($doctrine)
+    public function __construct($doctrine,$additionalOptions)
     {
         $this->doctrine = $doctrine;
+        $this->additionalOptions = $additionalOptions;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -60,7 +62,7 @@ class EventStatesType extends AbstractType
                 $gb->setEseSeqno($e);
             }
         });
-        $builder->add('spec2events', new Spec2EventsType($this->doctrine));
+        $builder->add('spec2events', new Spec2EventsType($this->doctrine,$this->additionalOptions));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -69,7 +71,8 @@ class EventStatesType extends AbstractType
             ->setDefaults(array(
                 'data_class' => 'AppBundle\Entity\EventStates',
                 'cascade_validation' => true,
-                'error_mapping'=>array('eventDatetime'=>'eventDatetimeFlag')
+                'error_mapping'=>array('eventDatetime'=>'eventDatetimeFlag'),
+                'validation_groups' => array('ObservationCreation')
             ));
     }
 

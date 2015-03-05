@@ -35,7 +35,7 @@
             <td>{{ e.eseSeqno.observation.latDec }}</td>
             <td>{{ e.eseSeqno.observation.lonDec }}</td>
             <td>{{ e.eseSeqno.eventDatetime|date("d/m/Y") }}</td>
-            <td>{% if e.eseSeqno.spec2events is defined and e.eseSeqno.spec2events is not null and e.eseSeqno.spec2events.scnSeqno.txnSeqno is defined %}{{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.getFullyQualifiedName }}{% endif %}</td>
+            <td>{% if e.eseSeqno.spec2events is defined and e.eseSeqno.spec2events is not null and e.eseSeqno.spec2events.scnSeqno is defined and e.eseSeqno.spec2events.scnSeqno is not null and e.eseSeqno.spec2events.scnSeqno.txnSeqno is defined and e.eseSeqno.spec2events.scnSeqno.txnSeqno is not null%}{{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.getFullyQualifiedName }}{% endif %}</td>
             <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT OBSERVATION</a></td>
         </tr>
     {% else %}

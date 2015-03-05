@@ -54,18 +54,23 @@ class EntityValuesType extends AbstractType
             ));
             $form->add('value', 'integer', $options2);
         } elseif ($pd) {
+            $pmName=$pm->getName();
+            $pmd=new ParameterDomainList($this->doctrine, $pmName);
+            $class=strtolower(str_replace(' ','_',$pmName));
             if ($options['radio'] === true) {
                 $options2 = array_merge($options2, array(
-                    'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName()),
+                    'choice_list' => $pmd,
                     'expanded' => true,
-                    'multiple' => false
+                    'multiple' => false,
+                    'attr'=>array('class'=>$class)
                 ));
                 $form->add('value', 'choice', $options2);
 
             } else {
                 $options2 = array_merge($options2, array(
                     'placeholder' => 'Select...',
-                    'choice_list' => new ParameterDomainList($this->doctrine, $pm->getName())));
+                    'choice_list' => $pmd,
+                    'attr'=>array('class'=>$class)));
                 $form->add('value', 'choice', $options2);
             }
             if($ev->getValue() === null){

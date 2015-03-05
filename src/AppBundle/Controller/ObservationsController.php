@@ -29,39 +29,38 @@ class ObservationsController extends Controller
             // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
             $filterBuilder = $repo->getCompleteObservationQb();
-            $fd=$form->getData();
-            $eventDatetimeStart=$fd['eventDatetimeStart'];
-            $eventDatetimeStop=$fd['eventDatetimeStop'];
-            $country=$fd['country'];
-            $stationtype=$fd['stationtype'];
-            $stn=$fd['stnSeqno'];
-            $txn=$fd['txnSeqno'];
-            if($eventDatetimeStart && $eventDatetimeStop){
+            $fd = $form->getData();
+            $eventDatetimeStart = $fd['eventDatetimeStart'];
+            $eventDatetimeStop = $fd['eventDatetimeStop'];
+            $country = $fd['country'];
+            $stationtype = $fd['stationtype'];
+            $stn = $fd['stnSeqno'];
+            $txn = $fd['txnSeqno'];
+            if ($eventDatetimeStart && $eventDatetimeStop) {
                 $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
                 $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
                 $filterBuilder->setParameter('eventDatetimeStop', $eventDatetimeStop);
             }
-            if($stationtype){
+            if ($stationtype) {
                 $filterBuilder->andWhere('st.areaType=:areaType');
                 $filterBuilder->setParameter('areaType', $stationtype);
             }
-            if($stn){
+            if ($stn) {
                 $filterBuilder->andWhere('st.seqno=:stnSeqno');
                 $filterBuilder->setParameter('stnseqno', $stn);
             }
-            if($txn){
+            if ($txn) {
                 $filterBuilder->andWhere('t.canonicalName=:canonicalName');
                 $filterBuilder->setParameter('canonicalName', $txn->getCanonicalName());
             }
             //$this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $filteredEntities = $filterBuilder->getQuery()->getResult();
             //$filteredEntities = $repo->removeDoubles($filterBuilder->getQuery()->getResult());
-            if($country){
-                $filteredEntities=array_filter ($filteredEntities,function($e) use($country){
-                    if($e->getStnSeqno() !== null){
-                        return $e->getStnSeqno()->getCountry()===$country;
-                    }
-                    else return false;
+            if ($country) {
+                $filteredEntities = array_filter($filteredEntities, function ($e) use ($country) {
+                    if ($e->getStnSeqno() !== null) {
+                        return $e->getStnSeqno()->getCountry() === $country;
+                    } else return false;
 
                 });
             }
@@ -99,7 +98,7 @@ class ObservationsController extends Controller
     public function newAction()
     {
         $observation = $this->prepareNewObservation();
-        $form = $this->createForm(new ObservationsType($this->getDoctrine()), $observation);
+        $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationCreation'))), $observation);
         return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
             'form' => $form->createView(),
             'success' => 'na',
@@ -113,7 +112,7 @@ class ObservationsController extends Controller
         $event = $observation->getEseSeqno();
         $s2e = $event->getSpec2Events();
 
-        $form = $this->createForm(new ObservationsType($this->getDoctrine()), $observation);
+        $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationCreation'))), $observation);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()
@@ -132,7 +131,7 @@ class ObservationsController extends Controller
             }
             $em->flush();
             $observation2 = $this->prepareNewObservation();
-            $form2 = $this->createForm(new ObservationsType($this->getDoctrine()), $observation2);
+            $form2 = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationCreation'))), $observation2);
             return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
                 'form' => $form2->createView(),
                 'success' => 'true',
@@ -153,21 +152,21 @@ class ObservationsController extends Controller
 
     private function getErrorList(FormErrorIterator $fei, $return)
     {
-        $parentFormName=$fei->getForm()->getName();
+        $parentFormName = $fei->getForm()->getName();
         foreach ($fei as $error) {
-            $cl=get_class($error);
-                //$current = $error->current();
+            $cl = get_class($error);
+            //$current = $error->current();
             //if ($current->valid()) {
-                if ($cl==='Symfony\Component\Form\FormErrorIterator') {
-                    $return = $this->getErrorList($error, $return);
-                } elseif($cl==='Symfony\Component\Form\FormError') {
-                    $message = $error->getMessage();
-                    $property = $error->getCause()->getPropertyPath();
-                    $property=str_replace(".children", "", $property);
-                    $property=str_replace("children", $parentFormName, $property);
-                    $return[$property] = $message;
-                }
-           // }
+            if ($cl === 'Symfony\Component\Form\FormErrorIterator') {
+                $return = $this->getErrorList($error, $return);
+            } elseif ($cl === 'Symfony\Component\Form\FormError') {
+                $message = $error->getMessage();
+                $property = $error->getCause()->getPropertyPath();
+                $property = str_replace(".children", "", $property);
+                $property = str_replace("children", $parentFormName, $property);
+                $return[$property] = $message;
+            }
+            // }
         }
         return $return;
     }
@@ -261,33 +260,63 @@ class ObservationsController extends Controller
     public function editAction($id)
     {
         $observation = $this->loadObservation($id);
-        $form = $this->createForm(new ObservationsType($this->getDoctrine()), $observation);
-        return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
+        $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationModification'))), $observation);
+        return $this->render('AppBundle:Page:edit-observations-specimens.html.twig', array(
             'form' => $form->createView(),
             'success' => 'na',
-            'errors' => array()
+            'errors' => array(),
+            'id' => $id
         ));
     }
 
     public function updateAction(Request $request, $id)
     {
+        $em = $this->getDoctrine()
+            ->getEntityManager();
         $observation = $this->loadObservation($id);
-        $form = $this->createForm(new ObservationsType($this->getDoctrine()), $observation);
+        $event = $observation->getEseSeqno();
+        $s2e = $event->getSpec2Events();
+        $specimen = $s2e->getScnSeqno();
+
+        $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationModification'))), $observation);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            // updating stuff here ...
-            return $this->redirect($this->generateUrl('some_edit_route', array('id' => $id)));
+            $em = $this->getDoctrine()
+                ->getEntityManager();
+            $em->persist($event);
+            $em->persist($observation);
+            $em->persist($s2e);
+            foreach ($observation->getValues() as $ov) {
+                $this->persistOrRemoveEntityValue($ov, $observation);
+            }
+            foreach ($s2e->getValues() as $sv) {
+                $this->persistOrRemoveEntityValue($sv, $s2e);
+            }
+            foreach ($event->getEvent2Persons() as $e2p) {
+                $this->persistOrRemoveEvent2Persons($e2p, $event);
+            }
+            $em->flush();
+            return $this->indexAction();
         }
-        return array('observation' => $observation);
+        $errors = $form->getErrors(true, false);
+        $errors2 = array();
+        $errors2 = $this->getErrorList($errors, $errors2);
+
+        return $this->render('AppBundle:Page:edit-observations-specimens.html.twig', array(
+            'form' => $form->createView(),
+            'success' => 'false',
+            'errors' => $errors2,
+            'id' => $id
+        ));
     }
 
     private function loadObservation($id)
     {
         $observation = $this->getDoctrine()->getRepository('AppBundle:Observations')->find($id);
-        $evcfoc = new EntityValuesCollectionAtUpdate($this->getDoctrine()->getManager());
-        $evcfoc->allObservationValues->supplementEntityValues($observation);
+        $evc = new EntityValuesCollectionAtUpdate($this->getDoctrine()->getManager());
+        $evc->allObservationValues->supplementEntityValues($observation);
         $s2e = $observation->getEseSeqno()->getSpec2Events();
-        $evcfoc->allSpecimenValues->supplementEntityValues($s2e);
+        $evc->allSpecimenValues->supplementEntityValues($s2e);
 
         if (!$observation) {
             throw $this->createNotFoundException(sprintf('This observation does not exist: %s', $id));

@@ -26,7 +26,6 @@ class ObservationEditTest extends WebTestCase{
 
         $this->em->beginTransaction();
         $this->client = static::createClient();
-
     }
 
     public function testEditUrl()
@@ -45,9 +44,6 @@ class ObservationEditTest extends WebTestCase{
             $statusCode=$this->client->getResponse()->getStatusCode();
             if($statusCode != 200){
                 fwrite(STDERR, $url.":".$statusCode."\n");
-            }
-            else{
-                fwrite(STDERR, $url."\n");
             }
 
            // $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /user/");

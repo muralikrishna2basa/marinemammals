@@ -1,0 +1,10 @@
+PHPUnit 4.5.0 by Sebastian Bergmann and contributors.
+
+Configuration read from /home/thomas/PhpstormProjects/mm/app/phpunit.xml.dist
+
+AppBundle\Tests\Controller\ObservationEdit
+PHPUnit 4.5.0 by Sebastian Bergmann and contributors.
+
+Configuration read from /home/thomas/PhpstormProjects/mm/app/phpunit.xml.dist
+
+AppBundle\Tests\Controller\ObservationEdit

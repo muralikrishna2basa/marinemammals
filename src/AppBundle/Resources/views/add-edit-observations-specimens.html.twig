@@ -1,0 +1,354 @@
+{% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block head %}
+    {{ parent() }}
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css"/>
+{% endblock %}
+{% block stylesheets %}
+    {% stylesheets
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AppBundle/Resources/public/js/addsymfonyprototype.js'
+    '@AppBundle/Resources/public/js/date.js'
+    '@AppBundle/Resources/public/js/date-nl-BE.js'
+    '@AppBundle/Resources/public/js/jquery.easytabs.js'
+    '@AppBundle/Resources/public/js/jquery.easytabs.min.js'
+    '@AppBundle/Resources/public/js/periodPickerImplementation.js'
+    '@AppBundle/Resources/public/js/remoteSpecimen.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/validationImplementation.js'
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="application/javascript">
+        var $tabs = $('.tab');
+        var wholeForm = $('#observationform');
+        var $wholeFormErrors = $('#formerror');
+        var $currentTab = $("a[href='tab-1']").parent();
+        var $currentPanel = $('#tab-1');
+        var $previousTab;
+        var $previousPanel;
+
+        var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
+        var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi');
+        var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required="required"]');
+        var stationSelector = $('#observationstype_stnSeqno');
+        var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
+        var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
+        var newSpecimenBox = $('#new-specimen');
+        var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required="required"]');
+        var $onlyForDeadBox = $('.only-dead');
+        var $onlyForDeadBox_requiredInputSelect = $onlyForDeadBox.find('[required="required"]');
+        var $anyFieldIndicatingDeadness = $("#observationstype_osnType, .decomposition_code, .during_intervention");
+        var $multipleSpecimensFeedback=$('#multipleSpecimensFeedback');
+        var $existingSpecimenFeedback=$('#existingSpecimenFeedback');
+        var $circumstantialParametersFeedback=$('#circumstantialParametersFeedback');
+        var $sexBox=$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_sex');
+        var $scnInfo=$('#scnInfo');
+        var remoteSpecimen;
+        var getRemoteScn = function (scnId) {
+            $.ajax({
+                type: "GET",
+                url: "/ajax/scn/"+scnId,
+                dataType: "json",
+                async:false,
+                success: function(response) {
+                    console.log(response);
+                    remoteSpecimen=response;
+                }
+            });
+        };
+
+        function instantiateRemoteSpecimen(){
+            var scnId = existingSpecimenChoiceField.val();
+            if (/^[0-9]+$/.test(scnId)) {
+                getRemoteScn(scnId);
+                if (typeof remoteSpecimen !== 'undefined') {
+                    if(remoteSpecimen.found){
+                        $scnInfo.html("");
+                        $scnInfo.append('Seqno: '+remoteSpecimen.seqno +'<br />');
+                        $scnInfo.append('Species: '+remoteSpecimen.species +'<br />');
+                        $scnInfo.append('Number: '+remoteSpecimen.scnNumber +'<br />');
+                        $scnInfo.append('Sex: '+remoteSpecimen.sex +'<br />');
+                        $scnInfo.append('RBINS Tag: '+remoteSpecimen.rbinsTag +'<br />');
+                        $scnInfo.append('MUMM Tag: '+remoteSpecimen.mummTag +'<br />');
+                    }
+                    else{
+                        $scnInfo.html("");
+                        $scnInfo.html('The specimen was not found');
+                    }
+                }
+            }
+        }
+
+        $(document).ready(function () {
+
+            $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
+            $tabs.not($currentTab).not($previousTab).addClass('disabled');
+            //$('#formsuccess').delay(100000).hide();
+            instantiateRemoteSpecimen();
+            hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+            hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
+            hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
+            $("#observationform").easytabs({
+                tabs: ".nav-tabs li",
+                animate: false,
+                tabActiveClass: "active"
+            }).bind('easytabs:before', function (evt, destTab, destPanel, data) {
+                var $currentTab = $(this).find('li.active');
+                var $currentPanel = $(this).find('fieldset.active');
+                var goBack = destTab.parent().isBefore($currentTab); //destTab is actually the anchor
+                var valid = validateContainer($currentPanel, validator);
+
+                if (valid) {
+                    $wholeFormErrors.html = '';
+                    $previousTab = $currentTab;
+                    $previousPanel = $currentPanel;
+                    $currentTab = destTab;
+                    $currentPanel = destPanel;
+                }
+                else {
+                    $tabs.not($currentTab).not($previousTab).addClass('disabled');
+                }
+                return valid || goBack;
+            });
+            stationSelector.select2();
+
+            $('.prev-tab').click(function () {
+                var currTab;
+                currTab = $('a.active').attr('href');
+                var i = ( parseInt(currTab.match(/\d+/)) - 2 );
+                $tabs.children('a:eq(' + i + ')').click();
+            });
+
+            $('.next-tab').click(function () {
+                var currTab;
+                currTab = $('a.active').attr('href');
+                var i = ( parseInt(currTab.match(/\d+/)) );
+                $tabs.children('a:eq(' + i + ')').click();
+            });
+
+            $(":input, textarea").keypress(function (evt) {
+
+                var keycode = evt.charCode || evt.keyCode;
+                if (keycode == 13) { //Enter key's keycode
+                    return false;
+                }
+            });
+
+
+            //  if ($('.radio label')[0].childNodes[0].nodeValue = 'unknown') {
+            //      $(this).find('input[checked]').attr('checked', 'checked');
+            //  }
+            //  $('.no-multi').find('input[checked]').removeAttr('checked');
+
+            var latDecField = $('#observationstype_latDec');
+            var lonDecField = $('#observationstype_lonDec');
+            var allNonRequiredInputSelectValues = $("select[id$='value'],input[id$='value']").not("[required='required']");
+
+            existingSpecimenChoiceField.change(function () {
+                instantiateRemoteSpecimen();
+                hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
+                hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+            });
+
+            newSpecimenChoiceField.change(function () {
+                var value = $(this).val();
+                if (value != '') {
+                    existingSpecimenChoiceField.removeAttr('required').val('');
+                }
+                else {
+                    existingSpecimenChoiceField.attr('required', 'required');
+                }
+                return false;
+            });
+            newSpecimenNumberField.change(function () {
+                hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+            });
+
+            latDecField.change(function () {
+                        makeAssociatedFlagRequired($(this), validator);
+                    }
+            );
+
+            allNonRequiredInputSelectValues.change(function () {
+                        makeAssociatedFlagRequired($(this), validator);
+                    }
+            );
+
+            $anyFieldIndicatingDeadness.change(function () {
+                hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
+            });
+
+            var sfp1 = new SymfonyPrototype($('ul.e2p_observer'), $('<a href="#" id="add_observer">Add a person</a>'), '__observers_name__');
+            sfp1.addAddLink();
+            var sfp2 = new SymfonyPrototype($('ul.e2p_gatherer'), $('<a href="#" id="add_gatherer">Add a person</a>'), '__gatherers_name__');
+            sfp2.addAddLink();
+
+            var validator = wholeForm.validate({
+                ignore: "",
+                rules: {
+                    "observationstype[eseSeqno][eventDatetime][date]": {dateBELogical: true, required: true},
+                    "observationstype[eseSeqno][description]": {
+                        minlength: 0,
+                        maxlength: 4000
+                    },
+                    "observationstype[webcommentsEn]": {
+                        minlength: 0,
+                        maxlength: 500
+                    },
+                    "observationstype[webcommentsNl]": {
+                        minlength: 0,
+                        maxlength: 500
+                    },
+                    "observationstype[webcommentsFr]": {
+                        minlength: 0,
+                        maxlength: 500
+                    },
+                    "observationstype[latDec]": 'validLatDec',
+                    "observationstype[lonDec]": 'validLonDec',
+                    "observationstype[eseSeqno][spec2events][scnSeqnoExisting]": {
+                        digits: true,
+                        min: 0
+                    },
+                    "observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]": {
+                        digits: true,
+                        min: 0,
+                        max: 9999
+                    },
+                    "observationstype[eseSeqno][spec2events][scnSeqnoNew][rbinsTag]": {
+                        minlength: 0,
+                        maxlength: 20
+                    },
+                    "observationstype[eseSeqno][spec2events][scnSeqnoNew][necropsyTag]": 'validNecropsyTag',
+                    "observationstype[eseSeqno][spec2events][pathologyValues][38][value]": {
+                        minlength: 0,
+                        maxlength: 50
+                    }
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+        })
+        ;
+
+        (function ($) {
+            $.fn.isAfter = function (sel) {
+                return this.prevAll().filter(sel).length !== 0;
+            };
+
+            $.fn.isBefore = function (sel) {
+                return this.nextAll().filter(sel).length !== 0;
+            };
+        })(jQuery);
+
+        function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
+            var scnNumber = newSpecimenNumberField.val();
+            if (typeof remoteSpecimen !== 'undefined') {
+                if(remoteSpecimen.found){
+                    scnNumber=remoteSpecimen.scnNumber;
+                }
+            }
+
+            if (scnNumber > 1) {
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input').val('');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('select').prop('selectedIndex', 0);
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input[checked]').removeAttr('checked');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.removeAttr('required');
+                $sexBox.removeAttr('required');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.hide();
+                $multipleSpecimensFeedback.show();
+                return false;
+            }
+            if (scnNumber < 2) {
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
+                $sexBox.attr('required', 'required');
+                fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
+                $multipleSpecimensFeedback.hide();
+                return false;
+            }
+        }
+
+        function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
+            var scnId = existingSpecimenChoiceField.val();
+            var newSpecimenBox_allInput = newSpecimenBox.find('input');
+            var newSpecimenBox_allSelect = newSpecimenBox.find('select');
+
+            if (/^[0-9]+$/.test(scnId)) {
+                $(this).attr('required', 'required');
+                newSpecimenBox_requiredInputSelect.removeAttr('required');
+                newSpecimenBox_requiredInputSelect.each(function () {
+                    $(this).removeAttr('required')
+                });
+                $sexBox.removeAttr('required');
+                newSpecimenBox_allInput.val('');
+                newSpecimenBox_allSelect.prop('selectedIndex', 0);
+                newSpecimenBox.hide();
+                $existingSpecimenFeedback.show();
+                return false;
+            }
+            if (scnId === '') {
+                newSpecimenBox_requiredInputSelect.attr('required', 'required');
+                $sexBox.attr('required', 'required');
+                newSpecimenBox.show();
+                $existingSpecimenFeedback.hide();
+                $circumstantialParametersFeedback.hide();
+                $scnInfo.html("");
+                return false;
+            }
+        }
+
+        function hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens() {
+            if (animalIsAliveDuringOrAfterIntervention()) {
+                $onlyForDeadBox_requiredInputSelect.removeAttr('required');
+                $onlyForDeadBox.hide();
+            }
+            else{
+                $onlyForDeadBox_requiredInputSelect.attr('required', 'required');
+                $onlyForDeadBox.show();
+            }
+        }
+
+        function makeAssociatedFlagRequired($element, validator) {
+            var id = $element.attr('id');
+            var $associatedFlag = $("." + id + "Flag");//in some cases class is used; reason see add-observations.html.twig; precisionFlag is the actual id instead of lonDecFlag.
+
+            if (!$associatedFlag.length) {
+                $associatedFlag = $("#" + id + "Flag");
+            }
+            var value = $element.val();
+            if (value != '') {
+                $associatedFlag.attr('required', 'required');
+                validator.element($associatedFlag);
+            }
+            else {
+                $associatedFlag.removeAttr('required');
+                validator.element($associatedFlag);
+            }
+        }
+
+        function animalIsAliveDuringOrAfterIntervention() {
+            var decompositionCode = parseInt($('.decomposition_code :selected').text());
+            var osnType = $('#observationstype_osnType :selected').text();
+            var duringIntervention = $('.during_intervention :selected').text();
+
+            var deadOsnTypes = ["Found dead in Harbour", "Died during transport/rehab", "Found dead on beach", "Found dead at Sea"];
+            var deadDuringInterventionTypes = ["died during intervention/rehab same day", "euthanized"];
+
+            var deadByOsnType = true;
+            deadByOsnType = ($.inArray(osnType, deadOsnTypes) != -1);
+            var deadByDuringInterventionType = true;
+            deadByDuringInterventionType = ($.inArray(duringIntervention, deadDuringInterventionTypes) != -1);
+            var dead=(deadByDuringInterventionType || deadByOsnType || decompositionCode > 1);
+            return !dead;
+        }
+
+    </script>
+{% endblock %}

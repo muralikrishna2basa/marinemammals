@@ -7,6 +7,8 @@
         {{ forgotten.errors('scnSeqnoNew[eseSeqno][spec2events][scnSeqnoExisting]',errors) }}
         {#<button id="b_search_scn">Search for existing specimen in list</button>#}
     </div>
+    <div id="scnInfo">
+    </div>
 </fieldset>
 <fieldset id="new-specimen">
     <legend><h3>New specimen</h3></legend>
@@ -32,10 +34,10 @@
 </fieldset>
 <fieldset id="circumstantial_values" class="no-multi">
     <legend><h4>Circumstantial parameters</h4></legend>
-    {#{% if form.eseSeqno.spec2events.circumstantialValues|first.vars.data.valueRequired == false %}<p class="text-danger">Although the
+    {% if form.eseSeqno.spec2events.circumstantialValues|first.vars.data.valueRequired == false %}<p id="circumstantialParametersFeedback" class="text-danger">Although the
         circumstantial parameters are not required to be completed when updating an existing observation, we would like
         you to provide this information nonetheless. The level of uncertainty can be expressed in the value
-        flag.</p>{% endif %}#}
+        flag.</p>{% endif %}
     {% for sv in form.eseSeqno.spec2events.circumstantialValues %}
         <h5>{{ sv.vars.value.pmdName }}</h5>
         <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}

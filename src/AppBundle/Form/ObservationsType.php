@@ -13,21 +13,26 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ObservationsType extends AbstractType
 {
     private $doctrine;
+    private $additionalOptions;
 
-    public function __construct($doctrine)
+    public function __construct($doctrine,$additionalOptions)
     {
         $this->doctrine = $doctrine;
+        $this->additionalOptions = $additionalOptions;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //$optionsChild = array();
+        //$optionsChild['validation_groups']=
+        //array_push($optionsChild, $options['validation_groups']);
         $builder->add('latDec', 'text', array(
             'required' => false,
-            'attr'=>array('maxlength'=>9)
+            'attr' => array('maxlength' => 9)
         ));
         $builder->add('lonDec', 'text', array(
             'required' => false,
-            'attr'=>array('maxlength'=>10)
+            'attr' => array('maxlength' => 10)
         ));
         $builder->add('precisionFlag', 'choice', array(
             'empty_value' => 'Select...',
@@ -66,7 +71,7 @@ class ObservationsType extends AbstractType
             'required' => false
         ));
 
-        $builder->add('eseSeqno', new EventStatesType($this->doctrine));
+        $builder->add('eseSeqno', new EventStatesType($this->doctrine,$this->additionalOptions));
 
         $builder->add('values', 'collection', array('type' => new EntityValuesType($this->doctrine),
             'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\ObservationValues'),
@@ -90,14 +95,13 @@ class ObservationsType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $o = $event->getData();
             $form = $event->getForm();
-            $sre=$form->get('singleSource')->getData();
-           /* if(null ===  $o->getIsconfidential()){
-                $o->setIsconfidential(false);
-            }*/
-            if (null ===  $sre) {
-               // $this->doctrine->getManager()->remove($sre);
-            }
-            else{
+            $sre = $form->get('singleSource')->getData();
+            /* if(null ===  $o->getIsconfidential()){
+                 $o->setIsconfidential(false);
+             }*/
+            if (null === $sre) {
+                // $this->doctrine->getManager()->remove($sre);
+            } else {
                 $o->setSingleSource($sre);
                 $sre->addOsnSeqno($o);
                 $this->doctrine->getManager()->persist($sre);
@@ -113,6 +117,7 @@ class ObservationsType extends AbstractType
                 'stationOrCoordLegal' => 'stnSeqno',
                 'coordLegal' => 'lonDec'
             ),
+            'validation_groups' => array('ObservationCreation')
         ));
     }
 

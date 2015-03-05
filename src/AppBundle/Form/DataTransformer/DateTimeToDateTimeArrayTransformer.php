@@ -10,9 +10,12 @@ class DateTimeToDateTimeArrayTransformer implements DataTransformerInterface
         if(null !== $datetime)
         {
             $date = clone $datetime;
-            $date->setTime(12, 0, 0);
+            $date->setTime(0, 0, 0);
 
             $time = clone $datetime;
+
+            $ti=new \DateInterval('PT1H');
+            $time=$time->add($ti);
             $time->setDate(1970, 1, 1);
             //$date=$datetime->format("H:i");
         }

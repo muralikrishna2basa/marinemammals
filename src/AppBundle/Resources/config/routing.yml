@@ -112,3 +112,21 @@ mm_observations_test:
     defaults: { _controller: AppBundle:Observations:test }
     requirements:
         _method:  GET
+
+mm_ajax_scnNumber:
+    pattern:  /ajax/scnnumber/{id}
+    defaults: { _controller: AppBundle:Ajax:scnNumber }
+    requirements:
+        _method:  GET
+
+mm_ajax_scnExists:
+    pattern:  /ajax/scnexists/{id}
+    defaults: { _controller: AppBundle:Ajax:scnExists}
+    requirements:
+        _method:  GET
+
+mm_ajax_scn:
+    pattern:  /ajax/scn/{id}
+    defaults: { _controller: AppBundle:Ajax:scn}
+    requirements:
+        _method:  GET

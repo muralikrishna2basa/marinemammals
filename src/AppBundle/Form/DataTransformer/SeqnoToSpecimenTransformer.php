@@ -46,7 +46,7 @@ class SeqnoToSpecimenTransformer implements DataTransformerInterface
         }
 
         $specimen = $this->doctrine->getRepository('AppBundle:Specimens')
-            ->findOneBy(array('seqno' => $seqno));
+            ->findBySeqno($seqno);
 
         if (null === $specimen) {
             throw new TransformationFailedException(sprintf(
