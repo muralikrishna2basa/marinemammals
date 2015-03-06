@@ -116,6 +116,8 @@ class Specimens
      **/
     private $spec2events;
 
+    private $scnNumberForgiveSex=array(2974,1582,2927,2924,2973,2975,2925,2926); //these ones have a sex other than UNK but are observed in group; They're regarded as legal.
+
     /**
      * Constructor
      */
@@ -483,9 +485,10 @@ class Specimens
 
     public function isScnNumberLegal()
     {
+
         foreach ($this->getSpec2Events() as $s2e) {
             if ($this->getScnNumber() > 1 and ($s2e->hasPertinentValues() or $this->getSex() !== null or $this->getRbinsTag() !== null or $this->getNecropsyTag() !== null)) {
-                return false;
+                return in_array($this->getSeqno(),$this->scnNumberForgiveSex);
             }
         }
         return true;
@@ -496,7 +499,7 @@ class Specimens
         if ($this->getScnNumber() === null && $this->getSex() === null) {
             return true;
         } elseif ($this->getScnNumber() > 1) {
-            return $this->getSex() === null;
+            return $this->getSex() === null || in_array($this->getSeqno(),$this->scnNumberForgiveSex);
         } else return $this->getSex() !== null;
     }
 

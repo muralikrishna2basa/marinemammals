@@ -28,7 +28,7 @@ class ObservationsRepository extends EntityRepository
     public function getCompleteObservationQb()
     {
         return $this->createQueryBuilder('o')
-            ->select('partial o.{eseSeqno,osnType,precisionFlag,creDat,isconfidential,samplingeffort,latDec,lonDec}, partial st.{seqno,areaType,description,pceSeqno, code,latDec,lonDec}, partial p1.{seqno,pceSeqno,name,type}, partial p2.{seqno,pceSeqno,name,type},partial p3.{seqno,pceSeqno,name,type}, partial e.{seqno,eventDatetime,eventDatetimeFlag, description}, partial s2e.{eseSeqno,scnSeqno}, partial s.{seqno,scnNumber,sex,creDat,txnSeqno}, partial t.{seqno,canonicalName,scientificNameAuthorship,taxonrank,vernacularNameEn}')
+            ->select('partial o.{eseSeqno,osnType,precisionFlag,creDat,isconfidential,samplingeffort,latDec,lonDec,stnSeqno}, partial st.{seqno,areaType,description,pceSeqno, code,latDec,lonDec}, partial p1.{seqno,pceSeqno,name,type}, partial p2.{seqno,pceSeqno,name,type},partial p3.{seqno,pceSeqno,name,type}, partial e.{seqno,eventDatetime,eventDatetimeFlag, description}, partial s2e.{eseSeqno,scnSeqno}, partial s.{seqno,scnNumber,sex,creDat,txnSeqno}, partial t.{seqno,canonicalName,scientificNameAuthorship,taxonrank,vernacularNameEn}')
             //->select('o, st,p1,p2,p3,e,s2e,s,t')
             ->leftJoin('o.stnSeqno', 'st')
             ->leftJoin('st.pceSeqno', 'p1')
@@ -37,7 +37,9 @@ class ObservationsRepository extends EntityRepository
             ->innerJoin('o.eseSeqno', 'e')
             ->innerJoin('e.spec2events', 's2e')
             //->innerJoin('AppBundle\Entity\Spec2Events', 's2e', Expr\Join::WITH, 's2e.eseSeqno = e.seqno')
-            ->leftJoin('s2e.scnSeqno', 's')
-            ->leftJoin('s.txnSeqno', 't');
+            ->innerJoin('s2e.scnSeqno', 's')
+            ->innerJoin('s.txnSeqno', 't')
+            ->addOrderBy('e.eventDatetime', 'DESC')
+            ->addOrderBy('t.canonicalName','ASC');
     }
 }

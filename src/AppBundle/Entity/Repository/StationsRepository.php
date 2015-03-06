@@ -12,7 +12,8 @@ class StationsRepository extends EntityRepository
         $qb = $this->createQueryBuilder('s')
             ->select('s')
             ->addOrderBy('s.areaType', 'ASC')
-            ->addOrderBy('s.code', 'ASC');
+            ->addOrderBy('s.description', 'ASC')
+            ->addOrderBy('p.name', 'ASC');
 
         return $qb->getQuery()
             ->getResult();
@@ -24,6 +25,7 @@ class StationsRepository extends EntityRepository
             ->addSelect('p')
             ->leftJoin('s.pceSeqno','p')
             ->addOrderBy('s.areaType', 'ASC')
+            ->addOrderBy('s.description', 'ASC')
             ->addOrderBy('p.name', 'ASC');
         return $qb;
     }

@@ -1,13 +1,11 @@
 {% extends 'AppBundle::nocol-layout.html.twig' %}
-{% block head %}
-    {{ parent() }}
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css"/>
-{% endblock %}
 {% block stylesheets %}
+    {{ parent() }}
     {% stylesheets
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
+
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

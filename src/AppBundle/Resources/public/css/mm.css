@@ -76,12 +76,23 @@ table.table tbody td {
     vertical-align: top;
 }
 
-:required { border:1px solid orange !important; }
+label.required:before{
+    color:#C9405B;
+    content: "\f069";
+    display:inline;
+}
+
+:required {
+    border:2px solid orange !important;
+}
+
+
 
 @font-face {
     font-family: 'Glyphicons Halflings';
-    src: url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.eot') !important;
-    src: url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('http://odnature.naturalsciences.be/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg') !important;
+    src: url('/fonts/glyphicons-halflings-regular.eot') !important;
+    src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+    url('/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg') !important;
 }
-
 

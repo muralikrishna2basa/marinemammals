@@ -46,8 +46,8 @@ class ObservationsController extends Controller
                 $filterBuilder->setParameter('areaType', $stationtype);
             }
             if ($stn) {
-                $filterBuilder->andWhere('st.seqno=:stnSeqno');
-                $filterBuilder->setParameter('stnseqno', $stn);
+                $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
+                $filterBuilder->setParameter('stnSeqno', $stn);
             }
             if ($txn) {
                 $filterBuilder->andWhere('t.canonicalName=:canonicalName');
@@ -80,7 +80,7 @@ class ObservationsController extends Controller
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $observations = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservation();
-        $observations = $this->paginate($observations);
+        //$observations = $this->paginate($observations);
         return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $observations, 'form' => $form->createView()));
     }
 
@@ -167,7 +167,6 @@ class ObservationsController extends Controller
                 else{
                     $property = 'error_wo_propertypath';
                 }
-
                 $property = str_replace(".children", "", $property);
                 $property = str_replace("children", $parentFormName, $property);
                 $return[$property] = $message;

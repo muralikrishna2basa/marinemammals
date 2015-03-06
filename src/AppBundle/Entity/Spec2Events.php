@@ -485,5 +485,11 @@ class Spec2Events implements ValueAssignable
     }
 
 
+    public function hasValuesLegal(
+        
+    ){
+
+}
+
 }
 

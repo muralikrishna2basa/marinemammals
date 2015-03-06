@@ -120,6 +120,7 @@ class Spec2EventsType extends AbstractType
                 'cascade_validation' => true,
                 'error_bubbling' => false,
                 'data_class' => 'AppBundle\Entity\Spec2Events',
+                'error_mapping'=>array('scnSeqnoExisting'=>'scnSeqnoExisting'),
                 'validation_groups' => array()
             ));
     }

@@ -404,9 +404,9 @@ class Stations
     /**
      * Get fully Qualified Name
      *
-     * @return \AppBundle\Entity\Places
+     * @return String
      */
-    public function getFullyQualifiedName()
+    public function getFullyQualifiedPlaceName()
     {
         $name = $this->getPceSeqno()->getName();
         $code = $this->getCode();
@@ -416,13 +416,45 @@ class Stations
         if ($codeZilch && $typeZilch) {
             return $name;
         } elseif ($codeZilch) {
-            return $name . ' (' . $type . ')';
+            return $type . ' - ' . $name;
         } elseif ($typeZilch) {
-            return $name . ' - ' . $code;
+            return $name . ' (' . $code . ')';
         } else {
-            return $name . ' - ' . $code . ' (' . $type . ')';
+            return $type . ' - ' . $name . ' (' . $code . ')';
         }
+    }
 
+    /**
+     * Get fully Qualified description
+     *
+     * @return String
+     */
+    public function getFullyQualifiedDescription()
+    {
+        $code = $this->getCode();
+        $type = $this->getAreaType();
+        $desc = $this->getDescription();
+        $codeZilch = $code === '' || $code === null;
+        $typeZilch = $type === '' || $type === null;
+        $descZilch = $desc === '' || $desc === null;
+
+        if (!$descZilch) {
+            if (!$typeZilch) {
+                if (!$codeZilch) {
+                    return $type . " - " . $desc . ' ('.$code.')';
+                } else {
+                    return $type . " - " . $desc;
+                }
+            } else {
+                if (!$codeZilch) {
+                    return $desc . ' ('.$code.')';
+                } else {
+                    return $desc;
+                }
+            }
+        } else {
+            return $this->getFullyQualifiedPlaceName();
+        }
     }
 
     /**
@@ -430,10 +462,10 @@ class Stations
      *
      * @return \AppBundle\Entity\Places
      */
-    public function getExtendedName()
-    {
-        return $this->getPceSeqno()->getName() . ' - ' . $this->getCode();
-    }
+    /*    public function getExtendedName()
+        {
+            return $this->getPceSeqno()->getName() . ' ' . $this->getCode();
+        }*/
 
     /**
      * Get country the station is in
