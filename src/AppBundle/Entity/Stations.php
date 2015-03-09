@@ -432,6 +432,7 @@ class Stations
     public function getFullyQualifiedDescription()
     {
         $code = $this->getCode();
+        $country = $this->getCountry();
         $type = $this->getAreaType();
         $desc = $this->getDescription();
         $codeZilch = $code === '' || $code === null;
@@ -441,15 +442,15 @@ class Stations
         if (!$descZilch) {
             if (!$typeZilch) {
                 if (!$codeZilch) {
-                    return $type . " - " . $desc . ' ('.$code.')';
+                    return $type . " (" .$country. ") - " . $desc . ' ('.$code.')';
                 } else {
-                    return $type . " - " . $desc;
+                    return $type . " (" .$country. ") - " . $desc;
                 }
             } else {
                 if (!$codeZilch) {
-                    return $desc . ' ('.$code.')';
+                    return " (" .$country. ") ". $desc . ' ('.$code.')';
                 } else {
-                    return $desc;
+                    return " (" .$country. ") ". $desc;
                 }
             }
         } else {

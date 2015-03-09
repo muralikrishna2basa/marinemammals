@@ -15,6 +15,7 @@ use AppBundle\Form\Filter\ObservationsFilterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormError;
 
 class ObservationsController extends Controller
 {
@@ -54,7 +55,9 @@ class ObservationsController extends Controller
                 $filterBuilder->setParameter('canonicalName', $txn->getCanonicalName());
             }
             //$this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
-            $filteredEntities = $filterBuilder->getQuery()->getResult();
+            $q = $filterBuilder->getQuery();
+            $filteredEntities = $q->getResult();
+
             //$filteredEntities = $repo->removeDoubles($filterBuilder->getQuery()->getResult());
             if ($country) {
                 $filteredEntities = array_filter($filteredEntities, function ($e) use ($country) {
@@ -78,9 +81,11 @@ class ObservationsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
-        $observations = $em->getRepository('AppBundle:Observations')
-            ->getCompleteObservation();
-        //$observations = $this->paginate($observations);
+        $q = $em->getRepository('AppBundle:Observations')
+            ->getCompleteObservationQb()->getQuery();
+        $observations = $q->getResult();
+        //$observations = $em->getRepository('AppBundle:Observations')->getCompleteObservation();
+        $observations = $this->paginate($observations);
         return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $observations, 'form' => $form->createView()));
     }
 
@@ -161,10 +166,9 @@ class ObservationsController extends Controller
                 $return = $this->getErrorList($error, $return);
             } elseif ($cl === 'Symfony\Component\Form\FormError') {
                 $message = $error->getMessage();
-                if($error->getCause() !== null){
+                if ($error->getCause() !== null) {
                     $property = $error->getCause()->getPropertyPath();
-                }
-                else{
+                } else {
                     $property = 'error_wo_propertypath';
                 }
                 $property = str_replace(".children", "", $property);
@@ -247,6 +251,11 @@ class ObservationsController extends Controller
         $event2Persons2->setE2pType(EventStates::GATHERED);
         $event->getEvent2Persons()->add($event2Persons2);
 
+        $event2Persons2 = new Event2Persons();
+        $event2Persons2->setEseSeqno($event);
+        $event2Persons2->setE2pType(EventStates::INFORMED);
+        $event->getEvent2Persons()->add($event2Persons2);
+
         $evcfoc = new EntityValuesCollectionAtCreation($this->getDoctrine()->getManager());
 
         $evcfoc->allObservationValues->supplementEntityValues($observation);
@@ -300,8 +309,27 @@ class ObservationsController extends Controller
             foreach ($event->getEvent2Persons() as $e2p) {
                 $this->persistOrRemoveEvent2Persons($e2p, $event);
             }
-            $em->flush();
-            return $this->indexAction();
+            try {
+                $em->flush();
+                return $this->indexAction();
+            } catch (\Doctrine\DBAL\DBALException $e) {
+            }
+            $msg = $e->getMessage();
+            if (strpos($msg, 'ORA-02292') !== false && strpos($msg, 'SVE_S2E_FK') !== false) {
+                //$regex = "/[a-zA-Z]+ (\d+)/";
+                $patt="/UPDATE SPEC2EVENTS SET SCN_SEQNO = \? WHERE SCN_SEQNO = \? AND ESE_SEQNO = \?' with params \[(\d+), \"?(\d+)\"?, \"?(\d+)\"?\]/";
+                if(preg_match($patt, $msg, $matches)){
+                    $newScn=$matches[1];
+                    $oldScn=$matches[2];
+                    $ese=$matches[3];
+                    $error = new FormError("It is not possible to replace specimen ".$oldScn." with another (".$newScn.") as it has specimen values attached to it.");
+                }
+                else{
+                    $error = new FormError("It is not possible to replace a specimen with another as it has specimen values attached to it.");
+                }
+                $form->get('eseSeqno')->get('spec2events')->get('scnSeqnoExisting')->addError($error);
+            }
+
         }
         $errors = $form->getErrors(true, false);
         $errors2 = array();

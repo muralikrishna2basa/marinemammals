@@ -17,7 +17,7 @@
         <div class="form-inline">{{ form_row(form1.description, {'label':'Description'}) }}</div>
         <div class="form-inline">{{ form_row(form1.latDec, {'label':'Latitude','attr':{'class':'refer-to_stationstype_lonDec'}}) }}</div>
         <div class="form-inline">{{ form_row(form1.lonDec, {'label':'Longitude','attr':{'class':'refer-to_stationstype_latDec'}}) }}</div>
-        <div class="form-inline">{{ form_row(form1.pceSeqno, {'label':'place'}) }}</div>
+        <div class="form-inline">{{ form_row(form1.pceSeqno, {'label':'Place','attr':{'title':'Place the station is part of (community, river,...'}}) }}</div>
     </fieldset>
     <p>
         <input type="submit" value="Submit" class="btn btn-od">

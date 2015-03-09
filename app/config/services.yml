@@ -3,6 +3,10 @@
 parameters:
 #    parameter_name: value
 services:
+    choice_type_extension:
+        class: AppBundle\Form\Extension\ChoiceDescriptionExtension
+        tags:
+            - { name: form.type_extension, alias: choice }
     type.stationstype:
         class: AppBundle\Form\StationsType
         arguments: ["@doctrine.orm.entity_manager"]

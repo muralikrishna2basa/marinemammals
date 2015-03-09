@@ -8,6 +8,14 @@
 <div class="form-inline">
     {{ form_row(form.pfmSeqno, {'label':'Platform'}) }}
 </div>
+<h4>Informed by</h4>
+<ul class="e2p_informer" data-prototype="{{ form_widget(form.eseSeqno.informers.vars.prototype)|e }}">
+    {% for e2p_informer in form.eseSeqno.informers %}
+        <li class="form-inline">
+            {{ form_row(e2p_informer.psnSeqno, {'label':'Person'}) }}
+        </li>
+    {% endfor %}
+</ul>
 <h4>Observed by</h4>
 <ul class="e2p_observer" data-prototype="{{ form_widget(form.eseSeqno.observers.vars.prototype)|e }}">
     {% for e2p_observer in form.eseSeqno.observers %}
@@ -24,4 +32,4 @@
         </li>
     {% endfor %}
 </ul>
-<h3>Media</h3>
+{#<h3>Media</h3>#}

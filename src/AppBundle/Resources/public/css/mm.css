@@ -36,8 +36,22 @@ form div.radio label{
     float: left;
 }
 
+.glyphicon-ok:before{
+    content:"\f00c";
+}
+
+.glyphicon-warning-sign:before{
+    content:"\f071";
+}
+
+.form-control-feedback{
+    width:auto !important;
+    height:auto !important;
+    margin-right:20px;
+}
+
 form .control-label {
-    width: 150px;
+    width: 120px;
     margin-right: 10px;
     text-align: right;
     float: left;
@@ -83,11 +97,13 @@ label.required:before{
 }
 
 :required {
-    border:2px solid orange !important;
+    border:1px solid orange !important;
 }
 
-
-
+.has-tooltip{
+    color:#002234;
+}
+/*
 @font-face {
     font-family: 'Glyphicons Halflings';
     src: url('/fonts/glyphicons-halflings-regular.eot') !important;
@@ -95,4 +111,4 @@ label.required:before{
     url('/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
     url('/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg') !important;
 }
-
+*/

@@ -17,8 +17,9 @@
         <p id="formsuccess" class="text-success">This observation has been successfully added to the database. You can create a new one if you want.</p>
     {% endif %}
     <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>
-    <p id="multipleSpecimensFeedback" class="text-info">The fields Sex, RBINS tag, MUMM tag, Circumstantial parameters, Measurements, Pathology values and Cause of Death cannot be completed when there are 2 or more individuals observed. They have been removed from the form.</p>
-    <p id="existingSpecimenFeedback" class="text-info">The fields Species, Identification certainty, Sex, RBINS tag and MUMM tag cannot be completed when an existing specimen is completed. They have been removed from the form.</p>
+    <p id="multipleSpecimensFeedback" class="text-info" style="display:none;">The fields Sex, RBINS tag, MUMM tag, Circumstantial parameters, Measurements, Pathology values and Cause of Death cannot be completed when there are 2 or more individuals observed. They have been removed from the form.</p>
+    <p id="existingSpecimenFeedback" class="text-info" style="display:none;">The fields Species, Identification certainty, Sex, RBINS tag and MUMM tag cannot be completed when an existing specimen is completed. They have been removed from the form.</p>
+    <p id="specimenValuesOrphanedFeedback" class="text-info" style="display:none;">The specimen you removed has some specimen values attached to it.</p>
     <fieldset id="tab-1">
         {{ include('AppBundle:Bare:add-observations.html.twig') }}
         <h4><a class="next-tab ctl" href="#">NEXT</a></h4>

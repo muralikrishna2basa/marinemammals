@@ -1,16 +1,23 @@
 $.validator.addMethod("dateBELogical", function (value) {
-    var dt = Date.parseExact(value, ["dd/MM/yyyy"]);
-    var tomorrow = Date.today().addDays(1);
-    return value==null || value=='' ||dt != null && dt.isBefore(tomorrow); //empty values are allowed
+    //var dt = Date.parseExact(value, ["dd/MM/yyyy"]);
+    //var tomorrow = Date.today().addDays(1);
+    var dt=moment(value, "DD/MM/YYYY", true);
+    var tomorrow = moment().add(1, 'day');
+    var valid=dt.isValid();
+    return value==null || value=='' || (valid && dt.isBefore(tomorrow)); //empty values are allowed
 }, '2 problems: either an invalid date (not dd/mm/yyyy) or either the date is in the future');
 
 $.validator.addMethod('validDaterange', function(value,element) {
     var $parent=$(element).closest("#periodpicker");
     var $firstDateTextbox = $($parent.find("input")[0]);
     var $lastDateTextbox = $($parent.find("input")[1]);
-    var ds = Date.parseExact($firstDateTextbox.val(), ["dd/MM/yyyy"]);
-    var de = Date.parseExact($lastDateTextbox.val(), ["dd/MM/yyyy"]);
-    if(ds && de){
+    //var ds = Date.parseExact($firstDateTextbox.val(), ["dd/MM/yyyy"]);
+    //var de = Date.parseExact($lastDateTextbox.val(), ["dd/MM/yyyy"]);
+
+    var ds=moment($firstDateTextbox.val(), "DD/MM/YYYY", true);
+    var de=moment($lastDateTextbox.val(), "DD/MM/YYYY", true);
+
+    if(ds.isValid() && de.isValid()){
         return (ds.isBefore(de));
     }
     else return true;

@@ -183,3 +183,11 @@
     width: 100%;
     font-size: 0;
 }
+
+.ui-datepicker-today{
+    background-color: #E8E5E2;
+}
+
+.ui-datepicker-today a{
+    color:red;
+}

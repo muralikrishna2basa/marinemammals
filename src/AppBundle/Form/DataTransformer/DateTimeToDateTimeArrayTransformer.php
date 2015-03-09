@@ -10,6 +10,8 @@ class DateTimeToDateTimeArrayTransformer implements DataTransformerInterface
         if(null !== $datetime)
         {
             $date = clone $datetime;
+            $ti=new \DateInterval('P1D');
+            $date=$date->add($ti);
             $date->setTime(0, 0, 0);
 
             $time = clone $datetime;

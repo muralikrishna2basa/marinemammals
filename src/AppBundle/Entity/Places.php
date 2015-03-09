@@ -84,14 +84,14 @@ class Places
     public function setCreDat($creDat)
     {
         $this->creDat = $creDat;
-    
+
         return $this;
     }
 
     /**
      * Get creDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreDat()
     {
@@ -107,14 +107,14 @@ class Places
     public function setCreUser($creUser)
     {
         $this->creUser = $creUser;
-    
+
         return $this;
     }
 
     /**
      * Get creUser
      *
-     * @return string 
+     * @return string
      */
     public function getCreUser()
     {
@@ -130,14 +130,14 @@ class Places
     public function setModDat($modDat)
     {
         $this->modDat = $modDat;
-    
+
         return $this;
     }
 
     /**
      * Get modDat
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModDat()
     {
@@ -153,14 +153,14 @@ class Places
     public function setModUser($modUser)
     {
         $this->modUser = $modUser;
-    
+
         return $this;
     }
 
     /**
      * Get modUser
      *
-     * @return string 
+     * @return string
      */
     public function getModUser()
     {
@@ -176,14 +176,14 @@ class Places
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -199,14 +199,14 @@ class Places
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -216,7 +216,7 @@ class Places
     /**
      * Get seqno
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeqno()
     {
@@ -232,14 +232,14 @@ class Places
     public function setPceSeqno(\AppBundle\Entity\Places $pceSeqno = null)
     {
         $this->pceSeqno = $pceSeqno;
-    
+
         return $this;
     }
 
     /**
      * Get pceSeqno
      *
-     * @return \AppBundle\Entity\Places 
+     * @return \AppBundle\Entity\Places
      */
     public function getPceSeqno()
     {
@@ -253,7 +253,12 @@ class Places
      */
     public function getParentName()
     {
-        return $this->getPceSeqno()->getName();
+        if ($this->getPceSeqno() === null) {
+            return 'ROOT';
+        } else {
+            return $this->getPceSeqno()->getName();
+        }
+
     }
 
     /**
@@ -263,11 +268,11 @@ class Places
      */
     public function getFullyQualifiedName()
     {
-        return $this->getParentName().' - '.$this->getName().' ('.$this->getType().')';
+        return $this->getParentName() . ' - ' . $this->getName() . ' (' . $this->getType() . ')';
     }
 
-    public $iteration=0;
-    public $iterationstring='start';
+    public $iteration = 0;
+    public $iterationstring = 'start';
 
     /**
      * Get country
@@ -276,27 +281,25 @@ class Places
      */
     public function getCountry()
     {
-        $type=$this->getType();
-        $name=$this->getName();
-        if($type==='CTY'){
-            $this->iterationstring=$this->iterationstring.'-- end: '.$this->iteration;
+        $type = $this->getType();
+        $name = $this->getName();
+        if ($type === 'CTY') {
+            $this->iterationstring = $this->iterationstring . '-- end: ' . $this->iteration;
             return $this->getName();
         }
-        if($name==='WORLD'){
+        if ($name === 'WORLD') {
             return 'THE_VOID_BETWEEN_THE_STARS';
         }
-        if($type==='CTY'){
-            $this->iterationstring=$this->iterationstring.'-- end: '.$this->iteration;
+        if ($type === 'CTY') {
+            $this->iterationstring = $this->iterationstring . '-- end: ' . $this->iteration;
             return $this->getName();
-        }
-        elseif(in_array($type,array('LTY','RVR','OTR'))) {
+        } elseif (in_array($type, array('LTY', 'RVR', 'OTR'))) {
             $this->iteration++;
-            $this->iterationstring=$this->iterationstring.'--'.$this->getName();
-            $parentPlace=$this->getPceSeqno();
-          // \Doctrine\Common\Util\Debug::dump($name.'----'.get_class($parentPlace));
+            $this->iterationstring = $this->iterationstring . '--' . $this->getName();
+            $parentPlace = $this->getPceSeqno();
+            // \Doctrine\Common\Util\Debug::dump($name.'----'.get_class($parentPlace));
             return $parentPlace->getCountry();
-        }
-        else return null;
+        } else return null;
         /*elseif ($this->iteration=100){
             return '';
         }*/

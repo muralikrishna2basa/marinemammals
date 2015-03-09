@@ -105,6 +105,8 @@ class EventStates
 
     const OBSERVED = 'OB';
 
+    const INFORMED = 'IB';
+
     //private $date;
 
     //private $time;
@@ -414,6 +416,8 @@ class EventStates
         }
     }
 
+    /*---------------*/
+
     /**
      * @param \Doctrine\Common\Collections\Collection $event2persons
      * @return EventStates
@@ -455,6 +459,55 @@ class EventStates
      * @param \AppBundle\Entity\Event2Persons $event2Person
      */
     public function removeGatherers($event2Person)
+    {
+        if ($this->getEvent2Persons()->contains($event2Person)) {
+            $this->getEvent2Persons()->removeElement($event2Person);
+        }
+    }
+
+    /*---------------*/
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $event2persons
+     * @return EventStates
+     */
+    public function setInformers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+        // foreach ($event2persons as $e2p) {
+        //     $e2p->setE2pType(EventStates::GATHERED);
+        // }
+        $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInformers()
+    {
+        return $this->getEvent2Persons()->filter(
+            function ($entry) {
+                return $entry->getE2pType() == EventStates::INFORMED;
+            }
+        );
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function addInformers($event2Person)
+    {
+        //$event2Person->setE2pType(EventStates::GATHERED);
+        if (!$this->getEvent2Persons()->contains($event2Person)) {
+            $event2Person->setEseSeqno($this);
+            $this->getEvent2Persons()->add($event2Person);
+        }
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function removeInformers($event2Person)
     {
         if ($this->getEvent2Persons()->contains($event2Person)) {
             $this->getEvent2Persons()->removeElement($event2Person);

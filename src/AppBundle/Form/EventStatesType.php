@@ -48,6 +48,14 @@ class EventStatesType extends AbstractType
             'by_reference' => false,
             'prototype_name'=>'__gatherers_name__'
         ));
+        $builder->add('informers', 'collection', array('type' => new Event2PersonsType($this->doctrine),
+            'options' => array('data_class' => 'AppBundle\Entity\Event2Persons'),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'delete_empty' => true,
+            'by_reference' => false,
+            'prototype_name'=>'__informers_name__'
+        ));
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $e = $event->getData();
             $form = $event->getForm();
@@ -60,6 +68,11 @@ class EventStatesType extends AbstractType
             foreach ($gatherers as $gb) {
                 $gb->setE2pType(EventStates::GATHERED);
                 $gb->setEseSeqno($e);
+            }
+            $informers = $form->get('informers')->getData();
+            foreach ( $informers as $ib) {
+                $ib->setE2pType(EventStates::INFORMED);
+                $ib->setEseSeqno($e);
             }
         });
         $builder->add('spec2events', new Spec2EventsType($this->doctrine,$this->additionalOptions));

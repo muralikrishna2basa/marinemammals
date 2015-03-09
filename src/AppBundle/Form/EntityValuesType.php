@@ -56,6 +56,7 @@ class EntityValuesType extends AbstractType
         } elseif ($pd) {
             $pmName=$pm->getName();
             $pmd=new ParameterDomainList($this->doctrine, $pmName);
+            $descList= $pmd->getDescriptionAsString();
             $class=strtolower(str_replace(' ','_',$pmName));
             if ($options['radio'] === true) {
                 $options2 = array_merge($options2, array(
@@ -70,7 +71,8 @@ class EntityValuesType extends AbstractType
                 $options2 = array_merge($options2, array(
                     'placeholder' => 'Select...',
                     'choice_list' => $pmd,
-                    'attr'=>array('class'=>$class)));
+                    'attr'=>array('class'=>$class),
+                    'desc'=>$descList));
                 $form->add('value', 'choice', $options2);
             }
             if($ev->getValue() === null){

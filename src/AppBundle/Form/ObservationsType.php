@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\StationsRepository;
+use AppBundle\Entity\Repository\PlatformsRepository;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
@@ -46,6 +47,15 @@ class ObservationsType extends AbstractType
             'property' => 'fullyQualifiedDescription',
             'query_builder' => function (StationsRepository $er) {
                 return $er->getAllStationsPlaceQb();
+            }
+        ));
+        $builder->add('pfmSeqno', 'entity', array(
+            'empty_value' => 'Select...',
+            'required' => false,
+            'class' => 'AppBundle:Platforms',
+            'property' => 'name',
+            'query_builder' => function (PlatformsRepository $er) {
+                return $er->getAllPlatformsQb();
             }
         ));
         $builder->add('isconfidential', 'checkbox', array(

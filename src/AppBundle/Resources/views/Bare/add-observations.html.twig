@@ -12,14 +12,17 @@
     {{ form_row(form.lonDec, {'label':'Decimal longitude', 'attr': {'placeholder': 'eg. 2.9254719','class':'refer-to_observationstype_latDec'} }) }}
     {{ form_row(form.precisionFlag, {'label':'Location precision','attr': { 'class': 'observationstype_latDecFlag' }}) }}</div>
 <h4>Station</h4>
+<div class="form-inline">{{ form_row(form.stnSeqno, {'label':'Station'}) }}<a href="/stations/add">Add new Station</a></div>
+<h4>Platform</h4>
+<div class="form-inline">{{ form_row(form.pfmSeqno, {'label':'Platform'}) }}<a href="/platforms/add">Add new Platform</a></div>
 
-<div class="form-inline">{{ form_row(form.stnSeqno, {'label':'Station'}) }}</div>
+<h4>Campaign</h4>
 <div class="form-inline">{{ form_row(form.cpnCode, {'label':'Campaign'}) }}</div>
 <h3>Observation type</h3>
 
 <div class="form-inline">{{ form_row(form.isconfidential, {'label':'Confidential observation?'}) }}</div>
 <div class="form-inline">{{ form_row(form.osnType, {'label':'Observation type'}) }}</div>
-<div class="form-inline">{{ form_row(form.samplingeffort, {'label':'Effort Related Survey?'}) }}</div>
+<div class="form-inline">{{ form_row(form.samplingeffort, {'label':'Sampling effort'}) }}</div>
 <h3>Observation conditions</h3>
 {% for ov in form.values %}
     <h4>{{ ov.vars.value.pmdName }}</h4>

@@ -15,12 +15,11 @@ class ParameterDomainList extends LazyChoiceList
     {
         $this->doctrine = $doctrine;
         $this->methodName = $methodName;
+        $this->pmd=$this->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($this->methodName);
     }
 
     protected function loadChoiceList()
     {
-       // $types = $this->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($this->methodName);
-        $this->pmd=$this->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($this->methodName);
         $values=array();
         $labels=array();
         foreach ($this->pmd as $pmd) {
@@ -33,12 +32,33 @@ class ParameterDomainList extends LazyChoiceList
         return $cl;
     }
 
-    protected function loadDescription()
+    public function getDescription()
     {
         $description=array();
         foreach ($this->pmd as $pmd) {
-            $description[$pmd->getCode()] =$pmd->getDescription();
+            $desc=$pmd->getDescription();
+            if($desc !== null && $desc !== ''){
+                $description[$pmd->getCode()] =$pmd->getDescription();
+            }
         }
         return $description;
+    }
+
+    public function getDescriptionAsString()
+    {
+        $a=$this->getDescription();
+        if(count($a)>0){
+            return $this->array2ul($this->getDescription());
+        }
+        else return null;
+    }
+
+    private function array2ul($array) {
+        $output = '<ul style="margin-left:0; padding-left:1em;">';
+        foreach ($array as $key => $value) {
+            $function = is_array($value) ? __FUNCTION__ : 'htmlspecialchars';
+            $output .= '<li><strong>' . $key . '</strong>: ' . $function($value) . '</li>';
+        }
+        return $output . '</ul>';
     }
 }

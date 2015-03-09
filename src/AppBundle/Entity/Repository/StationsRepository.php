@@ -9,13 +9,7 @@ class StationsRepository extends EntityRepository
 {
     public function getAll()
     {
-        $qb = $this->createQueryBuilder('s')
-            ->select('s')
-            ->addOrderBy('s.areaType', 'ASC')
-            ->addOrderBy('s.description', 'ASC')
-            ->addOrderBy('p.name', 'ASC');
-
-        return $qb->getQuery()
+        return $this->getAllStationsPlaceQb()->getQuery()
             ->getResult();
     }
 

@@ -1,24 +1,29 @@
 {% extends 'AppBundle::nocol-layout.html.twig' %}
+{% form_theme form 'AppBundle:Form:fields.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets
+    '@AppBundle/Resources/public/css/datepicker.css'
+    '@AppBundle/Resources/public/css/font-awesome.css'
+    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css'
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
-
 {% endblock %}
+    {# '@AppBundle/Resources/public/js/date.js'
+    '@AppBundle/Resources/public/js/date-nl-BE.js'#}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
+    '@AppBundle/Resources/public/js/moment.min.js'
     '@AppBundle/Resources/public/js/addsymfonyprototype.js'
-    '@AppBundle/Resources/public/js/date.js'
-    '@AppBundle/Resources/public/js/date-nl-BE.js'
     '@AppBundle/Resources/public/js/jquery.easytabs.js'
     '@AppBundle/Resources/public/js/jquery.easytabs.min.js'
     '@AppBundle/Resources/public/js/periodPickerImplementation.js'
     '@AppBundle/Resources/public/js/remoteSpecimen.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js'
     '@AppBundle/Resources/public/js/validationImplementation.js'
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
     <script type="application/javascript" src="{{ asset_url }}"></script>
@@ -43,40 +48,43 @@
         var $onlyForDeadBox = $('.only-dead');
         var $onlyForDeadBox_requiredInputSelect = $onlyForDeadBox.find('[required="required"]');
         var $anyFieldIndicatingDeadness = $("#observationstype_osnType, .decomposition_code, .during_intervention");
-        var $multipleSpecimensFeedback=$('#multipleSpecimensFeedback');
-        var $existingSpecimenFeedback=$('#existingSpecimenFeedback');
-        var $circumstantialParametersFeedback=$('#circumstantialParametersFeedback');
-        var $sexBox=$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_sex');
-        var $scnInfo=$('#scnInfo');
+        var $multipleSpecimensFeedback = $('#multipleSpecimensFeedback');
+        var $existingSpecimenFeedback = $('#existingSpecimenFeedback');
+        var $circumstantialParametersFeedback = $('#circumstantialParametersFeedback');
+        var $sexBox = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_sex');
+        var $scnInfo = $('#scnInfo');
+        var $dateBox = $('#observationstype_eseSeqno_eventDatetime_date');
+        var $eventDatetime = $('#observationstype_eseSeqno_eventDatetime_time');
+        var $eventDatetimeFlag = $('#observationstype_eseSeqno_eventDatetimeFlag');
         var remoteSpecimen;
         var getRemoteScn = function (scnId) {
             $.ajax({
                 type: "GET",
-                url: "/ajax/scn/"+scnId,
+                url: "/ajax/scn/" + scnId,
                 dataType: "json",
-                async:false,
-                success: function(response) {
+                async: false,
+                success: function (response) {
                     console.log(response);
-                    remoteSpecimen=response;
+                    remoteSpecimen = response;
                 }
             });
         };
 
-        function instantiateRemoteSpecimen(){
+        function instantiateRemoteSpecimen() {
             var scnId = existingSpecimenChoiceField.val();
             if (/^[0-9]+$/.test(scnId)) {
                 getRemoteScn(scnId);
                 if (typeof remoteSpecimen !== 'undefined') {
-                    if(remoteSpecimen.found){
+                    if (remoteSpecimen.found) {
                         $scnInfo.html("");
-                        $scnInfo.append('Seqno: '+remoteSpecimen.seqno +'<br />');
-                        $scnInfo.append('Species: '+remoteSpecimen.species +'<br />');
-                        $scnInfo.append('Number: '+remoteSpecimen.scnNumber +'<br />');
-                        $scnInfo.append('Sex: '+remoteSpecimen.sex +'<br />');
-                        $scnInfo.append('RBINS Tag: '+remoteSpecimen.rbinsTag +'<br />');
-                        $scnInfo.append('MUMM Tag: '+remoteSpecimen.mummTag +'<br />');
+                        $scnInfo.append('Seqno: ' + remoteSpecimen.seqno + '<br />');
+                        $scnInfo.append('Species: ' + remoteSpecimen.species + '<br />');
+                        $scnInfo.append('Number: ' + remoteSpecimen.scnNumber + '<br />');
+                        $scnInfo.append('Sex: ' + remoteSpecimen.sex + '<br />');
+                        $scnInfo.append('RBINS Tag: ' + remoteSpecimen.rbinsTag + '<br />');
+                        $scnInfo.append('MUMM Tag: ' + remoteSpecimen.mummTag + '<br />');
                     }
-                    else{
+                    else {
                         $scnInfo.html("");
                         $scnInfo.html('The specimen was not found');
                     }
@@ -116,6 +124,22 @@
                 return valid || goBack;
             });
             stationSelector.select2();
+            $('[data-tooltip!=""]').qtip({
+                content: {
+                    attr: 'data-tooltip'
+                }
+            });
+            var options = {
+                dateFormat: 'dd/mm/yy',
+                showButtonPanel: true,
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1950, 1 - 1, 1)
+            };
+            $dateBox.datepicker(options);//.datepicker("setDate", Date.today());
+            $dateBox.val(moment().format('DD/MM/YYYY'));
+
+            newSpecimenNumberField.val(1);
 
             $('.prev-tab').click(function () {
                 var currTab;
@@ -183,9 +207,18 @@
                 hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
             });
 
+            $eventDatetimeFlag.change(function () {
+                var flagVal = $('#observationstype_eseSeqno_eventDatetimeFlag :selected').text();
+                if (flagVal === "time unknown") {
+                    $eventDatetime.val('12:00');
+                }
+            });
+
             var sfp1 = new SymfonyPrototype($('ul.e2p_observer'), $('<a href="#" id="add_observer">Add a person</a>'), '__observers_name__');
             sfp1.addAddLink();
             var sfp2 = new SymfonyPrototype($('ul.e2p_gatherer'), $('<a href="#" id="add_gatherer">Add a person</a>'), '__gatherers_name__');
+            sfp2.addAddLink();
+            var sfp2 = new SymfonyPrototype($('ul.e2p_informer'), $('<a href="#" id="add_informer">Add a person</a>'), '__informer_name__');
             sfp2.addAddLink();
 
             var validator = wholeForm.validate({
@@ -249,10 +282,10 @@
 
         function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
             var scnNumber = newSpecimenNumberField.val();
-            var remoteScnNumber=null;
+            var remoteScnNumber = null;
             if (typeof remoteSpecimen !== 'undefined') {
-                if(remoteSpecimen.found){
-                    remoteScnNumber=remoteSpecimen.scnNumber;
+                if (remoteSpecimen.found) {
+                    remoteScnNumber = remoteSpecimen.scnNumber;
                 }
             }
             if (scnNumber > 1 || remoteScnNumber > 1) {
@@ -266,7 +299,7 @@
                 return false;
             }
             if (scnNumber < 2) {
-                if(remoteScnNumber === null){
+                if (remoteScnNumber === null) {
                     fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
                     $sexBox.attr('required', 'required');
                 }
@@ -310,7 +343,7 @@
                 $onlyForDeadBox_requiredInputSelect.removeAttr('required');
                 $onlyForDeadBox.hide();
             }
-            else{
+            else {
                 $onlyForDeadBox_requiredInputSelect.attr('required', 'required');
                 $onlyForDeadBox.show();
             }
@@ -346,7 +379,7 @@
             deadByOsnType = ($.inArray(osnType, deadOsnTypes) != -1);
             var deadByDuringInterventionType = true;
             deadByDuringInterventionType = ($.inArray(duringIntervention, deadDuringInterventionTypes) != -1);
-            var dead=(deadByDuringInterventionType || deadByOsnType || decompositionCode > 1);
+            var dead = (deadByDuringInterventionType || deadByOsnType || decompositionCode > 1);
             return !dead;
         }
 
