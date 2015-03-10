@@ -52,6 +52,9 @@ AppBundle\Entity\ContainerLocalizations:
                      min: 1
                      max: 20
 AppBundle\Entity\EventStates:
+    getters:
+        eitherNecropsyOrObservationLegal:
+                - "True": { message: "An event cannot be connected to both a necropsy and an observation. Delete one of both." }
     properties:
         eventDatetime:
                 - NotBlank: ~
@@ -511,6 +514,13 @@ AppBundle\Entity\Samples:
                      min: 0
                      max: 10
 AppBundle\Entity\Spec2Events:
+    getters:
+        causeOfDeathLegal:
+            - "True": { message: "You have reported Cause of Death values, but this specimen is actually alive (as gathered by either observation type, events during observation or decomposition code) at the moment you report. Please correct either." }
+        causeOfDeathLegal2:
+            - "True": { message: "You did not report Cause of Death values, but this specimen is actually dead (as gathered by either observation type, events during observation or decomposition code) at the moment you report. Please correct either." }
+        lazarusLegal:
+            - "True": { message: "The attached specimen was already reported dead (chronologically). Dead specimens can't be observed again, in whatever state." }
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
                 fields: eseSeqno
@@ -582,8 +592,8 @@ AppBundle\Entity\SpecimenValues:
                 - "True": { message: "This value must be completed."}
         valueUnwantedLegal:
                 - "True": { message: "This value may not be provided for specimens that have been observed in group. Make separate observations if you wish to provide this value." }
-        valueUnwantedLegal2:
-                - "True": { message: "This value may not be provided for specimens that are alive." }
+#        valueUnwantedLegal2:
+#                - "True": { message: "This value may not be provided for specimens that are alive." }
     properties:
         pmdSeqno:
                 - NotBlank: ~

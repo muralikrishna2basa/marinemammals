@@ -275,8 +275,8 @@ class SpecimenValues implements EntityValues
      */
     public function getValueFlag()
     {
-        if($this->valueFlag === null ){
-            $a=5;
+        if ($this->valueFlag === null) {
+            $a = 5;
         }
         return $this->valueFlag;
     }
@@ -448,10 +448,10 @@ class SpecimenValues implements EntityValues
      *
      * @return boolean
      */
-    public function isValueUnwantedLegal2()
+    /*public function isValueUnwantedLegal2()
     {
         return !($this->isValueUnwanted2() && $this->getValue() !== null);
-    }
+    }*/
 
     /**
      * Get whether the value itself is unwanted. Determined dynamically based on
@@ -465,15 +465,10 @@ class SpecimenValues implements EntityValues
         $unwanted = false;
         $s2e = $this->getvalueAssignable();
         if ($s2e !== null) {
-            if ($s2e->getScnSeqno() !== null) {
-                $moment = $s2e->getEseSeqno()->getEventDatetime();
-                if ($moment) {
-                    $pertainingToDeath=$this->getPmdSeqno()->isCodParameter();
-                    $isAlive=$s2e->getScnSeqno()->isAliveAtMoment($moment);
-                    if ($pertainingToDeath && $isAlive) {
-                        $unwanted = true;
-                    }
-                }
+            $pertainingToDeath = $this->getPmdSeqno()->isCodParameter();
+            //$isAlive = ($s2e->associatedEntitiesIndicateAlive() === 1);
+            if ($pertainingToDeath /*&& $isAlive*/) {
+                $unwanted = true;
             }
         }
         return $unwanted;
@@ -494,5 +489,10 @@ class SpecimenValues implements EntityValues
     public function delete()
     {
         $this->getvalueAssignable()->removeValue($this);
+    }
+
+    public function isCodValue()
+    {
+        return $this->getPmdSeqno()->isCodParameter();
     }
 }

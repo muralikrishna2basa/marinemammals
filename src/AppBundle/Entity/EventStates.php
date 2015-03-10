@@ -80,6 +80,12 @@ class EventStates
     private $observation;
 
     /**
+     * @var \AppBundle\Entity\Necropsies
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Necropsies", mappedBy="eseSeqno")
+     */
+    private $necropsy;
+
+    /**
      * @var \AppBundle\Entity\ContainerLocalizations
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ContainerLocalizations")
@@ -532,6 +538,35 @@ class EventStates
         return $this;
     }
 
+    /**
+     * @return Necropsies
+     */
+    public function getNecropsy()
+    {
+        return $this->necropsy;
+    }
+
+    /**
+     * @param Necropsies $necropsy
+     * @return EventStates
+     */
+    public function setNecropsy($necropsy)
+    {
+        $this->necropsy = $necropsy;
+        return $this;
+    }
+
+    public function hasNecropsyAttached(){
+        return $this->getNecropsy() !== null;
+    }
+
+    public function hasObservationAttached(){
+        return $this->getObservation() !== null;
+    }
+
+    public function isEitherNecropsyOrObservationLegal(){
+        return ($this->hasNecropsyAttached() && !$this->hasObservationAttached()) || (!$this->hasNecropsyAttached() && $this->hasObservationAttached());
+    }
 
 //
 //    /**

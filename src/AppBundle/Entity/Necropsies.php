@@ -66,7 +66,7 @@ class Necropsies
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="necropsy")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })

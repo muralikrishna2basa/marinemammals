@@ -44,6 +44,10 @@ form div.radio label{
     content:"\f071";
 }
 
+.glyphicon-exclamation-sign{
+    content:"\f071";
+}
+
 .form-control-feedback{
     width:auto !important;
     height:auto !important;

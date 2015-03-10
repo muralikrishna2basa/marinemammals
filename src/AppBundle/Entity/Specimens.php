@@ -503,8 +503,57 @@ class Specimens
         } else return $this->getSex() !== null;
     }
 
-    public function AliveNow(){
+    public function aliveNow(){
         return $this->isAliveAtMoment(new \DateTime());
+    }
+
+    public function getSpec2eventAtTime(\DateTime $m){
+        foreach($this->getSpec2Events() as $s2e){
+           if($s2e->getEventDatetime()===$m){
+               return $s2e;
+           }
+        }
+    }
+
+    public function getAliveStatusReport(\AppBundle\Entity\Spec2Events $myS2e = null ){
+        $report=array();
+        if($myS2e !==  null){
+            $date=$myS2e->getEventDatetime()->format ('Y-m-d H:i:s');
+            $report[$date]=$myS2e->associatedEntitiesIndicateAlive();
+        }
+        foreach($this->getSpec2Events() as $s2e){
+            $date=$s2e->getEventDatetime()->format ('Y-m-d H:i:s');
+            $report[$date]=$s2e->associatedEntitiesIndicateAlive();
+        }
+        ksort($report,SORT_STRING);
+        return $report;
+    }
+
+    public function isLazarus($report, \AppBundle\Entity\Spec2Events $myS2e){
+        $myDate=$myS2e->getEventDatetime()->format ('Y-m-d H:i:s');
+        $myStatus=$report[$myDate];
+        if($myStatus===1){
+            foreach($report as $date=>$status){
+                if($myDate===$date){
+                    break;
+                }
+                if($status===0){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function isAliveBeforeMoment($report, \AppBundle\Entity\Spec2Events $myS2e){
+        $myDate=$myS2e->getEventDatetime()->format ('Y-m-d H:i:s');
+        $myStatus=$report[$myDate];
+        foreach($report as $date=>$status){
+            if($date < $myDate && $status===0){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -520,13 +569,14 @@ class Specimens
      */
     public function isAliveAtMoment(\DateTime $m)
     {
-        $ebefore = $this->getNearestEventAndSpec2EventsBefore($m);
+        return $this->getSpec2eventAtTime($m)->associatedSpecimenAlive();
+       /* $ebefore = $this->getNearestEventAndSpec2EventsBefore($m);
         $eseBefore = $ebefore['EventStates'];
         $seBefore = $ebefore['Spec2Events'];
         $osnTypeBefore = '';
         $t1 = new \DateTime();
-        $dcBefore = '';
-        $diBefore = '';
+        $decompBefore = '';
+        $duringInterventionBefore = '';
         $diBeforeAlive = -1;
         $dcBeforeAlive = -1;
 
@@ -538,7 +588,7 @@ class Specimens
             $t1 = $eseBefore->getEventDatetime();
         }
         if ($seBefore !== null) {
-            $svL=$seBefore->getValues();
+            //$svL=$seBefore->getValues();
             foreach ($seBefore->getValues() as $sv) {
                 if ($sv->getPmdName() === 'Decomposition Code') {
                     $dcBefore = $sv->getValue();
@@ -547,16 +597,18 @@ class Specimens
                     $diBefore = $sv->getValue();
                 }
             }
+            $decompBefore=$seBefore->getValueByKey('Decomposition Code');
+            $duringInterventionBefore=$seBefore->getValueByKey('During intervention');
         }
 
-        if (in_array($diBefore, array('died during intervention/rehab same day', 'euthanized'))) {
+        if (in_array($duringInterventionBefore, array('died during intervention/rehab same day', 'euthanized'))) {
             $diBeforeAlive = 0;
-        } elseif (in_array($diBefore, array('released alive', 'taken to rehab'))) {
+        } elseif (in_array($duringInterventionBefore, array('released alive', 'taken to rehab'))) {
             $diBeforeAlive = 1;
         }
-        if ($dcBefore == 1) {
+        if ($decompBefore == 1) {
             $dcBeforeAlive = 1;
-        } elseif ($dcBefore > 1) {$dcBeforeAlive = 0;}
+        } elseif ($decompBefore > 1) {$dcBeforeAlive = 0;}
         switch ($osnTypeBefore) {
             case '':
                 break;
@@ -568,7 +620,7 @@ class Specimens
             case 'B':
             case 'C':
             case 'CI':
-                if ($dcBefore > 1) {
+                if ($decompBefore > 1) {
                     return 0;
                 } else {
                     if ($t1 == $m) {
@@ -597,7 +649,7 @@ class Specimens
                 }
             default:
                 return -1;
-        }
+        }*/
     }
 
     private function refineUnknownCod($m)
