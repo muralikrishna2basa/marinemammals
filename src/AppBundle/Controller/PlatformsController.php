@@ -33,6 +33,6 @@ class PlatformsController extends Controller
 
             return $cp->createEntitiesAndRenderForm('true');
         }
-        return $cp->renderForm($form, 'false', $platforms);
+        return $cp->renderForm($form, $platforms,'false');
     }
 }

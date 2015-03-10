@@ -12,9 +12,14 @@ class PageController extends Controller
         return $this->render('AppBundle:Page:index.html.twig');
     }
     
-    public function aboutAction()
+    public function aboutObservationsAction()
     {
-    	return $this->render('AppBundle:Page:about.html.twig');
+    	return $this->render('AppBundle:Page:about-observations.html.twig');
+    }
+
+    public function aboutNecropsiesAction()
+    {
+        return $this->render('AppBundle:Page:about-necropsies.html.twig');
     }
 
 }

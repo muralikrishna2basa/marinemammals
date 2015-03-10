@@ -39,7 +39,7 @@ class StationsController extends Controller
                 return $cp->createEntitiesAndRenderForm('true', 'na');
 
             } else {
-                return $cp->renderForm($sform, $pform, 'false', 'na', $stations, $places);
+                return $cp->renderForm($sform, $stations, 'false', $pform, 'na', $places);
             }
         }
 
@@ -54,7 +54,7 @@ class StationsController extends Controller
                 return $cp->createEntitiesAndRenderForm('na', 'true');
 
             } else {
-                return $cp->renderForm($sform, $pform, 'na', 'false', $stations, $places);
+                return $cp->renderForm($sform, $stations, 'na', $pform, 'false', $places);
             }
         }
     }

@@ -9,10 +9,15 @@
 <div class="well subformcontainer">
     <p id="formerror" class="text-danger">
         {% if  success == 'false' %}
-    Validation failed for the whole form: please check all fields on all tabs with an error message.
-        {% endif %}
+        Validation failed upon submission. Please correct all fields on all tabs. The following errors were encountered:
     </p>
-    {{ dump(errors) }}
+    <ul>
+        {% for field,msg in errors %}
+            <li class="text-danger">{{ field }}: {{ msg }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     {% if success == 'true' %}
         <p id="formsuccess" class="text-success">This observation has been successfully changed in the database.</p>
     {% endif %}

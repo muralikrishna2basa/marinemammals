@@ -33,6 +33,6 @@ class SourcesController extends Controller
 
             return $cp->createEntitiesAndRenderForm('true');
         }
-        return $cp->renderForm($form, 'false', $sources);
+        return $cp->renderForm($form, $sources,'false');
     }
 }

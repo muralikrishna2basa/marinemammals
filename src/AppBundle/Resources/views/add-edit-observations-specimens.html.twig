@@ -137,9 +137,11 @@
                 minDate: new Date(1950, 1 - 1, 1)
             };
             $dateBox.datepicker(options);//.datepicker("setDate", Date.today());
-            $dateBox.val(moment().format('DD/MM/YYYY'));
-
+            if($dateBox.val()===''){
+                $dateBox.val(moment().format('DD/MM/YYYY'));
+            }
             newSpecimenNumberField.val(1);
+            $('.subformcontainer').next('.form-group').remove();
 
             $('.prev-tab').click(function () {
                 var currTab;

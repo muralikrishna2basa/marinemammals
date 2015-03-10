@@ -19,8 +19,7 @@ use Symfony\Component\Form\FormError;
 
 class ObservationsController extends Controller
 {
-
-    public function filterAction(Request $request)
+    private function generalFilterAction(Request $request, $page)
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations');
 
@@ -74,11 +73,10 @@ class ObservationsController extends Controller
         }
         $observations = $repo->getCompleteObservation();
         $paginatedEntities = $this->paginate($observations);
-        return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $paginatedEntities, 'form' => $form->createView()));
+        return $this->render($page, array('entities' => $paginatedEntities, 'form' => $form->createView()));
     }
 
-    public function indexAction()
-    {
+    private function generalIndexAction($page){
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $q = $em->getRepository('AppBundle:Observations')
@@ -86,7 +84,25 @@ class ObservationsController extends Controller
         $observations = $q->getResult();
         //$observations = $em->getRepository('AppBundle:Observations')->getCompleteObservation();
         $observations = $this->paginate($observations);
-        return $this->render('AppBundle:Page:list-observations.html.twig', array('entities' => $observations, 'form' => $form->createView()));
+        return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
+    }
+
+    public function mgmtIndexAction()
+    {
+        return $this->generalIndexAction('AppBundle:Page:mgmt-list-observations.html.twig');
+    }
+
+    public function mgmtFilterAction(Request $request){
+        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig');
+    }
+
+    public function indexAction()
+    {
+        return $this->generalIndexAction('AppBundle:Page:list-observations.html.twig');
+    }
+
+    public function filterAction(Request $request){
+        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig');
     }
 
     private function paginate($array)
@@ -179,19 +195,7 @@ class ObservationsController extends Controller
         }
         return $return;
     }
-
-    function array_flatten($array, $return)
-    {
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $return = $this->array_flatten($value, $return);
-            } elseif ($value) {
-                $return[$key] = $value;
-            }
-        }
-        return $return;
-    }
-
+    /*
     private function getErrorMessages(\Symfony\Component\Form\Form $form)
     {
         $errors = array();
@@ -209,7 +213,7 @@ class ObservationsController extends Controller
         }
 
         return $errors;
-    }
+    }*/
 
     private function persistOrRemoveEntityValue(EntityValues $ev, ValueAssignable $va)
     {
@@ -355,21 +359,5 @@ class ObservationsController extends Controller
             throw $this->createNotFoundException(sprintf('This observation does not exist: %s', $id));
         }
         return $observation;
-    }
-
-
-    public function testAction()
-    {
-        $t = new \AppBundle\Tests\Entity\ObservationValidationTest();
-        $to = $t->generateTestObject();
-
-        $validator = $this->get('validator');
-        $errors = $validator->validate($to['sv']);
-
-        if (count($errors) > 0) {
-            $errorsString = (string)$errors;
-            return new \Symfony\Component\HttpFoundation\Response($errorsString);
-        }
-        return new \Symfony\Component\HttpFoundation\Response('The observation is valid! Yes!');
     }
 }

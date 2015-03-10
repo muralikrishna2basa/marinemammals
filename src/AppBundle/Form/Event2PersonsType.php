@@ -22,6 +22,7 @@ class Event2PersonsType extends AbstractType
         $builder->add('psnSeqno', 'entity', array(
             'class' => 'AppBundle:Persons',
             'property' => 'fullyQualifiedName',
+            'label'=>'Person',
             'empty_value' => 'Select or leave empty...',
             'required' => false,
             'query_builder' => function (PersonsRepository $er) {

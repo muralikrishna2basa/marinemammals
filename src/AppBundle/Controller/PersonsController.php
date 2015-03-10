@@ -39,7 +39,7 @@ class PersonsController extends Controller
 
                 return $cp->createEntitiesAndRenderForm('true', 'na');
             } else {
-                return $cp->renderForm($pform, $iform, 'false', 'na', $persons, $institutes);
+                return $cp->renderForm($pform, $persons, 'false', $iform, $institutes, 'na');
             }
         }
 
@@ -54,7 +54,7 @@ class PersonsController extends Controller
 
                 return $cp->createEntitiesAndRenderForm('na', 'true');
             } else {
-                return $cp->renderForm($pform, $iform, 'na', 'false', $persons, $institutes);
+                return $cp->renderForm($pform, $persons, 'na', $iform, $institutes, 'false');
             }
         }
     }

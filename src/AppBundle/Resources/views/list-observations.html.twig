@@ -1,0 +1,49 @@
+{% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block stylesheets %}
+    {% stylesheets
+    '@AppBundle/Resources/public/css/datepicker.css'
+    '@AppBundle/Resources/public/css/tablesorter-blue.css'
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AppBundle/Resources/public/js/date-nl-BE.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
+    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
+    '@AppBundle/Resources/public/js/validationImplementation.js'
+    '@AppBundle/Resources/public/js/periodPickerImplementation.js'
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js'
+    'http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.18.4/js/jquery.tablesorter.min.js' %}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var $stationSelector = $('#observationsfiltertype_stnSeqno');
+        var $speciesSelector = $('#observationsfiltertype_txnSeqno');
+        var $containingDiv = $('#periodpicker');
+        var $table = $("#observationstable");
+        var $form = $("#observationfilterform");
+        $(document).ready(function () {
+            $stationSelector.select2();
+            $speciesSelector.select2();
+
+            var validator = $form.validate({
+                ignore: "",
+                rules: {
+                    "observationsfiltertype[eventDatetimeStart]": {dateBELogical: true, validDaterange: true},
+                    "observationsfiltertype[eventDatetimeStop]": {dateBELogical: true, validDaterange: true}
+                },
+                showErrors: function (errorMap, errorList) {
+                    $.each(this.validElements(), cleanError);
+                    $.each(errorList, createError);
+                }
+            });
+            $containingDiv.initPeriodPicker(1950);
+            $table.tablesorter({sortList: [[4, 1], [5, 0]], dateFormat: 'pt'});
+
+        });
+    </script>
+{% endblock %}
+

@@ -35,6 +35,6 @@ class TaxaController extends Controller
 
             return $cp->createEntitiesAndRenderForm('true');
         }
-        return $cp->renderForm($form, 'false', $taxa);
+        return $cp->renderForm($form, $taxa,'false');
     }
 }

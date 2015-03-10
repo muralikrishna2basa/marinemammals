@@ -3,10 +3,22 @@ mm_homepage:
     defaults: { _controller: AppBundle:Page:index }
     requirements:
         _method:  GET
+
+mm_homepage:
+    pattern:  /index
+    defaults: { _controller: AppBundle:Page:index }
+    requirements:
+        _method:  GET
         
-mm_about:
-    pattern:  /about
-    defaults: { _controller: AppBundle:Page:about }
+mm_observations_about:
+    pattern:  /observations/about
+    defaults: { _controller: AppBundle:Page:aboutObservations }
+    requirements:
+        _method:  GET
+
+mm_necropsies_about:
+    pattern:  /necropsies/about
+    defaults: { _controller: AppBundle:Page:aboutNecropsies }
     requirements:
         _method:  GET
 
@@ -16,102 +28,107 @@ mm_observations_index:
     requirements:
         _method:  GET
 
+mm_observations_mgmtindex:
+    pattern:  /mgmt/observations
+    defaults: { _controller: AppBundle:Observations:mgmtIndex }
+    requirements:
+        _method:  GET
+
 mm_observations_filter:
     pattern:  /observations/filtered
     defaults: { _controller: AppBundle:Observations:filter }
     requirements:
         _method:  GET
 
+mm_observations_mgmtfilter:
+    pattern:  /mgmt/observations/filtered
+    defaults: { _controller: AppBundle:Observations:mgmtFilter }
+    requirements:
+        _method:  GET
+
 mm_taxa_add_new:
-    pattern:  /taxa/add
+    pattern:  /mgmt/taxa/add
     defaults: { _controller: AppBundle:Taxa:new }
     requirements:
         _method:  GET
 
 mm_taxa_add_create:
-    pattern:  /taxa/add
+    pattern:  /mgmt/taxa/add
     defaults: { _controller: AppBundle:Taxa:create }
     requirements:
         _method:  POST
 
 mm_persons_add_new:
-    pattern:  /persons/add
+    pattern:  /mgmt/persons/add
     defaults: { _controller: AppBundle:Persons:new }
     requirements:
         _method:  GET
 
 mm_persons_add_create:
-    pattern:  /persons/add
+    pattern:  /mgmt/persons/add
     defaults: { _controller: AppBundle:Persons:create }
     requirements:
         _method:  POST
 
 mm_stations_add_new:
-    pattern:  /stations/add
+    pattern:  /mgmt/stations/add
     defaults: { _controller: AppBundle:Stations:new }
     requirements:
         _method:  GET
 
 mm_stations_add_create:
-    pattern:  /stations/add
+    pattern:  /mgmt/stations/add
     defaults: { _controller: AppBundle:Stations:create }
     requirements:
         _method:  POST
 
 mm_platforms_add_new:
-    pattern:  /platforms/add
+    pattern:  /mgmt/platforms/add
     defaults: { _controller: AppBundle:Platforms:new }
     requirements:
         _method:  GET
 
 mm_platforms_add_create:
-    pattern:  /platforms/add
+    pattern:  /mgmt/platforms/add
     defaults: { _controller: AppBundle:Platforms:create }
     requirements:
         _method:  POST
 
 mm_sources_add_new:
-    pattern:  /sources/add
+    pattern:  /mgmt/sources/add
     defaults: { _controller: AppBundle:Sources:new }
     requirements:
         _method:  GET
 
 mm_sources_add_create:
-    pattern:  /sources/add
+    pattern:  /mgmt/sources/add
     defaults: { _controller: AppBundle:Sources:create }
     requirements:
         _method:  POST
 
 mm_observations_add_new:
-    pattern:  /observations/add
+    pattern:  /mgmt/observations/add
     defaults: { _controller: AppBundle:Observations:new }
     requirements:
         _method:  GET
 
 mm_observations_add_create:
-    pattern:  /observations/add
+    pattern:  /mgmt/observations/add
     defaults: { _controller: AppBundle:Observations:create }
     requirements:
         _method:  POST
 
 mm_observations_edit:
-    pattern:  /observations/update/{id}
+    pattern:  /mgmt/observations/update/{id}
     defaults: { _controller: AppBundle:Observations:edit }
     requirements:
         _method:  GET
 
 mm_observations_update:
-    pattern:  /observations/update/{id}
+    pattern:  /mgmt/observations/update/{id}
     defaults: { _controller: AppBundle:Observations:update }
     requirements:
         _method:  POST
-
-
-mm_observations_test:
-    pattern:  /observations/test
-    defaults: { _controller: AppBundle:Observations:test }
-    requirements:
-        _method:  GET
 
 mm_ajax_scnNumber:
     pattern:  /ajax/scnnumber/{id}

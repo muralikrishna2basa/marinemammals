@@ -110,6 +110,9 @@ AppBundle\Entity\Groups:
                      min: 1
                      max: 30
 AppBundle\Entity\Institutes:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: code
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
     properties:
         code:
                 - NotBlank: ~
@@ -382,6 +385,9 @@ AppBundle\Entity\Person2Requests:
                      min: 0
                      max: 50
 AppBundle\Entity\Persons:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+                fields: [lastName, firstName]
     properties:
         lastName:
                 - NotNull: ~
@@ -435,6 +441,8 @@ AppBundle\Entity\Persons:
                      min: 0
                      max: 32
 AppBundle\Entity\Places:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
     properties:
         name:
                 - NotBlank: ~
@@ -450,6 +458,8 @@ AppBundle\Entity\Places:
                      max: 50
                 - AppBundle\Validator\Constraints\LegalPlaceType: ~
 AppBundle\Entity\Platforms:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
     properties:
         name:
                 - NotBlank: ~
@@ -645,6 +655,8 @@ AppBundle\Entity\Stations:
                 - NotNull: { groups: [StationCreation] }
                 - AppBundle\Validator\Constraints\DecimalLongitude: { groups: [StationCreation] }
 AppBundle\Entity\Sources:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
     properties:
         name:
                 - NotBlank: ~
