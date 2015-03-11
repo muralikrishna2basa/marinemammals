@@ -30,7 +30,8 @@
         "twig/extensions":"1.2.0",
         "twig/twig":"1.16.2",
         "knplabs/knp-paginator-bundle": "~2.4",
-	"lexik/form-filter-bundle": "3.*@dev"
+	"lexik/form-filter-bundle": "3.*@dev",
+                "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "autoload": {
 	"psr-0": {"AppBundle": "src/"}

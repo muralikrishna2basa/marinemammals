@@ -14,6 +14,17 @@
     {% endjavascripts %}
     <script>
         $(document).ready(function () {
+            var $sticky = $('.sticky');
+            if($sticky.length > 0) {
+                var stickyTop = $sticky.offset().top;
+                $(window).scroll(function () {
+                    var windowTop = $(window).scrollTop(); // returns number
+                    if (stickyTop < windowTop)
+                        $sticky.css({position: 'fixed', top: 0});
+                    else
+                        $sticky.css('position', 'static');
+                });
+            }
             $('#toc').toc({
                 'selectors': 'h3,h4', //elements to use as headings
                 'container': '.about_necropsies', //element to find all selectors in
@@ -48,10 +59,11 @@
               <li><a href='#autopsy_7'>References</a></li>
           </ul>
       </div>#}
-    <div id="toc"></div>
+    <h3>Table of contents</h3>
+    <div id="toc" class="sticky"></div>
 {% endblock sidebar %}
 {% block mainbar %}
-<div class="about_necropsies">
+<div class="about_necropsies has-toc">
             <h3>Introduction</h3>
 
             <p>Single or mass strandings of whales and dolphins have always intrigued people and must have occurred
@@ -322,7 +334,7 @@
                 beaked whales who present the tympanic-periotic complex partially fused to the temporal
                 bone.</p>
 
-            <p>Figure 1.- Tympanic- periotic complex of a Stenella coeruleoalba stranded in Almeria,
+            <p>Figure 1.- Tympanic- periotic complex of a <i>Stenella coeruleoalba</i> stranded in Almeria,
                 Spain. Sample provided by Promar</p>
 
             <h5>Extraction</h5>
@@ -345,7 +357,7 @@
             <li><p>3.- Situating the head in a ventral position and removing the soft tissues and ligaments
                 (Figure 4) allows to proceed to the tympanic-periotic complex extraction.</p>
 
-            <p>Figure 4.- Image taken during the necropsy of a Phocoena phocoena . This image reflects
+            <p>Figure 4.- Image taken during the necropsy of a <i>Phocoena phocoena</i>. This image reflects
                 how the tympanic-periotic complex appears after removing the lower jaw (no effort has
                 been made here to clean the area of extraction)</p></li>
 
@@ -353,7 +365,7 @@
                 be used for the final stage of the extraction) to cut the ligaments that mantain the
                 ears in the paraotic sinus (see Figure 5).</p>
 
-            <p>Figure 5.- Image taken during a Phocoena phocoena necropsy. The dotted line illustrates
+            <p>Figure 5.- Image taken during a <i>Phocoena phocoena</i> necropsy. The dotted line illustrates
                 the location where the knife should be placed to extract the tympanic-periotic
                 complex.</p></li>
                 </ul>
@@ -362,7 +374,7 @@
 <ul>
             <li><p>5a.- At that stage, the ear could be fixed simply placing it in a fixative solution:
                 glutaraldehyde 2,5% with phosphate buffer 0,1M 2 or a mixture of paraformaldehyde 0,5%
-                with glutaraldehyde 1% with phosphate buffer 0,1M 3 . If the mentioned fixative
+                with glutaraldehyde 1% with phosphate buffer 0,1M 3. If the mentioned fixative
                 solutions are lacking, the tissues can be also fixed with formaldehyde 10%.</p>
 
             <p>However, for a better result we recommend to follow the protocol described in point
@@ -835,7 +847,7 @@
                 thoracic cavity is opened by cutting a window between two ribs. This may allow
                 visual examination and palpation of a very small part of one lung.)</p>
 
-            <p>In the thoracic cavity, organs are not easily examined in situ . Depending on
+            <p>In the thoracic cavity, organs are not easily examined in situ. Depending on
                 circumstance, it may be usefull to remove the respiratory systems with the heart
                 and major blood vessels from the thoracic cavity. Otherwise, examination and
                 sampling are performed in the cavity.</p>
@@ -877,7 +889,7 @@
             <p>4.5. Brain or central nervous system tissue</p>
 
             <p>For the transportation of animal to process plant (carcasses disposal), the body
-                is usually cut in 2 or more pieces . It is possible to collect brain tissue
+                is usually cut in 2 or more pieces. It is possible to collect brain tissue
                 (histopathology, virology) through the occiputal formen once the head is
                 detached (classical technique on sperm whale). It is possible to obtain the
                 spinal cord when body is cut elsewhere.</p>
@@ -912,7 +924,7 @@
                 d'autopsie. Annales de M&eacute;decine V&eacute;t&eacute;rinaire, 2002, 146,
                 261-276.</p>
 
-            <p>Jauniaux T., Bouquegneau J.-M. & Coignoul F . eds, Marine Mammals, Seabirds
+            <p>Jauniaux T., Bouquegneau J.-M. & Coignoul F. eds, Marine Mammals, Seabirds
                 and Pollution of Marine Systems, Presse de la Facult&eacute; de M&eacute;decine
                 V&eacute;t&eacute;rinaire, Universit&eacute; de Li&egrave;ge, Li&egrave;ge,
                 1997.</p>
@@ -934,5 +946,4 @@
                 stranding workshop, NOAA technical report NMFS 98, U.S. Department of
                 commerce, 1991. </p>
         </div>
-    </div>
 {% endblock %}

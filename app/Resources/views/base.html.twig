@@ -94,6 +94,15 @@
                                     <li><a href="/mgmt/sources/add">Sources</a></li>
                                 </ul>
                             </li>
+                          {#{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <li><a href="/mgmt/login">Login</a></li>
+                            {% endif %}#}
+                            {% if not app.user %}
+                                <li><a href="/mgmt/login">Login</a></li>
+                            {% endif %}
+                            {% if app.user %}
+                                <li><a href="/mgmt/logout">Logout</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 {% endblock %}

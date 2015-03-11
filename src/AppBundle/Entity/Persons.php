@@ -168,6 +168,12 @@ class Persons
     private $person2Requests;
 
     /**
+     * @var \AppBundle\Entity\Users
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Users", mappedBy="person")
+     */
+    private $user;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -648,7 +654,23 @@ class Persons
         return $this;
     }
 
+    /**
+     * @return Users
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 
+    /**
+     * @param Users $user
+     * @return Persons
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
 
     /**
      * Get fullyQualifiedName
