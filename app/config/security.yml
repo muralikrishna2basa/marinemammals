@@ -10,7 +10,9 @@ security:
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_AUTOPSY_MGR, ROLE_OBSERVATION_MGR, ROLE_SAMPLE_MGR, ROLE_USER]
+        ROLE_AUTOPSY_MGR: [ROLE_SAMPLE_MGR, ROLE_USER]
+        ROLE_OBSERVATION_MGR: ROLE_USER
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
@@ -32,28 +34,25 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login:
-            pattern: ^/mgmt/login$
-            #anonymous: ~
-            security: false
         main:
-            pattern: ^$|^/$
+            pattern:    ^/
             anonymous: ~
-            #security: false
-        admin:
-            anonymous: false
-            pattern: ^$|^/$ #^/mgmt
-            provider: user_db
             form_login:
-                login_path: mm_login
-                check_path: mm_login_check
+                check_path: /login_check
+                login_path: /login
             logout:
-                path:   /logout #/mgmt/logout
+                path:   /logout
                 target: /
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/book/security.html#security-book-access-control-matching-options
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^$|^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mgmt/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mgmt, roles: ROLE_ADMIN }
+        - { path: ^/tissuebank, roles: ROLE_ADMIN }
+        - { path: ^/tissuebank, roles: ROLE_USER }
+        - { path: ^/mgmt/necropsies/add, roles: ROLE_AUTOPSY_MGR }
+        - { path: ^/mgmt/observations/add, roles: ROLE_OBSERVATION_MGR }
+        - { path: ^/mgmt/observations/import, roles: ROLE_OBSERVATION_MGR }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
