@@ -28,12 +28,7 @@ class ObservationsController extends Controller
         if ($request->query->has($form->getName())) {
             // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
-            if($excludeConfidential){
-                $filterBuilder = $repo->getCompleteObservationsQbExcludeConfidential();
-            }
-            else{
-                $filterBuilder = $repo->getCompleteObservationsQb();
-            }
+            $filterBuilder = $repo->getCompleteObservationsQb();
             $fd = $form->getData();
             $eventDatetimeStart = $fd['eventDatetimeStart'];
             $eventDatetimeStop = $fd['eventDatetimeStop'];
@@ -66,6 +61,10 @@ class ObservationsController extends Controller
             $q = $filterBuilder->getQuery();
             $filteredEntities = $q->getResult();
 
+            if ($excludeConfidential) {
+                $filteredEntities=$this->excludeConfidentialObservations($filteredEntities);
+            }
+
             $filteredAndPaginatedEntities = $this->paginate($filteredEntities);
             return $this->render('AppBundle:Page:list-observations.html.twig', array(
                 'entities' => $filteredAndPaginatedEntities, 'form' => $form->createView()
@@ -76,33 +75,43 @@ class ObservationsController extends Controller
         return $this->render($page, array('entities' => $paginatedEntities, 'form' => $form->createView()));
     }
 
-    private function generalIndexAction($page, $excludeConfidential){
+    private function excludeConfidentialObservations($observations){
+        return array_filter($observations, function ($o) {
+            return $o->getIsconfidential() === null;
+        });
+    }
+
+    private function generalIndexAction($page, $excludeConfidential,$excludeNonBelgian){
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $q = $em->getRepository('AppBundle:Observations')
             ->getCompleteObservationsQb()->getQuery();
         $observations = $q->getResult();
-        //$observations = $em->getRepository('AppBundle:Observations')->getCompleteObservations();
+
+        if ($excludeConfidential) {
+            $observations=$this->excludeConfidentialObservations($observations);
+        }
+
         $observations = $this->paginate($observations);
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
     }
 
     public function mgmtIndexAction()
     {
-        return $this->generalIndexAction('AppBundle:Page:mgmt-list-observations.html.twig');
+        return $this->generalIndexAction('AppBundle:Page:mgmt-list-observations.html.twig',false,false);
     }
 
     public function mgmtFilterAction(Request $request){
-        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig',false);
+        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig',false,false);
     }
 
     public function indexAction()
     {
-        return $this->generalIndexAction('AppBundle:Page:list-observations.html.twig');
+        return $this->generalIndexAction('AppBundle:Page:list-observations.html.twig',true,true);
     }
 
     public function filterAction(Request $request){
-        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true);
+        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true,true);
     }
 
     private function paginate($array)
