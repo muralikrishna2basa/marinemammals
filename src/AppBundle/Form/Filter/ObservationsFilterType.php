@@ -5,10 +5,9 @@ namespace AppBundle\Form\Filter;
 use AppBundle\Entity\Repository\TaxaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use AppBundle\Form\ChoiceList\CountryList;
+use AppBundle\Form\ChoiceList\CgRefChoiceList;
 use AppBundle\Entity\Repository\StationsRepository;
 use AppBundle\Form\ChoiceList\StationsTypeList;
-use AppBundle\Form\ChoiceList\TaxaList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ObservationsFilterType extends AbstractType
@@ -32,14 +31,14 @@ class ObservationsFilterType extends AbstractType
             'input'  => 'datetime',
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy'));
-        $builder->add('country', 'filter_choice', array(
+        $builder->add('osnType', 'filter_choice', array(
             'required' => false,
-            'empty_value' => 'Country...',
-            'choice_list' => new CountryList($this->doctrine)
+            'empty_value' => 'Observations type...',
+            'choice_list' => new CgRefChoiceList($this->doctrine, 'OSN_TYPE')
         ));
-        $builder->add('stationtype', 'filter_choice', array(
+        $builder->add('stationstype', 'filter_choice', array(
             'required' => false,
-            'empty_value' => 'Station location...',
+            'empty_value' => 'Location type...',
             'choice_list' => new StationsTypeList($this->doctrine)
         ));
         $builder->add('stnSeqno', 'filter_entity', array(

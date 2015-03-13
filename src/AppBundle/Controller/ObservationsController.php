@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormError;
 
 class ObservationsController extends Controller
 {
-    private function generalFilterAction(Request $request, $page)
+    private function generalFilterAction(Request $request, $page, $excludeConfidential)
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations');
 
@@ -28,22 +28,27 @@ class ObservationsController extends Controller
         if ($request->query->has($form->getName())) {
             // manually bind values from the request
             $form->submit($request->query->get($form->getName()));
-            $filterBuilder = $repo->getCompleteObservationQb();
+            if($excludeConfidential){
+                $filterBuilder = $repo->getCompleteObservationsQbExcludeConfidential();
+            }
+            else{
+                $filterBuilder = $repo->getCompleteObservationsQb();
+            }
             $fd = $form->getData();
             $eventDatetimeStart = $fd['eventDatetimeStart'];
             $eventDatetimeStop = $fd['eventDatetimeStop'];
-            $country = $fd['country'];
-            $stationtype = $fd['stationtype'];
+            $stationstype = $fd['stationstype'];
             $stn = $fd['stnSeqno'];
             $txn = $fd['txnSeqno'];
+            $osnType = $fd['osnType'];
             if ($eventDatetimeStart && $eventDatetimeStop) {
                 $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
                 $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
                 $filterBuilder->setParameter('eventDatetimeStop', $eventDatetimeStop);
             }
-            if ($stationtype) {
+            if ($stationstype) {
                 $filterBuilder->andWhere('st.areaType=:areaType');
-                $filterBuilder->setParameter('areaType', $stationtype);
+                $filterBuilder->setParameter('areaType', $stationstype);
             }
             if ($stn) {
                 $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
@@ -53,36 +58,31 @@ class ObservationsController extends Controller
                 $filterBuilder->andWhere('t.canonicalName=:canonicalName');
                 $filterBuilder->setParameter('canonicalName', $txn->getCanonicalName());
             }
+            if ($osnType) {
+                $filterBuilder->andWhere('o.osnType=:osnType');
+                $filterBuilder->setParameter('osnType', $osnType);
+            }
             //$this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $q = $filterBuilder->getQuery();
             $filteredEntities = $q->getResult();
 
-            //$filteredEntities = $repo->removeDoubles($filterBuilder->getQuery()->getResult());
-            if ($country) {
-                $filteredEntities = array_filter($filteredEntities, function ($e) use ($country) {
-                    if ($e->getStnSeqno() !== null) {
-                        return $e->getStnSeqno()->getCountry() === $country;
-                    } else return false;
-
-                });
-            }
             $filteredAndPaginatedEntities = $this->paginate($filteredEntities);
             return $this->render('AppBundle:Page:list-observations.html.twig', array(
                 'entities' => $filteredAndPaginatedEntities, 'form' => $form->createView()
             ));
         }
-        $observations = $repo->getCompleteObservation();
+        $observations = $repo->getCompleteObservations();
         $paginatedEntities = $this->paginate($observations);
         return $this->render($page, array('entities' => $paginatedEntities, 'form' => $form->createView()));
     }
 
-    private function generalIndexAction($page){
+    private function generalIndexAction($page, $excludeConfidential){
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $q = $em->getRepository('AppBundle:Observations')
-            ->getCompleteObservationQb()->getQuery();
+            ->getCompleteObservationsQb()->getQuery();
         $observations = $q->getResult();
-        //$observations = $em->getRepository('AppBundle:Observations')->getCompleteObservation();
+        //$observations = $em->getRepository('AppBundle:Observations')->getCompleteObservations();
         $observations = $this->paginate($observations);
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
     }
@@ -93,7 +93,7 @@ class ObservationsController extends Controller
     }
 
     public function mgmtFilterAction(Request $request){
-        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig');
+        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig',false);
     }
 
     public function indexAction()
@@ -102,7 +102,7 @@ class ObservationsController extends Controller
     }
 
     public function filterAction(Request $request){
-        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig');
+        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true);
     }
 
     private function paginate($array)
@@ -195,25 +195,6 @@ class ObservationsController extends Controller
         }
         return $return;
     }
-    /*
-    private function getErrorMessages(\Symfony\Component\Form\Form $form)
-    {
-        $errors = array();
-
-        if ($form->count() > 0) {
-            foreach ($form->getIterator() as $child) {
-                if (!$child->isValid()) {
-                    $errors[$child->getName()] = $this->getErrorMessages($child);
-                }
-            }
-        } else {
-            foreach ($form->getErrors(true, false) as $key => $error) {
-                $errors[$key] = $error->getMessage();
-            }
-        }
-
-        return $errors;
-    }*/
 
     private function persistOrRemoveEntityValue(EntityValues $ev, ValueAssignable $va)
     {
