@@ -3,11 +3,8 @@
 <h3>Sources</h3>
 
 <div class="form-inline">
-    {{ form_row(form.singleSource, {'label':'Source'}) }}
-</div>
-<div class="form-inline">
-    {{ form_row(form.pfmSeqno, {'label':'Platform'}) }}
-</div>
+    {{ form_row(form.singleSource, {'label':'Source'}) }}<a href="/mgmt/sources/add">Add new Source</a></div>
+<a href="/mgmt/persons/add">Add new Person</a>
 <h4>Informed by</h4>
 <ul class="e2p_informer" data-prototype="{{ form_widget(form.eseSeqno.informers.vars.prototype)|e }}">
     {% for e2p_informer in form.eseSeqno.informers %}

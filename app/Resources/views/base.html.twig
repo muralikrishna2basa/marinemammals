@@ -78,14 +78,14 @@
                             <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">About<span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/observations/about">Observations and strandings</a></li>
+                                    <li><a href="/observations/about">Strandings and observations</a></li>
                                     <li><a href="/necropsies/about">Necropsies</a></li>
                                 </ul>
                             </li>
-                            <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Browse<span
+                            <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Browse data<span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/observations">Observations</a></li>
+                                    <li><a href="/observations">Strandings and observations</a></li>
                                     {% if is_granted('ROLE_USER') %}
                                         <li><a href="/tissuebank">Tissue bank</a></li>
                                     {% endif %}
@@ -221,12 +221,14 @@
     {% endblock %}
 </footer>
 <a href="#" class="scrollup">Scroll</a> {% block javascripts %}
-    <script type="application/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script type="application/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-    <script type="application/javascript"
-            src="http://www.odnature.be/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="application/javascript"
-            src="http://www.odnature.be/js/odnature/global.js"></script>
+    {% javascripts
+    'http://code.jquery.com/jquery-1.11.2.min.js'
+    'http://code.jquery.com/ui/1.11.2/jquery-ui.js'
+    'http://www.odnature.be/bootstrap/dist/js/bootstrap.min.js'
+    'http://www.odnature.be/js/odnature/global.js'
+    %}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 </body>

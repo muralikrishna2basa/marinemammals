@@ -260,7 +260,7 @@ class ObservationsController extends Controller
         $event2Persons2->setE2pType(EventStates::INFORMED);
         $event->getEvent2Persons()->add($event2Persons2);
 
-        $evcfoc = new EntityValuesCollectionAtCreation($this->getDoctrine()->getManager());
+        $evcfoc = new EntityValuesCollectionAtObservationCreation($this->getDoctrine()->getManager());
 
         $evcfoc->allObservationValues->supplementEntityValues($observation);
 
@@ -350,7 +350,7 @@ class ObservationsController extends Controller
     private function loadObservation($id)
     {
         $observation = $this->getDoctrine()->getRepository('AppBundle:Observations')->find($id);
-        $evc = new EntityValuesCollectionAtUpdate($this->getDoctrine()->getManager());
+        $evc = new EntityValuesCollectionAtObservationUpdate($this->getDoctrine()->getManager());
         $evc->allObservationValues->supplementEntityValues($observation);
         $s2e = $observation->getEseSeqno()->getSpec2Events();
         $evc->allSpecimenValues->supplementEntityValues($s2e);

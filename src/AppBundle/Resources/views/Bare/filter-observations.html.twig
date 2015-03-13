@@ -4,9 +4,8 @@
         <legend>Search observations</legend>
         <div class="form-inline">
             <h4>Date</h4><div id="periodpicker" name="periodpicker">{{ form_row(form.eventDatetimeStart, {'label':'Date start', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}{{ form_row(form.eventDatetimeStop, {'label':'Date end', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}</div>
-            {{ form_row(form.country, {'label':'Country'}) }}
-            <h4>Location</h4>{{ form_row(form.stationtype, {'label':'Station general location'}) }}
-            {{ form_row(form.stnSeqno, {'label':'Station'}) }}
+            <h4>Location</h4>{{ form_row(form.stationtype, {'label':'Location'}) }}
+            {{ form_row(form.stnSeqno, {'label':'Location'}) }}
             <h4>Species</h4>{{ form_row(form.txnSeqno, {'label':'Species'}) }}
         </div>
     </fieldset>

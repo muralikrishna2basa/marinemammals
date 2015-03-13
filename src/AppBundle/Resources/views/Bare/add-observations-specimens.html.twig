@@ -7,8 +7,9 @@
     <li class="tab"><a href="#tab-5">Sources and media</a></li>
 </ul>
 <div class="well subformcontainer">
-    <p id="formerror" class="text-danger">
-        {% if  success == 'false' %}
+    <p id="formerror_clientside" class="text-danger"></p>
+    {% if  success == 'false' %}
+    <p id="formerror_onsubmit" class="text-danger">
         Validation failed upon submission. Please correct all fields on all tabs. The following errors were encountered:
     </p>
     <ul>
@@ -17,10 +18,8 @@
         {% endfor %}
     </ul>
     {% endif %}
-
-
     {% if success == 'true' %}
-        <p id="formsuccess" class="text-success">This observation has been successfully added to the database. You can
+        <p id="formsuccess_onsubmit" class="text-success">This observation has been successfully added to the database. You can
             create a new one if you want.</p>
     {% endif %}
     <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>

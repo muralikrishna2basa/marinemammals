@@ -1,8 +1,8 @@
 #toc {
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    position: fixed;
+    /*top: 0px;
+   left: 0px;
+   height: 100%;
+  position: fixed;*/
     background: #ECF3F4;
     box-shadow: 0px 0px 15px -6px rgba(0, 0, 0, 0.1) inset;
     width: 200px;
@@ -44,4 +44,8 @@
 #toc .toc-active {
     background: #336699;
     box-shadow: inset -5px 0px 10px -5px #000;
+}
+
+.has-toc{
+    margin-bottom:200px;
 }

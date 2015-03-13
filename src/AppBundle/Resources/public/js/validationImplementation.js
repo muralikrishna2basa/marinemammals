@@ -48,7 +48,7 @@ $.validator.addMethod("validStation", function (value) {
     return stationOrCoord(value, latDecField.val(), lonDecField.val());
 }, 'Please provide either a valid coordinate or a station, or both');
 
-function validateContainer($container, validator) {
+function validateContainer($container, validator,$clientSideErrors) {
     var id=$container.attr('id');
     var $elements = $('#' + id + ' :input');
     var valid = true;
@@ -61,11 +61,11 @@ function validateContainer($container, validator) {
         }
     });
     if (!valid) {
-        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message. The following elements are invalid: "+badId.join("<br />"));
+        $clientSideErrors.html("Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message. The following elements are invalid: <br />"+badId.join("<br />"));
     }
     else{
-        $('#formerror').html("");
-    }
+        $clientSideErrors.html('');
+        }
     return valid;
 }
 

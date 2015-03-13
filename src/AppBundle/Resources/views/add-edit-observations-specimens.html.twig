@@ -31,7 +31,6 @@
     <script type="application/javascript">
         var $tabs = $('.tab');
         var wholeForm = $('#observationform');
-        var $wholeFormErrors = $('#formerror');
         var $currentTab = $("a[href='tab-1']").parent();
         var $currentPanel = $('#tab-1');
         var $previousTab;
@@ -56,6 +55,7 @@
         var $dateBox = $('#observationstype_eseSeqno_eventDatetime_date');
         var $eventDatetime = $('#observationstype_eseSeqno_eventDatetime_time');
         var $eventDatetimeFlag = $('#observationstype_eseSeqno_eventDatetimeFlag');
+        var $pathologyValues=$("select[id*='pathologyValues']");
         var remoteSpecimen;
         var getRemoteScn = function (scnId) {
             $.ajax({
@@ -92,11 +92,22 @@
             }
         }
 
+        function makelist(list,$element){
+            var listElement = document.createElement("ul");
+            var numberOfListItems = list.length;
+            for( var i =  0 ; i < numberOfListItems ; ++i){
+                var listItem = document.createElement("li");
+                listItem.innerHTML = list[i];
+                listElement.appendChild(listItem);
+            }
+            $element.append(listElement);
+        }
+
         $(document).ready(function () {
 
             $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
-            $('#formsuccess').delay(200000).hide();
+            //$('#formsuccess').delay(200000).hide();
             instantiateRemoteSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
             hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
@@ -109,17 +120,15 @@
                 var $currentTab = $(this).find('li.active');
                 var $currentPanel = $(this).find('fieldset.active');
                 var goBack = destTab.parent().isBefore($currentTab); //destTab is actually the anchor
-                var valid = validateContainer($currentPanel, validator);
+                var $clientSideErrors = $('#formerror_clientside');
+                var valid = validateContainer($currentPanel, validator,$clientSideErrors);
 
                 if (valid) {
-                    $wholeFormErrors.html = '';
+                    $clientSideErrors.html = '';
                     $previousTab = $currentTab;
                     $previousPanel = $currentPanel;
                     $currentTab = destTab;
                     $currentPanel = destPanel;
-                }
-                else {
-                    $tabs.not($currentTab).not($previousTab).addClass('disabled');
                 }
                 return valid || goBack;
             });
@@ -304,9 +313,10 @@
                 if (remoteScnNumber === null) {
                     fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
                     $sexBox.attr('required', 'required');
-                }
+                                    }
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
                 $multipleSpecimensFeedback.hide();
+                $pathologyValues.prop('selectedIndex', 2);
                 return false;
             }
         }

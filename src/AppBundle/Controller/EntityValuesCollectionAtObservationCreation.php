@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ObservationValues;
 use AppBundle\Entity\SpecimenValues;
 
-class EntityValuesCollectionAtCreation
+class EntityValuesCollectionAtObservationCreation
 {
 
     public function __construct($em)
