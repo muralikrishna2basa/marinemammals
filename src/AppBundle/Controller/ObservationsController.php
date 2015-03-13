@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormError;
 
 class ObservationsController extends Controller
 {
-    private function generalFilterAction(Request $request, $page, $excludeConfidential)
+    private function generalFilterAction(Request $request, $page, $excludeConfidential,$excludeNonBelgian)
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations');
 
@@ -57,31 +57,45 @@ class ObservationsController extends Controller
                 $filterBuilder->andWhere('o.osnType=:osnType');
                 $filterBuilder->setParameter('osnType', $osnType);
             }
-            //$this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $q = $filterBuilder->getQuery();
-            $filteredEntities = $q->getResult();
+            $observations = $q->getResult();
 
             if ($excludeConfidential) {
-                $filteredEntities=$this->excludeConfidentialObservations($filteredEntities);
+                $observations = $this->excludeConfidentialObservations($observations);
             }
 
-            $filteredAndPaginatedEntities = $this->paginate($filteredEntities);
+            if ($excludeNonBelgian) {
+                $observations = $this->excludeNonBelgianObservations($observations);
+            }
+
+            $observations = $this->paginate($observations);
             return $this->render('AppBundle:Page:list-observations.html.twig', array(
-                'entities' => $filteredAndPaginatedEntities, 'form' => $form->createView()
+                'entities' => $observations, 'form' => $form->createView()
             ));
         }
         $observations = $repo->getCompleteObservations();
-        $paginatedEntities = $this->paginate($observations);
-        return $this->render($page, array('entities' => $paginatedEntities, 'form' => $form->createView()));
+        $observations = $this->paginate($observations);
+        return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
     }
 
-    private function excludeConfidentialObservations($observations){
+    private function excludeConfidentialObservations($observations)
+    {
         return array_filter($observations, function ($o) {
             return $o->getIsconfidential() === null;
         });
     }
 
-    private function generalIndexAction($page, $excludeConfidential,$excludeNonBelgian){
+    private function excludeNonBelgianObservations($observations)
+    {
+        return array_filter($observations, function ($e) {
+            if ($e->getStnSeqno() !== null) {
+                return $e->getStnSeqno()->getCountry() === 'BE';
+            } else return false;
+        });
+    }
+
+    private function generalIndexAction($page, $excludeConfidential, $excludeNonBelgian)
+    {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()));
         $q = $em->getRepository('AppBundle:Observations')
@@ -89,29 +103,33 @@ class ObservationsController extends Controller
         $observations = $q->getResult();
 
         if ($excludeConfidential) {
-            $observations=$this->excludeConfidentialObservations($observations);
+            $observations = $this->excludeConfidentialObservations($observations);
         }
-
+        if ($excludeNonBelgian) {
+            $observations = $this->excludeNonBelgianObservations($observations);
+        }
         $observations = $this->paginate($observations);
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
     }
 
     public function mgmtIndexAction()
     {
-        return $this->generalIndexAction('AppBundle:Page:mgmt-list-observations.html.twig',false,false);
+        return $this->generalIndexAction('AppBundle:Page:mgmt-list-observations.html.twig', false, false);
     }
 
-    public function mgmtFilterAction(Request $request){
-        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig',false,false);
+    public function mgmtFilterAction(Request $request)
+    {
+        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig', false, false);
     }
 
     public function indexAction()
     {
-        return $this->generalIndexAction('AppBundle:Page:list-observations.html.twig',true,true);
+        return $this->generalIndexAction('AppBundle:Page:list-observations.html.twig', true, true);
     }
 
-    public function filterAction(Request $request){
-        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true,true);
+    public function filterAction(Request $request)
+    {
+        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true, true);
     }
 
     private function paginate($array)
@@ -311,14 +329,13 @@ class ObservationsController extends Controller
             $msg = $e->getMessage();
             if (strpos($msg, 'ORA-02292') !== false && strpos($msg, 'SVE_S2E_FK') !== false) {
                 //$regex = "/[a-zA-Z]+ (\d+)/";
-                $patt="/UPDATE SPEC2EVENTS SET SCN_SEQNO = \? WHERE SCN_SEQNO = \? AND ESE_SEQNO = \?' with params \[(\d+), \"?(\d+)\"?, \"?(\d+)\"?\]/";
-                if(preg_match($patt, $msg, $matches)){
-                    $newScn=$matches[1];
-                    $oldScn=$matches[2];
-                    $ese=$matches[3];
-                    $error = new FormError("It is not possible to replace specimen ".$oldScn." with another (".$newScn.") as it has specimen values attached to it.");
-                }
-                else{
+                $patt = "/UPDATE SPEC2EVENTS SET SCN_SEQNO = \? WHERE SCN_SEQNO = \? AND ESE_SEQNO = \?' with params \[(\d+), \"?(\d+)\"?, \"?(\d+)\"?\]/";
+                if (preg_match($patt, $msg, $matches)) {
+                    $newScn = $matches[1];
+                    $oldScn = $matches[2];
+                    $ese = $matches[3];
+                    $error = new FormError("It is not possible to replace specimen " . $oldScn . " with another (" . $newScn . ") as it has specimen values attached to it.");
+                } else {
                     $error = new FormError("It is not possible to replace a specimen with another as it has specimen values attached to it.");
                 }
                 $form->get('eseSeqno')->get('spec2events')->get('scnSeqnoExisting')->addError($error);

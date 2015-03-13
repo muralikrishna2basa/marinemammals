@@ -42,7 +42,7 @@ class ObservationsFilterType extends AbstractType
             'choice_list' => new StationsTypeList($this->doctrine)
         ));
         $builder->add('stnSeqno', 'filter_entity', array(
-            'empty_value' => 'Station...',
+            'empty_value' => 'Location...',
             'required' => false,
             'class' => 'AppBundle:Stations',
             'property' => 'fullyQualifiedDescription',

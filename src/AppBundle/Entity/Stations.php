@@ -408,7 +408,7 @@ class Stations
      */
     public function getFullyQualifiedPlaceName()
     {
-        $name = $this->getPceSeqno()->getName();
+        $name = ucfirst($this->getPceSeqno()->getName());
         $code = $this->getCode();
         $type = $this->getAreaType();
         $codeZilch = $code === '' || $code === null;
@@ -442,15 +442,15 @@ class Stations
         if (!$descZilch) {
             if (!$typeZilch) {
                 if (!$codeZilch) {
-                    return $type . " (" .$country. ") - " . $desc . ' ('.$code.')';
+                    return $type . " (" . $country . ") - " . $desc . ' (' . $code . ')';
                 } else {
-                    return $type . " (" .$country. ") - " . $desc;
+                    return $type . " (" . $country . ") - " . $desc;
                 }
             } else {
                 if (!$codeZilch) {
-                    return " (" .$country. ") ". $desc . ' ('.$code.')';
+                    return " (" . $country . ") " . $desc . ' (' . $code . ')';
                 } else {
-                    return " (" .$country. ") ". $desc;
+                    return " (" . $country . ") " . $desc;
                 }
             }
         } else {
@@ -459,14 +459,22 @@ class Stations
     }
 
     /**
-     * Get fully Qualified Name
+     * Get Place name
      *
-     * @return \AppBundle\Entity\Places
+     * @return string
      */
-    /*    public function getExtendedName()
-        {
-            return $this->getPceSeqno()->getName() . ' ' . $this->getCode();
-        }*/
+    public function getPlaceName()
+    {
+        $name=$this->getPceSeqno()->getName();
+        $parentIsCountry=($this->getPceSeqno()->getType() === 'CTY');
+        if($parentIsCountry){
+            return $name;
+        }
+        else{
+            //return ucfirst(strtolower($name));
+            return $name;
+        }
+    }
 
     /**
      * Get country the station is in
