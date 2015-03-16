@@ -406,9 +406,9 @@ class Stations
      *
      * @return String
      */
-    public function getFullyQualifiedPlaceName()
+    public function getTypeNameCode()
     {
-        $name = ucfirst($this->getPceSeqno()->getName());
+        $name = $this->getPlaceName();
         $code = $this->getCode();
         $type = $this->getAreaType();
         $codeZilch = $code === '' || $code === null;
@@ -429,7 +429,7 @@ class Stations
      *
      * @return String
      */
-    public function getFullyQualifiedDescription()
+    public function getTypeCountryDescCode()
     {
         $code = $this->getCode();
         $country = $this->getCountry();
@@ -454,7 +454,26 @@ class Stations
                 }
             }
         } else {
-            return $this->getFullyQualifiedPlaceName();
+            return $this->getTypeNameCode();
+        }
+    }
+
+    public function getPlaceNameDesc(){
+        $name = $this->getPlaceName();
+        $desc = $this->getDescription();
+        $descZilch = $desc === '' || $desc === null;
+        $nameZilch = $name === '' || $name === null;
+        if($descZilch){
+            return $name;
+        }
+        else{
+            return $desc;
+            /*if($nameZilch){
+                return $desc;
+            }
+            else{
+                return $name." - ".$desc;
+            }*/
         }
     }
 
@@ -465,15 +484,7 @@ class Stations
      */
     public function getPlaceName()
     {
-        $name=$this->getPceSeqno()->getName();
-        $parentIsCountry=($this->getPceSeqno()->getType() === 'CTY');
-        if($parentIsCountry){
-            return $name;
-        }
-        else{
-            //return ucfirst(strtolower($name));
-            return $name;
-        }
+        return $this->getPceSeqno()->getPlaceName();
     }
 
     /**

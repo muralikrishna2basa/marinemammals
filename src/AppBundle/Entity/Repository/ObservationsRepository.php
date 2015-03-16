@@ -36,15 +36,15 @@ class ObservationsRepository extends EntityRepository
     {
         return $this->createQueryBuilder('o')
             //->select('partial o.{eseSeqno,osnType,precisionFlag,creDat,isconfidential,samplingeffort,latDec,lonDec,stnSeqno}, partial st.{seqno,areaType,description,pceSeqno, code,latDec,lonDec}, partial p1.{seqno,pceSeqno,name,type}, partial p2.{seqno,pceSeqno,name,type},partial p3.{seqno,pceSeqno,name,type}, partial e.{seqno,eventDatetime,eventDatetimeFlag, description}, partial s2e.{eseSeqno,scnSeqno}, partial s.{seqno,scnNumber,sex,creDat,txnSeqno}, partial t.{seqno,canonicalName,scientificNameAuthorship,taxonrank,vernacularNameEn}')
-            ->select('o, st,p1,p2,p3,e,s2e,s,t')
+            ->select('o,st,p1,p2,p3,e,ncy,s2e,s,t')
             ->join('o.stnSeqno', 'st')
             ->leftJoin('st.pceSeqno', 'p1')
             ->leftJoin('p1.pceSeqno', 'p2')
             ->leftJoin('p2.pceSeqno', 'p3')
             ->join('o.eseSeqno', 'e')
             ->join('e.spec2events', 's2e')
-            //->innerJoin('AppBundle\Entity\Spec2Events', 's2e', Expr\Join::WITH, 's2e.eseSeqno = e.seqno')
             ->join('s2e.scnSeqno', 's')
+            ->leftJoin('e.necropsy', 'ncy')
             ->leftJoin('s.txnSeqno', 't')
             ->addOrderBy('e.eventDatetime', 'DESC')
             ->addOrderBy('t.canonicalName', 'ASC');

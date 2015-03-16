@@ -36,6 +36,8 @@ class ObservationsController extends Controller
             $stn = $fd['stnSeqno'];
             $txn = $fd['txnSeqno'];
             $osnType = $fd['osnType'];
+            $generalPlace = $fd['generalPlace'];
+            $place = $fd['place'];
             if ($eventDatetimeStart && $eventDatetimeStop) {
                 $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
                 $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
@@ -57,6 +59,18 @@ class ObservationsController extends Controller
                 $filterBuilder->andWhere('o.osnType=:osnType');
                 $filterBuilder->setParameter('osnType', $osnType);
             }
+            if ($place) {
+                $stnSeqno = $this->getDoctrine()
+                    ->getEntityManager()->getRepository('AppBundle:Stations')
+                    ->getAllStationsPlaceBelongingToQb2($place)->getQuery()->getOneOrNullResult();
+                if(null !== $stnSeqno){
+                    $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
+                    $filterBuilder->setParameter('stnSeqno', $stnSeqno);
+                }
+                else{
+                    $filterBuilder->andWhere("o.osnType='THISGIVESNOTHING'");
+                }
+            }
             $q = $filterBuilder->getQuery();
             $observations = $q->getResult();
 
@@ -64,9 +78,9 @@ class ObservationsController extends Controller
                 $observations = $this->excludeConfidentialObservations($observations);
             }
 
-            if ($excludeNonBelgian) {
+            /*if ($excludeNonBelgian) {
                 $observations = $this->excludeNonBelgianObservations($observations);
-            }
+            }*/
 
             $observations = $this->paginate($observations);
             return $this->render('AppBundle:Page:list-observations.html.twig', array(

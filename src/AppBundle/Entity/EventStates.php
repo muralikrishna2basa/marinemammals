@@ -81,7 +81,7 @@ class EventStates
 
     /**
      * @var \AppBundle\Entity\Necropsies
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Necropsies", mappedBy="eseSeqno")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Necropsies", mappedBy="eseSeqno", fetch="LAZY")
      */
     private $necropsy;
 

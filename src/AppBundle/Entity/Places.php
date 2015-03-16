@@ -275,6 +275,24 @@ class Places
     public $iterationstring = 'start';
 
     /**
+     * Get Place name
+     *
+     * @return string
+     */
+    public function getPlaceName()
+    {
+        $name=$this->getName();
+        $isCountry=($this->getType() === 'CTY');
+        if($isCountry){
+            return $name;
+        }
+        else{
+            //return ucfirst(strtolower($name));
+            return $name;
+        }
+    }
+
+    /**
      * Get country
      *
      * @return string
@@ -298,7 +316,9 @@ class Places
             $this->iterationstring = $this->iterationstring . '--' . $this->getName();
             $parentPlace = $this->getPceSeqno();
             // \Doctrine\Common\Util\Debug::dump($name.'----'.get_class($parentPlace));
-            return $parentPlace->getCountry();
+            if($parentPlace !== null){
+                return $parentPlace->getCountry();
+            }
         } else return null;
         /*elseif ($this->iteration=100){
             return '';
