@@ -16,6 +16,8 @@ return array(
     'SensioLabs\\Security' => array($vendorDir . '/sensiolabs/security-checker'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
+    'Liuggio\\ExcelBundle' => array($vendorDir . '/liuggio/ExcelBundle'),
     'Lexik\\Bundle\\FormFilterBundle' => array($vendorDir . '/lexik/form-filter-bundle'),
     'Knp\\Component' => array($vendorDir . '/knplabs/knp-components/src'),
     'Knp\\Bundle\\PaginatorBundle' => array($vendorDir . '/knplabs/knp-paginator-bundle'),

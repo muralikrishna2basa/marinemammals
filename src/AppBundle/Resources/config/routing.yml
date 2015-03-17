@@ -36,25 +36,25 @@ mm_necropsies_about:
 
 mm_observations_index:
     pattern:  /observations
-    defaults: { _controller: AppBundle:Observations:index }
+    defaults: { _controller: AppBundle:ObservationsRetrieval:index }
     requirements:
         _method:  GET
 
 mm_observations_mgmtindex:
     pattern:  /mgmt/observations
-    defaults: { _controller: AppBundle:Observations:mgmtIndex }
+    defaults: { _controller: AppBundle:ObservationsRetrieval:mgmtIndex }
     requirements:
         _method:  GET
 
 mm_observations_filter:
     pattern:  /observations/filtered
-    defaults: { _controller: AppBundle:Observations:filter }
+    defaults: { _controller: AppBundle:ObservationsRetrieval:filter }
     requirements:
         _method:  GET
 
 mm_observations_mgmtfilter:
     pattern:  /mgmt/observations/filtered
-    defaults: { _controller: AppBundle:Observations:mgmtFilter }
+    defaults: { _controller: AppBundle:ObservationsRetrieval:mgmtFilter }
     requirements:
         _method:  GET
 

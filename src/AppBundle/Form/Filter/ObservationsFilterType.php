@@ -9,6 +9,7 @@ use AppBundle\Form\ChoiceList\CgRefChoiceList;
 use AppBundle\Entity\Repository\StationsRepository;
 use AppBundle\Entity\Repository\PlacesRepository;
 use AppBundle\Form\ChoiceList\StationsTypeList;
+use AppBundle\Form\ChoiceList\CountryList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ObservationsFilterType extends AbstractType
@@ -46,6 +47,13 @@ class ObservationsFilterType extends AbstractType
             'empty_value' => 'Location type...',
             'choice_list' => new StationsTypeList($this->doctrine)
         ));
+        if($options['hasCountryDropdown']){
+            $builder->add('country', 'filter_choice', array(
+                'required' => false,
+                'empty_value' => 'Country...',
+                'choice_list' => new CountryList($this->doctrine)
+            ));
+        }
         $builder->add('generalPlace', 'filter_entity', array(
             'empty_value' => 'General place...',
             'required' => false,
@@ -85,7 +93,7 @@ class ObservationsFilterType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_protection'   => false,
             'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
-            'has-country'=>false
+            'hasCountryDropdown'=>false
         ));
     }
 
