@@ -25,18 +25,25 @@ class StationsRepository extends EntityRepository
         return $qb;
     }
 
-    public function getAllStationsPlaceBelongingToQb($places)
+    public function getAllStationsBelongingToPlacesQb($places)
     {
         $qb = $this->getAllStationsPlaceQb();
         return $qb->andWhere('s.pceSeqno IN (:places)')
             ->setParameter('places', $places);
     }
 
-    public function getAllStationsPlaceBelongingToQb2($place)
+    public function getAllStationsBelongingToPlaceQb(\AppBundle\Entity\Places $place)
     {
         $qb = $this->getAllStationsPlaceQb();
         return $qb->andWhere('s.pceSeqno = :place')
             ->setParameter('place', $place);
+    }
+
+    public function getAllStationsBelongingToPlaceDeepQb(\AppBundle\Entity\Places $place)
+    {
+        $childPlaces = $place->getPlaces();
+        $childPlaces->add($place);
+        return $this->getAllStationsBelongingToPlacesQb($childPlaces->toArray());
     }
 
     public function getAllStationsTypes()

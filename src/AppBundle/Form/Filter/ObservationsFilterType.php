@@ -66,7 +66,7 @@ class ObservationsFilterType extends AbstractType
             'class' => 'AppBundle:Stations',
             'property' => 'placeNameDesc',
             'query_builder' => function (StationsRepository $er) use ($allPlaces) {
-                return $er->getAllStationsPlaceBelongingToQb($allPlaces);
+                return $er->getAllStationsBelongingToPlacesQb($allPlaces);
             }
         ));
         $builder->add('txnSeqno', 'filter_entity', array(
@@ -84,7 +84,8 @@ class ObservationsFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection'   => false,
-            'validation_groups' => array('filtering') // avoid NotBlank() constraint-related message
+            'validation_groups' => array('filtering'), // avoid NotBlank() constraint-related message
+            'has-country'=>false
         ));
     }
 

@@ -60,17 +60,18 @@ class ObservationsController extends Controller
                 $filterBuilder->setParameter('osnType', $osnType);
             }
             if ($place) {
-                $stnSeqno = $this->getDoctrine()
+                $stations = $this->getDoctrine()
                     ->getEntityManager()->getRepository('AppBundle:Stations')
-                    ->getAllStationsPlaceBelongingToQb2($place)->getQuery()->getOneOrNullResult();
-                if(null !== $stnSeqno){
-                    $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
-                    $filterBuilder->setParameter('stnSeqno', $stnSeqno);
-                }
-                else{
-                    $filterBuilder->andWhere("o.osnType='THISGIVESNOTHING'");
-                }
+                    ->getAllStationsBelongingToPlaceQb($place)->getQuery()->getResult();
+                $this->filterByStation($stations, $filterBuilder);
             }
+            if ($generalPlace) {
+                $stations = $this->getDoctrine()
+                    ->getEntityManager()->getRepository('AppBundle:Stations')
+                    ->getAllStationsBelongingToPlaceDeepQb($generalPlace)->getQuery()->getResult();
+                $this->filterByStation($stations, $filterBuilder);
+            }
+
             $q = $filterBuilder->getQuery();
             $observations = $q->getResult();
 
@@ -90,6 +91,17 @@ class ObservationsController extends Controller
         $observations = $repo->getCompleteObservations();
         $observations = $this->paginate($observations);
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
+    }
+
+    private function filterByStation($stations, $filterBuilder){
+        if(null !== $stations and count($stations)>0){
+            $filterBuilder->andWhere('o.stnSeqno IN (:stations)');
+            $filterBuilder->setParameter('stations', $stations);
+        }
+        else{
+            $filterBuilder->andWhere("o.osnType='THISGIVESNORESULTS'");
+        }
+        return $filterBuilder;
     }
 
     private function excludeConfidentialObservations($observations)

@@ -68,12 +68,19 @@ class Places
     /**
      * @var \AppBundle\Entity\Places
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Places")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Places", inversedBy="places")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="PCE_SEQNO", referencedColumnName="SEQNO")
      * })
      */
     private $pceSeqno;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Places", mappedBy="pceSeqno")
+     */
+    private $places;
 
     /**
      * Set creDat
@@ -245,6 +252,26 @@ class Places
     {
         return $this->pceSeqno;
     }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPlaces()
+    {
+        return $this->places;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection  $places
+     *
+     * @return \AppBundle\Entity\Places
+     */
+    public function setPlaces($places)
+    {
+        $this->places = $places;
+        return $this;
+    }
+
 
     /**
      * Get parentName
