@@ -36,7 +36,7 @@ class PlacesRepository extends EntityRepository
     public function getAllBelgianPlacesWithAStation()
     {
         $rsm=$this->getBasicResultMapping();
-        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p RIGHT JOIN stations s ON s.pce_seqno=p.seqno WHERE LEVEL!=1 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
+        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p LEFT JOIN stations s ON s.pce_seqno=p.seqno WHERE s.seqno IS NOT NULL AND LEVEL!=1 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
 
         return $query->getResult();
     }
@@ -45,7 +45,7 @@ class PlacesRepository extends EntityRepository
     {
         $rsm=$this->getBasicResultMapping();
 
-        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p RIGHT JOIN stations s ON s.pce_seqno=p.seqno WHERE LEVEL=2 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
+        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p LEFT JOIN stations s ON s.pce_seqno=p.seqno WHERE s.seqno IS NOT NULL AND LEVEL=2 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
         $r = $query->getResult();
         return $r;
     }
@@ -54,7 +54,7 @@ class PlacesRepository extends EntityRepository
     {
         $rsm=$this->getBasicResultMapping();
 
-        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p RIGHT JOIN stations s ON s.pce_seqno=p.seqno WHERE LEVEL=3 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
+        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p LEFT JOIN stations s ON s.pce_seqno=p.seqno WHERE s.seqno IS NOT NULL AND LEVEL=3 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
         $r = $query->getResult();
         return $r;
     }

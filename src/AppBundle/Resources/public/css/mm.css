@@ -111,6 +111,11 @@ label.required:before{
 .top-links{
     margin-bottom:3px;
 }
+
+span.confidential_observation:before{
+    color:#C9405B;
+    content: "\f12a";
+}
 /*
 @font-face {
     font-family: 'Glyphicons Halflings';

@@ -23,13 +23,17 @@
     <script>
         var $stationSelector = $('#observationsfiltertype_stnSeqno');
         var $speciesSelector = $('#observationsfiltertype_txnSeqno');
+        var $generalPlace = $('#observationsfiltertype_generalPlace');
+        var $place = $('#observationsfiltertype_place');
+
         var $containingDiv = $('#periodpicker');
         var $table = $("#observationstable");
         var $form = $("#observationfilterform");
         $(document).ready(function () {
             $stationSelector.select2();
             $speciesSelector.select2();
-
+            $generalPlace.select2();
+            $place.select2();
             var validator = $form.validate({
                 ignore: "",
                 rules: {

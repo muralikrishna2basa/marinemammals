@@ -33,6 +33,10 @@ class ObservationsRetrievalController extends Controller
         $osnType = $filter['osnType'];
         $generalPlace = $filter['generalPlace'];
         $place = $filter['place'];
+        $country = '';
+        if (array_key_exists('country', $filter)) {
+            $country = $filter['country'];
+        }
         if ($eventDatetimeStart && $eventDatetimeStop) {
             $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
             $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
@@ -66,17 +70,33 @@ class ObservationsRetrievalController extends Controller
                 ->getAllStationsBelongingToPlaceDeepQb($generalPlace)->getQuery()->getResult();
             $this->filterByStation($stations, $filterBuilder);
         }
-
         $observations = $filterBuilder->getQuery()->getResult();
 
         if ($excludeConfidential) {
             $observations = $this->excludeConfidentialObservations($observations);
         }
 
-        if ($excludeNonBelgian) {
+        if ($country) {
+            $observations = $this->filterByCountry($country, $observations);
+        }
+        /*if ($excludeNonBelgian) {
             $observations = $this->excludeNonBelgianObservations($observations);
+        }*/
+        return $observations;
+    }
+
+    private function filterByCountry($country, $observations)
+    {
+        if ($country !== '' and $country !== null) {
+            return array_filter($observations, function ($o) use ($country) {
+                if ($o->getStnSeqno() !== null) {
+                    return $o->getStnSeqno()->getCountry() === $country;
+                } else return false;
+
+            });
         }
         return $observations;
+
     }
 
     private function filterByStation($stations, $filterBuilder)
@@ -127,11 +147,11 @@ class ObservationsRetrievalController extends Controller
             $form->submit($request->query->get($form->getName()));
             $filter = $form->getData();
             $observations = $this->getFilteredObservations($filter, $excludeConfidential, $excludeNonBelgian);
+            $results = array();
+            foreach ($observations as $o) {
+                array_push($results, $ps->toArray($o));
+            }
             if ($request->query->has('export')) {
-                $results = array();
-                foreach ($observations as $o) {
-                    array_push($results,$ps->toArray($o));
-                }
                 return $this->export($results);
             } elseif ($request->query->has('submit')) {
                 return $this->generalIndexAction($page, $form, $observations);
@@ -145,6 +165,12 @@ class ObservationsRetrievalController extends Controller
     {
         $observations = $this->paginate($observations);
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
+    }
+
+    private function generalIndexActionByProperties($page, $form, $properties)
+    {
+        $properties = $this->paginate($properties);
+        return $this->render($page, array('properties'=>$properties,'form' => $form->createView()));
     }
 
     public function mgmtIndexAction()
@@ -176,24 +202,24 @@ class ObservationsRetrievalController extends Controller
     public function export($results)
     {
         $today = new \DateTime();
-        $todayString=$today->format('Y-m-d');
+        $todayString = $today->format('Y-m-d');
 
         $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
         $phpExcelObject->getProperties()->setCreator("Belgian Marine Data Center")
             ->setLastModifiedBy("Belgian Marine Data Center")
-            ->setTitle("Marine Mammals export ".$todayString)
+            ->setTitle("Marine Mammals export " . $todayString)
             ->setSubject("Occurence data of Belgian marine mammals")
             ->setDescription("An export of the Belgian marine mammals database, located at www.marinemammals.be");
         $phpExcelObject->setActiveSheetIndex(0);
-        foreach ($results as $i=>$row) {
-            $startCell='A'.($i+2);
-            if($i==0){
-                $keys=array_keys($row);
+        foreach ($results as $i => $row) {
+            $startCell = 'A' . ($i + 2);
+            if ($i == 0) {
+                $keys = array_keys($row);
                 $phpExcelObject->getActiveSheet()->fromArray($keys, NULL, 'A1');
             }
-             $phpExcelObject->getActiveSheet()->fromArray($row, NULL, $startCell);
+            $phpExcelObject->getActiveSheet()->fromArray($row, NULL, $startCell);
         }
-        $phpExcelObject->getActiveSheet()->setTitle('export ' .$todayString);
+        $phpExcelObject->getActiveSheet()->setTitle('export ' . $todayString);
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $phpExcelObject->setActiveSheetIndex(0);
 
@@ -203,7 +229,7 @@ class ObservationsRetrievalController extends Controller
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
         // adding headers
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
-        $response->headers->set('Content-Disposition', 'attachment;filename=mm_export_'.$todayString.'.xlsx');
+        $response->headers->set('Content-Disposition', 'attachment;filename=mm_export_' . $todayString . '.xlsx');
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Cache-Control', 'maxage=1');
 
