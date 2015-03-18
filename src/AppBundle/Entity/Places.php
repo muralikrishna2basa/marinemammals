@@ -262,7 +262,7 @@ class Places
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection  $places
+     * @param \Doctrine\Common\Collections\Collection $places
      *
      * @return \AppBundle\Entity\Places
      */
@@ -298,9 +298,6 @@ class Places
         return $this->getParentName() . ' - ' . $this->getName() . ' (' . $this->getType() . ')';
     }
 
-    public $iteration = 0;
-    public $iterationstring = 'start';
-
     /**
      * Get Place name
      *
@@ -308,12 +305,11 @@ class Places
      */
     public function getPlaceName()
     {
-        $name=$this->getName();
-        $isCountry=($this->getType() === 'CTY');
-        if($isCountry){
+        $name = $this->getName();
+        $isCountry = ($this->getType() === 'CTY');
+        if ($isCountry) {
             return $name;
-        }
-        else{
+        } else {
             //return ucfirst(strtolower($name));
             return $name;
         }
@@ -329,27 +325,16 @@ class Places
         $type = $this->getType();
         $name = $this->getName();
         if ($type === 'CTY') {
-            $this->iterationstring = $this->iterationstring . '-- end: ' . $this->iteration;
             return $this->getName();
         }
-        if ($name === 'WORLD') {
+        if ($type === 'ROOT') {
             return 'THE_VOID_BETWEEN_THE_STARS';
-        }
-        if ($type === 'CTY') {
-            $this->iterationstring = $this->iterationstring . '-- end: ' . $this->iteration;
-            return $this->getName();
-        } elseif (in_array($type, array('LTY', 'RVR', 'OTR'))) {
-            $this->iteration++;
-            $this->iterationstring = $this->iterationstring . '--' . $this->getName();
+        } elseif (in_array($type, array('LTY', 'RVR', 'OTR', 'SEA', 'EST'))) {
             $parentPlace = $this->getPceSeqno();
-            // \Doctrine\Common\Util\Debug::dump($name.'----'.get_class($parentPlace));
-            if($parentPlace !== null){
+            if ($parentPlace !== null) {
                 return $parentPlace->getCountry();
             }
         } else return null;
-        /*elseif ($this->iteration=100){
-            return '';
-        }*/
     }
 
 }

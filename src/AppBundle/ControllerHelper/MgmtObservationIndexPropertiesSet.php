@@ -1,21 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thomas
- * Date: 17/03/15
- * Time: 14:17
- */
 
-namespace AppBundle\Controller;
+namespace AppBundle\ControllerHelper;
 
 
-Class ObservationIndexPropertiesSet extends PropertiesSet
+Class MgmtObservationIndexPropertiesSet extends PropertiesSet
 {
     public function __construct()
     {
         $this->functions = array(
+            'isconfidential' => function ($observation) {
+                return $observation->getIsconfidential();
+            },
             'location type' => function ($observation) {
                 return $observation->getStnSeqno()->getAreaType();
+            },
+            'country' => function ($observation) {
+                return $observation->getStnSeqno()->getCountry();
             },
             'place' => function ($observation) {
                 return $observation->getStnSeqno()->getPlaceName();
@@ -40,6 +40,12 @@ Class ObservationIndexPropertiesSet extends PropertiesSet
             },
             'vernacularName' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getTxnSeqno()->getVernacularNameEn();
+            },
+            'observationId' => function ($observation) {
+                return $observation->getEseSeqno()->getSeqno();
+            },
+            'specimenId' => function ($observation) {
+                return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getSeqno();
             }
         );
     }

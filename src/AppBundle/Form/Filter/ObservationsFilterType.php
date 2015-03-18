@@ -23,8 +23,9 @@ class ObservationsFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $level2Places=$this->doctrine->getRepository("AppBundle:Places")->getAllBelgianPlacesAtLevel2WithAStation();
-        $level3Places=$this->doctrine->getRepository("AppBundle:Places")->getAllBelgianPlacesAtLevel3WithAStation();
+        $level2Places=$this->doctrine->getRepository("AppBundle:Places")->getAllBelgianPlacesAtLevel2();
+        $level3Places=$this->doctrine->getRepository("AppBundle:Places")->getAllBelgianPlacesAtLevel3();
+        $level4Places=$this->doctrine->getRepository("AppBundle:Places")->getAllBelgianPlacesAtLevel4WithAStation();
         $allPlaces=array_merge($level2Places,$level3Places);
 
         $builder->add('eventDatetimeStart', 'filter_date', array(
@@ -66,7 +67,7 @@ class ObservationsFilterType extends AbstractType
             'required' => false,
             'class' => 'AppBundle:Places',
             'property' => 'placeName',
-            'choices' =>$level3Places
+            'choices' =>array_merge($level3Places,$level4Places)
         ));
         $builder->add('stnSeqno', 'filter_entity', array(
             'empty_value' => 'Location...',

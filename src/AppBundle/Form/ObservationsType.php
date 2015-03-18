@@ -44,7 +44,7 @@ class ObservationsType extends AbstractType
             'empty_value' => 'Select...',
             'required' => false,
             'class' => 'AppBundle:Stations',
-            'property' => 'fullyQualifiedDescription',
+            'property' => 'typeCountryDescCode',
             'query_builder' => function (StationsRepository $er) {
                 return $er->getAllStationsPlaceQb();
             }

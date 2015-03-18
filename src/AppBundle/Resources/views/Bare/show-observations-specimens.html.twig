@@ -1,0 +1,172 @@
+<legend>Observation</legend>
+
+<h3>Date and time</h3>
+
+<div class="form-inline">
+    Date: {{ observation.eseSeqno.eventDatetime.date }}
+   {# Time: {{ observation.eseSeqno.eventDatetime.time }}#}
+    Date flag: {{ observation.eseSeqno.eventDatetimeFlag }}</div>
+<h3>Location</h3>
+<h4>Exact Coordinates</h4>
+<div class="form-inline">
+    Decimal latitude: {{ observation.latDec }}
+    Decimal longitude: {{ observation.lonDec }}
+    Location precision: {{ observation.precisionFlag }}</div>
+<h4>Station</h4>
+<div class="form-inline">
+    Station: {{ observation.stnSeqno.description }}</div>
+<h4>Platform</h4>
+<div class="form-inline">
+    Platform: {{ observation.pfmSeqno }}</div>
+
+<h4>Campaign</h4>
+<div class="form-inline">
+    Campaign: {{ observation.cpnCode }}</div>
+<h3>Observation type</h3>
+
+<div class="form-inline">Confidential observation?: {{ observation.isconfidential }}</div>
+<div class="form-inline">Observation type: {{ observation.osnType }}</div>
+<div class="form-inline">Sampling effort: {{ observation.samplingeffort }}</div>
+<h3>Observation conditions</h3>
+{% for ov in observation.values %}
+    <h4>{{ ov.vars.value.pmdName }}</h4>
+    <div class="form-inline">Value: {{ ov.value }}
+        Value flag: {{ ov.valueFlag }}</div>
+{% endfor %}
+<h3>Observation comments</h3>
+Observation description: {{ observation.eseSeqno.description }}
+Event web comments: English: {{ observation.webcommentsEn }}
+Event web comments: Dutch: {{ observation.webcommentsNl }}
+Event web comments: French: {{ observation.webcommentsFr }}
+
+<legend><h2>Specimen</h2></legend>
+<fieldset id="new-specimen">
+    <legend><h3>New specimen</h3></legend>
+
+    <div class="form-inline">
+        Species: {{ observation.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName }}
+    </div>
+    <div class="form-inline">
+        Identification is certain?: {{ observation.eseSeqno.spec2events.scnSeqno.identificationCertainty }}
+    </div>
+    <div class="form-inline">
+        Number: {{ observation.eseSeqno.spec2events.scnSeqno.scnNumber }}
+    </div>
+    <div class="form-inline no-multi">
+        Sex: {{ observation.eseSeqno.spec2events.scnSeqno.sex }}
+    </div>
+    <div class="form-inline no-multi">
+        RBINS tag: {{ observation.eseSeqno.spec2events.scnSeqno.rbinsTag }}
+    </div>
+    <div class="form-inline no-multi">
+        Necropsy tag: {{ observation.eseSeqno.spec2events.scnSeqno.necropsyTag }}
+    </div>
+</fieldset>
+{#
+<fieldset id="circumstantial_values" class="no-multi">
+    <legend><h4>Circumstantial parameters</h4></legend>
+    {% if observation.eseSeqno.spec2events.circumstantialValues|first.vars.data.valueRequired == false %}<p
+            id="circumstantialParametersFeedback" class="text-danger">Although the
+        circumstantial parameters are not required to be completed when updating an existing observation, we would like
+        you to provide this information nonetheless. The level of uncertainty can be expressed in the value
+        flag.</p>{% endif %}
+    {% for sv in observation.eseSeqno.spec2events.circumstantialValues %}
+        <h5>{{ sv.vars.value.pmdName }}</h5>
+        <div class="form-inline">Value: {{ sv.value }}
+            Value flag: {{ sv.valueFlag }}</div>
+    {% endfor %}
+</fieldset>
+<fieldset id="measurement_values" class="no-multi">
+    <legend><h4>Measurements</h4></legend>
+    {% for sv in observation.eseSeqno.spec2events.measurementValues %}
+        <h5>{{ sv.vars.value.pmdName }}</h5>
+        <div class="form-inline">Value: {{ sv.value }}
+            Value flag: {{ sv.valueFlag }}</div>
+    {% endfor %}
+</fieldset>
+
+<fieldset id="pathology_values" class="no-multi">
+    <legend><h2>External pathology</h2></legend>
+    <fieldset>
+        <legend><h3>Fresh external lesions</h3></legend>
+        <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(0, 9) %}
+                {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last}) }}
+            {% endfor %}</div>
+        <fieldset>
+            <legend><h4>Line/net impressions or cuts</h4></legend>
+            <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(9, 4) %}
+                    {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
+                {% endfor %}</div>
+        </fieldset>
+        <fieldset>
+            <legend><h4>Scavenger traces</h4></legend>
+            <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(13, 2) %}
+                    {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
+                {% endfor %}</div>
+        </fieldset>
+    </fieldset>
+    <fieldset>
+        <legend><h3>Healing/healed lesions</h3></legend>
+        <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(15, 5) %}
+                {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last}) }}
+            {% endfor %}</div>
+    </fieldset>
+    <fieldset>
+        <legend><h3>Fishing activities</h3></legend>
+        <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(20, 2) %}
+                {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last}) }}
+            {% endfor %}</div>
+    </fieldset>
+    <fieldset>
+        <legend><h3>Other characteristics</h3></legend>
+        <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(22, 9) %}
+                {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last}) }}
+            {% endfor %}</div>
+    </fieldset>
+</fieldset>
+
+<fieldset id="causeofdeath_values" class="no-multi only-dead">
+    <fieldset>
+        <legend><h3>Cause of death: initial assessment</h3></legend>
+        <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.causeOfDeathValues|slice(0, 6) %}
+                {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last}) }}
+            {% endfor %}</div>
+    </fieldset>
+    <fieldset id="bycatch">
+        <legend><h3>Bycatch probability</h3></legend>
+        <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.bycatchProbabilityValues|slice(0, 4) %}
+                {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last}) }}
+            {% endfor %}</div>
+    </fieldset>
+</fieldset>
+<legend>Sources and media</legend>
+
+<h3>Sources</h3>
+
+<div class="form-inline">
+    Source: {{ observation.singleSource }}
+    <h4>Informed by</h4>
+    <ul class="e2p_informer" data-prototype="{{ form_widget(observation.eseSeqno.informers.vars.prototype)|e }}">
+        {% for e2p_informer in observation.eseSeqno.informers %}
+            <li class="form-inline">
+                Person: {{ e2p_informer.psnSeqno }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h4>Observed by</h4>
+    <ul class="e2p_observer" data-prototype="{{ form_widget(observation.eseSeqno.observers.vars.prototype)|e }}">
+        {% for e2p_observer in observation.eseSeqno.observers %}
+            <li class="form-inline">
+                Person: {{ e2p_observer.psnSeqno }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h4>Gathered by</h4>
+    <ul class="e2p_gatherer" data-prototype="{{ form_widget(observation.eseSeqno.gatherers.vars.prototype)|e }}">
+        {% for e2p_gatherer in observation.eseSeqno.gatherers %}
+            <li class="form-inline">
+                Person: {{ e2p_gatherer.psnSeqno }}
+            </li>
+        {% endfor %}
+    </ul>
+    </div>#}

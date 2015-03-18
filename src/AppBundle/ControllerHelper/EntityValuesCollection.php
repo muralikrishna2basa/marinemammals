@@ -1,11 +1,10 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\ControllerHelper;
 
 use AppBundle\Entity\EntityValues;
 use \Doctrine\Common\Collections\ArrayCollection;
 use \AppBundle\Entity\ValueAssignable;
-use Doctrine\Common\Collections\Criteria;
 
 class EntityValuesCollection
 {

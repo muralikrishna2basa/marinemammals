@@ -1,11 +1,8 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\ControllerHelper;
 
-use AppBundle\Entity\ObservationValues;
-use AppBundle\Entity\SpecimenValues;
-
-class EntityValuesCollectionAtObservationCreation
+class EntityValuesCollectionAtObservationCreation extends EntityValuesCollectionContainer
 {
 
     public function __construct($em)
@@ -71,34 +68,5 @@ class EntityValuesCollectionAtObservationCreation
         $this->instantiateObservationValues('Wind direction', true, false);
         $this->instantiateObservationValues('Wind speed', true, false);
         $this->instantiateObservationValues('Seastate', true, false);
-    }
-
-    /**
-     * @var EntityValuesCollection
-     */
-    private $em;
-
-    /**
-     * @var EntityValuesCollection
-     */
-    public $allSpecimenValues;
-
-    /**
-     * @var EntityValuesCollection
-     */
-    public $allObservationValues;
-
-    private function instantiateObservationValues($pmName, $hasFlag, $mustBeCompleted)
-    {
-        $pm = $this->em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
-        $ov = new ObservationValues($pm, $hasFlag, $mustBeCompleted);
-        $this->allObservationValues->add($ov);
-    }
-
-    private function instantiateSpecimenValues($pmName, $hasFlag, $mustBeCompleted)
-    {
-        $pm = $this->em->getRepository("AppBundle:ParameterMethods")->getParameterMethodByName($pmName);
-        $sv = new SpecimenValues($pm, $hasFlag, $mustBeCompleted);
-        $this->allSpecimenValues->add($sv);
     }
 }

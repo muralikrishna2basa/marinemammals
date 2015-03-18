@@ -3,25 +3,83 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Observations;
-use AppBundle\Entity\ObservationValues;
 use AppBundle\Entity\EventStates;
 use AppBundle\Entity\Event2Persons;
 use AppBundle\Entity\Spec2Events;
-use AppBundle\Entity\SpecimenValues;
 use AppBundle\Entity\EntityValues;
 use AppBundle\Entity\ValueAssignable;
 use AppBundle\Form\ObservationsType;
-use AppBundle\Form\Filter\ObservationsFilterType;
+use AppBundle\ControllerHelper\ObservationProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class ObservationsController extends Controller
 {
+
+    /**
+     * Deletes a Observations entity.
+     *
+     * @Route("/delete/{id}", name="mm_observations_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+        $keepSpecimen=$form->get('keepSpecimen')->getData();
+
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $observation = $this->get('observations_provider')->loadObservation($id);
+            $event = $observation->getEseSeqno();
+            $s2e = $event->getSpec2Events();
+            $specimen = $s2e->getScnSeqno();
+            $s2eColl=$specimen->getSpec2Events();
+
+            $em->remove($observation);
+            $em->remove($event);
+            $em->remove($s2e);
+            foreach($s2e->getValues() as $ev){
+                $em->remove($ev);
+            }
+            //$s2e->removeAllValues();
+            if($s2eColl->count()>1){
+                $keepSpecimen=true;
+            }
+            if(!$keepSpecimen){
+                $em->remove($specimen);
+            }
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('mm_observations_mgmtindex'));
+    }
+
+    /**
+     * Creates a form to delete a Observations entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('mm_observations_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('keepSpecimen', 'checkbox', array('required'=>false,'label' => 'Keep attached specimen'))
+            ->getForm()
+            ;
+    }
+
     public function newAction()
     {
-        $observation = $this->prepareNewObservation();
+        $observation = $this->get('observations_provider')->prepareNewObservation();
         $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationCreation'))), $observation);
         return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
             'form' => $form->createView(),
@@ -32,7 +90,7 @@ class ObservationsController extends Controller
 
     public function createAction(Request $request)
     {
-        $observation = $this->prepareNewObservation();
+        $observation = $this->get('observations_provider')->prepareNewObservation();
         $event = $observation->getEseSeqno();
         $s2e = $event->getSpec2Events();
 
@@ -54,7 +112,7 @@ class ObservationsController extends Controller
                 $this->persistOrRemoveEvent2Persons($e2p, $event);
             }
             $em->flush();
-            $observation2 = $this->prepareNewObservation();
+            $observation2 = $this->get('observations_provider')->prepareNewObservation();
             $form2 = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationCreation'))), $observation2);
             return $this->render('AppBundle:Page:add-observations-specimens.html.twig', array(
                 'form' => $form2->createView(),
@@ -123,51 +181,17 @@ class ObservationsController extends Controller
         }
     }
 
-    private function prepareNewObservation()
-    {
-        $observation = new Observations();
-        $event = new EventStates();
-        $observation->setEseSeqno($event);
-
-        $event2Persons1 = new Event2Persons();
-        $event2Persons1->setEseSeqno($event);
-        $event2Persons1->setE2pType(EventStates::OBSERVED);
-        $event->getEvent2Persons()->add($event2Persons1);
-
-        $event2Persons2 = new Event2Persons();
-        $event2Persons2->setEseSeqno($event);
-        $event2Persons2->setE2pType(EventStates::GATHERED);
-        $event->getEvent2Persons()->add($event2Persons2);
-
-        $event2Persons2 = new Event2Persons();
-        $event2Persons2->setEseSeqno($event);
-        $event2Persons2->setE2pType(EventStates::INFORMED);
-        $event->getEvent2Persons()->add($event2Persons2);
-
-        $evcfoc = new EntityValuesCollectionAtObservationCreation($this->getDoctrine()->getManager());
-
-        $evcfoc->allObservationValues->supplementEntityValues($observation);
-
-        $s2e = new Spec2Events();
-        //$specimen=new Specimens();
-        $event->setSpec2Events($s2e);
-        //$s2e->setEseSeqno($event); //TODO: check if this can be deleted. shoudle be now that this is truly bidirectional
-        //$s2e->setScnSeqno($specimen);
-
-        $evcfoc->allSpecimenValues->supplementEntityValues($s2e);
-
-        return $observation;
-    }
-
     public function editAction($id)
     {
-        $observation = $this->loadObservation($id);
+        $observation = $this->get('observations_provider')->loadAndSupplementObservation($id);
+        $deleteForm = $this->createDeleteForm($id);
         $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationModification'))), $observation);
         return $this->render('AppBundle:Page:edit-observations-specimens.html.twig', array(
             'form' => $form->createView(),
             'success' => 'na',
             'errors' => array(),
-            'id' => $id
+            'id' => $id,
+            'delete_form' => $deleteForm->createView()
         ));
     }
 
@@ -175,11 +199,12 @@ class ObservationsController extends Controller
     {
         $em = $this->getDoctrine()
             ->getEntityManager();
-        $observation = $this->loadObservation($id);
+        $observation = $this->get('observations_provider')->loadAndSupplementObservation($id);
         $event = $observation->getEseSeqno();
         $s2e = $event->getSpec2Events();
         $specimen = $s2e->getScnSeqno();
 
+        $deleteForm = $this->createDeleteForm($id);
         $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationModification'))), $observation);
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -199,7 +224,7 @@ class ObservationsController extends Controller
             }
             try {
                 $em->flush();
-                return $this->indexAction();
+                return $this->redirect($this->generateUrl('mm_observations_mgmtindex'));
             } catch (\Doctrine\DBAL\DBALException $e) {
             }
             $msg = $e->getMessage();
@@ -225,21 +250,9 @@ class ObservationsController extends Controller
             'form' => $form->createView(),
             'success' => 'false',
             'errors' => $errors2,
-            'id' => $id
+            'id' => $id,
+            'delete_form' => $deleteForm->createView()
         ));
     }
 
-    private function loadObservation($id)
-    {
-        $observation = $this->getDoctrine()->getRepository('AppBundle:Observations')->find($id);
-        $evc = new EntityValuesCollectionAtObservationUpdate($this->getDoctrine()->getManager());
-        $evc->allObservationValues->supplementEntityValues($observation);
-        $s2e = $observation->getEseSeqno()->getSpec2Events();
-        $evc->allSpecimenValues->supplementEntityValues($s2e);
-
-        if (!$observation) {
-            throw $this->createNotFoundException(sprintf('This observation does not exist: %s', $id));
-        }
-        return $observation;
-    }
 }

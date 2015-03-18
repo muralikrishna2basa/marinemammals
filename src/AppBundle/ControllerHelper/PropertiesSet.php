@@ -6,12 +6,11 @@
  * Time: 14:17
  */
 
-namespace AppBundle\Controller;
+namespace AppBundle\ControllerHelper;
 
 
 abstract class PropertiesSet
 {
-
     protected $functions;
 
     public function toArray($observation){

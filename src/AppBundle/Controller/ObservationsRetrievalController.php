@@ -2,21 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Observations;
-use AppBundle\Entity\ObservationValues;
-use AppBundle\Entity\EventStates;
-use AppBundle\Entity\Event2Persons;
-use AppBundle\Entity\Spec2Events;
-use AppBundle\Entity\SpecimenValues;
-use AppBundle\Entity\EntityValues;
-use AppBundle\Entity\ValueAssignable;
-use AppBundle\Form\ObservationsType;
 use AppBundle\Form\Filter\ObservationsFilterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Validator\Constraints\DateTime;
+use AppBundle\ControllerHelper;
 
 class ObservationsRetrievalController extends Controller
 {
@@ -61,7 +50,7 @@ class ObservationsRetrievalController extends Controller
         if ($place) {
             $stations = $this->getDoctrine()
                 ->getEntityManager()->getRepository('AppBundle:Stations')
-                ->getAllStationsBelongingToPlaceQb($place)->getQuery()->getResult();
+                ->getAllStationsBelongingToPlaceDeepQb($place)->getQuery()->getResult();
             $this->filterByStation($stations, $filterBuilder);
         }
         if ($generalPlace) {
@@ -245,5 +234,13 @@ class ObservationsRetrievalController extends Controller
             500/*limit per page*/
         );
         return $pagination;
+    }
+
+    public function viewAction($id){
+        $observation = $this->get('observations_provider')->loadObservation($id);
+
+        return $this->render('AppBundle:Page:show-observations-specimens.html.twig', array(
+            'observation'=>$observation
+        ));
     }
 }

@@ -262,6 +262,13 @@ class Spec2Events implements ValueAssignable
     {
         $this->getValues()->removeElement($ev);
     }
+
+    public function removeAllValues()
+    {
+        foreach ($this->getValues() as $ev){
+            $this->removeValue($ev);
+        }
+    }
 //------------------------
     /**
      * @return \Doctrine\Common\Collections\Collection
