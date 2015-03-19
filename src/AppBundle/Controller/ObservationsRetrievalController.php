@@ -35,6 +35,7 @@ class ObservationsRetrievalController extends Controller
     private function generalIndexAction($page, $form, $observations)
     {
         $observations = $this->paginate($observations);
+        $observations=$this->get('observations_provider')->supplementCgDescriptionMultiple($observations);
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
     }
 

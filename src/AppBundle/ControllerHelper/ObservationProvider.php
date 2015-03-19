@@ -13,7 +13,8 @@ use AppBundle\Entity\EventStates;
 use AppBundle\Entity\Event2Persons;
 use AppBundle\Entity\Spec2Events;
 
-class ObservationProvider {
+class ObservationProvider
+{
 
     private $doctrine;
     private $repo;
@@ -22,8 +23,8 @@ class ObservationProvider {
     public function __construct($doctrine)
     {
         $this->doctrine = $doctrine;
-        $this->repo=$this->doctrine->getRepository('AppBundle:Observations');
-        $this->cgRefCodesPropertiesSet= new CgRefCodesPropertiesSet($doctrine);
+        $this->repo = $this->doctrine->getRepository('AppBundle:Observations');
+        $this->cgRefCodesPropertiesSet = new CgRefCodesPropertiesSet($doctrine);
     }
 
     public function loadAndSupplementObservation($id)
@@ -42,6 +43,7 @@ class ObservationProvider {
         if (!$observation) {
             throw $this->createNotFoundException(sprintf('The observation with seqno %s does not exist.', $id));
         }
+
         $this->supplementCgDescriptionSingle($observation);
         return $observation;
     }
@@ -119,23 +121,25 @@ class ObservationProvider {
             $filterBuilder->andWhere('o.osnType=:osnType');
             $filterBuilder->setParameter('osnType', $osnType);
         }
+        if ($excludeConfidential) {
+            $filterBuilder->andWhere('o.isconfidential=null');
+            //$filterBuilder->setParameter('osnType', $osnType);
+        }
         if ($place) {
-            $stations = $this->getDoctrine()
-                ->getEntityManager()->getRepository('AppBundle:Stations')
+            $stations = $this->doctrine->getRepository('AppBundle:Stations')
                 ->getAllStationsBelongingToPlaceDeepQb($place)->getQuery()->getResult();
             $this->filterByStation($stations, $filterBuilder);
         }
         if ($generalPlace) {
-            $stations = $this->getDoctrine()
-                ->getEntityManager()->getRepository('AppBundle:Stations')
+            $stations = $this->doctrine->getRepository('AppBundle:Stations')
                 ->getAllStationsBelongingToPlaceDeepQb($generalPlace)->getQuery()->getResult();
             $this->filterByStation($stations, $filterBuilder);
         }
         $observations = $filterBuilder->getQuery()->getResult();
 
-        if ($excludeConfidential) {
+        /*if ($excludeConfidential) {
             $observations = $this->excludeConfidentialObservations($observations);
-        }
+        }*/
 
         if ($country) {
             $observations = $this->filterByCountry($country, $observations);
@@ -143,30 +147,39 @@ class ObservationProvider {
         /*if ($excludeNonBelgian) {
             $observations = $this->excludeNonBelgianObservations($observations);
         }*/
-        return $this->supplementCgDescriptionMultiple($observations);
+
+        //$res=$this->supplementCgDescriptionMultiple($observations);
+        return $observations;
     }
 
     public function loadObservations($excludeConfidential, $excludeNonBelgian)
     {
-        $observations = $this->repo->getCompleteObservationsQb()->getQuery()->getResult();
-
+        //$observations = $this->repo->getCompleteObservationsQb()->getQuery()->getResult();
+        $q = $this->repo->getCompleteObservationsQb();
         if ($excludeConfidential) {
-            $observations = $this->excludeConfidentialObservations($observations);
+            $q = $q->andWhere('o.isconfidential=null');
+            //$observations = $this->excludeConfidentialObservations($observations);
         }
+        $observations = $q->getQuery()->getResult();
         if ($excludeNonBelgian) {
             $observations = $this->excludeNonBelgianObservations($observations);
         }
-        return $this->supplementCgDescriptionMultiple($observations);
+        //$start=microtime(true);
+        //$res=$this->supplementCgDescriptionMultiple($observations);
+        //$end=microtime(true);
+        return $observations;
     }
 
-    private function supplementCgDescriptionMultiple($observations){
-        foreach($observations as $o){
+    public function supplementCgDescriptionMultiple($observations)
+    {
+        foreach ($observations as $o) {
             $this->supplementCgDescriptionSingle($o);
         }
         return $observations;
     }
 
-    private function supplementCgDescriptionSingle(Observations &$o){
+    private function supplementCgDescriptionSingle(Observations &$o)
+    {
         $this->cgRefCodesPropertiesSet->setAll($o);
     }
 
