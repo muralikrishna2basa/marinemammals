@@ -112,9 +112,19 @@ label.required:before{
     margin-bottom:3px;
 }
 
+span.confidential_observation{
+    color:#C9405B;
+}
+
 span.confidential_observation:before{
     color:#C9405B;
     content: "\f12a";
+}
+
+table.observation_basic_view > tbody > tr > td:first-child{
+    width:200px;
+    text-align: right;
+
 }
 /*
 @font-face {

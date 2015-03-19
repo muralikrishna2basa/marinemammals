@@ -9,14 +9,14 @@
 namespace AppBundle\ControllerHelper;
 
 
-abstract class PropertiesSet
+abstract class GettablePropertiesSet
 {
-    protected $functions;
+    protected $functions=array();
 
-    public function toArray($observation){
+    public function getAll($object){
         $result=array();
         foreach($this->functions as $key=>$func){
-            $result[$key]=call_user_func($this->functions[$key], $observation);
+            $result[$key]=call_user_func($this->functions[$key], $object);
         }
         return $result;
     }

@@ -41,31 +41,57 @@ class PlacesRepository extends EntityRepository
         return $query->getResult();
     }
 
-    public function getAllBelgianPlacesAtLevel2()
+    private function getAllPlaces($root, $level)
     {
         $rsm = $this->getBasicResultMapping();
 
-        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p WHERE LEVEL=2 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
+        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p WHERE LEVEL=" . $level . " CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='" . $root . "') order by type,name", $rsm);
         $r = $query->getResult();
         return $r;
+    }
+
+    private function getAllPlacesWithAStation($root, $level)
+    {
+        $rsm = $this->getBasicResultMapping();
+
+        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p LEFT JOIN stations s ON s.pce_seqno=p.seqno WHERE s.seqno IS NOT NULL AND LEVEL=" . $level . " CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='" . $root . "') order by type,name", $rsm);
+        $r = $query->getResult();
+        return $r;
+    }
+
+    public function getAllBelgianPlacesAtLevel2()
+    {
+        return $this->getAllPlaces('BE', 2);
     }
 
     public function getAllBelgianPlacesAtLevel3()
     {
-        $rsm = $this->getBasicResultMapping();
-
-        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno from places p  WHERE LEVEL=3 CONNECT BY PRIOR p.seqno = p.pce_seqno  START WITH p.NAME  ='BE') ORDER BY type,name", $rsm);
-        $r = $query->getResult();
-        return $r;
+        return $this->getAllPlaces('BE', 3);
     }
 
     public function getAllBelgianPlacesAtLevel4WithAStation()
     {
-        $rsm = $this->getBasicResultMapping();
+        return $this->getAllPlacesWithAStation('BE', 4);
+    }
 
-        $query = $this->getEntityManager()->createNativeQuery("SELECT seqno, pce_seqno, name, type, cre_dat, cre_user, mod_dat, mod_user FROM PLACES WHERE seqno IN (SELECT DISTINCT p.seqno FROM Places p LEFT JOIN stations s ON s.pce_seqno=p.seqno WHERE s.seqno IS NOT NULL AND LEVEL=4 CONNECT BY PRIOR p.seqno = p.pce_seqno START WITH p.NAME='BE') order by type,name", $rsm);
-        $r = $query->getResult();
-        return $r;
+    public function getAllPlacesAtLevel2()
+    {
+        return $this->getAllPlaces('WORLD', 2);
+    }
+
+    public function getAllPlacesAtLevel3()
+    {
+        return $this->getAllPlaces('WORLD', 3);
+    }
+
+    public function getAllPlacesAtLevel4()
+    {
+        return $this->getAllPlaces('WORLD', 4);
+    }
+
+    public function getAllPlacesAtLevel5WithAStation()
+    {
+        return $this->getAllPlacesWithAStation('WORLD', 5);
     }
 
     /*    public function getAllBelgianPlacesWithAStationAtLevel1(){

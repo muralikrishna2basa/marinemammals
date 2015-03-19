@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CgRefCodes
  *
- * @ORM\Table(name="CG_REF_CODES", uniqueConstraints={@ORM\UniqueConstraint(name="cg_ref_codes_rv_meaning_uk", columns={"RV_MEANING"})}, indexes={@ORM\Index(name="x_cg_ref_codes_1", columns={"RV_DOMAIN", "RV_LOW_VALUE"})})
+ * @ORM\Table(name="CG_REF_CODES", uniqueConstraints={@ORM\UniqueConstraint(name="cg_ref_codes_rv_meaning_uk", columns={"RV_MEANING"}),@ORM\UniqueConstraint(name="CG_REF_CODES_RV_LOW_UK", columns={"RV_DOMAIN","RV_LOW_VALUE"})}, indexes={@ORM\Index(name="x_cg_ref_codes_1", columns={"RV_DOMAIN", "RV_LOW_VALUE"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CgRefCodesRepository")
  */
 class CgRefCodes
@@ -58,7 +58,6 @@ class CgRefCodes
     private $seqno;
 
 
-
     /**
      * Set rvAbbreviation
      *
@@ -68,14 +67,14 @@ class CgRefCodes
     public function setRvAbbreviation($rvAbbreviation)
     {
         $this->rvAbbreviation = $rvAbbreviation;
-    
+
         return $this;
     }
 
     /**
      * Get rvAbbreviation
      *
-     * @return string 
+     * @return string
      */
     public function getRvAbbreviation()
     {
@@ -91,14 +90,14 @@ class CgRefCodes
     public function setRvDomain($rvDomain)
     {
         $this->rvDomain = $rvDomain;
-    
+
         return $this;
     }
 
     /**
      * Get rvDomain
      *
-     * @return string 
+     * @return string
      */
     public function getRvDomain()
     {
@@ -114,14 +113,14 @@ class CgRefCodes
     public function setRvHighValue($rvHighValue)
     {
         $this->rvHighValue = $rvHighValue;
-    
+
         return $this;
     }
 
     /**
      * Get rvHighValue
      *
-     * @return string 
+     * @return string
      */
     public function getRvHighValue()
     {
@@ -137,14 +136,14 @@ class CgRefCodes
     public function setRvLowValue($rvLowValue)
     {
         $this->rvLowValue = $rvLowValue;
-    
+
         return $this;
     }
 
     /**
      * Get rvLowValue
      *
-     * @return string 
+     * @return string
      */
     public function getRvLowValue()
     {
@@ -160,14 +159,14 @@ class CgRefCodes
     public function setRvMeaning($rvMeaning)
     {
         $this->rvMeaning = $rvMeaning;
-    
+
         return $this;
     }
 
     /**
      * Get rvMeaning
      *
-     * @return string 
+     * @return string
      */
     public function getRvMeaning()
     {
@@ -177,7 +176,7 @@ class CgRefCodes
     /**
      * Get seqno
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeqno()
     {

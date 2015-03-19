@@ -132,11 +132,11 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: validator.constraint_validator, alias: sourcetype_indb }
-    app.exception_listener:
-        class: AppBundle\Listener\ExceptionListener
-        arguments: [@templating]
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException}
+ #   app.exception_listener:
+ #       class: AppBundle\Listener\ExceptionListener
+ #       arguments: [@templating]
+ #       tags:
+ #           - { name: kernel.event_listener, event: kernel.exception, method: onKernelException}
     observations_provider:
         class: AppBundle\ControllerHelper\ObservationProvider
         arguments: [@doctrine.orm.entity_manager]

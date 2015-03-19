@@ -16,4 +16,14 @@ class CgRefCodesRepository extends EntityRepository
             ->getResult();
         return $types;
     }
+
+    public function getAll()
+    {
+        $types =$this->createQueryBuilder('cgr')
+            ->select('cgr')
+            ->orderBy('cgr.rvLowValue', 'ASC')
+            ->getQuery()
+            ->getResult();
+        return $types;
+    }
 }

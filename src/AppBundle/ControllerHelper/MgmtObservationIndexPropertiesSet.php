@@ -3,7 +3,7 @@
 namespace AppBundle\ControllerHelper;
 
 
-Class MgmtObservationIndexPropertiesSet extends PropertiesSet
+Class MgmtObservationIndexPropertiesSet extends GettablePropertiesSet
 {
     public function __construct()
     {

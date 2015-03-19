@@ -5,140 +5,22 @@ namespace AppBundle\Controller;
 use AppBundle\Form\Filter\ObservationsFilterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\ControllerHelper;
+use AppBundle\ControllerHelper\ObservationIndexPropertiesSet;
+use AppBundle\ControllerHelper\MgmtObservationIndexPropertiesSet;
 
 class ObservationsRetrievalController extends Controller
 {
-    private function getFilteredObservations($filter, $excludeConfidential, $excludeNonBelgian)
+
+    private function generalFilterAction(Request $request, $page, $excludeConfidential, $onlyBelgium, $ps)
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations');
-        $filterBuilder = $repo->getCompleteObservationsQb();
-
-        $eventDatetimeStart = $filter['eventDatetimeStart'];
-        $eventDatetimeStop = $filter['eventDatetimeStop'];
-        $stationstype = $filter['stationstype'];
-        $stn = $filter['stnSeqno'];
-        $txn = $filter['txnSeqno'];
-        $osnType = $filter['osnType'];
-        $generalPlace = $filter['generalPlace'];
-        $place = $filter['place'];
-        $country = '';
-        if (array_key_exists('country', $filter)) {
-            $country = $filter['country'];
-        }
-        if ($eventDatetimeStart && $eventDatetimeStop) {
-            $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
-            $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
-            $filterBuilder->setParameter('eventDatetimeStop', $eventDatetimeStop);
-        }
-        if ($stationstype) {
-            $filterBuilder->andWhere('st.areaType=:areaType');
-            $filterBuilder->setParameter('areaType', $stationstype);
-        }
-        if ($stn) {
-            $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
-            $filterBuilder->setParameter('stnSeqno', $stn);
-        }
-        if ($txn) {
-            $filterBuilder->andWhere('t.canonicalName=:canonicalName');
-            $filterBuilder->setParameter('canonicalName', $txn->getCanonicalName());
-        }
-        if ($osnType) {
-            $filterBuilder->andWhere('o.osnType=:osnType');
-            $filterBuilder->setParameter('osnType', $osnType);
-        }
-        if ($place) {
-            $stations = $this->getDoctrine()
-                ->getEntityManager()->getRepository('AppBundle:Stations')
-                ->getAllStationsBelongingToPlaceDeepQb($place)->getQuery()->getResult();
-            $this->filterByStation($stations, $filterBuilder);
-        }
-        if ($generalPlace) {
-            $stations = $this->getDoctrine()
-                ->getEntityManager()->getRepository('AppBundle:Stations')
-                ->getAllStationsBelongingToPlaceDeepQb($generalPlace)->getQuery()->getResult();
-            $this->filterByStation($stations, $filterBuilder);
-        }
-        $observations = $filterBuilder->getQuery()->getResult();
-
-        if ($excludeConfidential) {
-            $observations = $this->excludeConfidentialObservations($observations);
-        }
-
-        if ($country) {
-            $observations = $this->filterByCountry($country, $observations);
-        }
-        /*if ($excludeNonBelgian) {
-            $observations = $this->excludeNonBelgianObservations($observations);
-        }*/
-        return $observations;
-    }
-
-    private function filterByCountry($country, $observations)
-    {
-        if ($country !== '' and $country !== null) {
-            return array_filter($observations, function ($o) use ($country) {
-                if ($o->getStnSeqno() !== null) {
-                    return $o->getStnSeqno()->getCountry() === $country;
-                } else return false;
-
-            });
-        }
-        return $observations;
-
-    }
-
-    private function filterByStation($stations, $filterBuilder)
-    {
-        if (null !== $stations and count($stations) > 0) {
-            $filterBuilder->andWhere('o.stnSeqno IN (:stations)');
-            $filterBuilder->setParameter('stations', $stations);
-        } else {
-            $filterBuilder->andWhere("o.osnType='THISGIVESNORESULTS'");
-        }
-        return $filterBuilder;
-    }
-
-    private function excludeConfidentialObservations($observations)
-    {
-        return array_filter($observations, function ($o) {
-            return $o->getIsconfidential() === null;
-        });
-    }
-
-    private function excludeNonBelgianObservations($observations)
-    {
-        return array_filter($observations, function ($e) {
-            if ($e->getStnSeqno() !== null) {
-                return $e->getStnSeqno()->getCountry() === 'BE';
-            } else return false;
-        });
-    }
-
-    private function getIndexOfObservations($excludeConfidential, $excludeNonBelgian)
-    {
-        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations');
-        $observations = $repo->getCompleteObservationsQb()->getQuery()->getResult();
-
-        if ($excludeConfidential) {
-            $observations = $this->excludeConfidentialObservations($observations);
-        }
-        if ($excludeNonBelgian) {
-            $observations = $this->excludeNonBelgianObservations($observations);
-        }
-        return $observations;
-    }
-
-    private function generalFilterAction(Request $request, $page, $excludeConfidential, $excludeNonBelgian, $ps)
-    {
-        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('hasCountryDropdown' => !$excludeNonBelgian));
+        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => $onlyBelgium));
         if ($request->query->has($form->getName())) {
             $form->submit($request->query->get($form->getName()));
             $filter = $form->getData();
-            $observations = $this->getFilteredObservations($filter, $excludeConfidential, $excludeNonBelgian);
+            $observations = $this->get('observations_provider')->loadObservationsByFilter($filter, $excludeConfidential);
             $results = array();
             foreach ($observations as $o) {
-                array_push($results, $ps->toArray($o));
+                array_push($results, $ps->getAll($o));
             }
             if ($request->query->has('export')) {
                 return $this->export($results);
@@ -164,8 +46,8 @@ class ObservationsRetrievalController extends Controller
 
     public function mgmtIndexAction()
     {
-        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('hasCountryDropdown' => true));
-        $observations = $this->getIndexOfObservations(false, false);
+        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => false));
+        $observations = $this->get('observations_provider')->loadObservations(false, false);
         return $this->generalIndexAction('AppBundle:Page:mgmt-list-observations.html.twig', $form, $observations);
     }
 
@@ -177,8 +59,8 @@ class ObservationsRetrievalController extends Controller
 
     public function indexAction()
     {
-        $observations = $this->getIndexOfObservations(true, true);
-        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('hasCountryDropdown' => false));
+        $observations = $this->get('observations_provider')->loadObservations(true, true);
+        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => true));
         return $this->generalIndexAction('AppBundle:Page:list-observations.html.twig', $form, $observations);
     }
 
