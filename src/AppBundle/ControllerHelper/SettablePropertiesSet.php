@@ -24,7 +24,8 @@ abstract class SettablePropertiesSet
 
     public function setAll(&$object){
         foreach($this->functions as $key=>$func){
-            call_user_func($this->functions[$key], $object);
+            //call_user_func($this->functions[$key], $object);
+            $object->{$this->functions[$key]};
         }
     }
 }

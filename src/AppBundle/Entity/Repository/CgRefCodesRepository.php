@@ -8,13 +8,15 @@ class CgRefCodesRepository extends EntityRepository
 {
     public function getRefCodes($domain)
     {
-        $types =$this->createQueryBuilder('cgr')
+        return $this->getRefCodesQb($domain)->getQuery()->getResult();
+    }
+
+    public function getRefCodesQb($domain)
+    {
+        return $this->createQueryBuilder('cgr')
             ->orderBy('cgr.rvLowValue', 'ASC')
             ->where('cgr.rvDomain = :domain')
-            ->setParameter('domain',$domain)
-            ->getQuery()
-            ->getResult();
-        return $types;
+            ->setParameter('domain',$domain);
     }
 
     public function getAll()

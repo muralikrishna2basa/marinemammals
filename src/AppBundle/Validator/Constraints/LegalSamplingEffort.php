@@ -4,7 +4,7 @@ namespace AppBundle\Validator\Constraints;
 /**
  * @Annotation
  */
-class LegalSamplingEffort extends LegalCgRefCode
+class LegalSamplingEffort extends LegalCgRefCodeEntity
 {
     public function validatedBy()
     {

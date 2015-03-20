@@ -2,7 +2,7 @@
 
 namespace AppBundle\Validator\Constraints;
 
-class LegalOsnTypeValidator extends LegalCgRefCodeValidator {
+class LegalOsnTypeValidator extends LegalCgRefCodeEntityValidator {
 
     public function __construct($doctrine)
     {

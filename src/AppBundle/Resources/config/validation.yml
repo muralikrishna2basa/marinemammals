@@ -62,12 +62,12 @@ AppBundle\Entity\EventStates:
                 - AppBundle\Validator\Constraints\DateRange:
                      min: "1900-01-01"
                      max: "now"
-        eventDatetimeFlag:
+        eventDatetimeFlagRef:
                 - NotBlank: ~
                 - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 50
+#                - Length:
+#                     min: 1
+#                     max: 50
                 - AppBundle\Validator\Constraints\LegalEventDatetimeFlag: ~
         description:
                 - Length:
@@ -240,24 +240,24 @@ AppBundle\Entity\Observations:
                 - Type:
                     type: numeric
                     message: The value {{ value }} is not a valid {{ type }}.
-        osnType:
+        osnTypeRef:
                 - NotBlank: ~
                 - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 50
+#                - Length:
+#                     min: 1
+#                     max: 50
                 - AppBundle\Validator\Constraints\LegalOsnType: ~
         precisionFlag:
                 - Length:
                      min: 0
                      max: 50
                 - AppBundle\Validator\Constraints\LegalCoordinatePrecisionFlag: ~
-        samplingeffort:
+        samplingeffortRef:
                 - NotBlank: ~
                 - NotNull: ~
-                - Length:
-                     min: 0
-                     max: 50
+#                - Length:
+#                     min: 0
+#                     max: 50
                 - AppBundle\Validator\Constraints\LegalSamplingEffort: ~
         webcommentsNl:
                 - Length:

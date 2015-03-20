@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Repository\CgRefCodesRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Entity\Repository\StationsRepository;
@@ -61,15 +62,25 @@ class ObservationsType extends AbstractType
         $builder->add('isconfidential', 'checkbox', array(
             'required' => false
         ));
-        $builder->add('osnType', 'choice', array(
+        $builder->add('osnTypeRef', 'entity', array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list' => new CgRefChoiceList($this->doctrine, 'OSN_TYPE')
+            'class' => 'AppBundle:CgRefCodes',
+            'property' => 'rvMeaning',
+            'query_builder' => function (CgRefCodesRepository $er) {
+                return $er->getRefCodesQb('OSN_TYPE');
+            }
+            //'choice_list' => new CgRefChoiceList($this->doctrine, 'OSN_TYPE')
         ));
-        $builder->add('samplingeffort', 'choice', array(
+        $builder->add('samplingeffortRef', 'entity', array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list' => new CgRefChoiceList($this->doctrine, 'SAMPLINGEFFORT')
+            'class' => 'AppBundle:CgRefCodes',
+            'property' => 'rvMeaning',
+            'query_builder' => function (CgRefCodesRepository $er) {
+                return $er->getRefCodesQb('SAMPLINGEFFORT');
+            }
+            //'choice_list' => new CgRefChoiceList($this->doctrine, 'SAMPLINGEFFORT')
         ));
         $builder->add('webcommentsEn', 'textarea', array(
             'required' => false

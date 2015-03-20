@@ -5,7 +5,7 @@
 <div class="form-inline">
     {{ form_row(form.eseSeqno.eventDatetime.date, {'label':'Date', 'attr': {'placeholder': 'dd/mm/yyyy'} }) }}
     {{ form_row(form.eseSeqno.eventDatetime.time, {'label':'Time', 'attr': {'placeholder': 'hh:mm'} }) }}
-    {{ form_row(form.eseSeqno.eventDatetimeFlag, {'label':'Date flag'}) }}</div>
+    {{ form_row(form.eseSeqno.eventDatetimeFlagRef, {'label':'Date flag'}) }}</div>
 <h3>Location</h3>
 <h4>Exact Coordinates</h4>
 <div class="form-inline">{{ form_row(form.latDec, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723','class':'refer-to_observationstype_lonDec'} }) }}
@@ -21,8 +21,8 @@
 <h3>Observation type</h3>
 
 <div class="form-inline">{{ form_row(form.isconfidential, {'label':'Confidential observation?'}) }}</div>
-<div class="form-inline">{{ form_row(form.osnType, {'label':'Observation type'}) }}</div>
-<div class="form-inline">{{ form_row(form.samplingeffort, {'label':'Sampling effort'}) }}</div>
+<div class="form-inline">{{ form_row(form.osnTypeRef, {'label':'Observation type'}) }}</div>
+<div class="form-inline">{{ form_row(form.samplingeffortRef, {'label':'Sampling effort'}) }}</div>
 <h3>Observation conditions</h3>
 {% for ov in form.values %}
     <h4>{{ ov.vars.value.pmdName }}</h4>

@@ -107,15 +107,21 @@ class EventStates
      */
     private $event2Persons;
 
+    /**
+     * @var \AppBundle\Entity\CgRefCodes
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CgRefCodes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="EVENT_DATETIME_FLAG_REF", referencedColumnName="SEQNO")
+     * })
+     */
+    private $eventDatetimeFlagRef;
+
     const GATHERED = 'GB';
 
     const OBSERVED = 'OB';
 
     const INFORMED = 'IB';
-
-    //private $date;
-
-    //private $time;
 
     /**
      * Constructor
@@ -345,6 +351,26 @@ class EventStates
     {
         return $this->event2Persons;
     }
+
+    /**
+     * @return CgRefCodes
+     */
+    public function getEventDatetimeFlagRef()
+    {
+        return $this->eventDatetimeFlagRef;
+    }
+
+    /**
+     * @param CgRefCodes $eventDatetimeFlagRef
+     * @return EventStates
+     */
+    public function setEventDatetimeFlagRef($eventDatetimeFlagRef)
+    {
+        $this->eventDatetimeFlagRef = $eventDatetimeFlagRef;
+        return $this;
+    }
+
+
 
     /**
      * @param \Doctrine\Common\Collections\Collection $event2Persons

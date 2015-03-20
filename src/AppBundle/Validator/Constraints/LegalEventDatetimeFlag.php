@@ -4,7 +4,7 @@ namespace AppBundle\Validator\Constraints;
 /**
  * @Annotation
  */
-class LegalEventDatetimeFlag extends LegalCgRefCode
+class LegalEventDatetimeFlag extends LegalCgRefCodeEntity
 {
     public function validatedBy()
     {

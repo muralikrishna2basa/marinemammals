@@ -94,6 +94,16 @@ class SpecimenValues implements EntityValues
     private $pmdSeqno;
 
     /**
+     * @var \AppBundle\Entity\CgRefCodes
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CgRefCodes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="VALUE_FLAG_REF", referencedColumnName="SEQNO")
+     * })
+     */
+    private $valueFlagRef;
+
+    /**
      * @var boolean
      */
     private $hasFlag;
@@ -317,6 +327,24 @@ class SpecimenValues implements EntityValues
     public function getvalueAssignable()
     {
         return $this->valueAssignable;
+    }
+
+    /**
+     * @return CgRefCodes
+     */
+    public function getValueFlagRef()
+    {
+        return $this->valueFlagRef;
+    }
+
+    /**
+     * @param CgRefCodes $valueFlagRef
+     * @return SpecimenValues
+     */
+    public function setValueFlagRef($valueFlagRef)
+    {
+        $this->valueFlagRef = $valueFlagRef;
+        return $this;
     }
 
     /**

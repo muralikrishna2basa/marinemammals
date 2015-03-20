@@ -18,13 +18,13 @@ class ObservationProvider
 
     private $doctrine;
     private $repo;
-    private $cgRefCodesPropertiesSet;
+    //private $cgRefCodesPropertiesSet;
 
     public function __construct($doctrine)
     {
         $this->doctrine = $doctrine;
         $this->repo = $this->doctrine->getRepository('AppBundle:Observations');
-        $this->cgRefCodesPropertiesSet = new CgRefCodesPropertiesSet($doctrine);
+        //$this->cgRefCodesPropertiesSet = new CgRefCodesPropertiesSet($doctrine);
     }
 
     public function loadAndSupplementObservation($id)
@@ -43,8 +43,7 @@ class ObservationProvider
         if (!$observation) {
             throw $this->createNotFoundException(sprintf('The observation with seqno %s does not exist.', $id));
         }
-
-        $this->supplementCgDescriptionSingle($observation);
+        //$this->supplementCgDescriptionSingle($observation);
         return $observation;
     }
 
@@ -100,18 +99,8 @@ class ObservationProvider
         if (array_key_exists('country', $filter)) {
             $country = $filter['country'];
         }
-        if ($eventDatetimeStart && $eventDatetimeStop) {
-            $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
-            $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
-            $filterBuilder->setParameter('eventDatetimeStop', $eventDatetimeStop);
-        }
-        if ($stationstype) {
-            $filterBuilder->andWhere('st.areaType=:areaType');
-            $filterBuilder->setParameter('areaType', $stationstype);
-        }
-        if ($stn) {
-            $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
-            $filterBuilder->setParameter('stnSeqno', $stn);
+        if ($excludeConfidential) {
+            $filterBuilder->andWhere('o.isconfidential is null');
         }
         if ($txn) {
             $filterBuilder->andWhere('t.canonicalName=:canonicalName');
@@ -121,9 +110,14 @@ class ObservationProvider
             $filterBuilder->andWhere('o.osnType=:osnType');
             $filterBuilder->setParameter('osnType', $osnType);
         }
-        if ($excludeConfidential) {
-            $filterBuilder->andWhere('o.isconfidential=null');
-            //$filterBuilder->setParameter('osnType', $osnType);
+        if ($eventDatetimeStart && $eventDatetimeStop) {
+            $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
+            $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
+            $filterBuilder->setParameter('eventDatetimeStop', $eventDatetimeStop);
+        }
+        if ($country) {
+            $filterBuilder->andWhere('p1.name=:country or p2.name=:country or p3.name=:country or p4.name=:country');
+            $filterBuilder->setParameter('country', $country);
         }
         if ($place) {
             $stations = $this->doctrine->getRepository('AppBundle:Stations')
@@ -135,53 +129,55 @@ class ObservationProvider
                 ->getAllStationsBelongingToPlaceDeepQb($generalPlace)->getQuery()->getResult();
             $this->filterByStation($stations, $filterBuilder);
         }
-        $observations = $filterBuilder->getQuery()->getResult();
-
-        /*if ($excludeConfidential) {
-            $observations = $this->excludeConfidentialObservations($observations);
-        }*/
-
-        if ($country) {
-            $observations = $this->filterByCountry($country, $observations);
+        if ($stationstype) {
+            $filterBuilder->andWhere('st.areaType=:areaType');
+            $filterBuilder->setParameter('areaType', $stationstype);
         }
-        /*if ($excludeNonBelgian) {
-            $observations = $this->excludeNonBelgianObservations($observations);
-        }*/
+        if ($stn) {
+            $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
+            $filterBuilder->setParameter('stnSeqno', $stn);
+        }
 
-        //$res=$this->supplementCgDescriptionMultiple($observations);
-        return $observations;
+        return $filterBuilder->getQuery()->getResult();
     }
 
     public function loadObservations($excludeConfidential, $excludeNonBelgian)
     {
-        //$observations = $this->repo->getCompleteObservationsQb()->getQuery()->getResult();
-        $q = $this->repo->getCompleteObservationsQb();
+        $qb = $this->repo->getCompleteObservationsQb();
         if ($excludeConfidential) {
-            $q = $q->andWhere('o.isconfidential=null');
-            //$observations = $this->excludeConfidentialObservations($observations);
+            $qb = $qb->andWhere('o.isconfidential is null');
         }
-        $observations = $q->getQuery()->getResult();
         if ($excludeNonBelgian) {
-            $observations = $this->excludeNonBelgianObservations($observations);
+            $qb = $qb->andWhere("p1.name='BE' or p2.name='BE' or p3.name='BE' or p4.name='BE'");
         }
-        //$start=microtime(true);
-        //$res=$this->supplementCgDescriptionMultiple($observations);
-        //$end=microtime(true);
-        return $observations;
+        return $qb->getQuery()->getResult();
     }
 
-    public function supplementCgDescriptionMultiple($observations)
+
+    private function filterByStation($stations, $filterBuilder)
     {
-        foreach ($observations as $o) {
-            $this->supplementCgDescriptionSingle($o);
+        if (null !== $stations and count($stations) > 0) {
+            $filterBuilder->andWhere('o.stnSeqno IN (:stations)');
+            $filterBuilder->setParameter('stations', $stations);
+        } else {
+            $filterBuilder->andWhere("o.osnType='THISGIVESNORESULTS'");
         }
-        return $observations;
+        return $filterBuilder;
     }
 
-    private function supplementCgDescriptionSingle(Observations &$o)
-    {
-        $this->cgRefCodesPropertiesSet->setAll($o);
+    /*public function supplementCgDescriptionMultiple($observations)
+{
+    foreach ($observations as $o) {
+        $this->supplementCgDescriptionSingle($o);
     }
+    return $observations;
+}
+
+private function supplementCgDescriptionSingle(Observations &$o)
+{
+    $this->cgRefCodesPropertiesSet->setAll($o);
+}*/
+/*
 
     private function filterByCountry($country, $observations)
     {
@@ -195,18 +191,6 @@ class ObservationProvider
         }
         return $observations;
     }
-
-    private function filterByStation($stations, $filterBuilder)
-    {
-        if (null !== $stations and count($stations) > 0) {
-            $filterBuilder->andWhere('o.stnSeqno IN (:stations)');
-            $filterBuilder->setParameter('stations', $stations);
-        } else {
-            $filterBuilder->andWhere("o.osnType='THISGIVESNORESULTS'");
-        }
-        return $filterBuilder;
-    }
-
     private function excludeConfidentialObservations($observations)
     {
         return array_filter($observations, function ($o) {
@@ -222,4 +206,5 @@ class ObservationProvider
             } else return false;
         });
     }
+*/
 }

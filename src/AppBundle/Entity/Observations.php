@@ -180,6 +180,27 @@ class Observations implements ValueAssignable
     private $values;
 
     /**
+     * @var \AppBundle\Entity\CgRefCodes
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CgRefCodes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="OSN_TYPE_REF", referencedColumnName="SEQNO")
+     * })
+     */
+    private $osnTypeRef;
+
+    /**
+     * @var \AppBundle\Entity\CgRefCodes
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CgRefCodes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="SAMPLINGEFFORT_REF", referencedColumnName="SEQNO")
+     * })
+     */
+    private $samplingeffortRef;
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -706,6 +727,42 @@ class Observations implements ValueAssignable
     public function setSingleSource(\AppBundle\Entity\Sources $sreSeqno = null)
     {
         $this->addSreSeqno($sreSeqno);
+        return $this;
+    }
+
+    /**
+     * @return CgRefCodes
+     */
+    public function getOsnTypeRef()
+    {
+        return $this->osnTypeRef;
+    }
+
+    /**
+     * @param CgRefCodes $osnTypeRef
+     * @return Observations
+     */
+    public function setOsnTypeRef($osnTypeRef)
+    {
+        $this->osnTypeRef = $osnTypeRef;
+        return $this;
+    }
+
+    /**
+     * @return CgRefCodes
+     */
+    public function getSamplingeffortRef()
+    {
+        return $this->samplingeffortRef;
+    }
+
+    /**
+     * @param CgRefCodes $samplingeffortRef
+     * @return Observations
+     */
+    public function setSamplingeffortRef($samplingeffortRef)
+    {
+        $this->samplingeffortRef = $samplingeffortRef;
         return $this;
     }
 

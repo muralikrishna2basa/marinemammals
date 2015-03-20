@@ -85,6 +85,16 @@ class ObservationValues implements EntityValues
     private $valueAssignable;
 
     /**
+     * @var \AppBundle\Entity\CgRefCodes
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CgRefCodes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="VALUE_FLAG_REF", referencedColumnName="SEQNO")
+     * })
+     */
+    private $valueFlagRef;
+
+    /**
      * @var boolean
      *
      */
@@ -306,6 +316,24 @@ class ObservationValues implements EntityValues
     public function getValueAssignable()
     {
         return $this->valueAssignable;
+    }
+
+    /**
+     * @return CgRefCodes
+     */
+    public function getValueFlagRef()
+    {
+        return $this->valueFlagRef;
+    }
+
+    /**
+     * @param CgRefCodes $valueFlagRef
+     * @return ObservationValues
+     */
+    public function setValueFlagRef($valueFlagRef)
+    {
+        $this->valueFlagRef = $valueFlagRef;
+        return $this;
     }
 
     /**

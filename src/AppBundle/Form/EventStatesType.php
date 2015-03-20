@@ -4,7 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use AppBundle\Form\ChoiceList\CgRefChoiceList;
+use AppBundle\Entity\Repository\CgRefCodesRepository;
 use AppBundle\Entity\EventStates;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
@@ -24,10 +24,15 @@ class EventStatesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('eventDatetime', new DateTimeType(), array());
-        $builder->add('eventDatetimeFlag', 'choice',array(
+        $builder->add('eventDatetimeFlagRef', 'entity',array(
             'empty_value' => 'Select...',
             'required' => true,
-            'choice_list'=>new CgRefChoiceList($this->doctrine,'DATETIME_FLAG')
+            'class' => 'AppBundle:CgRefCodes',
+            'property' => 'rvMeaning',
+            'query_builder' => function (CgRefCodesRepository $er) {
+                return $er->getRefCodesQb('DATETIME_FLAG');
+            }
+            //'choice_list'=>new CgRefChoiceList($this->doctrine,'DATETIME_FLAG')
         ));
         $builder->add('description', 'textarea', array(
             'required' => false

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Validator\Constraints;
 
-class LegalEventDatetimeFlagValidator extends LegalCgRefCodeValidator {
+class LegalEventDatetimeFlagValidator extends LegalCgRefCodeEntityValidator {
 
     public function __construct($doctrine)
     {
