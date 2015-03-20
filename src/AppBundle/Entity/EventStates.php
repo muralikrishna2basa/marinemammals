@@ -43,13 +43,6 @@ class EventStates
     private $eventDatetime;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="EVENT_DATETIME_FLAG", type="string", length=50, nullable=false)
-     */
-    private $eventDatetimeFlag;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="MOD_DAT", type="datetime", nullable=true)
@@ -224,29 +217,6 @@ class EventStates
     }
 
     /**
-     * Set eventDatetimeFlag
-     *
-     * @param string $eventDatetimeFlag
-     * @return EventStates
-     */
-    public function setEventDatetimeFlag($eventDatetimeFlag)
-    {
-        $this->eventDatetimeFlag = $eventDatetimeFlag;
-
-        return $this;
-    }
-
-    /**
-     * Get eventDatetimeFlag
-     *
-     * @return string
-     */
-    public function getEventDatetimeFlag()
-    {
-        return $this->eventDatetimeFlag;
-    }
-
-    /**
      * Set modDat
      *
      * @param \DateTime $modDat
@@ -370,7 +340,9 @@ class EventStates
         return $this;
     }
 
-
+    public function getEventDatetimeFlag(){
+        return $this->getEventDatetimeFlagRef()->getRvLowValue();
+    }
 
     /**
      * @param \Doctrine\Common\Collections\Collection $event2Persons
@@ -392,7 +364,6 @@ class EventStates
             $this->getEvent2Persons()->add($event2Person);
         }
     }
-
 
     public function removeEvent2Persons($event2Person)
     {
@@ -525,6 +496,72 @@ class EventStates
     }
 
     /**
+     * @return array
+     */
+    public function getObserverPersons()
+    {
+        return $this->getObservers()->map(function ($entry) {
+            return $entry->getPsnSeqno();
+        })->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function getGathererPersons()
+    {
+        return $this->getGatherers()->map(function ($entry) {
+            return $entry->getPsnSeqno();
+        })->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function getInformerPersons()
+    {
+        return $this->getInformers()->map(function ($entry) {
+            return $entry->getPsnSeqno();
+        })->toArray();
+    }
+
+    /**
+     * @return string
+     */
+    public function getObserversAsString()
+    {
+        $result=array();
+        foreach($this->getObserverPersons() as $i){
+            array_push($result,$i->getFullyQualifiedName());
+        }
+        return implode(', ',$result);
+    }
+
+    /**
+     * @return string
+     */
+    public function getGatherersAsString()
+    {
+        $result=array();
+        foreach($this->getGathererPersons() as $i){
+            array_push($result,$i->getFullyQualifiedName());
+        }
+        return implode(', ',$result);
+    }
+
+    /**
+     * @return string
+     */
+    public function getInformersAsString()
+    {
+        $result=array();
+        foreach($this->getInformerPersons() as $i){
+            array_push($result,$i->getFullyQualifiedName());
+        }
+        return implode(', ',$result);
+    }
+
+    /**
      * @param \AppBundle\Entity\Event2Persons $event2Person
      */
     public function addInformers($event2Person)
@@ -592,6 +629,12 @@ class EventStates
 
     public function isEitherNecropsyOrObservationLegal(){
         return ($this->hasNecropsyAttached() && !$this->hasObservationAttached()) || (!$this->hasNecropsyAttached() && $this->hasObservationAttached());
+    }
+
+    public function getNecropsyCode(){
+        if($this->hasNecropsyAttached()){
+            return $this->getNecropsy()->getRef();
+        }
     }
 
 //

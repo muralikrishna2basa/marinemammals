@@ -59,7 +59,7 @@ mm_observations_mgmtfilter:
         _method:  GET
 
 mm_observations_view:
-    pattern:  /mgmt/observations/view/{id}
+    pattern:  /observations/view/{id}
     defaults: { _controller: AppBundle:ObservationsRetrieval:view }
     requirements:
         _method:  GET

@@ -27,7 +27,7 @@
 {% for ov in form.values %}
     <h4>{{ ov.vars.value.pmdName }}</h4>
     <div class="form-inline">{{ form_row(ov.value, {'label':'Value'}) }}
-        {{ form_row(ov.valueFlag, {'label':'Value flag'}) }}</div>
+        {{ form_row(ov.valueFlagRef, {'label':'Value flag'}) }}</div>
 {% endfor %}
 <h3>Observation comments</h3>
 {{ form_row(form.eseSeqno.description, {'label':'Observation description'}) }}

@@ -48,13 +48,6 @@ class LesionValues implements EntityValues
     private $value;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="VALUE_FLAG", type="string", length=50, nullable=true)
-     */
-    private $valueFlag;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="SEQNO", type="integer")
@@ -222,29 +215,6 @@ class LesionValues implements EntityValues
     }
 
     /**
-     * Set valueFlag
-     *
-     * @param string $valueFlag
-     * @return LesionValues
-     */
-    public function setValueFlag($valueFlag)
-    {
-        $this->valueFlag = $valueFlag;
-    
-        return $this;
-    }
-
-    /**
-     * Get valueFlag
-     *
-     * @return string 
-     */
-    public function getValueFlag()
-    {
-        return $this->valueFlag;
-    }
-
-    /**
      * Get seqno
      *
      * @return integer 
@@ -322,6 +292,10 @@ class LesionValues implements EntityValues
         $this->valueFlagRef = $valueFlagRef;
         return $this;
     }
+
+    public function getValueFlag(){
+        return $this->getValueFlagRef()->getRvLowValue();
+    }
     
     /**
      * Get the name of the used parameter method's name
@@ -375,7 +349,7 @@ class LesionValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getHasFlag() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
+        if ($this->getHasFlag() && $this->getValueFlagRef() === NULL && $this->getValue() !== NULL) {
             return false;
         } else {
             return true;

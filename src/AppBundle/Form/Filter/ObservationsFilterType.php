@@ -5,7 +5,7 @@ namespace AppBundle\Form\Filter;
 use AppBundle\Entity\Repository\TaxaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use AppBundle\Form\ChoiceList\CgRefChoiceList;
+use AppBundle\Entity\Repository\CgRefCodesRepository;
 use AppBundle\Entity\Repository\StationsRepository;
 use AppBundle\Entity\Repository\PlacesRepository;
 use AppBundle\Form\ChoiceList\StationsTypeList;
@@ -47,10 +47,15 @@ class ObservationsFilterType extends AbstractType
             'input'  => 'datetime',
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy'));
-        $builder->add('osnType', 'filter_choice', array(
+        $builder->add('osnTypeRef', 'filter_entity', array(
             'required' => false,
             'empty_value' => 'Observations type...',
-            'choice_list' => new CgRefChoiceList($this->doctrine, 'OSN_TYPE')
+            'class' => 'AppBundle:CgRefCodes',
+            'property' => 'rvMeaning',
+            'query_builder' => function (CgRefCodesRepository $er) {
+                return $er->getRefCodesQb('OSN_TYPE');
+            }
+            //'choice_list' => new CgRefChoiceList($this->doctrine, 'OSN_TYPE')
         ));
         $builder->add('stationstype', 'filter_choice', array(
             'required' => false,

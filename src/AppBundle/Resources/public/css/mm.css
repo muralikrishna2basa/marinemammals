@@ -95,37 +95,91 @@ table.table tbody td {
 }
 
 label.required:before{
-    color:#C9405B;
     content: "\f069";
-    display:inline;
+    font-size:110%;
+    color:#C9405B;
+    display: inline-block;
+    margin-right: 5px;
 }
 
 :required {
     border:1px solid orange !important;
 }
 
-.has-tooltip{
-    color:#002234;
+.has-tooltip:before{
+    content: "\f128";
+    font-size:110%;
+    color: #3c763d;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.has-clock-tooltip:before{
+    content: "\f017";
+    font-size:110%;
+    color:#3c763d;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.has-map-tooltip:before{
+    content: "\f041";
+    font-size:110%;
+    color:#3c763d;
+    display: inline-block;
+    margin-left: 5px;
 }
 
 .top-links{
     margin-bottom:3px;
 }
 
-span.confidential_observation{
+ul.observation-remark {
+    list-style-type: none;
+}
+
+ul.observation-remark span.warning{
     color:#C9405B;
 }
 
-span.confidential_observation:before{
+ul.observation-remark span.warning:before{
+    content: "\f12a";
+    font-size:110%;
+    color:#C9405B;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+span.confidential-observation:before{
     color:#C9405B;
     content: "\f12a";
 }
 
-table.observation_basic_view > tbody > tr > td:first-child{
-    width:200px;
+table.observation-view{
+    width:550px;
+}
+
+table.observation-view > tbody > tr > td:first-child{
+    font-weight: bold;
+    width:150px;
     text-align: right;
+}
+
+table.observation-view > tbody > tr > td:last-child{
+    width:400px;
+    text-align: left;
+}
+
+div.observation-view-comments{
+    display: inline-block;
+    max-width:1000px;
+}
+
+blockquote{
+    background-color: #DCE9EA;
 
 }
+
 /*
 @font-face {
     font-family: 'Glyphicons Halflings';

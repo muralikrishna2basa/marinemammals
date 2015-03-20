@@ -4,7 +4,6 @@
 {% block choice_widget_collapsed -%}
     {{- parent() -}}
     {% if desc is defined%}
-        <span data-tooltip="{{ desc }}" class="has-tooltip fa-question" style="z-index:200; padding
-        -left:50px;"></span>
+        <span data-tooltip="{{ desc }}" class="has-tooltip"></span>
     {% endif %}
 {%- endblock choice_widget_collapsed %}

@@ -1,33 +1,55 @@
 <h2>{{ observation.eseSeqno.spec2events.scnSeqno.txnSeqno.vernacularNameEn|capitalize }} -
     <i>{{ observation.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName }}</i></h2>
-<ul>{% if observation.isconfidential %}
-        <li><span class="confidential_observation">Confidential observation</span></li>{% endif %}
-    {% if observation.samplingeffort %}
-        <li><span>{{ observation.samplingeffort }}</span></li>{% endif %}
+<ul class="observation-remark">{% if observation.isconfidential %}
+        <li><span class="warning">Confidential observation</span></li>{% endif %}
+    {% if observation.samplingeffortRef %}
+        <li><span>{{ observation.samplingeffortRef.rvMeaning }}</span></li>{% endif %}
     {% if observation.cpnCode %}
         <li><span>Campaign: {{ observation.cpnCode }}</span></li>{% endif %}
+    {% if observation.eseSeqno.spec2events.scnSeqno.identificationCertainty is null %}
+        <li><span class="warning">Identification is uncertain</span></li>
+    {% endif %}
 </ul>
 
-<table class="observation_basic_view table">
+<table class="observation-basic-view observation-view table table-striped">
+    <thead>
+    <th>
+    <th>
+    </thead>
     <tbody>
     <tr>
         <td>Date</td>
-        <td>{{ observation.eseSeqno.eventDatetime.date }}</td>
-        <td>{{ observation.eseSeqno.eventDatetimeFlag }}</td>
+        <td>{{ observation.eseSeqno.eventDatetime.date }}<span
+                    data-tooltip="{{ observation.eseSeqno.eventDatetimeFlagRef.rvMeaning }}"
+                    class="fa fa-clock-o has-clock-tooltip"></span></td>
     </tr>
     <tr>
         <td>Number</td>
-        <td>{{ observation.eseSeqno.spec2events.scnSeqno.scnNumber }} {{ observation.eseSeqno.spec2events.scnSeqno.sex }} {{ observation.osnType }}</td>
+        <td>{{ observation.eseSeqno.spec2events.scnSeqno.scnNumber }} {{ observation.eseSeqno.spec2events.scnSeqno.sex }} {{ observation.osnTypeRef.rvMeaning }}{% if observation.eseSeqno.spec2events.decompositionCode %} - decomp. code: {{ observation.eseSeqno.spec2events.decompositionCode.value }}{% endif %}</td>
     </tr>
-    <tr>
-        <td>Identification is certain?</td>
-        <td>{{ observation.eseSeqno.spec2events.scnSeqno.identificationCertainty }}</td>
-    </tr>
+    {% if observation.eseSeqno.spec2events.beforeIntervention %}
+        <tr>
+            <td>Before intervention</td>
+            <td>{{ observation.eseSeqno.spec2events.beforeIntervention.value }}</td>
+        </tr>
+    {% endif %}
+    {% if observation.eseSeqno.spec2events.duringIntervention %}
+        <tr>
+            <td>Intervention</td>
+            <td>{{ observation.eseSeqno.spec2events.duringIntervention.value }}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td>Location</td>
-        <td>{{ observation.stnSeqno.description }}</td>
-        <td>{{ observation.precisionFlag }}</td>
+        <td>{{ observation.stnSeqno.description }}<span data-tooltip="{{ observation.precisionFlag }}"
+                                                        class="has-map-tooltip"></span></td>
     </tr>
+    {% if observation.pfmSeqno %}
+        <tr>
+            <td>Platform</td>
+            <td>{{ observation.pfmSeqno.name }}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td>Decimal latitude</td>
         <td>{{ observation.latDec }}</td>
@@ -36,140 +58,97 @@
         <td>Decimal longitude</td>
         <td>{{ observation.lonDec }}</td>
     </tr>
-
-
-    <tr>
-        <td>Platform</td>
-        <td>{{ observation.pfmSeqno }}</td>
-    </tr>
+    {% if observation.eseSeqno.informerPersons %}
+        <tr>
+            <td>Informer(s)</td>
+            <td>{{ observation.eseSeqno.informersAsString }}</td>
+        </tr>
+    {% endif %}
+    {% if observation.eseSeqno.observerPersons %}
+        <tr>
+            <td>Observer(s)</td>
+            <td>{{ observation.eseSeqno.observersAsString }}</td>
+        </tr>
+    {% endif %}
+    {% if observation.singleSource %}
+        <tr>
+            <td>Source</td>
+            <td>{{ observation.singleSource }}</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+<h3>Collection</h3>
+<table class="observation-collection-view observation-view table table-striped">
+    <thead>
+    <th>
+    <th>
+    </thead>
+    <tbody>
+    {% if observation.eseSeqno.spec2events.collection %}
+        <tr>
+            <td>Collection</td>
+            <td>{{ observation.eseSeqno.spec2events.collection.value }}</td>
+        </tr>
+    {% endif %}
+    {% if observation.eseSeqno.gathererPersons %}
+        <tr>
+            <td>Gatherer(s)</td>
+            <td>{{ observation.eseSeqno.gatherersAsString }}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td>RBINS tag</td>
         <td>{{ observation.eseSeqno.spec2events.scnSeqno.rbinsTag }}</td>
     </tr>
+    {% if observation.eseSeqno.hasNecropsyAttached %}
+        <tr>
+            <td>Necropsied</td>
+            <td>{% if observation.eseSeqno.necropsyCode != '' %}{{ observation.eseSeqno.necropsyCode }}
+                {% else %}
+                    Necropsy done, no autopsy or lab reference{% endif %}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td>Necropsy tag</td>
         <td>{{ observation.eseSeqno.spec2events.scnSeqno.necropsyTag }}</td>
     </tr>
-    <tr>
-        <td>Source</td>
-        <td>{{ observation.singleSource }}</td>
-    </tr>
-    {#
-   <tr>
-        <td>Person</td>
-        <td>{{ e2p_informer.psnSeqno }}</td>
-    </tr>
-    <tr>
-        <td>Person</td>
-        <td>{{ e2p_observer.psnSeqno }}</td>
-    </tr>
-    <tr>
-        <td>Person</td>
-        <td>{{ e2p_gatherer.psnSeqno }}</td>
-    </tr> #}
     </tbody>
 </table>
-<table class="observation_comments_view table">
+
+<div class="observation-view-comments">
+    {% if observation.eseSeqno.description %}
+        <blockquote>
+            <h4>Observation description</h4>
+            {{ observation.eseSeqno.description }}
+        </blockquote>
+    {% endif %}
+    {% if observation.webcommentsEn %}
+        <blockquote>
+            <h4>Event web comments English</h4>
+            {{ observation.webcommentsEn }}
+        </blockquote>
+    {% endif %}
+    {% if observation.webcommentsNl %}
+        <blockquote>
+            <h4>Event web comments Dutch</h4>
+            {{ observation.webcommentsNl }}
+        </blockquote>
+    {% endif %}
+    {% if observation.webcommentsFr %}
+        <blockquote>
+            <h4>Event web comments French</h4>
+            {{ observation.webcommentsFr }}
+        </blockquote>
+    {% endif %}
+</div>
+{#<table class="observation_values">
     <tbody>
-    <tr>
-        <td>Observation description</td>
-        <td>{{ observation.eseSeqno.description }}</td>
-    </tr>
-    <tr>
-        <td>Event web comments English</td>
-        <td>{{ observation.webcommentsEn }}</td>
-    </tr>
-    <tr>
-        <td>Event web comments Dutch</td>
-        <td>{{ observation.webcommentsNl }}</td>
-    </tr>
-    <tr>
-        <td>Event web comments French</td>
-        <td>{{ observation.webcommentsFr }}</td>
-    </tr>
+    {% for ov in observation.values %}
+        <tr>
+            <td>{{ ov.pmdName }}</td>
+            <td>{{ ov.value }}<span data-tooltip="{{ ov.valueFlagRef.rvMeaning }}" class="has-tooltip"></span></td>
+        </tr>
+    {% endfor %}
     </tbody>
-</table>
-
-
-{#{% for ov in observation.values %}
-    <h4>{{ ov.vars.value.pmdName }}</h4>
- <span ><div class="form-inline">Value</span> <span >{{ ov.value }}</span>
- <span >Value flag</span> <span >{{ ov.valueFlag }}</span></div>
-{% endfor %}
-
-<fieldset id="circumstantial_values" class="no-multi">
-    <legend><h4>Circumstantial parameters</h4></legend>
-    {% if observation.eseSeqno.spec2events.circumstantialValues|first.vars.data.valueRequired == false %}<p
-     id="circumstantialParametersFeedback" class="text-danger">Although the
- circumstantial parameters are not required to be completed when updating an existing observation, we would like
- you to provide this information nonetheless. The level of uncertainty can be expressed in the value
- flag.</p>{% endif %}
-    {% for sv in observation.eseSeqno.spec2events.circumstantialValues %}
- <h5>{{ sv.vars.value.pmdName }}</h5>
- <span ><div class="form-inline">Value</span> <span >{{ sv.value }}</span>
- <span >    Value flag</span> <span >{{ sv.valueFlag }}</span></div>
-    {% endfor %}
-</fieldset>
-<fieldset id="measurement_values" class="no-multi">
-    <legend><h4>Measurements</h4></legend>
-    {% for sv in observation.eseSeqno.spec2events.measurementValues %}
- <h5>{{ sv.vars.value.pmdName }}</h5>
- <span ><div class="form-inline">Value</span> <span >{{ sv.value }}</span>
- <span >    Value flag</span> <span >{{ sv.valueFlag }}</span></div>
-    {% endfor %}
-</fieldset>
-
-<fieldset id="pathology_values" class="no-multi">
-    <legend><h2>External pathology</h2></legend>
-    <fieldset>
- <legend><h3>Fresh external lesions</h3></legend>
- <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(0, 9) %}
-  {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last}) }}
-     {% endfor %}</div>
- <fieldset>
-     <legend><h4>Line/net impressions or cuts</h4></legend>
-     <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(9, 4) %}
-      {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last, 'attr'{'class''form-inline'}}) }}
-  {% endfor %}</div>
- </fieldset>
- <fieldset>
-     <legend><h4>Scavenger traces</h4></legend>
-     <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(13, 2) %}
-      {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last, 'attr'{'class''form-inline'}}) }}
-  {% endfor %}</div>
- </fieldset>
-    </fieldset>
-    <fieldset>
- <legend><h3>Healing/healed lesions</h3></legend>
- <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(15, 5) %}
-  {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last}) }}
-     {% endfor %}</div>
-    </fieldset>
-    <fieldset>
- <legend><h3>Fishing activities</h3></legend>
- <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(20, 2) %}
-  {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last}) }}
-     {% endfor %}</div>
-    </fieldset>
-    <fieldset>
- <legend><h3>Other characteristics</h3></legend>
- <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.pathologyValues|slice(22, 9) %}
-  {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last}) }}
-     {% endfor %}</div>
-    </fieldset>
-</fieldset>
-
-<fieldset id="causeofdeath_values" class="no-multi only-dead">
-    <fieldset>
- <legend><h3>Cause of death initial assessment</h3></legend>
- <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.causeOfDeathValues|slice(0, 6) %}
-  {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last}) }}
-     {% endfor %}</div>
-    </fieldset>
-    <fieldset id="bycatch">
- <legend><h3>Bycatch probability</h3></legend>
- <div class="form-inline">{% for sv in observation.eseSeqno.spec2events.bycatchProbabilityValues|slice(0, 4) %}
-  {{ form_row(sv.value, {'label'sv.vars.value.pmdName|split('')|last}) }}
-     {% endfor %}</div>
-    </fieldset>
-</fieldset>#}
+</table>#}

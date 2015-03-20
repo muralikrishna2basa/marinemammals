@@ -1,3 +1,12 @@
+{{ form_start(delete_form) }}
+<div class="well">
+    <input type="submit" value="Delete this observation" id="delete" class="btn btn-od">
+    <div class="form-inline">{{ form_row(delete_form.keepSpecimen, {'label':'Keep attached specimen'}) }}
+    <span data-tooltip="Select this to delete the observation but keep the specimen that was attached to it. Note that if the specimen has been observed before, the specimen will never be deleted (but the current observation will)." class="has-tooltip"></span></div>
+</div>
+{{ form_end(delete_form) }}
+
+{{ form(delete_form) }}
 {{ form_start(form, {'method': 'POST','action': path('mm_observations_update', {'id': id}),'attr':{'id':'observationform', 'novalidate':'false'}}) }}
 <ul class="nav nav-tabs">
     <li class="tab"><a href="#tab-1">Observation</a></li>
@@ -17,13 +26,17 @@
         {% endfor %}
     </ul>
     {% endif %}
-
     {% if success == 'true' %}
         <p id="formsuccess" class="text-success">This observation has been successfully changed in the database.</p>
     {% endif %}
     <p class="text-info">Please complete all relevant fields. Required fields have an orange border.</p>
-    <p id="multipleSpecimensFeedback" class="text-info">The fields Sex, RBINS tag, MUMM tag, Circumstantial parameters, Measurements, Pathology values and Cause of Death cannot be completed when there are 2 or more individuals observed. They have been removed from the form.</p>
-    <p id="existingSpecimenFeedback" class="text-info">The fields Species, Identification certainty, Sex, RBINS tag and MUMM tag cannot be completed when an existing specimen is completed. They have been removed from the form.</p>
+
+    <p id="multipleSpecimensFeedback" class="text-info">The fields Sex, RBINS tag, MUMM tag, Circumstantial parameters,
+        Measurements, Pathology values and Cause of Death cannot be completed when there are 2 or more individuals
+        observed. They have been removed from the form.</p>
+
+    <p id="existingSpecimenFeedback" class="text-info">The fields Species, Identification certainty, Sex, RBINS tag and
+        MUMM tag cannot be completed when an existing specimen is completed. They have been removed from the form.</p>
     <fieldset id="tab-1">
         {{ include('AppBundle:Bare:add-observations.html.twig') }}
         <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
@@ -31,14 +44,14 @@
     <fieldset id="tab-2">
         {{ include('AppBundle:Bare:add-specimens.html.twig') }}
         <h4><a class="prev-tab ctl" href="#">PREVIOUS</a></h4>
-            <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
+        <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
     </fieldset>
-    <fieldset id="tab-3" >
+    <fieldset id="tab-3">
         {{ include('AppBundle:Bare:add-externalpathology.html.twig') }}
         <h4><a class="prev-tab ctl" href="#">PREVIOUS </a></h4>
-            <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
+        <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
     </fieldset>
-    <fieldset id="tab-4" >
+    <fieldset id="tab-4">
         {{ include('AppBundle:Bare:add-causeofdeath.html.twig') }}
         <h4><a class="prev-tab ctl" href="#">PREVIOUS </a></h4>
         <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
@@ -46,6 +59,7 @@
     <fieldset id="tab-5">
         {{ include('AppBundle:Bare:add-sources-media.html.twig') }}
         <h4><a class="prev-tab ctl" href="#">PREVIOUS</a></h4>
+
         <p>
             <input type="submit" value="Submit" id="submit" class="btn btn-od">
         </p>

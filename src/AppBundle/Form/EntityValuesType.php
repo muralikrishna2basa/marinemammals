@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use AppBundle\Form\ChoiceList\CgRefChoiceList;
+use AppBundle\Entity\Repository\CgRefCodesRepository;
 use AppBundle\Form\ChoiceList\ParameterDomainList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -55,7 +55,7 @@ class EntityValuesType extends AbstractType
             $form->add('value', 'integer', $options2);
         } elseif ($pd) {
             $pmName=$pm->getName();
-            $pmd=new ParameterDomainList($this->doctrine, $pmName);
+            $pmd=new ParameterDomainList(null, null,$pd);
             $descList= $pmd->getDescriptionAsString();
             $class=strtolower(str_replace(' ','_',$pmName));
             if ($options['radio'] === true) {
@@ -84,10 +84,15 @@ class EntityValuesType extends AbstractType
             ));
         }
         if ($hasFlag === true) {
-            $form->add('valueFlag', 'choice', array(
+            $form->add('valueFlagRef', 'entity', array(
                 'placeholder' => 'Select...',
                 'required' => $valueFlagRequired,
-                'choice_list' => new CgRefChoiceList($this->doctrine, 'VALUE_FLAG')
+                'class' => 'AppBundle:CgRefCodes',
+                'property' => 'rvMeaning',
+                'query_builder' => function (CgRefCodesRepository $er) {
+                    return $er->getRefCodesQb('VALUE_FLAG');
+                }
+                //'choice_list' => new CgRefChoiceList($this->doctrine, 'VALUE_FLAG')
             ));
         }
     }
@@ -108,7 +113,7 @@ class EntityValuesType extends AbstractType
                // 'required' => false,
                 'default_value' => 'unknown',
                 'error_bubbling' => false,
-                'error_mapping' => array('valueFlagLegal' => 'valueFlag', 'valueUnwantedLegal' => 'value', 'valueLegal' => 'value','valueUnwantedLegal2' => 'value')
+                'error_mapping' => array('valueFlagLegal' => 'valueFlagRef', 'valueUnwantedLegal' => 'value', 'valueLegal' => 'value','valueUnwantedLegal2' => 'value')
             ));
     }
 

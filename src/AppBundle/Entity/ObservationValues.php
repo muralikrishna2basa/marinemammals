@@ -48,13 +48,6 @@ class ObservationValues implements EntityValues
     private $value;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="VALUE_FLAG", type="string", length=50, nullable=true)
-     */
-    private $valueFlag;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="SEQNO", type="integer")
@@ -235,29 +228,6 @@ class ObservationValues implements EntityValues
     }
 
     /**
-     * Set valueFlag
-     *
-     * @param string $valueFlag
-     * @return ObservationValues
-     */
-    public function setValueFlag($valueFlag)
-    {
-        $this->valueFlag = $valueFlag;
-    
-        return $this;
-    }
-
-    /**
-     * Get valueFlag
-     *
-     * @return string 
-     */
-    public function getValueFlag()
-    {
-        return $this->valueFlag;
-    }
-
-    /**
      * Get seqno
      *
      * @return integer 
@@ -336,6 +306,10 @@ class ObservationValues implements EntityValues
         return $this;
     }
 
+    public function getValueFlag(){
+        return $this->getValueFlagRef()->getRvLowValue();
+    }
+
     /**
      * Get the name of the used parameter method's name
      *
@@ -388,7 +362,7 @@ class ObservationValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getHasFlag() && $this->getValueFlag() === NULL && $this->getValue() !== NULL) {
+        if ($this->getHasFlag() && $this->getValueFlagRef() === NULL && $this->getValue() !== NULL) {
             return false;
         } else {
             return true;

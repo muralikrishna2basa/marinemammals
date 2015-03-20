@@ -306,4 +306,18 @@ class Necropsies
     {
         return $this->olnSeqno;
     }
+
+    public function getRef(){
+        $refAut=$this->getRefAut();
+        $refAutZilch=($refAut === null or $refAut === '');
+        $refLab=$this->getRefLabo();
+        $refLabZilch=($refLab === null or $refLab === '');
+        if($refAutZilch){
+            if($refLabZilch){
+                return '';
+            }
+            return $refLab;
+        }
+        return $refAut;
+    }
 }

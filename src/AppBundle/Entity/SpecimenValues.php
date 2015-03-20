@@ -56,13 +56,6 @@ class SpecimenValues implements EntityValues
     private $value;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="VALUE_FLAG", type="string", length=50, nullable=true)
-     */
-    private $valueFlag;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="SEQNO", type="integer")
@@ -266,32 +259,6 @@ class SpecimenValues implements EntityValues
     }
 
     /**
-     * Set valueFlag
-     *
-     * @param string $valueFlag
-     * @return SpecimenValues
-     */
-    public function setValueFlag($valueFlag)
-    {
-        $this->valueFlag = $valueFlag;
-
-        return $this;
-    }
-
-    /**
-     * Get valueFlag
-     *
-     * @return string
-     */
-    public function getValueFlag()
-    {
-        if ($this->valueFlag === null) {
-            $a = 5;
-        }
-        return $this->valueFlag;
-    }
-
-    /**
      * Get seqno
      *
      * @return integer
@@ -345,6 +312,10 @@ class SpecimenValues implements EntityValues
     {
         $this->valueFlagRef = $valueFlagRef;
         return $this;
+    }
+
+    public function getValueFlag(){
+        return $this->getValueFlagRef()->getRvLowValue();
     }
 
     /**
@@ -423,7 +394,7 @@ class SpecimenValues implements EntityValues
      */
     public function isValueFlagLegal()
     {
-        if ($this->getHasFlag() && $this->getValueFlag() === null && $this->getValue() !== null) {
+        if ($this->getHasFlag() && $this->getValueFlagRef() === null && $this->getValue() !== null) {
             return !$this->isValueUnwantedLegal(); //false
         } else {
             return true;

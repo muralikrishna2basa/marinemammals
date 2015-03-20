@@ -92,23 +92,9 @@ class Observations implements ValueAssignable
     /**
      * @var string
      *
-     * @ORM\Column(name="OSN_TYPE", type="string", length=50, nullable=false)
-     */
-    private $osnType;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="PRECISION_FLAG", type="string", length=50, nullable=true)
      */
     private $precisionFlag;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="SAMPLINGEFFORT", type="string", length=50, nullable=true)
-     */
-    private $samplingeffort;
 
     /**
      * @var string
@@ -465,29 +451,6 @@ class Observations implements ValueAssignable
     }
 
     /**
-     * Set osnType
-     *
-     * @param string $osnType
-     * @return Observations
-     */
-    public function setOsnType($osnType)
-    {
-        $this->osnType = $osnType;
-    
-        return $this;
-    }
-
-    /**
-     * Get osnType
-     *
-     * @return string 
-     */
-    public function getOsnType()
-    {
-        return $this->osnType;
-    }
-
-    /**
      * Set precisionFlag
      *
      * @param string $precisionFlag
@@ -496,41 +459,18 @@ class Observations implements ValueAssignable
     public function setPrecisionFlag($precisionFlag)
     {
         $this->precisionFlag = $precisionFlag;
-    
+
         return $this;
     }
 
     /**
      * Get precisionFlag
      *
-     * @return string 
+     * @return string
      */
     public function getPrecisionFlag()
     {
         return $this->precisionFlag;
-    }
-
-    /**
-     * Set samplingeffort
-     *
-     * @param string $samplingeffort
-     * @return Observations
-     */
-    public function setSamplingeffort($samplingeffort)
-    {
-        $this->samplingeffort = $samplingeffort;
-    
-        return $this;
-    }
-
-    /**
-     * Get samplingeffort
-     *
-     * @return string 
-     */
-    public function getSamplingeffort()
-    {
-        return $this->samplingeffort;
     }
 
     /**
@@ -748,6 +688,10 @@ class Observations implements ValueAssignable
         return $this;
     }
 
+    public function getOsnType(){
+        return $this->getOsnTypeRef()->getRvLowValue();
+    }
+
     /**
      * @return CgRefCodes
      */
@@ -764,6 +708,10 @@ class Observations implements ValueAssignable
     {
         $this->samplingeffortRef = $samplingeffortRef;
         return $this;
+    }
+
+    public function getSamplingeffort(){
+        return $this->getSamplingeffortRef()->getRvLowValue();
     }
 
     /**

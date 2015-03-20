@@ -14,9 +14,9 @@ interface EntityValues
 
     public function getValue();
 
-    public function setValueFlag($valueFlag);
+    public function setValueFlagRef($valueFlag);
 
-    public function getValueFlag();
+    public function getValueFlagRef();
 
     public function getPmdName();
 

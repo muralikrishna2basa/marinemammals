@@ -157,12 +157,12 @@ AppBundle\Entity\LesionValues:
                 - Length:
                      min: 1
                      max: 50
-        valueFlag:
+        valueFlagRef:
                 - NotBlank: ~
                 - NotNull: ~
-                - Length:
-                     min: 1
-                     max: 50
+#                - Length:
+#                     min: 1
+#                     max: 50
 AppBundle\Entity\Medias:
     properties:
         psnSeqno:
@@ -287,11 +287,11 @@ AppBundle\Entity\ObservationValues:
                 - Length:
                      min: 1
                      max: 50
-        valueFlag:
-                - Length:
-                     min: 0
-                     max: 50
-                     #add That the values should correspond to the ones in cg_ref_codes
+#        valueFlag:
+#                - Length:
+#                     min: 0
+#                     max: 50
+                     #TODO add That the values should correspond to the ones in cg_ref_codes
 AppBundle\Entity\Organs:
     properties:
         code:
@@ -619,11 +619,11 @@ AppBundle\Entity\SpecimenValues:
                 - Length:
                      min: 1
                      max: 50
-        valueFlag:
-                - Length:
-                     min: 0
-                     max: 50
-                     #add That the values should correspond to the ones in cg_ref_codes
+#        valueFlag:
+#                - Length:
+#                     min: 0
+#                     max: 50
+#                     #todo add That the values should correspond to the ones in cg_ref_codes
 AppBundle\Entity\Stations:
     properties:
         pceSeqno:

@@ -89,7 +89,7 @@ class EventStatesType extends AbstractType
             ->setDefaults(array(
                 'data_class' => 'AppBundle\Entity\EventStates',
                 'cascade_validation' => true,
-                'error_mapping'=>array('eventDatetime'=>'eventDatetimeFlag','eitherNecropsyOrObservationLegal'=> 'eventDatetimeFlag'),
+                'error_mapping'=>array('eventDatetime'=>'eventDatetimeFlagRef','eitherNecropsyOrObservationLegal'=> 'eventDatetimeFlagRef'),
                 'validation_groups' => array()
             ));
     }

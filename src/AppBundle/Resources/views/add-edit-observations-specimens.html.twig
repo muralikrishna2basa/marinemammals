@@ -46,7 +46,7 @@
         var newSpecimenBox_requiredInputSelect = newSpecimenBox.find('[required="required"]');
         var $onlyForDeadBox = $('.only-dead');
         var $onlyForDeadBox_requiredInputSelect = $onlyForDeadBox.find('[required="required"]');
-        var $anyFieldIndicatingDeadness = $("#observationstype_osnType, .decomposition_code, .during_intervention");
+        var $anyFieldIndicatingDeadness = $("#observationstype_osnTypeRef, .decomposition_code, .during_intervention");
         var $multipleSpecimensFeedback = $('#multipleSpecimensFeedback');
         var $existingSpecimenFeedback = $('#existingSpecimenFeedback');
         var $circumstantialParametersFeedback = $('#circumstantialParametersFeedback');
@@ -54,7 +54,7 @@
         var $scnInfo = $('#scnInfo');
         var $dateBox = $('#observationstype_eseSeqno_eventDatetime_date');
         var $eventDatetime = $('#observationstype_eseSeqno_eventDatetime_time');
-        var $eventDatetimeFlag = $('#observationstype_eseSeqno_eventDatetimeFlag');
+        var $eventDatetimeFlag = $('#observationstype_eseSeqno_eventDatetimeFlagRef');
         var $pathologyValues=$("select[id*='pathologyValues']");
         var remoteSpecimen;
         var getRemoteScn = function (scnId) {
@@ -103,6 +103,16 @@
             $element.append(listElement);
         }
 
+        function initDefaults(){
+            if($dateBox.val()===''){
+                $dateBox.val(moment().format('DD/MM/YYYY'));
+            }
+            if(newSpecimenNumberField.val()===''){
+                newSpecimenNumberField.val(1);
+            }
+            //TODO:continue, see also if not better in php!
+        }
+
         $(document).ready(function () {
 
             $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
@@ -112,6 +122,7 @@
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
             hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
+            initDefaults();
             $("#observationform").easytabs({
                 tabs: ".nav-tabs li",
                 animate: false,
@@ -146,10 +157,7 @@
                 minDate: new Date(1950, 1 - 1, 1)
             };
             $dateBox.datepicker(options);//.datepicker("setDate", Date.today());
-            if($dateBox.val()===''){
-                $dateBox.val(moment().format('DD/MM/YYYY'));
-            }
-            newSpecimenNumberField.val(1);
+
             $('.subformcontainer').next('.form-group').remove();
 
             $('.prev-tab').click(function () {
@@ -219,7 +227,7 @@
             });
 
             $eventDatetimeFlag.change(function () {
-                var flagVal = $('#observationstype_eseSeqno_eventDatetimeFlag :selected').text();
+                var flagVal = $('#observationstype_eseSeqno_eventDatetimeFlagRef :selected').text();
                 if (flagVal === "time unknown") {
                     $eventDatetime.val('12:00');
                 }
@@ -363,10 +371,10 @@
 
         function makeAssociatedFlagRequired($element, validator) {
             var id = $element.attr('id');
-            var $associatedFlag = $("." + id + "Flag");//in some cases class is used; reason see add-observations.html.twig; precisionFlag is the actual id instead of lonDecFlag.
+            var $associatedFlag = $("." + id + "FlagRef");//in some cases class is used; reason see add-observations.html.twig; precisionFlag is the actual id instead of lonDecFlag.
 
             if (!$associatedFlag.length) {
-                $associatedFlag = $("#" + id + "Flag");
+                $associatedFlag = $("#" + id + "FlagRef");
             }
             var value = $element.val();
             if (value != '') {
@@ -381,7 +389,7 @@
 
         function animalIsAliveDuringOrAfterIntervention() {
             var decompositionCode = parseInt($('.decomposition_code :selected').text());
-            var osnType = $('#observationstype_osnType :selected').text();
+            var osnType = $('#observationstype_osnTypeRef :selected').text();
             var duringIntervention = $('.during_intervention :selected').text();
 
             var deadOsnTypes = ["Found dead in Harbour", "Died during transport/rehab", "Found dead on beach", "Found dead at Sea"];

@@ -265,7 +265,7 @@ class Spec2Events implements ValueAssignable
 
     public function removeAllValues()
     {
-        foreach ($this->getValues() as $ev){
+        foreach ($this->getValues() as $ev) {
             $this->removeValue($ev);
         }
     }
@@ -492,6 +492,26 @@ class Spec2Events implements ValueAssignable
         }
     }
 
+    public function getBeforeIntervention()
+    {
+        return $this->getValueByKey('Before intervention');
+    }
+
+    public function getDuringIntervention()
+    {
+        return $this->getValueByKey('During intervention');
+    }
+
+    public function getCollection()
+    {
+        return $this->getValueByKey('Collection');
+    }
+
+    public function getDecompositionCode()
+    {
+        return $this->getValueByKey('Decomposition Code');
+    }
+
     /**
      * Get whether the values connected this indicate life or death. During observation and decomposition code is used.
      * Returns:
@@ -503,30 +523,31 @@ class Spec2Events implements ValueAssignable
      */
     public function associatedValuesIndicateAlive()
     {
-        $decomp='';
-        $duringIntervention='';
-        if($this->getValueByKey('Decomposition Code') !== null){
+        $decomp = '';
+        $duringIntervention = '';
+        if ($this->getValueByKey('Decomposition Code') !== null) {
             $decomp = $this->getValueByKey('Decomposition Code')->getValue();
         }
-        if($this->getValueByKey('During intervention') !== null){
+        if ($this->getValueByKey('During intervention') !== null) {
             $duringIntervention = $this->getValueByKey('During intervention')->getValue();
         }
-        $aliveByIntervention=-1;
+        $aliveByIntervention = -1;
         if (in_array($duringIntervention, array('died during intervention/rehab same day', 'euthanized'))) {
             $aliveByIntervention = 0;
-        } elseif (in_array($duringIntervention, array('released alive', 'taken to rehab','escaped while trying to catch'))) {
+        } elseif (in_array($duringIntervention, array('released alive', 'taken to rehab', 'escaped while trying to catch'))) {
             $aliveByIntervention = 1;
         }
-        $aliveByDecompCode=-1;
+        $aliveByDecompCode = -1;
         if ($decomp == 1) {
             $aliveByDecompCode = 1;
         } elseif ($decomp > 1) {
             $aliveByDecompCode = 0;
         }
-        if($aliveByDecompCode===1 && $aliveByIntervention===1){
+        if ($aliveByDecompCode === 1 && $aliveByIntervention === 1) {
             return 1;
+        } elseif ($aliveByDecompCode === 0 || $aliveByIntervention === 0) {
+            return 0;
         }
-        elseif($aliveByDecompCode===0 || $aliveByIntervention===0){return 0;}
         return -1;
     }
 
@@ -591,22 +612,22 @@ class Spec2Events implements ValueAssignable
 
     public function isCauseOfDeathLegal()
     {
-        if ($this->hasCodValues() && $this->associatedEntitiesIndicateAlive()===1) {
+        if ($this->hasCodValues() && $this->associatedEntitiesIndicateAlive() === 1) {
             return false;
         }
     }
 
     public function isCauseOfDeathLegal2()
     {
-        if (!$this->hasCodValues() && $this->associatedEntitiesIndicateAlive()===0) {
+        if (!$this->hasCodValues() && $this->associatedEntitiesIndicateAlive() === 0) {
             return false;
         }
     }
 
     public function isLazarusLegal()
     {
-        $report=$this->getScnSeqno()->getAliveStatusReport($this);
-        if (!$this->getScnSeqno()->isAliveBeforeMoment($report,$this)) {
+        $report = $this->getScnSeqno()->getAliveStatusReport($this);
+        if (!$this->getScnSeqno()->isAliveBeforeMoment($report, $this)) {
             return false;
         }
     }

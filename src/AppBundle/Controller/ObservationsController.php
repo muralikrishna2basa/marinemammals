@@ -30,7 +30,7 @@ class ObservationsController extends Controller
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
-        $keepSpecimen=$form->get('keepSpecimen')->getData();
+        $keepSpecimen = $form->get('keepSpecimen')->getData();
 
         if ($form->isValid()) {
 
@@ -39,19 +39,19 @@ class ObservationsController extends Controller
             $event = $observation->getEseSeqno();
             $s2e = $event->getSpec2Events();
             $specimen = $s2e->getScnSeqno();
-            $s2eColl=$specimen->getSpec2Events();
+            $s2eColl = $specimen->getSpec2Events();
 
             $em->remove($observation);
             $em->remove($event);
             $em->remove($s2e);
-            foreach($s2e->getValues() as $ev){
+            foreach ($s2e->getValues() as $ev) {
                 $em->remove($ev);
             }
             //$s2e->removeAllValues();
-            if($s2eColl->count()>1){
-                $keepSpecimen=true;
+            if ($s2eColl->count() > 1) {
+                $keepSpecimen = true;
             }
-            if(!$keepSpecimen){
+            if (!$keepSpecimen) {
                 $em->remove($specimen);
             }
             $em->flush();
@@ -71,10 +71,8 @@ class ObservationsController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('mm_observations_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->add('keepSpecimen', 'checkbox', array('required'=>false,'label' => 'Keep attached specimen'))
-            ->getForm()
-            ;
+            ->add('keepSpecimen', 'checkbox', array('required' => false))
+            ->getForm();
     }
 
     public function newAction()
@@ -239,8 +237,12 @@ class ObservationsController extends Controller
                 } else {
                     $error = new FormError("It is not possible to replace a specimen with another as it has specimen values attached to it.");
                 }
-                $form->get('eseSeqno')->get('spec2events')->get('scnSeqnoExisting')->addError($error);
+
             }
+            else{
+                $error =$e->getMessage();
+            }
+            $form->get('eseSeqno')->get('spec2events')->get('scnSeqnoExisting')->addError($error);
         }
         $errors = $form->getErrors(true, false);
         $errors2 = array();

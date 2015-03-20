@@ -11,11 +11,25 @@ class ParameterDomainList extends LazyChoiceList
     private $methodName;
     private $pmd;
 
-    public function __construct($doctrine,$methodName)
+    /**
+     * @return mixed
+     */
+    public function getPmd()
     {
+        return $this->pmd;
+    }
+
+    public function __construct($doctrine,$methodName,$pmd = null)
+    {
+        if($pmd === null && $doctrine !== null && $methodName !== null && $methodName !== ''){
+            $this->pmd=$this->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($this->methodName);
+        }
+        if($pmd !== null && count($pmd)>0){
+            $this->pmd=$pmd;
+            $methodName=$pmd[0]->getPmdSeqno()->getName();
+        }
         $this->doctrine = $doctrine;
         $this->methodName = $methodName;
-        $this->pmd=$this->doctrine->getRepository('AppBundle:ParameterDomains')->getParameterDomainsByMethodName($this->methodName);
     }
 
     protected function loadChoiceList()
