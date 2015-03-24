@@ -10,14 +10,11 @@
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
-    {# '@AppBundle/Resources/public/js/date.js'
-    '@AppBundle/Resources/public/js/date-nl-BE.js'#}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
     '@AppBundle/Resources/public/js/moment.min.js'
     '@AppBundle/Resources/public/js/addsymfonyprototype.js'
-    '@AppBundle/Resources/public/js/jquery.easytabs.js'
     '@AppBundle/Resources/public/js/jquery.easytabs.min.js'
     '@AppBundle/Resources/public/js/periodPickerImplementation.js'
     '@AppBundle/Resources/public/js/remoteSpecimen.js'
@@ -104,25 +101,25 @@
         }
 
         function initDefaults(){
-            if($dateBox.val()===''){
-                $dateBox.val(moment().format('DD/MM/YYYY'));
-            }
             if(newSpecimenNumberField.val()===''){
                 newSpecimenNumberField.val(1);
             }
-            //TODO:continue, see also if not better in php!
         }
 
         $(document).ready(function () {
-
+            console.log('document ready: '+$('#causeofdeath_values')[0].style.display);
             $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
             //$('#formsuccess').delay(200000).hide();
             instantiateRemoteSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+            console.log('after hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens(): '+$('#causeofdeath_values')[0].style.display);
             hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
+            console.log('after hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen(): '+$('#causeofdeath_values')[0].style.display);
             hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
+            console.log('after hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens(): '+$('#causeofdeath_values')[0].style.display);
             initDefaults();
+
             $("#observationform").easytabs({
                 tabs: ".nav-tabs li",
                 animate: false,
@@ -193,12 +190,16 @@
             var allNonRequiredInputSelectValues = $("select[id$='value'],input[id$='value']").not("[required='required']");
 
             existingSpecimenChoiceField.change(function () {
+                console.log('start of existingSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
                 instantiateRemoteSpecimen();
                 hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
+                newSpecimenBox_requiredInputSelect.attr('required', 'required');
                 hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+                console.log('end of existingSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
             });
 
             newSpecimenChoiceField.change(function () {
+                console.log('start of newSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
                 var value = $(this).val();
                 if (value != '') {
                     existingSpecimenChoiceField.removeAttr('required').val('');
@@ -206,10 +207,13 @@
                 else {
                     existingSpecimenChoiceField.attr('required', 'required');
                 }
+                console.log('end of newSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
                 return false;
             });
             newSpecimenNumberField.change(function () {
+                console.log('start of newSpecimenNumberField.change: '+$('#causeofdeath_values')[0].style.display);
                 hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
+                console.log('end of newSpecimenNumberField.change: '+$('#causeofdeath_values')[0].style.display);
             });
 
             latDecField.change(function () {
@@ -218,12 +222,16 @@
             );
 
             allNonRequiredInputSelectValues.change(function () {
+                        console.log('start of allNonRequiredInputSelectValues.change: '+$('#causeofdeath_values')[0].style.display);
                         makeAssociatedFlagRequired($(this), validator);
+                        console.log('end of allNonRequiredInputSelectValues.change: '+$('#causeofdeath_values')[0].style.display);
                     }
             );
 
             $anyFieldIndicatingDeadness.change(function () {
+                console.log('start of $anyFieldIndicatingDeadness.change: '+$('#causeofdeath_values')[0].style.display);
                 hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
+                console.log('end of $anyFieldIndicatingDeadness.change: '+$('#causeofdeath_values')[0].style.display);
             });
 
             $eventDatetimeFlag.change(function () {
@@ -233,12 +241,15 @@
                 }
             });
 
-            var sfp1 = new SymfonyPrototype($('ul.e2p_observer'), $('<a href="#" id="add_observer">Add a person</a>'), '__observers_name__');
+            var sfp1 = new SymfonyPrototype($('ul.e2p_observer'), $('<a href="#" id="add_observer">Add an observer</a>'), '__observers_name__');
             sfp1.addAddLink();
-            var sfp2 = new SymfonyPrototype($('ul.e2p_gatherer'), $('<a href="#" id="add_gatherer">Add a person</a>'), '__gatherers_name__');
+            var sfp2 = new SymfonyPrototype($('ul.e2p_collector'), $('<a href="#" id="add_collector">Add a collector</a>'), '__collectors_name__');
             sfp2.addAddLink();
-            var sfp2 = new SymfonyPrototype($('ul.e2p_informer'), $('<a href="#" id="add_informer">Add a person</a>'), '__informer_name__');
+            var sfp2 = new SymfonyPrototype($('ul.e2p_informer'), $('<a href="#" id="add_informer">Add an informer</a>'), '__informers_name__');
             sfp2.addAddLink();
+            var sfp2 = new SymfonyPrototype($('ul.e2p_examiner'), $('<a href="#" id="add_examiner">Add an examiner</a>'), '__examiners_name__');
+            sfp2.addAddLink();
+
 
             var validator = wholeForm.validate({
                 ignore: "",
@@ -286,6 +297,7 @@
                     $.each(errorList, createError);
                 }
             });
+            console.log('end of document ready: '+$('#causeofdeath_values')[0].style.display);
         })
         ;
 
@@ -300,7 +312,7 @@
         })(jQuery);
 
         function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
-            var scnNumber = newSpecimenNumberField.val();
+                       var scnNumber = newSpecimenNumberField.val();
             var remoteScnNumber = null;
             if (typeof remoteSpecimen !== 'undefined') {
                 if (remoteSpecimen.found) {
@@ -315,16 +327,18 @@
                 $sexBox.removeAttr('required');
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.hide();
                 $multipleSpecimensFeedback.show();
+                console.log('end of hide multiple >1: '+$('#causeofdeath_values')[0].style.display);
                 return false;
             }
             if (scnNumber < 2) {
                 if (remoteScnNumber === null) {
                     fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
                     $sexBox.attr('required', 'required');
-                                    }
+                }
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
                 $multipleSpecimensFeedback.hide();
                 $pathologyValues.prop('selectedIndex', 2);
+                console.log('end of hide multiple <2: '+$('#causeofdeath_values')[0].style.display);
                 return false;
             }
         }
@@ -348,8 +362,8 @@
                 return false;
             }
             if (scnId === '') {
-                newSpecimenBox_requiredInputSelect.attr('required', 'required');
-                $sexBox.attr('required', 'required');
+                //newSpecimenBox_requiredInputSelect.attr('required', 'required');
+                //$sexBox.attr('required', 'required');
                 newSpecimenBox.show();
                 $existingSpecimenFeedback.hide();
                 $circumstantialParametersFeedback.hide();
@@ -359,11 +373,12 @@
         }
 
         function hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens() {
+            var scnNumber = newSpecimenNumberField.val();
             if (animalIsAliveDuringOrAfterIntervention()) {
                 $onlyForDeadBox_requiredInputSelect.removeAttr('required');
                 $onlyForDeadBox.hide();
             }
-            else {
+            else if(scnNumber<2) {
                 $onlyForDeadBox_requiredInputSelect.attr('required', 'required');
                 $onlyForDeadBox.show();
             }

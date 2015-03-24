@@ -35,6 +35,9 @@ class ObservationsFilterType extends AbstractType
             $level4Places=$this->doctrine->getRepository("AppBundle:Places")->getAllPlacesAtLevel5WithAStation();
         }
         $places=array_merge($level3Places,$level4Places);
+        usort($places, function($a, $b){
+            return strCmp($a->getName(), $b->getName());
+        });
         $allPlaces=array_merge($generalPlaces,$places);
 
         $builder->add('eventDatetimeStart', 'filter_date', array(
@@ -68,6 +71,9 @@ class ObservationsFilterType extends AbstractType
                 'empty_value' => 'Country...',
                 'choice_list' => new CountryList($this->doctrine)
             ));
+        }
+        else{
+            $builder->setData(array('country'=>'BE'));
         }
         $builder->add('generalPlace', 'filter_entity', array(
             'empty_value' => 'General place...',

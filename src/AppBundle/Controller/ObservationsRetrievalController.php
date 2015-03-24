@@ -17,7 +17,8 @@ class ObservationsRetrievalController extends Controller
         if ($request->query->has($form->getName())) {
             $form->submit($request->query->get($form->getName()));
             $filter = $form->getData();
-            $observations = $this->get('observations_provider')->loadObservationsByFilter($filter, $excludeConfidential);
+            $filter['excludeConfidential']=$excludeConfidential;
+            $observations = $this->get('observations_provider')->loadObservationsByFilter($filter);
             $results = array();
             foreach ($observations as $o) {
                 array_push($results, $ps->getAll($o));
@@ -65,6 +66,33 @@ class ObservationsRetrievalController extends Controller
         return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true, true, $ps);
     }
 
+    private function paginate($array)
+    {
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $array,
+            $this->get('request')->query->get('page', 1)/*page number*/,
+            500/*limit per page*/
+        );
+        return $pagination;
+    }
+
+    private function generalViewAction($page,$id){
+        $observation = $this->get('observations_provider')->loadObservation($id);
+
+        return $this->render($page, array(
+            'observation'=>$observation
+        ));
+    }
+
+    public function mgmtViewAction($id){
+        return $this->generalViewAction('AppBundle:Page:mgmt-view-observations-specimens.html.twig',$id);
+    }
+
+    public function viewAction($id){
+        return $this->generalViewAction('AppBundle:Page:view-observations-specimens.html.twig',$id);
+    }
+
     public function export($results)
     {
         $today = new \DateTime();
@@ -100,24 +128,5 @@ class ObservationsRetrievalController extends Controller
         $response->headers->set('Cache-Control', 'maxage=1');
 
         return $response;
-    }
-
-    private function paginate($array)
-    {
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $array,
-            $this->get('request')->query->get('page', 1)/*page number*/,
-            500/*limit per page*/
-        );
-        return $pagination;
-    }
-
-    public function viewAction($id){
-        $observation = $this->get('observations_provider')->loadObservation($id);
-
-        return $this->render('AppBundle:Page:show-observations-specimens.html.twig', array(
-            'observation'=>$observation
-        ));
     }
 }

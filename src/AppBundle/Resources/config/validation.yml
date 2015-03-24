@@ -556,7 +556,7 @@ AppBundle\Entity\Spec2Events:
 AppBundle\Entity\Specimens:
     getters:
         scnNumberLegal:
-            - "True": { message: "It is not possible to provide any values (eg. sex, necropsy tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details." }
+            - "True": { message: "It is not possible to provide any values (eg. sex, collection tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details." }
         sexLegal:
             - "True": { message: "This value should not be null." }
 #        txnSeqnoNewSpecimenLegal:
@@ -670,7 +670,6 @@ AppBundle\Entity\Sources:
                 - Length:
                      min: 0
                      max: 50
-                - AppBundle\Validator\Constraints\LegalSourceType: ~
 AppBundle\Entity\Taxa:
     properties:
         idodId:

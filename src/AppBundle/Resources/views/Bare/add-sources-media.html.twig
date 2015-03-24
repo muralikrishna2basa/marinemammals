@@ -5,7 +5,9 @@
 <div class="form-inline">
     {{ form_row(form.singleSource, {'label':'Source'}) }}<a href="/mgmt/sources/add">Add new Source</a></div>
 <a href="/mgmt/persons/add">Add new Person</a>
-<h4>Informed by</h4>
+<h4>Informed by<span
+            data-tooltip="The person who informed the principal observer. This field is to be used if subsequentially an in situ visit was done (by another observer). If no subsequent in situ visit is done, the 'informer' is actually an observer."
+            class="has-tooltip"></span></h4>
 <ul class="e2p_informer" data-prototype="{{ form_widget(form.eseSeqno.informers.vars.prototype)|e }}">
     {% for e2p_informer in form.eseSeqno.informers %}
         <li class="form-inline">
@@ -13,7 +15,9 @@
         </li>
     {% endfor %}
 </ul>
-<h4>Observed by</h4>
+<h4>Observed by<span
+            data-tooltip="The person who was in situ to observe the animal and made or verified the species identification. This person could have been informed by another person. This should be reserved to persons with the appropriate expertise."
+            class="has-tooltip"></span></h4>
 <ul class="e2p_observer" data-prototype="{{ form_widget(form.eseSeqno.observers.vars.prototype)|e }}">
     {% for e2p_observer in form.eseSeqno.observers %}
         <li class="form-inline">
@@ -21,11 +25,22 @@
         </li>
     {% endfor %}
 </ul>
-<h4>Gathered by</h4>
-<ul class="e2p_gatherer" data-prototype="{{ form_widget(form.eseSeqno.gatherers.vars.prototype)|e }}">
-    {% for e2p_gatherer in form.eseSeqno.gatherers %}
+<h4>Examined by<span
+            data-tooltip="The person who was in situ to examine the animal, did the external examination and assessed the cause of death. This should be reserved to persons with the appropriate expertise."
+            class="has-tooltip"></span></h4>
+<ul class="e2p_examiner" data-prototype="{{ form_widget(form.eseSeqno.examiners.vars.prototype)|e }}">
+    {% for e2p_examiner in form.eseSeqno.examiners %}
         <li class="form-inline">
-            {{ form_row(e2p_gatherer.psnSeqno, {'label':'Person'}) }}
+            {{ form_row(e2p_examiner.psnSeqno, {'label':'Person'}) }}
+        </li>
+    {% endfor %}
+</ul>
+<h4>Collected by<span data-tooltip="The person who collected the carcass or any parts of it for necropsy."
+                     class="has-tooltip"></span></h4>
+<ul class="e2p_collector" data-prototype="{{ form_widget(form.eseSeqno.collectors.vars.prototype)|e }}">
+    {% for e2p_collector in form.eseSeqno.collectors %}
+        <li class="form-inline">
+            {{ form_row(e2p_collector.psnSeqno, {'label':'Person'}) }}
         </li>
     {% endfor %}
 </ul>

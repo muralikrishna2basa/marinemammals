@@ -37,22 +37,6 @@ class EventStatesType extends AbstractType
         $builder->add('description', 'textarea', array(
             'required' => false
         ));
-        $builder->add('observers', 'collection', array('type' => new Event2PersonsType($this->doctrine),
-            'options' => array('data_class' => 'AppBundle\Entity\Event2Persons'),
-            'allow_add' => true,
-            'allow_delete' => true,
-            'delete_empty' => true,
-            'by_reference' => false,
-            'prototype_name'=>'__observers_name__'
-        ));
-        $builder->add('gatherers', 'collection', array('type' => new Event2PersonsType($this->doctrine),
-            'options' => array('data_class' => 'AppBundle\Entity\Event2Persons'),
-            'allow_add' => true,
-            'allow_delete' => true,
-            'delete_empty' => true,
-            'by_reference' => false,
-            'prototype_name'=>'__gatherers_name__'
-        ));
         $builder->add('informers', 'collection', array('type' => new Event2PersonsType($this->doctrine),
             'options' => array('data_class' => 'AppBundle\Entity\Event2Persons'),
             'allow_add' => true,
@@ -61,23 +45,52 @@ class EventStatesType extends AbstractType
             'by_reference' => false,
             'prototype_name'=>'__informers_name__'
         ));
+        $builder->add('observers', 'collection', array('type' => new Event2PersonsType($this->doctrine),
+            'options' => array('data_class' => 'AppBundle\Entity\Event2Persons'),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'delete_empty' => true,
+            'by_reference' => false,
+            'prototype_name'=>'__observers_name__'
+        ));
+        $builder->add('examiners', 'collection', array('type' => new Event2PersonsType($this->doctrine),
+            'options' => array('data_class' => 'AppBundle\Entity\Event2Persons'),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'delete_empty' => true,
+            'by_reference' => false,
+            'prototype_name'=>'__examiners_name__'
+        ));
+        $builder->add('collectors', 'collection', array('type' => new Event2PersonsType($this->doctrine),
+            'options' => array('data_class' => 'AppBundle\Entity\Event2Persons'),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'delete_empty' => true,
+            'by_reference' => false,
+            'prototype_name'=>'__collectors_name__'
+        ));
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $e = $event->getData();
             $form = $event->getForm();
+            $informers = $form->get('informers')->getData();
+            foreach ( $informers as $ib) {
+                $ib->setE2pType(EventStates::INFORMED);
+                $ib->setEseSeqno($e);
+            }
             $observers = $form->get('observers')->getData();
             foreach ($observers as $ob) {
                 $ob->setE2pType(EventStates::OBSERVED);
                 $ob->setEseSeqno($e);
             }
-            $gatherers = $form->get('gatherers')->getData();
-            foreach ($gatherers as $gb) {
-                $gb->setE2pType(EventStates::GATHERED);
-                $gb->setEseSeqno($e);
+            $examiners = $form->get('examiners')->getData();
+            foreach ( $examiners as $eb) {
+                $eb->setE2pType(EventStates::EXAMINED);
+                $eb->setEseSeqno($e);
             }
-            $informers = $form->get('informers')->getData();
-            foreach ( $informers as $ib) {
-                $ib->setE2pType(EventStates::INFORMED);
-                $ib->setEseSeqno($e);
+            $collectors = $form->get('collectors')->getData();
+            foreach ($collectors as $cb) {
+                $cb->setE2pType(EventStates::COLLECTED);
+                $cb->setEseSeqno($e);
             }
         });
         $builder->add('spec2events', new Spec2EventsType($this->doctrine,$this->additionalOptions));

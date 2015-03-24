@@ -18,6 +18,7 @@ class ObservationProvider
 
     private $doctrine;
     private $repo;
+
     //private $cgRefCodesPropertiesSet;
 
     public function __construct($doctrine)
@@ -53,6 +54,11 @@ class ObservationProvider
         $event = new EventStates();
         $observation->setEseSeqno($event);
 
+        $event2Persons2 = new Event2Persons();
+        $event2Persons2->setEseSeqno($event);
+        $event2Persons2->setE2pType(EventStates::INFORMED);
+        $event->getEvent2Persons()->add($event2Persons2);
+
         $event2Persons1 = new Event2Persons();
         $event2Persons1->setEseSeqno($event);
         $event2Persons1->setE2pType(EventStates::OBSERVED);
@@ -60,12 +66,12 @@ class ObservationProvider
 
         $event2Persons2 = new Event2Persons();
         $event2Persons2->setEseSeqno($event);
-        $event2Persons2->setE2pType(EventStates::GATHERED);
+        $event2Persons2->setE2pType(EventStates::EXAMINED);
         $event->getEvent2Persons()->add($event2Persons2);
 
         $event2Persons2 = new Event2Persons();
         $event2Persons2->setEseSeqno($event);
-        $event2Persons2->setE2pType(EventStates::INFORMED);
+        $event2Persons2->setE2pType(EventStates::COLLECTED);
         $event->getEvent2Persons()->add($event2Persons2);
 
         $evcfoc = new EntityValuesCollectionAtObservationCreation($this->doctrine);
@@ -83,21 +89,65 @@ class ObservationProvider
         return $observation;
     }
 
-    public function loadObservationsByFilter($filter, $excludeConfidential)
+    public function loadObservationsByFilter($filter)
     {
         $filterBuilder = $this->repo->getCompleteObservationsQb();
 
-        $eventDatetimeStart = $filter['eventDatetimeStart'];
-        $eventDatetimeStop = $filter['eventDatetimeStop'];
-        $stationstype = $filter['stationstype'];
-        $stn = $filter['stnSeqno'];
-        $txn = $filter['txnSeqno'];
-        $osnType = $filter['osnType'];
-        $generalPlace = $filter['generalPlace'];
-        $place = $filter['place'];
-        $country = '';
+        $excludeConfidential=null;
+        $country = null;
+        $topNLatest = null;
+        $eventDatetimeStart = null;
+        $eventDatetimeStop = null;
+        $stationstype = null;
+        $stn = null;
+        $txn = null;
+        $osnTypeRef = null;
+        $generalPlace = null;
+        $place = null;
+        if (array_key_exists('excludeConfidential', $filter)) {
+            $excludeConfidential = $filter['excludeConfidential'];
+        }
         if (array_key_exists('country', $filter)) {
             $country = $filter['country'];
+        }
+        if (array_key_exists('topNLatest', $filter)) {
+            $topNLatest = $filter['topNLatest'];
+        }
+        if (array_key_exists('eventDatetimeStart', $filter)) {
+            $eventDatetimeStart = $filter['eventDatetimeStart'];
+        }
+        if (array_key_exists('eventDatetimeStop', $filter)) {
+            $eventDatetimeStop = $filter['eventDatetimeStop'];
+        }
+        if (array_key_exists('generalPlace', $filter)) {
+            $generalPlace = $filter['generalPlace'];
+        }
+        if (array_key_exists('place', $filter)) {
+            $place = $filter['place'];
+        }
+        if (array_key_exists('stationstype', $filter)) {
+            $stationstype = $filter['stationstype'];
+        }
+        if (array_key_exists('stnSeqno', $filter)) {
+            $stn = $filter['stnSeqno'];
+        }
+        if (array_key_exists('txnSeqno', $filter)) {
+            $txn = $filter['txnSeqno'];
+        }
+        if (array_key_exists('osnTypeRef', $filter)) {
+            $osnTypeRef = $filter['osnTypeRef'];
+        }
+        $osnType = null;
+        if ($country) {
+            $filterBuilder->andWhere('p1.name=:country or p2.name=:country or p3.name=:country or p4.name=:country');
+            $filterBuilder->setParameter('country', $country);
+        }
+        if ($topNLatest) {
+            $filterBuilder->orderBy('e.eventDatetime', 'DESC');
+            $filterBuilder->setMaxResults($topNLatest);
+        }
+        if ($osnTypeRef !== null) {
+            $osnType = $osnTypeRef->getRvLowValue();
         }
         if ($excludeConfidential) {
             $filterBuilder->andWhere('o.isconfidential is null');
@@ -107,17 +157,13 @@ class ObservationProvider
             $filterBuilder->setParameter('canonicalName', $txn->getCanonicalName());
         }
         if ($osnType) {
-            $filterBuilder->andWhere('o.osnType=:osnType');
+            $filterBuilder->andWhere('cg1.rvLowValue=:osnType');
             $filterBuilder->setParameter('osnType', $osnType);
         }
         if ($eventDatetimeStart && $eventDatetimeStop) {
             $filterBuilder->andWhere('e.eventDatetime>=:eventDatetimeStart and e.eventDatetime<=:eventDatetimeStop');
             $filterBuilder->setParameter('eventDatetimeStart', $eventDatetimeStart);
             $filterBuilder->setParameter('eventDatetimeStop', $eventDatetimeStop);
-        }
-        if ($country) {
-            $filterBuilder->andWhere('p1.name=:country or p2.name=:country or p3.name=:country or p4.name=:country');
-            $filterBuilder->setParameter('country', $country);
         }
         if ($place) {
             $stations = $this->doctrine->getRepository('AppBundle:Stations')
@@ -137,7 +183,7 @@ class ObservationProvider
             $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
             $filterBuilder->setParameter('stnSeqno', $stn);
         }
-
+        $q = $filterBuilder->getQuery()->getSql();
         return $filterBuilder->getQuery()->getResult();
     }
 
@@ -160,7 +206,7 @@ class ObservationProvider
             $filterBuilder->andWhere('o.stnSeqno IN (:stations)');
             $filterBuilder->setParameter('stations', $stations);
         } else {
-            $filterBuilder->andWhere("o.osnType='THISGIVESNORESULTS'");
+            $filterBuilder->andWhere("o.creUser='THISGIVESNORESULTS'");
         }
         return $filterBuilder;
     }
@@ -177,34 +223,34 @@ private function supplementCgDescriptionSingle(Observations &$o)
 {
     $this->cgRefCodesPropertiesSet->setAll($o);
 }*/
-/*
+    /*
 
-    private function filterByCountry($country, $observations)
-    {
-        if ($country !== '' and $country !== null) {
-            return array_filter($observations, function ($o) use ($country) {
-                if ($o->getStnSeqno() !== null) {
-                    return $o->getStnSeqno()->getCountry() === $country;
-                } else return false;
+        private function filterByCountry($country, $observations)
+        {
+            if ($country !== '' and $country !== null) {
+                return array_filter($observations, function ($o) use ($country) {
+                    if ($o->getStnSeqno() !== null) {
+                        return $o->getStnSeqno()->getCountry() === $country;
+                    } else return false;
 
+                });
+            }
+            return $observations;
+        }
+        private function excludeConfidentialObservations($observations)
+        {
+            return array_filter($observations, function ($o) {
+                return $o->getIsconfidential() === null;
             });
         }
-        return $observations;
-    }
-    private function excludeConfidentialObservations($observations)
-    {
-        return array_filter($observations, function ($o) {
-            return $o->getIsconfidential() === null;
-        });
-    }
 
-    private function excludeNonBelgianObservations($observations)
-    {
-        return array_filter($observations, function ($e) {
-            if ($e->getStnSeqno() !== null) {
-                return $e->getStnSeqno()->getCountry() === 'BE';
-            } else return false;
-        });
-    }
-*/
+        private function excludeNonBelgianObservations($observations)
+        {
+            return array_filter($observations, function ($e) {
+                if ($e->getStnSeqno() !== null) {
+                    return $e->getStnSeqno()->getCountry() === 'BE';
+                } else return false;
+            });
+        }
+    */
 }

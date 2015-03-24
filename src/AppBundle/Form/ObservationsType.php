@@ -17,7 +17,7 @@ class ObservationsType extends AbstractType
     private $doctrine;
     private $additionalOptions;
 
-    public function __construct($doctrine,$additionalOptions)
+    public function __construct($doctrine, $additionalOptions)
     {
         $this->doctrine = $doctrine;
         $this->additionalOptions = $additionalOptions;
@@ -92,7 +92,7 @@ class ObservationsType extends AbstractType
             'required' => false
         ));
 
-        $builder->add('eseSeqno', new EventStatesType($this->doctrine,$this->additionalOptions));
+        $builder->add('eseSeqno', new EventStatesType($this->doctrine, $this->additionalOptions));
 
         $builder->add('values', 'collection', array('type' => new EntityValuesType($this->doctrine),
             'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\ObservationValues'),
@@ -113,6 +113,10 @@ class ObservationsType extends AbstractType
         ));
         $builder->add('cpnCode', 'text', array('required' => false));
 
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $this->initializeDefaults($event);
+        });
+
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $o = $event->getData();
             $form = $event->getForm();
@@ -128,6 +132,35 @@ class ObservationsType extends AbstractType
                 $this->doctrine->getManager()->persist($sre);
             }
         });
+    }
+
+    private function initializeDefaults(FormEvent $event)
+    {
+        $repo=$this->doctrine->getRepository('AppBundle:CgRefCodes');
+        $o = $event->getData();
+        $e = $o->getEseSeqno();
+
+        if ($e->getEventDatetime() === null) {
+            $e->setEventDatetime(new \Datetime()); //today
+        }
+        if ($e->getEventDatetimeFlagRef() === null) {
+            $rcQb=$repo->getRefCodesQb('DATETIME_FLAG');
+            $rcQb->andWhere("cgr.rvMeaning='acceptable'");
+            $vfr = $rcQb->getQuery()->getOneOrNullResult();
+            $e->setEventDatetimeFlagRef($vfr);
+        }
+        if ($o->getSamplingeffortRef() === null) {
+            $rcQb=$repo->getRefCodesQb('SAMPLINGEFFORT');
+            $rcQb->andWhere("cgr.rvMeaning='ad hoc observation'");
+            $vfr = $rcQb->getQuery()->getOneOrNullResult();
+            $o->setSamplingeffortRef($vfr);
+        }
+        if ($o->getSamplingeffortRef() === null) {
+            $rcQb=$repo->getRefCodesQb('SAMPLINGEFFORT');
+            $rcQb->andWhere("cgr.rvMeaning='ad hoc observation'");
+            $vfr = $rcQb->getQuery()->getOneOrNullResult();
+            $o->setSamplingeffortRef($vfr);
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

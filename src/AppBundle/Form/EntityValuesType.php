@@ -66,7 +66,6 @@ class EntityValuesType extends AbstractType
                     'attr'=>array('class'=>$class)
                 ));
                 $form->add('value', 'choice', $options2);
-
             } else {
                 $options2 = array_merge($options2, array(
                     'placeholder' => 'Select...',
@@ -84,14 +83,25 @@ class EntityValuesType extends AbstractType
             ));
         }
         if ($hasFlag === true) {
+            /*$rcQb= function (CgRefCodesRepository $er) {
+                return $er->getRefCodesQb('VALUE_FLAG');
+            };*/
+            $rcQb= $this->doctrine->getRepository('AppBundle:CgRefCodes')->getRefCodesQb('VALUE_FLAG');
+            $data=null;
+            if($ev->getValueFlagRef() === null && $options['default_flag_value'] !== null){
+                $rcQb->andWhere('cgr.rvMeaning=:rvMeaning');
+                $rcQb->setParameter('rvMeaning', $options['default_flag_value']);
+                $vfr=$rcQb->getQuery()->getOneOrNullResult();
+                $ev->setValueFlagRef($vfr);
+                //$data=$rcQb->getQuery()->getOneOrNullResult();
+            }
+            $rcQb2= $this->doctrine->getRepository('AppBundle:CgRefCodes')->getRefCodesQb('VALUE_FLAG');
             $form->add('valueFlagRef', 'entity', array(
                 'placeholder' => 'Select...',
                 'required' => $valueFlagRequired,
                 'class' => 'AppBundle:CgRefCodes',
                 'property' => 'rvMeaning',
-                'query_builder' => function (CgRefCodesRepository $er) {
-                    return $er->getRefCodesQb('VALUE_FLAG');
-                }
+                'query_builder' => $rcQb2
                 //'choice_list' => new CgRefChoiceList($this->doctrine, 'VALUE_FLAG')
             ));
         }
@@ -111,7 +121,8 @@ class EntityValuesType extends AbstractType
                 'data_class' => 'AppBundle\Entity\EntityValues',
                 'radio' => false,
                // 'required' => false,
-                'default_value' => 'unknown',
+                'default_value' => null,
+                'default_flag_value'=>null,
                 'error_bubbling' => false,
                 'error_mapping' => array('valueFlagLegal' => 'valueFlagRef', 'valueUnwantedLegal' => 'value', 'valueLegal' => 'value','valueUnwantedLegal2' => 'value')
             ));

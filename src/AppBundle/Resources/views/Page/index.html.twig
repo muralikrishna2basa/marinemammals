@@ -1,55 +1,95 @@
-{% extends 'AppBundle::col-layout.html.twig' %} {%block title %}Welcome-{%
-endblock %} {% block sidebar %}
-<h2>Recent observations</h2>
+{% extends 'AppBundle::col-layout.html.twig' %} {% block title %}Welcome{% endblock %} {% block sidebar %}
+    <h2>Recent observations</h2>
+    <table class="table table-striped simple-observationstable">
+        <tbody>
+        {% for o in observations %}
+            {% if o.eseSeqno.spec2events is defined and o.eseSeqno.spec2events is not null and o.eseSeqno.spec2events.scnSeqno is defined and o.eseSeqno.spec2events.scnSeqno is not null and o.eseSeqno.spec2events.scnSeqno.txnSeqno is defined and o.eseSeqno.spec2events.scnSeqno.txnSeqno is not null %}
+                <tr>
+                    <td>{{ o.eseSeqno.eventDatetime|date("d/m/Y") }}</td>
+                    <td>{{ o.osnTypeRef.rvMeaning }}</td>
+                    <td>
+                        <a href="
+                {% if app.user and is_granted('ROLE_ADMIN') %}
+                        {{ path('mm_observations_mgmtview', {'id': o.eseSeqno.seqno}) }}
+                {% else %}
+                        {{ path('mm_observations_view', {'id': o.eseSeqno.seqno}) }}
+                {% endif %}">
+                            {{ o.eseSeqno.spec2events.scnSeqno.txnSeqno.vernacularNameEn }}</a>
+
+                    </td>
+                </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td>No recent observations found.</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %} {% block mainbar %}
     <h2>The Belgian marine mammal database</h2>
 
-<div class="col-lg-10">
-    <p>
-        This website contains information about marine mammals in Belgium: from sightings to strandings and the
-        results of scientific research.
-        It includes data about dolphins, whales and seals from Belgian waters, but also some data from neighbouring
-        countries (France, the Netherlands) is included. </p>
-    <p>
-        The marinemammals.be database was set up as a joint venture between the Royal Belgian Institute of Natural
-        Sciences (RBINS), Directorate Natural Environment, and the department
-        of Veterinary Pathology (VP) of the University of Liège.
-    </p>
+    <div class="col-lg-10">
+        <p>
+            This website contains information about marine mammals in Belgium: from sightings to strandings and the
+            results of scientific research.
+            It includes data about dolphins, whales and seals from Belgian waters, but also some data from neighbouring
+            countries (France, the Netherlands) is included. </p>
 
-    <p>
-        Collecting data on strandings and sightings of marine mammals is important as such data can can provide us
-        with a lot of information about marine mammals, their population trends, problems they face, and eventually
-        on the condition of the marine environment in general.
-        Until some decades ago, only few data were collected from stranded animals. Nowadays, full necropsies are
-        performed, and tissue samples are collected for research purposes.
-    </p>
+        <p>
+            The marinemammals.be database was set up as a joint venture between the Royal Belgian Institute of Natural
+            Sciences (RBINS), Directorate Natural Environment, and the department
+            of Veterinary Pathology (VP) of the University of Liège.
+        </p>
 
-    <p>
-        Two access levels exist in this website:
-    </p>
-    <ul>
-        <li>An open access level, with contains the data on strandings and observations, meant for the general public.
-        </li>
-        <li>A restricted access level, that leads to the tissue collection. The data available here will mostly be
-            of interest to researchers. From these pages, the different tissue samples and the way to obtain these can be browsed.
-        </li>
-    </ul>
+        <p>
+            Collecting data on strandings and sightings of marine mammals is important as such data can can provide us
+            with a lot of information about marine mammals, their population trends, problems they face, and eventually
+            on the condition of the marine environment in general.
+            Until some decades ago, only few data were collected from stranded animals. Nowadays, full necropsies are
+            performed, and tissue samples are collected for research purposes.
+        </p>
 
-    <p>The main contents of the different web pages are:</p>
+        <p>
+            Two access levels exist in this website:
+        </p>
+        <ul>
+            <li>An open access level, with contains the data on strandings and observations, meant for the general
+                public.
+            </li>
+            <li>A restricted access level, that leads to the tissue collection. The data available here will mostly be
+                of interest to researchers. From these pages, the different tissue samples and the way to obtain these
+                can be browsed.
+            </li>
+        </ul>
 
-    <ul>
-        <li>(Open access): Observations and strandings of marine mammals in Belgium; queries can be made of species,
-            year, circumstances, etc. Pictures and video images are available in some cases.
-        </li>
-        <li>
-            (Open access): A description of the methodology for the post-mortem investigation of stranded and
-            bycaught animals.
-        </li>
-        <li>
-            (Restricted access): The tissue bank page provides for access to more than 25.000 (mostly) tissue
-            samples taken from marine mammals. Queries can be performed for species, type of tissue, method of
-            storage, etc. In order to access this page, you need to be a registered user.
-        </li>
-    </ul>
-</div>
+        <p>The main contents of the different web pages are:</p>
+
+        <ul>
+            <li>(Open access): Observations and strandings of marine mammals in Belgium; queries can be made of species,
+                year, circumstances, etc. Pictures and video images are available in some cases.
+            </li>
+            <li>
+                (Open access): A description of the methodology for the post-mortem investigation of stranded and
+                bycaught animals.
+            </li>
+            <li>
+                (Restricted access): The tissue bank page provides for access to more than 25.000 (mostly) tissue
+                samples taken from marine mammals. Queries can be performed for species, type of tissue, method of
+                storage, etc. In order to access this page, you need to be a registered user.
+            </li>
+        </ul>
+    </div>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+<script type="application/javascript">
+    $(document).ready(function () {
+        $("table.simple-observationstable tr").click(function () {
+            window.location = $("a:first", this).attr("href");
+        });
+    });</script>
+{% endblock%}

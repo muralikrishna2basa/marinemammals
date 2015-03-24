@@ -110,11 +110,13 @@ class EventStates
      */
     private $eventDatetimeFlagRef;
 
-    const GATHERED = 'GB';
+    const COLLECTED = 'CB';
 
     const OBSERVED = 'OB';
 
     const INFORMED = 'IB';
+
+    const EXAMINED ='EB';
 
     /**
      * Constructor
@@ -425,10 +427,10 @@ class EventStates
      * @param \Doctrine\Common\Collections\Collection $event2persons
      * @return EventStates
      */
-    public function setGatherers(\Doctrine\Common\Collections\Collection $event2persons)
+    public function setCollectors(\Doctrine\Common\Collections\Collection $event2persons)
     {
         // foreach ($event2persons as $e2p) {
-        //     $e2p->setE2pType(EventStates::GATHERED);
+        //     $e2p->setE2pType(EventStates::COLLECTED);
         // }
         $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
         return $this;
@@ -437,11 +439,11 @@ class EventStates
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getGatherers()
+    public function getCollectors()
     {
         return $this->getEvent2Persons()->filter(
             function ($entry) {
-                return $entry->getE2pType() == EventStates::GATHERED;
+                return $entry->getE2pType() == EventStates::COLLECTED;
             }
         );
     }
@@ -449,9 +451,9 @@ class EventStates
     /**
      * @param \AppBundle\Entity\Event2Persons $event2Person
      */
-    public function addGatherers($event2Person)
+    public function addCollectors($event2Person)
     {
-        //$event2Person->setE2pType(EventStates::GATHERED);
+        //$event2Person->setE2pType(EventStates::COLLECTED);
         if (!$this->getEvent2Persons()->contains($event2Person)) {
             $event2Person->setEseSeqno($this);
             $this->getEvent2Persons()->add($event2Person);
@@ -461,7 +463,7 @@ class EventStates
     /**
      * @param \AppBundle\Entity\Event2Persons $event2Person
      */
-    public function removeGatherers($event2Person)
+    public function removeCollectors($event2Person)
     {
         if ($this->getEvent2Persons()->contains($event2Person)) {
             $this->getEvent2Persons()->removeElement($event2Person);
@@ -474,11 +476,53 @@ class EventStates
      * @param \Doctrine\Common\Collections\Collection $event2persons
      * @return EventStates
      */
+    public function setExaminers(\Doctrine\Common\Collections\Collection $event2persons)
+    {
+        $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExaminers()
+    {
+        return $this->getEvent2Persons()->filter(
+            function ($entry) {
+                return $entry->getE2pType() == EventStates::EXAMINED;
+            }
+        );
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function addExaminers($event2Person)
+    {
+        //$event2Person->setE2pType(EventStates::COLLECTED);
+        if (!$this->getEvent2Persons()->contains($event2Person)) {
+            $event2Person->setEseSeqno($this);
+            $this->getEvent2Persons()->add($event2Person);
+        }
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function removeExaminers($event2Person)
+    {
+        if ($this->getEvent2Persons()->contains($event2Person)) {
+            $this->getEvent2Persons()->removeElement($event2Person);
+        }
+    }
+
+    /*---------------*/
+    /**
+     * @param \Doctrine\Common\Collections\Collection $event2persons
+     * @return EventStates
+     */
     public function setInformers(\Doctrine\Common\Collections\Collection $event2persons)
     {
-        // foreach ($event2persons as $e2p) {
-        //     $e2p->setE2pType(EventStates::GATHERED);
-        // }
         $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection(array_merge($this->getEvent2Persons()->toArray(), $event2persons->toArray()));
         return $this;
     }
@@ -496,6 +540,29 @@ class EventStates
     }
 
     /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function addInformers($event2Person)
+    {
+        //$event2Person->setE2pType(EventStates::COLLECTED);
+        if (!$this->getEvent2Persons()->contains($event2Person)) {
+            $event2Person->setEseSeqno($this);
+            $this->getEvent2Persons()->add($event2Person);
+        }
+    }
+
+    /**
+     * @param \AppBundle\Entity\Event2Persons $event2Person
+     */
+    public function removeInformers($event2Person)
+    {
+        if ($this->getEvent2Persons()->contains($event2Person)) {
+            $this->getEvent2Persons()->removeElement($event2Person);
+        }
+    }
+
+    /*---------------*/
+    /**
      * @return array
      */
     public function getObserverPersons()
@@ -508,9 +575,9 @@ class EventStates
     /**
      * @return array
      */
-    public function getGathererPersons()
+    public function getCollectorPersons()
     {
-        return $this->getGatherers()->map(function ($entry) {
+        return $this->getCollectors()->map(function ($entry) {
             return $entry->getPsnSeqno();
         })->toArray();
     }
@@ -526,6 +593,17 @@ class EventStates
     }
 
     /**
+     * @return array
+     */
+    public function getExaminerPersons()
+    {
+        return $this->getExaminers()->map(function ($entry) {
+            return $entry->getPsnSeqno();
+        })->toArray();
+    }
+
+    /*---------------*/
+    /**
      * @return string
      */
     public function getObserversAsString()
@@ -540,10 +618,10 @@ class EventStates
     /**
      * @return string
      */
-    public function getGatherersAsString()
+    public function getCollectorsAsString()
     {
         $result=array();
-        foreach($this->getGathererPersons() as $i){
+        foreach($this->getCollectorPersons() as $i){
             array_push($result,$i->getFullyQualifiedName());
         }
         return implode(', ',$result);
@@ -562,26 +640,17 @@ class EventStates
     }
 
     /**
-     * @param \AppBundle\Entity\Event2Persons $event2Person
+     * @return string
      */
-    public function addInformers($event2Person)
+    public function getExaminersAsString()
     {
-        //$event2Person->setE2pType(EventStates::GATHERED);
-        if (!$this->getEvent2Persons()->contains($event2Person)) {
-            $event2Person->setEseSeqno($this);
-            $this->getEvent2Persons()->add($event2Person);
+        $result=array();
+        foreach($this->getExaminerPersons() as $i){
+            array_push($result,$i->getFullyQualifiedName());
         }
+        return implode(', ',$result);
     }
-
-    /**
-     * @param \AppBundle\Entity\Event2Persons $event2Person
-     */
-    public function removeInformers($event2Person)
-    {
-        if ($this->getEvent2Persons()->contains($event2Person)) {
-            $this->getEvent2Persons()->removeElement($event2Person);
-        }
-    }
+    /*----------------*/
 
     /**
      * @return \AppBundle\Entity\Observations

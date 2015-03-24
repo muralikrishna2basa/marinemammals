@@ -9,9 +9,16 @@ class PageController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('AppBundle:Page:index.html.twig');
+        $filter['excludeConfidential']=true;
+        $filter['country']='BE';
+        $filter['topNLatest']=10;
+
+        $observations = $this->get('observations_provider')->loadObservationsByFilter($filter);
+        return $this->render('AppBundle:Page:index.html.twig', array(
+            'observations'=>$observations
+        ));
     }
-    
+
     public function aboutObservationsAction()
     {
     	return $this->render('AppBundle:Page:about-observations.html.twig');

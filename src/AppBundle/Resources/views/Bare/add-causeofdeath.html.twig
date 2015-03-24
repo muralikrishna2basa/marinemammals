@@ -1,6 +1,6 @@
 <fieldset id="causeofdeath_values" class="no-multi only-dead">
     <fieldset>
-        <legend><h3>Cause of death: initial assessment</h3></legend>
+        <legend><h3>Cause of death: preliminary assessment</h3></legend>
         <div class="form-inline">{% for sv in form.eseSeqno.spec2events.causeOfDeathValues|slice(0, 6) %}
             {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
         {% endfor %}</div>

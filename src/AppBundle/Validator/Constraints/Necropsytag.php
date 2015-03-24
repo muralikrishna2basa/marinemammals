@@ -8,5 +8,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class Necropsytag extends Constraint
 {
-    public $message = 'The string "%string%" is not a valid Necropsy tag.';
+    public $message = 'The string "%string%" is not a valid collection tag.';
 }

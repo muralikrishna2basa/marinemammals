@@ -41,8 +41,7 @@
     {% endif %}
     <tr>
         <td>Location</td>
-        <td>{{ observation.stnSeqno.description }}<span data-tooltip="{{ observation.precisionFlag }}"
-                                                        class="has-map-tooltip"></span></td>
+        <td>{{ observation.stnSeqno.description }}</td>
     </tr>
     {% if observation.pfmSeqno %}
         <tr>
@@ -52,28 +51,20 @@
     {% endif %}
     <tr>
         <td>Decimal latitude</td>
-        <td>{{ observation.latDec }}</td>
+        <td>{{ observation.latDec }}{% if observation.latDec %}<span
+                data-tooltip="{% if observation.precisionFlag == null %}imprecise coordinate{% else %}precise coordinate{% endif %}"
+                class="has-map-tooltip"></span>{% endif %}</td>
     </tr>
     <tr>
         <td>Decimal longitude</td>
-        <td>{{ observation.lonDec }}</td>
+        <td>{{ observation.lonDec }}{% if observation.latDec %}<span
+                data-tooltip="{% if observation.precisionFlag == null %}imprecise coordinate{% else %}precise coordinate{% endif %}"
+                class="has-map-tooltip"></span>{% endif %}</td>
     </tr>
-    {% if observation.eseSeqno.informerPersons %}
-        <tr>
-            <td>Informer(s)</td>
-            <td>{{ observation.eseSeqno.informersAsString }}</td>
-        </tr>
-    {% endif %}
-    {% if observation.eseSeqno.observerPersons %}
-        <tr>
-            <td>Observer(s)</td>
-            <td>{{ observation.eseSeqno.observersAsString }}</td>
-        </tr>
-    {% endif %}
     {% if observation.singleSource %}
         <tr>
             <td>Source</td>
-            <td>{{ observation.singleSource }}</td>
+            <td>{{ observation.singleSource.name }}</td>
         </tr>
     {% endif %}
     </tbody>
@@ -91,12 +82,6 @@
             <td>{{ observation.eseSeqno.spec2events.collection.value }}</td>
         </tr>
     {% endif %}
-    {% if observation.eseSeqno.gathererPersons %}
-        <tr>
-            <td>Gatherer(s)</td>
-            <td>{{ observation.eseSeqno.gatherersAsString }}</td>
-        </tr>
-    {% endif %}
     <tr>
         <td>RBINS tag</td>
         <td>{{ observation.eseSeqno.spec2events.scnSeqno.rbinsTag }}</td>
@@ -110,45 +95,29 @@
         </tr>
     {% endif %}
     <tr>
-        <td>Necropsy tag</td>
+        <td>Collection tag</td>
         <td>{{ observation.eseSeqno.spec2events.scnSeqno.necropsyTag }}</td>
     </tr>
     </tbody>
 </table>
 
 <div class="observation-view-comments">
-    {% if observation.eseSeqno.description %}
-        <blockquote>
-            <h4>Observation description</h4>
-            {{ observation.eseSeqno.description }}
-        </blockquote>
-    {% endif %}
     {% if observation.webcommentsEn %}
         <blockquote>
-            <h4>Event web comments English</h4>
+            <h4>English comments</h4>
             {{ observation.webcommentsEn }}
         </blockquote>
     {% endif %}
     {% if observation.webcommentsNl %}
         <blockquote>
-            <h4>Event web comments Dutch</h4>
+            <h4>Dutch comments</h4>
             {{ observation.webcommentsNl }}
         </blockquote>
     {% endif %}
     {% if observation.webcommentsFr %}
         <blockquote>
-            <h4>Event web comments French</h4>
+            <h4>French comments</h4>
             {{ observation.webcommentsFr }}
         </blockquote>
     {% endif %}
 </div>
-{#<table class="observation_values">
-    <tbody>
-    {% for ov in observation.values %}
-        <tr>
-            <td>{{ ov.pmdName }}</td>
-            <td>{{ ov.value }}<span data-tooltip="{{ ov.valueFlagRef.rvMeaning }}" class="has-tooltip"></span></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>#}

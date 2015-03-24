@@ -33,7 +33,7 @@ $.validator.addMethod('validDaterange', function(value,element) {
 
 $.validator.addMethod("validNecropsyTag", function (value) {
     return /^$|^[a-zA-Z]{2}[_][0-9]{4}[_][0-9]{1,6}$/.test(value);
-}, 'Not a necropsy tag. The correct format is BE/FR_yyyy_integer, eg. BE_1996_15');
+}, 'Not a collection tag. The correct format is BE/FR_yyyy_integer, eg. BE_1996_15');
 
 
 $.validator.addMethod("validLatDec", function (value,element) {
@@ -56,7 +56,7 @@ $.validator.addMethod("validStation", function (value) {
     return stationOrCoord(value, latDecField.val(), lonDecField.val());
 }, 'Please provide either a valid coordinate or a station, or both');
 
-function validateContainer($container, validator) {
+function validateContainer($container, validator,$clientSideErrors) {
     var id=$container.attr('id');
     var $elements = $('#' + id + ' :input');
     var valid = true;
@@ -69,11 +69,11 @@ function validateContainer($container, validator) {
         }
     });
     if (!valid) {
-        $('#formerror').html(" Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message. The following elements are invalid: "+badId.join("<br />"));
+        $clientSideErrors.html("Validation failed on the tab that is currently being edited ("+id+"): please check all fields on "+ id +" with an error message. The following elements are invalid: <br />"+badId.join("<br />"));
     }
     else{
-        $('#formerror').html("");
-    }
+        $clientSideErrors.html('');
+        }
     return valid;
 }
 

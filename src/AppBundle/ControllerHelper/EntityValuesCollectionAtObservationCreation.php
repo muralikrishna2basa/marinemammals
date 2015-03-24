@@ -17,7 +17,7 @@ class EntityValuesCollectionAtObservationCreation extends EntityValuesCollection
         $this->instantiateSpecimenValues('Decomposition Code', true, true);
 
         $this->instantiateSpecimenValues('Body length', true, false);
-        $this->instantiateSpecimenValues('Body weight', true, false);
+//        $this->instantiateSpecimenValues('Body weight', true, false);
         $this->instantiateSpecimenValues('Age', true, false);
         $this->instantiateSpecimenValues('Nutritional Status', true, false);
 
@@ -49,8 +49,8 @@ class EntityValuesCollectionAtObservationCreation extends EntityValuesCollection
         $this->instantiateSpecimenValues('Other characteristics::Prey remains in mouth', false, true);
         $this->instantiateSpecimenValues('Other characteristics::Remains of nets, ropes, plastic, etc.', false, true);
         $this->instantiateSpecimenValues('Other characteristics::Oil remains on skin', false, true);
-        $this->instantiateSpecimenValues('Nutritional condition', false, true);
-        $this->instantiateSpecimenValues('Stomach Content', false, true);
+//        $this->instantiateSpecimenValues('Nutritional condition', false, true);
+//        $this->instantiateSpecimenValues('Stomach Content', false, true);
         $this->instantiateSpecimenValues('Other remarks', false, false);
 
         $this->instantiateSpecimenValues('Cause of death::Natural', false, true);

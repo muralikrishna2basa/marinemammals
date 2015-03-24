@@ -15,4 +15,18 @@ class SourcesRepository extends EntityRepository
         return $qb->getQuery()
                   ->getResult();
     }
+
+    public function getAllSourceTypesQb()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.type')
+            ->distinct()
+            ->addOrderBy('s.type', 'ASC');
+    }
+
+    public function getAllSourceTypes()
+    {
+        return $this->getAllSourceTypesQb()->getQuery()
+            ->getResult();
+    }
 }

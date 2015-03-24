@@ -610,15 +610,28 @@ class Spec2Events implements ValueAssignable
         return 1;
     }
 
+    /**
+     * @return bool
+     *
+     * Get whether this is a legal entity: it's not possible that the specimen is reported alive and cause of death values are reported.
+     */
     public function isCauseOfDeathLegal()
     {
-        if ($this->hasCodValues() && $this->associatedEntitiesIndicateAlive() === 1) {
+        if ($this->hasCodValues() && $this->associatedEntitiesIndicateAlive() === 1 ) {
             return false;
         }
     }
 
+    /**
+     * @return bool
+     *
+     * Get whether this is a legal entity: it's not possible that the specimen is reported dead and no cause of death values are reported. Specimens where more than one individual was observed should not report any cause of death values, so these are legal by default.
+     */
     public function isCauseOfDeathLegal2()
     {
+        if($this->getScnSeqno()->getScnNumber()>1){
+            return true;
+        }
         if (!$this->hasCodValues() && $this->associatedEntitiesIndicateAlive() === 0) {
             return false;
         }

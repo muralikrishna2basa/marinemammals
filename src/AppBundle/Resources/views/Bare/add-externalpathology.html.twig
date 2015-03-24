@@ -1,5 +1,5 @@
 <fieldset id="pathology_values" class="no-multi">
-    <legend><h2>External pathology</h2></legend>
+    <legend><h2>External examination</h2></legend>
     <fieldset>
         <legend><h3>Fresh external lesions</h3></legend>
         <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(0, 9) %}
@@ -32,7 +32,7 @@
     </fieldset>
     <fieldset>
         <legend><h3>Other characteristics</h3></legend>
-        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(22, 9) %}
+        <div class="form-inline">{% for sv in form.eseSeqno.spec2events.pathologyValues|slice(22, 7) %}
             {{ form_row(sv.value, {'label':sv.vars.value.pmdName|split('::')|last, 'attr':{'class':'form-inline'}}) }}
         {% endfor %}</div>
     </fieldset>

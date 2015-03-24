@@ -64,6 +64,12 @@ mm_observations_view:
     requirements:
         _method:  GET
 
+mm_observations_mgmtview:
+    pattern:  mgmt/observations/view/{id}
+    defaults: { _controller: AppBundle:ObservationsRetrieval:mgmtView }
+    requirements:
+        _method:  GET
+
 mm_taxa_add_new:
     pattern:  /mgmt/taxa/add
     defaults: { _controller: AppBundle:Taxa:new }

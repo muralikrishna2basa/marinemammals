@@ -25,7 +25,7 @@ $.validator.addMethod('validDaterange', function(value,element) {
 
 $.validator.addMethod("validNecropsyTag", function (value) {
     return /^$|^[a-zA-Z]{2}[_][0-9]{4}[_][0-9]{1,6}$/.test(value);
-}, 'Not a necropsy tag. The correct format is BE/FR_yyyy_integer, eg. BE_1996_15');
+}, 'Not a collection tag. The correct format is BE/FR_yyyy_integer, eg. BE_1996_15');
 
 
 $.validator.addMethod("validLatDec", function (value,element) {
