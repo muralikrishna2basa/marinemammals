@@ -52,7 +52,7 @@
         var $dateBox = $('#observationstype_eseSeqno_eventDatetime_date');
         var $eventDatetime = $('#observationstype_eseSeqno_eventDatetime_time');
         var $eventDatetimeFlag = $('#observationstype_eseSeqno_eventDatetimeFlagRef');
-        var $pathologyValues=$("select[id*='pathologyValues']");
+        var $pathologyValues = $("select[id*='pathologyValues']");
         var remoteSpecimen;
         var getRemoteScn = function (scnId) {
             $.ajax({
@@ -61,7 +61,6 @@
                 dataType: "json",
                 async: false,
                 success: function (response) {
-                    console.log(response);
                     remoteSpecimen = response;
                 }
             });
@@ -89,10 +88,10 @@
             }
         }
 
-        function makelist(list,$element){
+        function makelist(list, $element) {
             var listElement = document.createElement("ul");
             var numberOfListItems = list.length;
-            for( var i =  0 ; i < numberOfListItems ; ++i){
+            for (var i = 0; i < numberOfListItems; ++i) {
                 var listItem = document.createElement("li");
                 listItem.innerHTML = list[i];
                 listElement.appendChild(listItem);
@@ -100,24 +99,20 @@
             $element.append(listElement);
         }
 
-        function initDefaults(){
-            if(newSpecimenNumberField.val()===''){
+        function initDefaults() {
+            if (newSpecimenNumberField.val() === '') {
                 newSpecimenNumberField.val(1);
             }
         }
 
         $(document).ready(function () {
-            console.log('document ready: '+$('#causeofdeath_values')[0].style.display);
             $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
             $tabs.not($currentTab).not($previousTab).addClass('disabled');
             //$('#formsuccess').delay(200000).hide();
             instantiateRemoteSpecimen();
             hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
-            console.log('after hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens(): '+$('#causeofdeath_values')[0].style.display);
             hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
-            console.log('after hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen(): '+$('#causeofdeath_values')[0].style.display);
             hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
-            console.log('after hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens(): '+$('#causeofdeath_values')[0].style.display);
             initDefaults();
 
             $("#observationform").easytabs({
@@ -129,7 +124,7 @@
                 var $currentPanel = $(this).find('fieldset.active');
                 var goBack = destTab.parent().isBefore($currentTab); //destTab is actually the anchor
                 var $clientSideErrors = $('#formerror_clientside');
-                var valid = validateContainer($currentPanel, validator,$clientSideErrors);
+                var valid = validateContainer($currentPanel, validator, $clientSideErrors);
 
                 if (valid) {
                     $clientSideErrors.html = '';
@@ -190,16 +185,13 @@
             var allNonRequiredInputSelectValues = $("select[id$='value'],input[id$='value']").not("[required='required']");
 
             existingSpecimenChoiceField.change(function () {
-                console.log('start of existingSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
                 instantiateRemoteSpecimen();
                 hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
                 newSpecimenBox_requiredInputSelect.attr('required', 'required');
                 hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
-                console.log('end of existingSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
             });
 
             newSpecimenChoiceField.change(function () {
-                console.log('start of newSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
                 var value = $(this).val();
                 if (value != '') {
                     existingSpecimenChoiceField.removeAttr('required').val('');
@@ -207,13 +199,10 @@
                 else {
                     existingSpecimenChoiceField.attr('required', 'required');
                 }
-                console.log('end of newSpecimenChoiceField.change: '+$('#causeofdeath_values')[0].style.display);
                 return false;
             });
             newSpecimenNumberField.change(function () {
-                console.log('start of newSpecimenNumberField.change: '+$('#causeofdeath_values')[0].style.display);
                 hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
-                console.log('end of newSpecimenNumberField.change: '+$('#causeofdeath_values')[0].style.display);
             });
 
             latDecField.change(function () {
@@ -222,16 +211,12 @@
             );
 
             allNonRequiredInputSelectValues.change(function () {
-                        console.log('start of allNonRequiredInputSelectValues.change: '+$('#causeofdeath_values')[0].style.display);
                         makeAssociatedFlagRequired($(this), validator);
-                        console.log('end of allNonRequiredInputSelectValues.change: '+$('#causeofdeath_values')[0].style.display);
                     }
             );
 
             $anyFieldIndicatingDeadness.change(function () {
-                console.log('start of $anyFieldIndicatingDeadness.change: '+$('#causeofdeath_values')[0].style.display);
                 hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
-                console.log('end of $anyFieldIndicatingDeadness.change: '+$('#causeofdeath_values')[0].style.display);
             });
 
             $eventDatetimeFlag.change(function () {
@@ -297,7 +282,6 @@
                     $.each(errorList, createError);
                 }
             });
-            console.log('end of document ready: '+$('#causeofdeath_values')[0].style.display);
         })
         ;
 
@@ -312,7 +296,7 @@
         })(jQuery);
 
         function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
-                       var scnNumber = newSpecimenNumberField.val();
+            var scnNumber = newSpecimenNumberField.val();
             var remoteScnNumber = null;
             if (typeof remoteSpecimen !== 'undefined') {
                 if (remoteSpecimen.found) {
@@ -327,7 +311,6 @@
                 $sexBox.removeAttr('required');
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.hide();
                 $multipleSpecimensFeedback.show();
-                console.log('end of hide multiple >1: '+$('#causeofdeath_values')[0].style.display);
                 return false;
             }
             if (scnNumber < 2) {
@@ -338,7 +321,6 @@
                 fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.show();
                 $multipleSpecimensFeedback.hide();
                 $pathologyValues.prop('selectedIndex', 2);
-                console.log('end of hide multiple <2: '+$('#causeofdeath_values')[0].style.display);
                 return false;
             }
         }
@@ -378,7 +360,7 @@
                 $onlyForDeadBox_requiredInputSelect.removeAttr('required');
                 $onlyForDeadBox.hide();
             }
-            else if(scnNumber<2) {
+            else if (scnNumber < 2) {
                 $onlyForDeadBox_requiredInputSelect.attr('required', 'required');
                 $onlyForDeadBox.show();
             }

@@ -9965,12 +9965,15 @@ table.simple-observationstable{
     cursor:pointer;
 }
 
-/*
+/*Compatibility with OD Nature site*/
+.scrollup {
+    background: url('/images/icon_top.png') no-repeat;
+}
+
+
 @font-face {
     font-family: 'Glyphicons Halflings';
-    src: url('/fonts/glyphicons-halflings-regular.eot') !important;
-    src: url('/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
-    url('/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg') !important;
+    src: url('');
+    src: url('') format('embedded-opentype'), url('') format('woff'), url('') format('truetype'), url('') format('svg');
 }
-*/
+

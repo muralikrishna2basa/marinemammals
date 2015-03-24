@@ -27,7 +27,9 @@ class DateTimeType extends AbstractType
         ));
         $builder->add('time', 'time', array(
             'input'  => 'datetime',
-            'widget' => 'single_text'));
+            'widget' => 'single_text',
+            'required'=>false
+        ));
         $builder->addViewTransformer(new DateTimeToDateTimeArrayTransformer());
        /* $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
             $timeField=$event->getForm()->get('time');

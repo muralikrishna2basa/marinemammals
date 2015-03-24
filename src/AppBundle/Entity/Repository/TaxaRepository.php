@@ -20,4 +20,16 @@ class TaxaRepository extends EntityRepository
             ->addOrderBy('t.taxonrank', 'ASC')
             ->addOrderBy('t.canonicalName', 'ASC');
     }
+
+    public function getAllTaxonranks()
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('t.taxonrank')
+            ->distinct()
+            ->where('t.taxonrank is not null')
+            ->addOrderBy('t.taxonrank', 'ASC');
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

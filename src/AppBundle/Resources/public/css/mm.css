@@ -232,6 +232,14 @@ table.simple-observationstable{
     cursor:pointer;
 }
 
+div.form-group {
+    width:100%;
+}
+
+select.taxatype_taxonrank {
+    width:auto;
+}
+
 /*Compatibility with OD Nature site*/
 .scrollup {
     background: url('/images/icon_top.png') no-repeat;

@@ -4,7 +4,7 @@ namespace AppBundle\Form\ChoiceList;
 use Symfony\Component\Form\Extension\Core\ChoiceList\LazyChoiceList;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 
-class TaxaList extends LazyChoiceList
+class TaxonrankList extends LazyChoiceList
 {
     private $doctrine;
 
@@ -15,13 +15,13 @@ class TaxaList extends LazyChoiceList
 
     protected function loadChoiceList()
     {
-        $objects = $this
-            ->doctrine->getRepository('AppBundle:Taxa')->getAll();
+        $list = $this
+            ->doctrine->getRepository('AppBundle:Taxa')->getAllTaxonranks();
         $values=array();
         $labels=array();
-        foreach ($objects as $o) {
-            $value = $o->getCanonicalName();
-            $label = $o->getCanonicalName();
+        foreach ($list as $i=>$e) {
+            $value = $list[$i]['taxonrank'];
+            $label = $list[$i]['taxonrank'];
             array_push($values,$value);
             array_push($labels,$label);
         }
