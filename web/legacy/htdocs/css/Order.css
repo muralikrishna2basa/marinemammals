@@ -1,0 +1,78 @@
+div#order_design {background-color:#FFFFCC;border:1px solid #8F8F6B;}
+
+div#manage_orders div.order_title { background-color:#CCCC99;margin-bottom:20px;}
+div#manage_orders div.order_title p { text-align:center;text-transform:uppercase;margin:0;}
+div#order_design table {
+	border-collapse: collapse;
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", verdana, lucida, helvetica, sans-serif;
+	font-size: 0.91em;
+	margin: 0.2em;
+	padding: 0;
+	
+}
+div#order_design table.samples { max-width:70%;float:left;margin-right:30px;}
+
+div#order_design caption {
+	font-size: 1.4em;
+	font-stretch: condensed;
+	font-weight: bold;
+	padding-bottom: 5px;
+	text-align: left;
+	text-transform: uppercase;
+}
+div#order_design th, div#order_design td {
+	border-bottom: 1px solid #666;
+	border-top: 1px solid #666;
+	padding: 0.6em;
+	vertical-align: 4px;
+}
+div#order_design th {
+	text-align: left;
+	text-transform: uppercase;
+}
+div#order_design thead th, div#order_design tfoot th, div#order_design tfoot td {
+	background-color: #cc9;
+	font-size: 1.1em;
+}
+div#order_design tbody th {
+	background: url(http://www.clacksweb.org.uk/images/bullet_vacancy.gif) no-repeat 6px 0.8em;
+	padding-left: 24px;
+}
+div#order_design tbody th,div#order_design td {
+	background-color:#eee;
+}
+div#order_design tbody tr:hover td,div#order_design tbody tr:hover th {
+	background-color: #E5E5CB;
+}
+div#order_design tr.odd td,div#order_design tr.odd th {
+	background-color: #ddd;
+}
+div#order_design tbody a {
+	color: #333;
+}
+div#order_design tbody a:visited {
+	color: #999999;
+}
+div#order_design tbody a:hover {
+	color: #33c;
+}
+div#order_design tbody a:active {
+	color: #33c;
+}
+div#order_design tbody td+td+td+td a {
+	background: url(http://www.clacksweb.org.uk/images/external.gif) no-repeat right 0.4em;
+	padding-right: 12px;
+}
+div#order_design tfoot th {
+	text-align: right;
+}
+div#order_design tfoot th:after {
+	content: ":";
+}
+div#order_design tr td p { height:50px; overflow-y:auto;}
+
+div#search_order { margin-bottom:30px;padding-bottom:30px; margin-top:20px;}
+
+div#detail_orders div.locations { margin-top:30px;}
+
+

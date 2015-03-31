@@ -415,10 +415,10 @@ function createError(index, error) {
         .data("title", error.message)
         .tooltip();
     $group.removeClass("has-success").addClass("has-error has-feedback");
-    if ($group.find("span.glyphicon").length === 0) {
-        $group.append('<span class="glyphicon glyphicon-warning-sign form-control-feedback"> </span>');
+    if ($group.find("span.fa").length === 0) {
+        $group.append('<span class="fa fa-warning form-control-feedback"> </span>');
     } else {
-        $group.find("span.glyphicon").removeClass("glyphicon-ok").addClass("glyphicon-warning-sign");
+        $group.find("span.fa").removeClass("fa-check").addClass("fa-warning");
     }
 }
 
@@ -431,10 +431,10 @@ function cleanError(index, element) {
         $tabs.not($currentTab).removeClass('disabled');
     }
     $group.removeClass("has-error").addClass("has-success has-feedback");
-    if ($group.find("span.glyphicon").length === 0) {
-        $group.append('<span class="glyphicon glyphicon-ok form-control-feedback"> </span>');
+    if ($group.find("span.fa").length === 0) {
+        $group.append('<span class="fa fa-check form-control-feedback"> </span>');
     } else {
-        $group.find("span.glyphicon").removeClass("glyphicon-warning-sign").addClass("glyphicon-ok");
+        $group.find("span.fa").removeClass("fa-warning").addClass("fa-check");
     }
 }
 

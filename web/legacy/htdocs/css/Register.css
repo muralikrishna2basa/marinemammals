@@ -1,0 +1,13 @@
+div#Layout_content p
+{
+	margin-left:15px;
+	padding:1px;
+}
+form.default_form label.qflabel[for="security-0"]
+{
+width:350px;
+}
+#PHONE_NUMBER-0 
+{
+width:180px;
+}

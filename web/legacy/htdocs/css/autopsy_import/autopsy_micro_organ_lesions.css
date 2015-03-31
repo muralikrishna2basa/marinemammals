@@ -1,0 +1,10 @@
+@import "../Record.css";
+
+td.organ_select select.organ
+{
+	width:110px;
+}
+form.flow_autopsy_form table.diagnosis thead, form.flow_autopsy_form table.diagnosis tfoot
+{
+	background-color:#EBF2FF;
+}

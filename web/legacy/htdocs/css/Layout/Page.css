@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 0.8em tahoma, verdana, arial, sans-serif;
+
+}
+
+div#Layout_container {
+    /*max-width:85%; */
+    max-width: 100%;
+    min-width: 660px;
+    margin: 0 auto;
+    text-align: left;
+    overflow: hidden;
+    background-color: white;
+}
+
+a {
+    color: #6495ed;
+}
+
+div.flow {
+
+    margin: 10px;
+
+}
+
+input, select, button {
+    font-family: Tahoma, Verdana, Arial, Sans-serif;
+}
+
+select[multiple] {
+    width: 200px;
+}
+
+
+

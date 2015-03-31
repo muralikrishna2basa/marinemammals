@@ -232,11 +232,7 @@ table.simple-observationstable{
     cursor:pointer;
 }
 
-div.form-group {
-    width:100%;
-}
-
-select.taxatype_taxonrank {
+select#taxatype_taxonrank {
     width:auto;
 }
 

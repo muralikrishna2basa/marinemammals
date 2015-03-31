@@ -1,0 +1,33 @@
+div.errormessage{ float:right;}
+
+#places_stations { margin:auto;padding:5px;min-width:440px;overflow:hidden;}
+
+#places,#station_detail,#station_tool, #obplaces { margin:5px;border:1px solid #4F4545;padding:5px;}
+
+#station_detail { position:relative;}
+
+#obplaces select { width:150px;margin:4px;}
+
+div.hasstation { text-align:right;width:5%;}
+
+div.station_choice {width:20%;text-align:left;}
+
+div.station_items { width:75%;}
+
+div.station_items div { float:left; margin-right:5px; width:120px;}
+
+div.station_items input { width:100px;}
+
+#station_description { width:140px;}
+
+div.station_choice, div.station_items { float:left;}
+
+div.hasstation { float:right;}
+
+label.label_station { margin-right:5px;}
+
+#station_tool button.station_manage { } 
+
+#places_stations  fieldset{ background-color:#EFEFEF;}
+
+#places_stations  fieldset#places_stations{ background-color:transparent;}

@@ -1,0 +1,23 @@
+div.manage_samples_form
+{
+height:270px;
+width:350px;
+margin-top:20px;
+float:left;
+} 
+
+
+
+div.manage_samples_form form 
+{
+margin-top:0px;
+}
+div#manage_samples div.inittree 
+{
+ float:right;
+}
+div#search_samples
+{
+clear:both;
+padding-top:30px;
+}

@@ -1,0 +1,16 @@
+div#Layout_multidrop {
+ font-family: arial, sans-serif;   /* font family for menu */
+ font-size:1em; /* size of menu's type relative to parent element */
+
+ }
+ div#Layout_multidrop ul {overflow:hidden;height:100%; display:table;}
+ 
+ div#Layout_multidrop li {float:left;list-style-type:none;
+height:100%;display:table-cell;vertical-align:middle;}
+
+  div#Layout_multidrop li a {
+ display:block;
+text-decoration:none;
+color:#FFFFFF;
+padding:0.2em 5px;
+}

@@ -1,0 +1,10 @@
+form.upload_form{ width:600px;border:1px solid green;margin:auto;}
+form.upload_form div#inputs div  {float:right;margin:4px 0px 4px 4px;}
+form.upload_form div#inputs span.error{ color:red;}
+form.upload_form div#inputs span.success{ color:green;}
+form.upload_form div#inputs{float:right;width:80%;}
+form.upload_form div#inputs span{margin-left:5px;}
+form.upload_form label{float:left;margin-left:20px;margin-top:3px;}
+form.upload_form div.footer{clear:both;float:right; margin-top:5px;}
+div.upload_form div.initinput{display:none;}
+div.clearboth {clear:both;}

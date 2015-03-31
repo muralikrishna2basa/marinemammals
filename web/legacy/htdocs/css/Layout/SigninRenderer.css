@@ -1,0 +1,50 @@
+form#signin_form div.form_section label 
+{
+
+	font-family:"Agency FB","Hoefler Text",Georgia,Garamond,Times,serif;
+	font-size:0.8em;
+	margin-left:20px;
+	margin-top:0.4em;
+	float:left;
+	width:25%;
+
+}
+form#signin_form div.form_section input 
+{ 
+	font-size:0.9em;
+	width:70px;
+}
+form#signin_form div.form_section 
+{ 
+	margin:2px;
+	overflow:hidden;
+
+}
+form#signin_form div.form_section input.submit 
+{ 
+	background-color:transparent;
+	cursor:pointer;
+	margin-left:10px;
+ 	font-size:0.8em;
+
+}
+
+div.errormessage 
+{ 
+	color:red;
+	font-size:0.85em;
+	font-weight:bold;
+	text-align:right;
+}
+div.signedout
+{
+	text-align:right;
+	font-weight:bold;
+	font-size:0.85em;
+	color:green;
+}
+div.form_section a.accountmaintenance
+{
+	float:right;
+	font-size:0.8em;
+}

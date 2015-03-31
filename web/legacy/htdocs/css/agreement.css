@@ -1,0 +1,18 @@
+div#agreement_list
+{
+	margin:20px;
+	font-family:Verdana,sans-serif;
+}
+div#agreement_list p,div#agreement_list li
+{
+margin:5px;
+margin-bottom:15px;
+}
+div#agreement_list ol
+{
+	margin-top:10px;
+	height:500px;
+	overflow-y:scroll;
+	border:1px solid #b4bec6;
+	padding:30px;
+}

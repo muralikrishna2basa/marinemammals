@@ -1,0 +1,45 @@
+div#description_biobank {
+padding:15px;
+color:#000000;
+text-align:justify;
+}
+
+div#Layout_content div.description p {
+margin-top:10px;
+}
+
+div#order_div 
+{
+margin-top: 20px; text-align: center;
+}
+
+div#Layout_content div.description a
+
+{
+
+color:#6495ed;
+
+}
+
+div#Layout_content div.description a:hover
+
+{
+
+text-decoration:none;
+color:#616161;
+
+}
+#description_biobank p {
+
+margin-top:20px;
+text-align:justify;
+
+}
+
+
+#description_biobank  h3 {
+
+margin-top:20px;
+text-align:justify;
+
+}

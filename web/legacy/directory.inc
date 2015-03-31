@@ -1,0 +1,11 @@
+<?php
+define('Main',dirname($_SERVER['DOCUMENT_ROOT']).'/');
+define('Functions',Main.'functions/');
+define('Classes',Main.'classes/');
+define('Ini',Main.'ini/');
+define('Web',Main.'htdocs/');
+define('Includes',Main.'includes/');
+define('WebFunctions',Web.'functions/');
+define('Vendor',Main.'vendor/');
+define('QuickForm2',Vendor.'HTML_QuickForm2-2.0.2/HTML/');
+?>

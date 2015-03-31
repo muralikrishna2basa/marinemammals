@@ -1,0 +1,96 @@
+form.default_form 
+{
+	font-family: Arial,sans-serif;
+	font-size: small;
+	padding: 2px;
+	margin:15px;  
+}
+form.default_form fieldset
+{  
+	border-left: white 1px solid; 
+	border-right: white 1px solid; 
+	border-top: white 1px solid; 
+	margin-top:7px;
+}
+form.default_form fieldset.hidden 
+{
+	border: 0;
+}
+form.default_form fieldset legend {
+	font-weight: bold;
+	margin:5px;
+}
+form.default_form label.qflabel 
+{
+	display: block;
+	float: left;
+	width: 150px;
+	padding: 0;
+	margin: 5px 15px 0;
+	text-align: right;
+}
+form.default_form div.qfelement 
+{ 
+	display: inline;
+	float: left;
+	margin: 5px 0 0 10px;
+	padding: 0;
+}
+form.default_form div.qfelement input, form.default_form div.qfelement textarea
+{ 
+	float: left; 
+}
+form.default_form div.qfelement span 
+{ 
+	margin-left:10px; 
+	font-size:0.85em;
+	font-size: 0.7em;
+	font-family: Gill Sans, Verdana;
+	font-weight:bold;
+	color:red;
+}
+form.default_form div.qfrow  { 
+	overflow:hidden;
+	padding:10px 0;
+	background-color:#ebf2ff;
+	margin-top:2px;
+}
+form.default_form div.qfreqnote {
+	font-size: 80%; 
+}
+form.default_form span.required 
+{
+	color: red;
+}
+form.default_form div.error 
+{
+	padding: 3px;
+}
+form.default_form label.alignlabel 
+{
+	margin:0;
+	padding:0;
+}
+form.default_form input:not([class ^='searchornot']):focus
+{	
+	background-color: #CCFFCC; 
+	
+}
+form.default_form div.footer_error 
+{ 
+	float:right;
+	
+}
+form.default_form div.footer
+{
+	padding:4px;
+	text-align:left;
+}
+.observation_error 
+{
+	position:relative;
+	margin-top:5px;
+	left:25%;
+	bottom : 2%;
+}
+form.default_form div.twodiv { width:40%;}

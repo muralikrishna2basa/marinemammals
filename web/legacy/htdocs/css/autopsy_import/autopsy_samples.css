@@ -1,0 +1,87 @@
+@import "../Record.css";
+
+select.organ
+{
+	width:110px;
+}
+table.samples thead, table.samples tfoot
+{
+background-color:#EBF2FF;
+}
+
+table.samples tbody span.UpdConsMode
+{
+	color:green;
+	right:-0.6em;
+}
+table.samples tbody span.RegConsMode,table.samples tbody span.UpdConsMode
+{
+	width:40px;
+	height:10px;
+	font-size:0.7em;
+	position:absolute;
+	top:0.1em;
+}
+table.samples tbody span.RegConsMode
+{
+	left:-0.6em;
+}
+
+table.samples tbody span.ToChangeConsMode
+{
+	color:red;
+}
+table.samples tbody select.CsvModeBody, table.samples tbody select.SampleType 
+{
+	height:26px;
+    width:30px;
+	font-size:0.9em;
+	position:absolute;
+	bottom:-0.6em;
+    display:block;
+	
+}
+table.samples tbody select.CsvModeBody
+{
+	left:10%;
+}
+table.samples tbody select.SampleType 
+{
+	left:20%;
+}
+table.samples tbody div select.minwidth
+{
+	width:5px;
+}
+table.samples tbody div select.fullwidth
+{
+	width:80px;
+}
+table.samples tbody div
+{
+	position:relative;
+}
+
+table.samples tbody span.UpdOrgan
+{
+	bottom:-0.6em;
+	font-size:0.7em;
+	height:10px;
+	position:absolute;
+	right:-0.6em;
+	visibility:visible;
+	width:40px;
+	color:red;
+}
+table.samples tbody .SmplteToDelete
+{
+	border:1px solid red;
+}
+table.samples tbody td.SmplteToUpdate 
+{
+	border:1px solid #FFA200;
+}
+table.samples tbody td.RegSample
+{
+	background-color:#FFF5BF;
+}

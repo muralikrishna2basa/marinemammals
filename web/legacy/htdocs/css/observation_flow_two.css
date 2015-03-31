@@ -1,0 +1,57 @@
+#previously_observed { padding:15px;}
+
+div.specimens_observed { width:100px;height:100px; border:1px solid #6495ED;margin-top:50px;margin-left:20px;overflow-y:scroll;}
+
+div.specimens_observed a { margin-left:10px;}
+#biota {padding-top:15px;padding-left:15px;padding-right:15px;}
+div.multiselect_all { padding-bottom:15px;padding-left:15px;padding-right:15px;}
+div.multiselect_all li {cursor:default;font-size:11px;height:20px;line-height:20px;list-style-image:none;list-style-position:outside;list-style-type:none;padding:0;}
+div.multiselect_all  li a {color:#999999;cursor:pointer;display:block;float:left;padding:0;text-decoration:none;}
+div.multiselect_all li a.action {position:absolute;right:2px;top:2px;}
+div.multiselect_all li a.drop {position:absolute;right:15px;top:2px; width:35px; height:16px;background-color:transparent;}
+
+div.multiselect_all li a.edit {position:absolute;right:60px;top:2px; width:30px; height:16px;background-color:transparent;text-align:center;}
+
+div.multiselect_all {position:relative;overflow:hidden;}/*  Prevents I.E from displaying the scrolled items outside from the box*/
+
+div.multiselect_all .ui-multiselect-default {border:medium none;padding-left:20px;position:relative;background-color:white;
+-moz-background-clip:border;-moz-background-inline-policy:continuous;-moz-background-origin:padding;font-weight:bold;outline-color:-moz-use-text-color;
+outline-style:none;outline-width:medium;
+
+}
+
+div.multiselect_all ul.selected {margin:0;overflow-x:hidden;overflow-y:auto;padding:0;position:relative;width:100%;}
+
+div.multiselect_all li span.ui-icon-arrowthick-2-n-s {left:2px;position:absolute;}
+
+div.multiselect_all ul { overflow:auto;}
+
+div.multiselect_all span.element { margin:1em};
+
+div.multiselect_all span.number { width:10px;};
+
+div.multiselect_all span.element_specie { width:100px;}
+
+div.multiselect_all ul.selected li:hover{font-weight: bold;  outline: none;  }
+div.multiselect_all ul.ui-selectable .ui-selected { background: #F39814; color: white; }
+div.multiselect_all ul li.items_even { background-color:white;color:#8a93ac; height:23px;font-size:14px;}
+div.multiselect_all ul li.items_odd  {background-color:#8a93ac;color:white;height:23px;font-size:14px;}
+
+form.default_form label { margin-right:5px;}
+form.default_form div.qfelement input,form.default_form div.qfelement select,form.default_form div.qfelement textarea{ margin-left:10px;}
+form.default_form #multiselect_specimen ul.boxlist
+{
+height:81px;
+width:100%;
+background: #dddddd url(images/ui-bg_glass_40_dddddd_1x400.png);
+}
+form.default_form fieldset.editing { border:2px solid #c42211;}
+div.errormessage
+{ 
+float:right;color:red;
+font-family:Gill Sans,Verdana;
+font-size:0.7em;
+font-weight:bold;
+}
+
+#Rbins_tag,#mummtag,#mummtagserie { width:50px;}

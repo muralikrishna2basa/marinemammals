@@ -1,0 +1,4 @@
+#.htaccess SETTINGS TO TURN OFF
+php_flag magic_quotes_gpc off
+# pass the default character set
+AddDefaultCharset utf-8

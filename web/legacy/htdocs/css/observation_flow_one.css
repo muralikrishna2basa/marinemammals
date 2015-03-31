@@ -1,0 +1,88 @@
+
+
+
+div.errormessage
+{ 
+float:right;color:red;
+font-family:Gill Sans,Verdana;
+font-size:0.7em;
+font-weight:bold;
+}
+
+#event_station { margin:auto;padding:5px;overflow:hidden;margin-top:20px;}
+
+#station_detail_flow, #obplaces_flow { margin:5px;padding:5px;}
+
+#station_detail_flow { position:relative;}
+
+#obplaces_flow select { width:150px;margin:4px;}
+
+div.hasstation { text-align:right;width:5%;}
+
+div.station_choice {width:20%;text-align:left;}
+
+div.station_items_flow { width:75%;}
+
+div.station_items_flow div { float:left; margin-right:5px; width:120px;}
+
+div.station_items_flow span { width:100px;}
+
+
+
+div.station_choice, div.station_items_flow { float:left;}
+
+div.hasstation { float:right;}
+
+label.label_station { margin-right:5px;}
+
+
+
+#event_station  fieldset
+{ 
+background-color:#EFEFEF;margin:1px 0 0;
+overflow:hidden;
+padding:2px;
+}
+#free_coordinates div.item span.error
+{
+color:red;
+font-family:Gill Sans,Verdana;
+font-size:0.7em;
+font-weight:bold;
+margin-left:10px;
+}
+#free_coordinates div.item1
+{
+float:left;
+margin-top:20px;
+margin-right:5px;
+width:210px;
+}
+
+#free_coordinates div.item2
+{
+float:left;
+margin-top:20px;
+margin-right:5px;
+width:220px;
+}
+
+#free_coordinates div.item3
+{
+float:left;
+margin-top:20px;
+margin-right:5px;
+width:300px;
+}
+
+#free_coordinates 
+{
+padding:5px;
+margin-bottom:5px;
+background-color:#EFEFEF;
+}
+#event_description-0
+{
+width:500px;
+height:100px;
+}

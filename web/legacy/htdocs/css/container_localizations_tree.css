@@ -1,0 +1,137 @@
+form.cms ul, div.inittree ul 
+{
+	    padding-left:3em;
+	    margin-left:0;
+	    margin-top:0.4em;
+
+}
+
+form.cms ul li, div.inittree ul li 
+{
+	
+	padding-left:2em;
+	margin-left:0;
+	margin-top:0.4em;
+	list-style:none;
+}
+form.cms ul li a, , div.inittree ul li a 
+{
+	text-decoration:none;
+	margin-left:2px;
+	color:black;
+}
+
+div.inittree 
+{
+  
+	height:270px;
+	margin-top:20px;
+	width:500px;
+	overflow-y:scroll;
+	border:1px solid gray;
+
+}
+
+div.inittree a:visited
+{
+  
+	color:#6495ed;
+
+}
+
+div.inittree a:hover
+{
+  
+	color:black;
+	text-decoration:none;
+
+}
+
+
+div.cmsform 
+{ 
+	overflow:hidden;
+	width:560px;
+} 
+form.cms 
+{
+	padding:3px;		
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size:13px;
+	color: black;
+
+}
+
+form.cms input,form.cms select,form.cms div.drop, form.cms button 
+{ 
+	width:60px;
+}
+
+form.cms div.drop,form.cms div.errormessage 
+{ 
+	text-align:center;
+}
+
+form.cms div.row  
+{ 
+	overflow:hidden;
+	background-color:#d1e1ff;
+	border:3px solid white;
+}
+div#tree_container > div 
+{ 
+	margin:20px auto auto;
+}
+form.cms div.element 
+{
+	width:98px;
+	display:inline;
+	float:left;
+	margin:5px 0 0 10px;
+	padding:0;
+}
+form.cms div.element button 
+{
+float:right;
+margin-right:5px;
+}
+.drop  
+{
+	height: 20px;
+	width: 30px;
+	display:block;float:left;
+	border:1px solid green;
+	background-color:white;
+}
+.ghost 
+{
+	position: absolute;
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+	background-color: #CCF;
+	border-color: #AAD;
+	color: #AAD;
+}
+.outline 
+{
+	background-color: #FCC;
+	border-color: #DAA;
+	border-style: dashed;
+	color: #DAA;
+}
+.active 
+{
+	background-color: #CFC;
+	border-color: #ADA;
+}
+div.tree_toolbar 
+{ 
+	margin:4px;	
+	text-align:center;
+}
+
+div.row div.element label 
+{ 
+	width:90px;
+}

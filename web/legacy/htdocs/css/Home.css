@@ -1,0 +1,28 @@
+#home_description p 
+{
+	margin-top:20px;
+	/*text-align:justify; */
+	text-align:left;
+	line-height:1.6em;
+}
+
+
+
+#home_description div.video 
+{
+	margin-top:20px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#home_description ul.txt_list
+{ 
+	/*list-style-image: url("/img/lright.png"); */
+	list-style-type:square;
+	padding:10px 30px;
+}
+#home_description ul.txt_list li 
+{ 
+	line-height:1.6em; 
+	
+}

@@ -9965,6 +9965,10 @@ table.simple-observationstable{
     cursor:pointer;
 }
 
+select.taxatype_taxonrank {
+    width:auto;
+}
+
 /*Compatibility with OD Nature site*/
 .scrollup {
     background: url('/images/icon_top.png') no-repeat;
