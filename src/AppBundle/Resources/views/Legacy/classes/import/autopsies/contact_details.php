@@ -55,8 +55,6 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
             $person_val = "";
         } elseif (is_array($_POST[$name])) {
             $person_val = array_filter($_POST[$name]); //no callback provided, removes all false values
-        } elseif (is_string($_POST['person_opt'])) {
-            $person_val = array_filter(array($_POST[$name]));
         }
         if ($person_val == "") {
             $contact_opt = null;
@@ -79,36 +77,38 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
 
         // Check the existence of the person,institute link
         FOREACH ($contact_opt AS $e2pType => $groupArr) {
-            $sql = "select psn_seqno from event2persons where ese_seqno = :ese_seqno and E2P_TYPE= :e2p_type";
-            $bind = array(':ese_seqno' => $necropsy_seqno, ':e2p_type' => $e2pType);
-            $res = $db->query($sql, $bind);
-            if ($res->isError()) {
-                $val->setError('globalerror', $res->errormessage());
-            } else {
-                $row = $res->fetchAll(OCI_FETCHSTATEMENT_BY_COLUMN);
-                $psn_seqno = isset($row['PSN_SEQNO']) ? $row['PSN_SEQNO'] : array();
+            if ($groupArr !== null && is_array($groupArr)) {
+                $sql = "select psn_seqno from event2persons where ese_seqno = :ese_seqno and E2P_TYPE= :e2p_type";
+                $bind = array(':ese_seqno' => $necropsy_seqno, ':e2p_type' => $e2pType);
+                $res = $db->query($sql, $bind);
+                if ($res->isError()) {
+                    $val->setError('globalerror', $res->errormessage());
+                } else {
+                    $row = $res->fetchAll(OCI_FETCHSTATEMENT_BY_COLUMN);
+                    $psn_seqno = isset($row['PSN_SEQNO']) ? $row['PSN_SEQNO'] : array();
 
-                $toinsert = array_diff($groupArr, $psn_seqno);
-                $todelete = array_diff($psn_seqno, $groupArr);
-                if (count($todelete) != 0) {
-                    $bind_todelete = array(':ese_seqno' => $necropsy_seqno);
-                    $bind_e2pType = array(':e2p_type' => $e2pType);
-                    for ($i = 0; $i < count($todelete); $i++) {
-                        $bind_todelete[":todelete$i"] = $todelete[$i];
+                    $toinsert = array_diff($groupArr, $psn_seqno);
+                    $todelete = array_diff($psn_seqno, $groupArr);
+                    if (count($todelete) != 0) {
+                        $bind_todelete = array(':ese_seqno' => $necropsy_seqno);
+                        $bind_e2pType = array(':e2p_type' => $e2pType);
+                        for ($i = 0; $i < count($todelete); $i++) {
+                            $bind_todelete[":todelete$i"] = $todelete[$i];
+                        }
+                        $bindsql_todelete = '(' . implode(',', array_keys($bind_todelete)) . ')';
+                        $sql = "delete from event2persons where ese_seqno = :ese_seqno and E2P_TYPE= :e2p_type and psn_seqno in $bindsql_todelete";
+                        $res = $db->query($sql, array_merge($bind_todelete, $bind_e2pType));
                     }
-                    $bindsql_todelete = '(' . implode(',', array_keys($bind_todelete)) . ')';
-                    $sql = "delete from event2persons where ese_seqno = :ese_seqno and E2P_TYPE= :e2p_type and psn_seqno in $bindsql_todelete";
-                    $res = $db->query($sql, array_merge($bind_todelete, $bind_e2pType));
-                }
-                if (count($toinsert) != 0) {
-                    foreach ($toinsert as $item) {
-                        $binds = array(':ese_seqno' => $necropsy_seqno, ':toinsert' => $item);
+                    if (count($toinsert) != 0) {
+                        foreach ($toinsert as $item) {
+                            $binds = array(':ese_seqno' => $necropsy_seqno, ':toinsert' => $item);
 
-                        // The event2person type is supposed to be an observer
-                        $sql = "insert into event2persons(ese_seqno,psn_seqno,e2p_type) values (:ese_seqno,:toinsert,'" . $e2pType . "')";
-                        $res = $db->query($sql, $binds);
-                        if ($res->isError()) {
-                            $val->setError('globalerror', $res->errormessage() . 'DOMBO?');
+                            // The event2person type is supposed to be an observer
+                            $sql = "insert into event2persons(ese_seqno,psn_seqno,e2p_type) values (:ese_seqno,:toinsert,'" . $e2pType . "')";
+                            $res = $db->query($sql, $binds);
+                            if ($res->isError()) {
+                                $val->setError('globalerror', $res->errormessage() . 'DOMBO?');
+                            }
                         }
                     }
                 }

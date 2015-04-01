@@ -47,7 +47,7 @@ if(array_key_exists('Autopsy_reference',$_POST)){
     $autopsy_reference=array($_POST['Autopsy_reference']);
 }
 
-$val->set('date_test', $year_date, $month_date,  $day_date, 'checkdate');
+$val->set('date_test', array($year_date[0], $month_date[0],  $day_date[0]), 'checkdate');
 $val->set('date_flag_ref', $date_flag_ref, 'notChoose', 'Required');
 $val->set('Autopsy_reference', $autopsy_reference, 'required', 'Required');
 

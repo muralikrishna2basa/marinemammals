@@ -27,7 +27,7 @@ $css = "/legacy/css/observation_flow_one.css";
 $js = "/legacy/js/observation_flow_one.js";
 //
 
-$months =array('january','february','march','april','may','june','july','augustus','october','november','december');
+$months =array('january','february','march','april','may','june','july','august','october','november','december');
 
 //$this->thread = 3768;
 // VALIDATION PART 

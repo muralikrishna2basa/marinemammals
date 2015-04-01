@@ -47,10 +47,10 @@ class Biolibd_Layout extends Twocolfixedfluid
     {
         // Constructing Layout
 
-       Twocolfixedfluid::__construct("Marine Mammals");
-
+       //Twocolfixedfluid::__construct("Marine Mammals");
+        Page::__construct("Marine Mammals");
         $this->addHead(array(
-            '<link rel="stylesheet" type="text/css" href="/legacy/css/Layout/Biolibd_Layout.css" />',
+           // '<link rel="stylesheet" type="text/css" href="/legacy/css/Layout/Biolibd_Layout.css" />',
             '<link rel="stylesheet" type="text/css" href="/legacy/css/jquery.contextMenu.css"/>',
             '<link rel="stylesheet" type="text/css" href="/legacy/css/default_form.css" />',
             '<link rel="stylesheet" type="text/css" href="/legacy/css/redmond.datepick.css" />',
@@ -121,11 +121,11 @@ class Biolibd_Layout extends Twocolfixedfluid
             //$this->signin->signedout = 'Successfully signed out';
         }
 
-        $this->setAction($_SERVER['PHP_SELF']);
+        /*$this->setAction($_SERVER['PHP_SELF']);
 
         $this->setSignout($_SERVER['PHP_SELF'] . "?action=logout"); // to be used in the body
 
-        $this->setAccountMaintenance("Account_Maintenance.php");
+        $this->setAccountMaintenance("Account_Maintenance.php");*/
 
 
     }
@@ -141,7 +141,7 @@ class Biolibd_Layout extends Twocolfixedfluid
     {
         return $this->idinitnavigation;
     }
-
+/*
     protected function Secure_Layout($redirect_url)
     {
         $db = $this->db;
@@ -168,12 +168,12 @@ class Biolibd_Layout extends Twocolfixedfluid
 
         }
 
-    }
+    }*/
 
     public function __toString()
     {
         // start : display only content session clicked -> at document load => no javascript needed
-        if (count($this->displaycontentlist) > 0) {
+        /*if (count($this->displaycontentlist) > 0) {
             $navigation_lists = array();
             foreach ($this->displaycontentlist as $classname) {
                 $navigation_lists += $this->navigationlists[$classname];
@@ -181,9 +181,9 @@ class Biolibd_Layout extends Twocolfixedfluid
 
         } else {
             $navigation_lists = current($this->navigationlists);
-        }
+        }*/
 
-
+/*
         if (isset($_SESSION['navigation']) && array_key_exists($_SERVER['PHP_SELF'], $_SESSION['navigation'])) {
             $php_self = $_SERVER['PHP_SELF'];
             $id = $_SESSION['navigation'][$php_self];
@@ -202,7 +202,7 @@ class Biolibd_Layout extends Twocolfixedfluid
             // end
         } else {
             $this->setInitNavigation();
-        }
+        }*/
         /*$banner = $this->getBanner();
 
         $this->FillNavigationList();
@@ -220,7 +220,8 @@ class Biolibd_Layout extends Twocolfixedfluid
 
         $this->addFooter($footer);
 
-        return Twocolfixedfluid::__toString();
+        //return Twocolfixedfluid::__toString();
+        return Page::__toString();
 
     }
 

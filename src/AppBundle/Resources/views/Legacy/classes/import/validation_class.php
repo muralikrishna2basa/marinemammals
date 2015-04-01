@@ -64,8 +64,12 @@ class Validation
 							     
 		return false;
 	}
+
 	public function set($elname,$elvalue,$methodname,$message = false)
 	{
+        if(is_array($methodname)) {
+            $a=5;
+        }
 		if(method_exists($this,$methodname))
 		{    
 			$this->NBRConditions +=1; // add Condition
@@ -197,7 +201,7 @@ class Validation
 	
 	protected function checkdate($el,$message = false)
 	{
-		$months =array('january','february','march','april','may','june','july','augustus','october','november','december');
+		$months =array('january','february','march','april','may','june','july','august','october','november','december');
 
 		if(
 			!is_array($el) || 
@@ -205,9 +209,7 @@ class Validation
 			!is_string($el[0]) ||
 			!is_string($el[1]) ||
 			!is_string($el[2]) ||
-			strlen($el[0])==0 ||
-			strlen($el[0])==1 ||
-			strlen($el[0])==2 ||
+			strlen($el[0])<4 ||
 			(current(array_keys($months,$el[1])) == false && current(array_keys($months,$el[1]))!=0) || 
 			!checkdate(current(array_keys($months,$el[1]))+1,$el[2],$el[0])
 			

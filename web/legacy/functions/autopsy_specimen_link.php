@@ -9,9 +9,9 @@ if(!isset($db) || !isset($auth))
 {
 	$var = '';
 	
-	//require_once('directory.inc');
+	require_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc');
 
-	//include_once(Functions.'getAuthDb.php');
+	include_once(Functions.'getAuthDb.php');
 	
 	include_once(Classes."search/searcher_class.php");
 	

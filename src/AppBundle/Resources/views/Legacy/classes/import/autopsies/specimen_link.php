@@ -104,7 +104,7 @@ if (!$necropsy_seqno) {
     <fieldset id="autopsy_specimen_fs">
         <legend>Link to a Previously Observed specimen</legend>
         <div id="autopsy_search_specimens">
-            <div class="observations_results"><?php include(Web . 'functions/spec2events_search.php'); ?></div>
+            <div class="observations_results"><?php include(WebFunctions . '/spec2events_search.php'); ?></div>
             <div class="Search_search_tool" style="display:none;">
                 <div class="Search">
 		<span>

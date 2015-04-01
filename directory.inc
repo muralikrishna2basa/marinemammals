@@ -1,0 +1,13 @@
+<?php
+define('sfMain',dirname($_SERVER['DOCUMENT_ROOT']).'/');
+define('sfWeb',sfMain.'web/');
+define('Main',sfMain.'src/AppBundle/Resources/views/Legacy/');
+define('Functions',Main.'functions/');
+define('Classes',Main.'classes/');
+define('Ini',Main.'ini/');
+define('Web',Main.'htdocs/');
+define('Includes',Main.'includes/');
+define('WebFunctions',sfWeb.'legacy/functions/');
+define('Vendor',sfMain.'vendor/');
+define('QuickForm2',Vendor.'HTML_QuickForm2-2.0.2/HTML/');
+?>

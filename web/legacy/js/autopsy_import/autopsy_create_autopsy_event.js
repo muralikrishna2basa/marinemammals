@@ -4,13 +4,13 @@ $(document).ready(function(){
 	
 	$('#today').click(function(){
 		
-		today = new Date();
+		td = new Date();
 		
-		month = today.getMonth();
-		day = today.getDate();
-		year = today.getFullYear();
+		month = td.getMonth();
+		day = td.getDate();
+		year = td.getFullYear();
 		
-		$($(this).parent().find('select.day_date option').get(day+1)).attr("selected","selected").siblings().removeAttr("selected");
+		$($(this).parent().find('select.day_date option').get(day)).attr("selected","selected").siblings().removeAttr("selected");
 		$($(this).parent().find('select.month_date option').get(month+1)).attr("selected","selected").siblings().removeAttr("selected");
 		$(this).parent().find('select.year_date option[value='+year+']').attr("selected","selected").siblings().removeAttr("selected");
 		return false;

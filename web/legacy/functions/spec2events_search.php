@@ -3,14 +3,15 @@
  *  When ajax loading, => the relative path start on the ajax called directory
  */
 if (!isset($db) || !isset($auth)) {
-    require_once('../../directory.inc');
+    //require_once('directory.inc'); //todo
 
-    include_once(Functions . 'getAuthDb.php');
+    //include_once(Functions . 'getAuthDb.php');
 
-    include_once(Classes . "search/searcher_class.php");
+    //include_once(Classes . "search/searcher_class.php");
 }
+include_once(Functions . 'getAuthDb.php');
 include_once(Classes . "search/searcher_class.php");
-$grouplevel = $auth->getSessionGrouplevel();
+//$grouplevel = $auth->getSessionGrouplevel();
 
 // GET THE DATA FROM THE AJAX CALL 
 
@@ -32,8 +33,8 @@ if (isset($_GET['search_page'])) {
 $searchitems = json_decode(stripcslashes($search_json));
 
 
-$samples = new Search_Spec2events($db, $grouplevel);
-
+//$samples = new Search_Spec2events($db, $grouplevel);
+$samples = new Search_Spec2events($db);
 if (isset($_GET['search_ppr']) && $_GET['search_ppr'] != 'undefined') {
     $samples->renderer->pager->rows_per_page = $_GET['search_ppr'];
 } else {
@@ -69,7 +70,7 @@ function picture_tr($cell)
     return "";
 }
 
-$samples->renderer->addCellFunction('Picture', 'picture_tr');
+//$samples->renderer->addCellFunction('Picture', 'picture_tr');
 
 // Add Order Capability 
 if (isset($_GET['search_sort']) && isset($_GET['sort_type'])) {

@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(-1);
 
-include_once('directory.inc'); /* Make use of absolute path */
+include_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc'); /* Make use of absolute path */
 
 
 require_once(Classes . "arch/Biolibd_Layout_class.php");

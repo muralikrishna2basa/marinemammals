@@ -1,7 +1,7 @@
 <?php
 if (!isset($_SESSION)) // in case the script is called via ajax
 {
-    require_once('directory.inc');
+    require_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc');
 
     include_once(Functions . 'getAuthDb.php');
 
@@ -15,12 +15,13 @@ if (isset($_POST['flow']))  // ajax request
 {
     $flowname = $_POST['flow'];
 
+    session_start();
     $flow = unserialize($_SESSION[$flowname]);
 
     if ($flow instanceof Flow) {
         $flow->setDb($db);
 
-        $flow->setAuth($auth);
+        //$flow->setAuth($auth);
 
         $flow->validation = new Validation();
 

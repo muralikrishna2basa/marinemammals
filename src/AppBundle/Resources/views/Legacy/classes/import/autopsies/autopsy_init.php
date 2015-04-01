@@ -75,7 +75,7 @@ if ($val->getStatus() == false) {
                 <?php
                 // Need to make use of an absolute path => always valid ( ajax & web requests )
 
-                include(Web . 'functions/necropsies_search.php');
+                include(WebFunctions . 'necropsies_search.php');
 
                 ?>
             </div>

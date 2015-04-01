@@ -77,8 +77,51 @@ class Page
         }
     }
 
-    /*Access-Control-Allow-Origin*/
     public function __toString()
+    {
+        $content = $this->buildContent();
+
+        //$header = $this->buildHeader();
+
+        //$navigation = $this->buildNavigation();
+
+        $wrapper = "<div id='Layout_wrapper'>$content</div>";
+
+        $footer = $this->buildFooter();
+
+        //$this->addBody(array($header,$wrapper,$footer));
+        $this->addBody(array($wrapper,$footer));
+
+        $heads = implode('\n', $this->heads);
+
+        $body = implode('\n', $this->bodies);
+
+        header("Content-Security-Policy: script-src 'self' 'unsafe-inline'");
+
+        $page = <<<EOD
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title> $this->title </title>
+$heads
+</head>
+<body>
+<div id="Layout_container">
+	<div>
+		$body
+    </div>
+</div>
+</body>
+</html>
+EOD;
+
+        return stripcslashes($page); // escape all backslash caracters ( recognise \n )
+    }
+
+    /*Access-Control-Allow-Origin*/
+   /* public function __toString()
     {
         $heads = implode('\n', $this->heads);
 
@@ -107,5 +150,5 @@ EOD;
 
         return stripcslashes($page); // escape all backslash caracters ( recognise \n )
 
-    }
+    }*/
 }
