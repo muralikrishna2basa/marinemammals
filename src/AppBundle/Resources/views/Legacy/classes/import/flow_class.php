@@ -130,7 +130,8 @@ class Flow
 		$bar_render = "";
 		if(count($this->statebar)>0)
 		{
-			$bar_render .= "<div class='outer_statebar'><div class='statebar'><ul>";
+            $bar_render .= "<div class='statebar'><ul>";
+			//$bar_render .= "<div class='outer_statebar'><div class='statebar'><ul>";
 			for($i=0;$i<count($this->includes);$i++)
 			{
 				$elem = $this->statebar[$i%count($this->statebar)]; 
@@ -151,7 +152,8 @@ class Flow
 				$bar_render .="<li>$elem</li>";
 				}
 			}
-			$bar_render .="</ul></div></div>";
+            $bar_render .="</ul></div>";
+			//$bar_render .="</ul></div></div>";
 		}
 			return $bar_render;
 	}

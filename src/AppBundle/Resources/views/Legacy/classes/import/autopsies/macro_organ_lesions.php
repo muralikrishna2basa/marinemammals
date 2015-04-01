@@ -547,7 +547,7 @@ $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
 $var = $specimenlink; // variable declared in the include file
 include(WebFunctions . 'autopsy_specimen_link.php');
 ?>
-<form class='<?php echo $this->flowname . '_form'; ?> default_form' action="#">
+<form class='well <?php echo $this->flowname . '_form'; ?> default_form' action="#">
     <fieldset id="diagnosis_fs">
         <legend>Macroscopic Lesions</legend>
         <table class='tab_output diagnosis' width="100%" border="1">

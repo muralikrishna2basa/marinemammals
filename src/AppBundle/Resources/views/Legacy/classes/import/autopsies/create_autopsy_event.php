@@ -155,7 +155,7 @@ if ($val->getStatus()) {
 if ($this->getThread() != false && !isset($_POST['year_date'])) {
     $eventthread = $this->getThread();
     //$sql = "select to_char(EVENT_DATETIME, 'DD-MM-YYYY') as EVENT_DATETIME,to_char(EVENT_DATETIME, 'HH24:MI') as EVENT_TIME,date_flag_ref,time_flag,description from event_states where seqno = '$eventthread'";
-    $sql = "select to_char(EVENT_DATETIME, 'DD-MM-YYYY') as EVENT_DATE,to_char(EVENT_DATETIME, 'HH24:MI') as EVENT_TIME,EVENT_DATETIME_flag_ref,description from event_states where seqno = '$eventthread'";
+    $sql = "select to_char(EVENT_DATETIME, 'DD-MM-YYYY') as EVENT_DATETIME,to_char(EVENT_DATETIME, 'HH24:MI') as EVENT_TIME,EVENT_DATETIME_flag_ref,description from event_states where seqno = '$eventthread'";
 
     $row = array();
     $res = $db->query($sql);
@@ -165,7 +165,7 @@ if ($this->getThread() != false && !isset($_POST['year_date'])) {
         $row = $res->fetch();
     }
 
-    $event_datetime = explode('-', $row['EVENT_DATE']);
+    $event_datetime = explode('-', $row['EVENT_DATETIME']);
 
     $_POST['day_date'] = $event_datetime[0];
     $_POST['month_date'] = $months[$event_datetime[1] - 1];
@@ -243,28 +243,28 @@ if (!$r->isError()) {
     }
 }
 ?>
-<form class='<?php echo $this->flowname . '_form'; ?> default_form event_state'>
+<form class='well <?php echo $this->flowname . '_form'; ?> default_form event_state'>
     <fieldset>
         <legend>Autopsy Details</legend>
         <div class="qfrow">
             <div class="qfelement">
-                <label class="qflabel" for="Autopsy_reference-0"><span class="required">*</span>Autopsy
+                <label class="control-label" for="Autopsy_reference-0"><span class="required">*</span>Autopsy
                     reference:</label>
-                <input type="text" style="width: 100px;" name="Autopsy_reference" id="Autopsy_reference-0"
+                <input type="text" class="form-control" name="Autopsy_reference" id="Autopsy_reference-0"
                        value="<?php echo $val->getValue('Autopsy_reference'); ?>"/><?php echo $val->getError("Autopsy_reference") ?>
             </div>
         </div>
         <div class="qfrow">
             <div class="qfelement">
-                <label class="qflabel" for="Autopsy_labo-0">Labo reference:</label>
-                <input type="text" style="width: 100px;" name="ref_labo" id="Autopsy_labo-0"
+                <label class="control-label" for="Autopsy_labo-0">Labo reference:</label>
+                <input type="text" class="form-control" name="ref_labo" id="Autopsy_labo-0"
                        value="<?php echo $val->getValue('ref_labo'); ?>"/>
             </div>
         </div>
         <div class="qfrow">
             <div class="qfelement">
-                <label class="qflabel" for="Program-0">Program:</label>
-                <input type="text" style="width: 100px;" name="Program" id="Program-0"
+                <label class="control-label" for="Program-0">Program:</label>
+                <input type="text" class="form-control" name="Program" id="Program-0"
                        value="<?php echo $val->getValue('Program'); ?>"/>
             </div>
         </div>
@@ -273,18 +273,18 @@ if (!$r->isError()) {
         <legend>Event State</legend>
         <div class="qfrow">
             <div class="qfelement twodiv">
-                <label class="qflabel"><span class="required">*</span>Date:</label>
+                <label class="control-label"><span class="required">*</span>Date:</label>
                 <select class="year_date" name="year_date">
                     <option value="">Year</option><?php echo $year_select; ?></select>
                 <select class="month_date" name="month_date">
                     <option value="">Month</option><?php echo $month_select; ?></select>
                 <select class="day_date" name="day_date">
                     <option value="">Day</option><?php echo $day_select; ?></select>
-                <button id="today" type="button">Today</button>
+                <button class="btn btn-od" id="today" type="button">Today</button>
                 <?php echo $val->getError("date_test") ?>
             </div>
             <div class="qfelement twodiv">
-                <label for="autopsy_Date_flag-0" class="qflabel"><span class="required">*</span>Date flag:</label>
+                <label for="autopsy_Date_flag-0" class="control-label"><span class="required">*</span>Date flag:</label>
                 <select id="autopsy_Date_flag-0" name="date_flag_ref">
                     <option value='Choose'>Choose</option>
                     <?php echo $date_flag_ref; ?>
@@ -294,11 +294,11 @@ if (!$r->isError()) {
         </div>
         <div class="qfrow">
             <div class="qfelement twodiv">
-                <label for="autopsy_time_flow" class="qflabel">Time:</label>
-                <input id="autopsy_time_flow" name="time_flow" value="<?php echo $val->getValue('time_flow'); ?>"/>
+                <label for="autopsy_time_flow" class="control-label">Time:</label>
+                <input class="form-control" id="autopsy_time_flow" name="time_flow" value="<?php echo $val->getValue('time_flow'); ?>"/>
             </div>
             <div class="qfelement twodiv" style='visibility:hidden;'>
-                <label for="autopsy_Time_flag-0" class="qflabel">Time flag:</label>
+                <label for="autopsy_Time_flag-0" class="control-label">Time flag:</label>
                 <?php
                 echo "<select  id='autopsy_Time_flag-0' name='time_flag'><option value='1'>good value</option></select>";
                 //echo "<select  id='autopsy_Time_flag-0' name='time_flag'><option value='Choose'>Choose</option>  $time_flag</select>";
@@ -308,8 +308,8 @@ if (!$r->isError()) {
         </div>
         <div class="qfrow">
             <div class="qfelement">
-                <label for="autopsy_event_description-0" class="qflabel">Description:</label>
-<textarea id="autopsy_event_description-0" name="eventdescription" rows="2" cols="20">
+                <label for="autopsy_event_description-0" class="control-label">Description:</label>
+<textarea class="form-control" id="autopsy_event_description-0" name="eventdescription" rows="5" cols="20">
 <?php echo $val->getValue('eventdescription'); ?>
 </textarea>
             </div>

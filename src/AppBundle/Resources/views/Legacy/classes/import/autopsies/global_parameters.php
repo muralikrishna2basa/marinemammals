@@ -89,7 +89,7 @@ if (!$this->isSubmitted()) {
     while ($row = $res->fetch()) {
         $key = str_replace(' ', '_', $row['NAME'] . '_flow');
         $_POST[$key] = $row['VALUE'];
-        $this->addPost[$key];
+        $this->addPost($key);
     }
 
     // end get Specimen Parameter(s)
@@ -191,7 +191,7 @@ and b.code = :parameter_code group by a.pmd_seqno";
 $var = $specimenlink; // variable declared in the include file
 include(WebFunctions . 'autopsy_specimen_link.php');
 ?>
-<form class='<?php echo $this->flowname . '_form'; ?> default_form'>
+<form class='well <?php echo $this->flowname . '_form'; ?> default_form'>
     <fieldset id="global_parameter_fs">
         <?php
         // write all static parameters out of the specimen table
@@ -215,7 +215,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
 
             <div class="qfrow">
                 <div class="qfelement">
-                    <label class="qflabel"><?php echo $parameter_name . ": "; ?></label>
+                    <label class="control-label"><?php echo $parameter_name . ": "; ?></label>
                     <?php
                     $parameter_name = $parameter_name . "_flow";
                     if (count($parameter) == 1) {

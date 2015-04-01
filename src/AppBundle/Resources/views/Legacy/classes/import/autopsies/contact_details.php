@@ -158,7 +158,7 @@ echo "<div class ='autopsy_hidden_autopsiers' style = 'display:none;'>" . json_e
 echo "<div class ='autopsy_hidden_assistants' style = 'display:none;'>" . json_encode($hidden_assistants) . "</div>";
 echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_encode($hidden_collectors) . "</div>";
 ?>
-    <form class='<?php echo $this->flowname . '_form'; ?> default_form'>
+    <form class='well <?php echo $this->flowname . '_form'; ?> default_form'>
         <input name='autopsier_opt' style='display:none;'/>
         <input name='assistant_opt' style='display:none;'/>
         <input name='collector_opt' style='display:none;'/>
@@ -169,31 +169,31 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
 
                 <div class="qfrow">
                     <div class="qfelement">
-                        <label for="autopsy_autopsier_flow" class="qflabel">Autopsier</label>
-                        <input type="text" id="autopsy_autopsier_flow" class="contact_attribute" name="autopsier_flow"/>
+                        <label for="autopsy_autopsier_flow"  class="control-label">Autopsier</label>
+                        <input type="text" id="autopsy_autopsier_flow" class="form-control contact_attribute" name="autopsier_flow"/>
                         <button class="autopsy_addtab ui-state-default autopsier_btn" type="button"><span
                                 class="ui-icon ui-icon-plus"></span></button>
                     </div>
                 </div>
                 <div class="qfrow">
                     <div class="qfelement">
-                        <label for="autopsy_assistant_flow" class="qflabel">Assistant</label>
-                        <input type="text" id="autopsy_assistant_flow" class="contact_attribute" name="assistant_flow"/>
+                        <label for="autopsy_assistant_flow" class="control-label">Assistant</label>
+                        <input type="text" id="autopsy_assistant_flow" class="form-control contact_attribute" name="assistant_flow"/>
                         <button class="autopsy_addtab ui-state-default assistant_btn" type="button"><span
                                 class="ui-icon ui-icon-plus"></span></button>
                     </div>
                 </div>
                 <div class="qfrow">
                     <div class="qfelement">
-                        <label for="autopsy_collector_flow" class="qflabel">Collector</label>
-                        <input type="text" id="autopsy_collector_flow" class="contact_attribute" name="collector_flow"/>
+                        <label for="autopsy_collector_flow" class="control-label">Collector</label>
+                        <input type="text" id="autopsy_collector_flow" class="form-control contact_attribute" name="collector_flow"/>
                         <button class="autopsy_addtab ui-state-default collector_btn" type="button"><span
                                 class="ui-icon ui-icon-plus"></span></button>
                     </div>
                 </div>
                 <div class="qfrow">
                     <div class="qfelement">
-                        <label for="autopsy_multiselect_contact" class="qflabel"><span class="required">*</span>Selected
+                        <label for="autopsy_multiselect_contact" class="control-label"><span class="required">*</span>Selected
                             Contacts</label>
                         <select size="8" id='autopsy_multiselect_contact' multiple="">
                             <optgroup id="autopsy_autopsier_opt" label="Autopsiers">

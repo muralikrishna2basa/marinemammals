@@ -4,7 +4,7 @@
 }
 
 body {
-    font: 0.8em tahoma, verdana, arial, sans-serif;
+    /*font: 0.8em tahoma, verdana, arial, sans-serif;*/
 
 }
 
@@ -29,7 +29,7 @@ div.flow {
 }
 
 input, select, button {
-    font-family: Tahoma, Verdana, Arial, Sans-serif;
+    /*font-family: Tahoma, Verdana, Arial, Sans-serif;*/
 }
 
 select[multiple] {

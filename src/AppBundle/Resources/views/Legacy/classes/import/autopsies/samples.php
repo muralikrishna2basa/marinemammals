@@ -358,7 +358,7 @@ $var = $specimenlink; // variable declared in the include file
 include(WebFunctions . 'autopsy_specimen_link.php');
 
 ?>
-<form class='<?php echo $this->flowname . '_form'; ?> default_form' action='#'>
+<form class='well <?php echo $this->flowname . '_form'; ?> default_form' action='#'>
     <fieldset id="diagnosis_fs">
         <legend>Samples</legend>
         <table class='tab_output samples' width="100%" border="1">

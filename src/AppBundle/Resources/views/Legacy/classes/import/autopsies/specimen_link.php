@@ -89,7 +89,7 @@ if (!$necropsy_seqno) {
     } // In case the insert or update functionality worked =>navigate
 }
 ?>
-<form class='<?php echo $this->flowname . '_form'; ?> default_form'>
+<form class='well <?php echo $this->flowname . '_form'; ?> default_form'>
     <fieldset class="specimen_investigated">
         <legend>Specimen under investigation</legend>
         <div class='specimen_card'>

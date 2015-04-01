@@ -8,11 +8,9 @@ error_reporting(-1);
 
 include_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc'); /* Make use of absolute path */
 
-
 require_once(Classes . "arch/Biolibd_Layout_class.php");
 
-
-$Layout = new Biolibd_Layout();
+$Layout = new Biolibd_Layout("MM: Create/edit necropsy");
 
 
 $db = $Layout->getDatabase();
@@ -25,11 +23,11 @@ $Layout->addHead(array('<link rel="stylesheet" type="text/css" href="/legacy/css
 $Layout->addHead(array('<script type="text/javascript" src="/legacy/js/flow_plugin.js"></script>',
     '<script type="text/javascript" src="/legacy/js/import.js"></script>'
 ));
-
+/*
 $accordion = new Accordion('importation');
 $accordion->addClass('accordion'); // to be recognized by javascript
 $accordion->addClass('importation_accordion');
-
+*/
 
 /*$accordion->addList('Observations',array("#observation_importation_tool"=>'Importation Tool',
                                          "#manage_taxas"=>"Manage Taxas",

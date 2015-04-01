@@ -38,7 +38,7 @@ class Upload
 	 *
 	 * @var integer
 	 */
-	protected $maxsize = 10000; // default value is 10000
+	protected $maxsize = 2000000; // 2MB
 	
 	/**
 	 * Array of possible extensions for each type of files 

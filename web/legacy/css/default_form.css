@@ -1,33 +1,23 @@
 form.default_form 
 {
-	font-family: Arial,sans-serif;
-	font-size: small;
-	padding: 2px;
-	margin:15px;  
+	/*font-family: Arial,sans-serif;
+	font-size: small;*/
+	padding-left: 10px;
 }
-form.default_form fieldset
-{  
-	border-left: white 1px solid; 
-	border-right: white 1px solid; 
-	border-top: white 1px solid; 
-	margin-top:7px;
-}
+
 form.default_form fieldset.hidden 
 {
 	border: 0;
 }
-form.default_form fieldset legend {
-	font-weight: bold;
-	margin:5px;
-}
+
 form.default_form label.qflabel 
 {
-	display: block;
+	/*display: block;
 	float: left;
 	width: 150px;
 	padding: 0;
 	margin: 5px 15px 0;
-	text-align: right;
+	text-align: right;*/
 }
 form.default_form div.qfelement 
 { 
@@ -42,21 +32,19 @@ form.default_form div.qfelement input, form.default_form div.qfelement textarea
 }
 form.default_form div.qfelement span 
 { 
-	margin-left:10px; 
-	font-size:0.85em;
-	font-size: 0.7em;
-	font-family: Gill Sans, Verdana;
+	margin-left:10px;
+	/*font-size: 0.7em;
+	font-family: Gill Sans, Verdana;*/
 	font-weight:bold;
 	color:red;
 }
 form.default_form div.qfrow  { 
 	overflow:hidden;
 	padding:10px 0;
-	background-color:#ebf2ff;
 	margin-top:2px;
 }
 form.default_form div.qfreqnote {
-	font-size: 80%; 
+	/*font-size: 80%; */
 }
 form.default_form span.required 
 {
@@ -73,7 +61,7 @@ form.default_form label.alignlabel
 }
 form.default_form input:not([class ^='searchornot']):focus
 {	
-	background-color: #CCFFCC; 
+	/*background-color: #CCFFCC; */
 	
 }
 form.default_form div.footer_error 
@@ -93,4 +81,4 @@ form.default_form div.footer
 	left:25%;
 	bottom : 2%;
 }
-form.default_form div.twodiv { width:40%;}
+form.default_form div.twodiv { width:50%;}

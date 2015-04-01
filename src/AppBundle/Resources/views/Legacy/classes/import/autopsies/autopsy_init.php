@@ -61,7 +61,7 @@ if ($val->getStatus() == false) {
 } // In case the insert or update functionality worked =>navigate 
 
 ?>
-<form class='<?php echo $this->flowname . '_form'; ?> default_form'>
+<form class='well <?php echo $this->flowname . '_form'; ?> default_form'>
     <input style='display:none;' class='thread' name='thread' value='init'/>
     <span>Welcome to the Autopsy importation tool, please choose between creating a new Autopsy or updating an existing one</span>
     <fieldset id='create_autopsy'>

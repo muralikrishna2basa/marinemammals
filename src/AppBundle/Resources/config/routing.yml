@@ -154,11 +154,17 @@ mm_observations_add_create:
     requirements:
         _method:  POST
 
-mm_observations_new_edit:
+mm_necropsies_new_edit:
     pattern:  /mgmt/necropsies/add-edit
     defaults: { _controller: AppBundle:Necropsies:newedit }
     requirements:
         _method:  GET
+
+mm_necropsies_photo_upload:
+    pattern:  /mgmt/necropsies/add-edit
+    defaults: { _controller: AppBundle:Necropsies:newedit }
+    requirements:
+        _method:  POST
 
 mm_observations_edit:
     pattern:  /mgmt/observations/update/{id}

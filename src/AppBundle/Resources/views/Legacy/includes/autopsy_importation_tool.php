@@ -51,13 +51,13 @@ $flow->addJsCss(array('autopsy_init'=>array('css'=>'/legacy/css/autopsy_import/a
 //$flow->addInclude(array(Classes."import/autopsies/global_parameters.php"));
 
 
-$flow->setStateBar(array('Pick Event',
-						 'Create Necropsy',
+$flow->setStateBar(array('Pick event',
+						 'Create necropsy',
 						 'Contacts',
 						 'Specimens',
-						 'Global Parameters',
-						 'Macroscopic Lesions',
-						 'Microscopic Lesions',
+						 'Global parameters',
+						 'Macroscopic lesions',
+						 'Microscopic lesions',
 						 'Samples',
 						 'Medias',
 						 'Conclusions'));

@@ -135,13 +135,9 @@ class Resize
 					if(in_array(strtoupper($fileext),$this->allowedext))
 					{
 						$this->resizeImg($file);
-
 					}
 				}
-				
-				
 			}
-			
 			
 		}
 		else 

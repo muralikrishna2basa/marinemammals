@@ -12,7 +12,7 @@ $searcher = false;
 if($_POST['filter']){ $filtername = $_POST['filter'];} 
 if($_POST['searcher']){$searcher = $_POST['searcher'];}
 
-require_once('../../directory.inc');
+require_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc');
 
 include_once(Functions.'getAuthDb.php');
 	
@@ -20,9 +20,10 @@ include_once(Classes."search/searcher_class.php");
 
 if(!$searcher){return;} // 
 
-$grouplevel = $auth->getSessionGrouplevel();
+//$grouplevel = $auth->getSessionGrouplevel();
 
-$samples = new $searcher($db,$grouplevel);
+$samples = new $searcher($db);
+//$samples = new $searcher($db,$grouplevel);
  
 if($filtername == 'null' || !$filtername ) // starting point 
 { 

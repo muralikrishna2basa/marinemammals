@@ -4,63 +4,60 @@
  	Always centered, independently of the number of items composing the unordered list
  	This is achieved by using an outer div with parameters given below:  
 */
-div.flow 
-{
-	position:relative;
-	height:300px;
-}
-div.flow button.prev
-{
-	float:left;
+div.flow {
+    position: relative;
+    height: 300px;
 }
 
-div.flow button.finish
-{
-	float:right;
+div.flow button.prev {
+    float: left;
 }
 
-
-div.flow button.next
-{
-	float:right;
+div.flow button.finish {
+    float: right;
 }
+
+div.flow button.next {
+    float: right;
+}
+
+/*
 div.outer_statebar 
 {
 	float: left; 
 	position: absolute; 
 	left: 50%;
 	margin-right:50px;
+}*/
+div.statebar {
+    /*float:left;
+    font-family:Tahoma,Verdana,sans-serif;
+    font-size:14px;
+    left:-50%;
+    margin:auto;
+    position:relative;*/
 }
-div.statebar
-{
-	float:left;
-	font-family:Tahoma,Verdana,sans-serif;
-	font-size:14px;
-	left:-50%;
-	margin:auto;
-	position:relative;
+
+div.statebar ul {
+    text-align: center;
 }
-div.statebar ul
-{
-text-align: center;
+
+div.statebar ul li {
+    border-color: #B4BEC6 #B4BEC6 #D9D9D9;
+    border-style: solid;
+    border-width: 1px;
+    display: block;
+    float: left;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    cursor: default;
+    margin: 2px;
+    padding: 8px;
 }
-div.statebar ul li
-{
-	border-color:#B4BEC6 #B4BEC6 #D9D9D9;
-	border-style:solid;
-	border-width:1px;
-	display:block;
-	float:left;
-	list-style-image:none;
-	list-style-position:outside;
-	list-style-type:none;
-	cursor:default;
-	margin:5px;
-	padding:10px;
-}
-div.statebar ul li.isclicked
-{
-	border-color:#B71818;
-	position:relative;
-	overflow:visible;
+
+div.statebar ul li.isclicked {
+    border-color: #B71818;
+    position: relative;
+    overflow: visible;
 }

@@ -198,7 +198,7 @@ class Filter_Date extends BLP_Filter
     if(!$item1 ) { return;}
 
     
-	$date = $tbl1_alias.".EVENT_DATE";
+	$date = $tbl1_alias.".EVENT_DATETIME";
 		
 	$this->query->addWhere(array("$date ".$token,array($item1)));
 	}
@@ -225,11 +225,11 @@ class Filter_Date_Necropsy extends BLP_Filter
     		if(!$item1 ) { return;}	
 	switch ( $token ) {
 		case 'between';
-		  $this->query->addWhere(array(' lower('.$tbl1_alias.'.EVENT_DATE) between to_date(',array($item1),',\'dd/mm/yyyy\') and',
+		  $this->query->addWhere(array(' lower('.$tbl1_alias.'.EVENT_DATETIME) between to_date(',array($item1),',\'dd/mm/yyyy\') and',
 		                                'to_date(nvl(',array($item2),',\'01/01/2900\'),\'dd/mm/yyyy\')'));
 		                                break;
 		default:
-	        $this->query->addWhere(array(' lower('.$tbl1_alias.'.EVENT_DATE) '.$token,' to_date(',array($item1),',\'dd/mm/yyyy\')'));
+	        $this->query->addWhere(array(' lower('.$tbl1_alias.'.EVENT_DATETIME) '.$token,' to_date(',array($item1),',\'dd/mm/yyyy\')'));
 	        break;	
 	}
 	
@@ -311,7 +311,7 @@ class Filter_Specimen_Date extends BLP_Filter
     if(!$item1 ) { return;}
 
 
-	$date = $tbl1_alias.".EVENT_DATE";
+	$date = $tbl1_alias.".EVENT_DATETIME";
 		
 		$this->query->addWhere(array("$date ".$token,array($item1)));
 	
@@ -606,7 +606,7 @@ class Filter_Sample_Date_Found extends  BLP_Filter
 		$this->query->addJoin($tblalias.'.SEQNO ='.$tblalias2.'.SCN_SEQNO(+)');
 
 
-		$this->query->addColumn("Date Found",$tblalias2.".EVENT_DATE");
+		$this->query->addColumn("Date Found",$tblalias2.".EVENT_DATETIME");
 //		
 		if(!$item) { return;}
      	
@@ -614,9 +614,9 @@ class Filter_Sample_Date_Found extends  BLP_Filter
 //		$where = "$seqno_specimen in (select a.seqno  from specimens a, spec2events b, event_states c
 //				  where a.seqno = b.scn_seqno and b.ese_seqno = c.seqno
 //                  and c.seqno in (select ese_seqno from observations)
-//                  group by a.seqno having max(c.event_date) ";
+//                  group by a.seqno having max(c.event_datetime) ";
 	
-		$this->query->addWhere(array($tblalias2.".EVENT_DATE ".$token,array($item),')'));
+		$this->query->addWhere(array($tblalias2.".EVENT_DATETIME ".$token,array($item),')'));
 	}
 }
 
