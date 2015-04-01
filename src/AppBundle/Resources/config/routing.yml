@@ -58,6 +58,18 @@ mm_observations_mgmtfilter:
     requirements:
         _method:  GET
 
+mm_observations_jsonexport:
+    pattern:  /observations/json
+    defaults: { _controller: AppBundle:ObservationsRetrieval:jsonExport }
+    requirements:
+        _method:  GET
+
+mm_observations_mgmtjsonexport:
+    pattern:  /mgmt/observations/json
+    defaults: { _controller: AppBundle:ObservationsRetrieval:mgmtJsonExport }
+    requirements:
+        _method:  GET
+
 mm_observations_view:
     pattern:  /observations/view/{id}
     defaults: { _controller: AppBundle:ObservationsRetrieval:view }
@@ -141,6 +153,12 @@ mm_observations_add_create:
     defaults: { _controller: AppBundle:Observations:create }
     requirements:
         _method:  POST
+
+mm_observations_new_edit:
+    pattern:  /mgmt/necropsies/add-edit
+    defaults: { _controller: AppBundle:Necropsies:newedit }
+    requirements:
+        _method:  GET
 
 mm_observations_edit:
     pattern:  /mgmt/observations/update/{id}

@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Form\Filter\ObservationsFilterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use AppBundle\ControllerHelper\ObservationIndexPropertiesSet;
 use AppBundle\ControllerHelper\MgmtObservationIndexPropertiesSet;
 
@@ -17,20 +19,36 @@ class ObservationsRetrievalController extends Controller
         if ($request->query->has($form->getName())) {
             $form->submit($request->query->get($form->getName()));
             $filter = $form->getData();
-            $filter['excludeConfidential']=$excludeConfidential;
+            $filter['excludeConfidential'] = $excludeConfidential;
             $observations = $this->get('observations_provider')->loadObservationsByFilter($filter);
             $results = array();
             foreach ($observations as $o) {
                 array_push($results, $ps->getAll($o));
             }
             if ($request->query->has('export')) {
-                return $this->export($results);
-            } elseif ($request->query->has('submit')) {
+                return $this->excelExport($results);
+            } elseif ($request->query->has('json')) {
+                return $this->jsonExport($results);
+            } elseif ($request->query->has('submit') && $page !== null) {
                 return $this->generalIndexAction($page, $form, $observations);
             }
         }
         /*$observations = $this->getIndexOfObservations($excludeConfidential, $excludeNonBelgian);
         return $this->generalIndexAction($page, $form, $observations);*/
+    }
+
+    public function mgmtJsonExportAction(Request $request)
+    {
+        $ps = new MgmtObservationIndexPropertiesSet();
+        $request->query->add(array('json' => true));
+        return new JsonResponse($this->generalFilterAction($request, null,false, false, $ps),Response::HTTP_OK, array('Content-Type' => 'application/json'));
+    }
+
+    public function jsonExportAction(Request $request)
+    {
+        $ps = new ObservationIndexPropertiesSet();
+        $request->query->add(array('json' => true));
+        return new JsonResponse($this->generalFilterAction($request, null,true, true, $ps),Response::HTTP_OK, array('Content-Type' => 'application/json'));
     }
 
     private function generalIndexAction($page, $form, $observations)
@@ -77,23 +95,26 @@ class ObservationsRetrievalController extends Controller
         return $pagination;
     }
 
-    private function generalViewAction($page,$id){
+    private function generalViewAction($page, $id)
+    {
         $observation = $this->get('observations_provider')->loadObservation($id);
 
         return $this->render($page, array(
-            'observation'=>$observation
+            'observation' => $observation
         ));
     }
 
-    public function mgmtViewAction($id){
-        return $this->generalViewAction('AppBundle:Page:mgmt-view-observations-specimens.html.twig',$id);
+    public function mgmtViewAction($id)
+    {
+        return $this->generalViewAction('AppBundle:Page:mgmt-view-observations-specimens.html.twig', $id);
     }
 
-    public function viewAction($id){
-        return $this->generalViewAction('AppBundle:Page:view-observations-specimens.html.twig',$id);
+    public function viewAction($id)
+    {
+        return $this->generalViewAction('AppBundle:Page:view-observations-specimens.html.twig', $id);
     }
 
-    public function export($results)
+    public function excelExport($results)
     {
         $today = new \DateTime();
         $todayString = $today->format('Y-m-d');
@@ -128,5 +149,10 @@ class ObservationsRetrievalController extends Controller
         $response->headers->set('Cache-Control', 'maxage=1');
 
         return $response;
+    }
+
+    private function jsonExport($results){
+        $a=json_encode($results);
+        return $a;
     }
 }

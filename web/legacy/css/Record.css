@@ -1,0 +1,73 @@
+div.record_item 
+{
+	overflow:hidden;
+	background-color:white;
+	margin:10px;
+	padding:5px 20px;
+	border:1px solid #EFFCFF;
+	border-bottom:1px solid black;
+	min-width:540px;
+}
+div.record_item div.list
+{
+	float:right;
+	width:600px;
+}
+div.record_item div.picture
+{
+	float:left;
+	margin:0 0 0 30px;
+}
+div.record_item div.list li.record
+{
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0 20px 0 100px;
+	padding:3px 10px 0;
+	overflow:hidden;
+}
+div.record_item div.list li.record ul li 
+{
+
+	float:left;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0 20px 0 0;
+	padding:3px 10px 0;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:76%;
+	line-height:2;
+}
+div.record_item div.list li.record ul li.name
+{
+	width:100px;
+	font-weight:bold;
+
+}
+div.record_item div.list > ul > li.odd
+{
+	border-left:1px solid #EFFCFF;
+	border-right:1px solid #EFFCFF;
+}
+div.record_item div.list li.even
+{
+	background-color:#EFFCFF;
+	
+}
+div.panel 
+{
+	background:url("/legacy/img/D1E6FC_40x100_textures_10_dots_medium_90.png") repeat-y;
+	width:20px;
+	height:150px;
+}
+button.panelleft
+{
+	float:left;
+}
+
+button.panelright
+{
+	float:right;
+}
