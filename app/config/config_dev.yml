@@ -8,6 +8,8 @@ framework:
     profiler: { only_exceptions: false }
     templating:
         engines: ['twig', 'php']
+    session:
+        gc_probability: 0
 
 web_profiler:
     toolbar: true

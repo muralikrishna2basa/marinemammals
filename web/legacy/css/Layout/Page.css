@@ -36,5 +36,13 @@ select[multiple] {
     width: 200px;
 }
 
+.photoselectionbox{
+    border:1px solid lightgray;
+    padding:5px;
+    margin-bottom:3px;
+    max-width: 500px;
+}
+
+
 
 

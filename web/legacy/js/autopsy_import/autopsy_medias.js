@@ -1,7 +1,12 @@
 $().ready(function(){
-	$('form.upload_form[class=autopsy_flow]  button.add').click(function(){
-		input = $('form.upload_form[class=autopsy_flow] div.upload_form div.initinput').html();
-		$('form.upload_form[class=autopsy_flow] div#inputs').append(input);
+    $('button.del').click(function(){
+        $(this).parents('div.photoselectionbox:first').remove();
+        return false;
+    });
+
+	$('button.add').click(function(){
+		var $input = $('div.initinput').children().clone(true,true);
+		$('div#inputs').append($input);
 		return false;
 	});
 	$('form.upload_form[class=autopsy_flow] div#inputs').click(function(e){
@@ -11,11 +16,7 @@ $().ready(function(){
 		}
 		
 	});
-	$('form.upload_form[class=autopsy_flow] div.block button.del').click(function(){
-		
-		$(this).parents('div.block:first').remove();
-		return false;
-	});
+
 	
 	$('form.upload_form[class=autopsy_flow] input.img_select').change(function(){
 		if($(this).is(':checked')){ value = '1';}

@@ -18,15 +18,17 @@ require_once(Classes . 'import/flow_class.php');
 require_once(Functions . 'Fixcoding.php');
 include_once(Classes . 'upload/upload_class.php');
 include_once(Classes . 'upload/Resize_class.php');
+include_once(Functions . 'QueryEaser.php');
 
 //  Set javascript & css files, to be loaded dynamically 
 $css = "/legacy/css/autopsy_import/autopsy_medias.css";
-
 $js = "/legacy/js/autopsy_import/autopsy_medias.js";
 
 
 $val = $this->validation;
-$upload = new Uploads($_SERVER['DOCUMENT_ROOT'] . '/' . $img_dir, 'add-edit');
+
+
+$upload = new Uploads($_SERVER['DOCUMENT_ROOT'] . '/' . $img_dir, 'add-edit',false, true,$db);
 $upload->setClass($this->flowname);
 // upload files
 $upload->UploadFiles($img_dir);
@@ -75,7 +77,6 @@ if ($upload->hasUploaded()) {
 
 
 }
-echo $upload;
 // display the images
 
 $sql = "select * from medias where ese_seqno = :ese_seqno";
@@ -92,6 +93,8 @@ if ($db->isError()) {
         <fieldset>
             <legend>Images</legend>
             <?php
+            echo $upload;
+
             while ($row = $res->fetch()) {
                 $imgsrc = $row['LOCATION'];
                 $path_parts = pathinfo($imgsrc);
@@ -132,6 +135,7 @@ if ($db->isError()) {
                     }
                     $display = $display_row == 1 ? 'checked="yes"' : '';
                     echo "<div class='block'><div class='button_tools'>
+
 		<button class='del' type='button'><img alt='Del' src='/legacy/img/cross.png'></button>
 		<input type='checkbox' class='img_select' name='img_select' $display/>
 		<input style='display:none;' value='$display_row' class='checksave' name = '$filename'/>
@@ -140,7 +144,7 @@ if ($db->isError()) {
             }
             ?>
             <input style='display:none;' name='autfileimgs[]' value=''/>
-        </fieldset>
+                    </fieldset>
         <?php echo "<div>" . $this->getButtons() . "</div>"; ?>
     </form>
 <?php

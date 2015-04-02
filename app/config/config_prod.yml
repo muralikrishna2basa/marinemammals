@@ -1,9 +1,11 @@
 imports:
     - { resource: config.yml }
 
-#framework:
-#    validation:
-#        cache: apc
+framework:
+    templating:
+        engines: ['twig', 'php']
+    session:
+        gc_probability: 0
 
 #doctrine:
 #    orm:
