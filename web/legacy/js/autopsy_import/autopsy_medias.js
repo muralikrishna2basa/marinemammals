@@ -18,7 +18,7 @@ $().ready(function(){
 	});
 
 	
-	$('form.upload_form[class=autopsy_flow] input.img_select').change(function(){
+	$('input.img_select').change(function(){
 		if($(this).is(':checked')){ value = '1';}
 		else
 		{ value = '0';}

@@ -216,7 +216,7 @@ class Upload
 
     protected function getExtension($file)
     {
-        return str_replace('.', '', strrchr($file['name'], '.'));
+        return strtolower(str_replace('.', '', strrchr($file['name'], '.')));
     }
 
     protected function getFilename($file)
@@ -489,26 +489,31 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR','
         }
 
         $tostring = "<div class='$this->formname'>";
-        $tostring .= "<div class='initinput'><div class='photoselectionbox'>";
+        $tostring .= "<div class='initinput' style='display:none;'><div class='photoselectionbox'>";
         $tostring .= "<label class='control-label' for='upload[]'>Select a file:</label><input type='file' name='upload[]' size='30'/><label class='control-label' for='photographers'>Photographer:</label><select name='photographers'>$html_photographers</select>" .
             "<button type='button' class='del' style='float:right;'><img src='/legacy/img/cross.png' alt='Del'/></button></div></div>";
         $tostring .= "<form class='$this->formclass $this->formname' name='$this->formname' enctype='multipart/form-data' method ='post' action = '$this->action'>";
         $tostring .= "<input style='display:none;' name='active_tab' value='$this->formclass'/>";
         $tostring .= "<input type='hidden' name='MAX_FILE_SIZE' value='$this->maxsize'/>";
-        $tostring .= "<div id='inputs'><div class='photoselectionbox'><label class='control-label' for='upload[]'>Select a file:</label>";
-        if (count($this->UploadedFiles) == 0) {
-            $tostring .= "<input type='file' name='upload[]' size='30'/><label class='control-label' for='photographers'>Photographer:</label><select name='photographers'>$html_photographers</select><button type='button' class='del' style='float:right;'><img src='/legacy/img/cross.png' alt='Del' /></button></div></div>";
-        } else {
+        $tostring .= "
+<div id='inputs'>
+    <div class='photoselectionbox'>
+        <label class='control-label' for='upload[]'>Select a file:</label><input type='file' name='upload[]' size='30'/>
+        <label class='control-label' for='photographers'>Photographer:</label>
+        <select name='photographers'>$html_photographers</select>
+        <button type='button' class='del' style='float:right;'><img src='/legacy/img/cross.png' alt='Del' /></button>
+    </div>
+</div>";
+        if (count($this->UploadedFiles) > 0) {
             foreach ($this->UploadedFiles as $key => $uploaded) {
                 if (is_bool($uploaded[0]) == true) {
-                    $tostring .= "<div>" . $key . ($uploaded[0] ? "<span class ='success'>" . $this->errormessages[0] . "</span>" :
+                    $tostring .= "<div class='photoselectionbox'>" . $key . ($uploaded[0] ? "<span class ='success'>" . $this->errormessages[0] . "</span>" :
                             "<span class='error'>" . $uploaded[1] . "</span>") . "</div>";
                 }
 
             }
-
         }
-        $tostring .= "</div>";
+        //$tostring .= "</div>";
         $tostring .= "<div class='footer'>";
         $tostring .= "<button type='button' class='add'><img src='/legacy/img/add.png' alt='Add' /></button>";
         $tostring .= "<button class='submit' type='submit' name='submit' value='submit'><img src='/legacy/img/accept.png' alt='Accept'/></button>";

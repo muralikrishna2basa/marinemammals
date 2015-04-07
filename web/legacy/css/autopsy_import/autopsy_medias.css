@@ -1,6 +1,7 @@
 @import "../upload_form.css";
 div.block
 {
+    display:block;
  float:left;
  margin:5px;
 }

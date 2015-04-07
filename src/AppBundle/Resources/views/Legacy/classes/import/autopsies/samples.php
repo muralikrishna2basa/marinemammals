@@ -341,8 +341,8 @@ foreach ($registered_samples as $ognproc => $samples) {
 }
 
 // load organs 
-$file_load = !file_exists('loadorganslesions.php') ? 'functions/loadorganslesions.php' : 'loadorganslesions.php';
-
+//$file_load = !file_exists('loadorganslesions.php') ? 'functions/loadorganslesions.php' : 'loadorganslesions.php';
+$file_load=WebFunctions.'/loadorganslesions.php';
 
 //----------------------------------------------------------------------------------
 // get Specimen ID 

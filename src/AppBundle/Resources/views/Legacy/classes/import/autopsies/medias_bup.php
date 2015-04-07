@@ -8,6 +8,7 @@
  *  LAST MODIFIED:20/04/2010
  */
 
+
 date_default_timezone_set('Europe/Paris');
 $ese_seqno = $this->getThread();
 $year = date('Ymd');
@@ -21,11 +22,12 @@ include_once(Functions . 'QueryEaser.php');
 
 //  Set javascript & css files, to be loaded dynamically
 $css = "/legacy/css/autopsy_import/autopsy_medias.css";
-
 $js = "/legacy/js/autopsy_import/autopsy_medias.js";
 
 
 $val = $this->validation;
+
+
 $upload = new Uploads($_SERVER['DOCUMENT_ROOT'] . '/' . $img_dir, 'add-edit',false, true,$db);
 $upload->setClass($this->flowname);
 // upload files
@@ -59,12 +61,12 @@ if ($upload->hasUploaded()) {
         $path_parts = pathinfo($file);
         $filename = $path_parts['filename'];
         $description = "uploaded via the autopsy importation tool";
-        //$psn_seqno = $auth->getSessionId();
-        $psn_seqno=117;
+        $psn_seqno = $auth->getSessionId();
+
         $mda_type = $path_parts['extension'];
         $location = $img_dir . 'thumb/' . $file;
 
-        $sql = "insert into medias(psn_seqno,description,mda_type,location,ese_seqno,isconfidential) values(:psn_seqno,:description,:mda_type,:location,:ese_seqno,1)";
+        $sql = "insert into medias(psn_seqno,description,mda_type,location,ese_seqno,display) values(:psn_seqno,:description,:mda_type,:location,:ese_seqno,0)";
         $binds = array(':psn_seqno' => $psn_seqno, ':description' => $description, ':mda_type' => $mda_type, ':location' => $location, ':ese_seqno' => $ese_seqno);
         $db->query($sql, $binds);
         if ($db->isError()) {
@@ -75,7 +77,6 @@ if ($upload->hasUploaded()) {
 
 
 }
-echo "<div class='well'>".$upload;
 // display the images
 
 $sql = "select * from medias where ese_seqno = :ese_seqno";
@@ -88,15 +89,18 @@ if ($db->isError()) {
 }
 
 ?>
-    <form class='<?php echo $this->flowname . '_form'; ?>' method="POST" action='add-edit'>
+    <form class='well <?php echo $this->flowname . '_form'; ?>' method="POST" action='add-edit'>
         <fieldset>
             <legend>Images</legend>
-            <?php while ($row = $res->fetch()) {
+            <?php
+            echo $upload;
+
+            while ($row = $res->fetch()) {
                 $imgsrc = $row['LOCATION'];
                 $path_parts = pathinfo($imgsrc);
                 $basename = $path_parts['basename'];
                 $filename = $path_parts['filename'];
-                $display_row = $row['ISCONFIDENTIAL'];
+                $display_row = $row['DISPLAY'];
 
 
                 if (count($fileimgs) > 0 && !in_array($imgsrc, $fileimgs)) {
@@ -120,9 +124,9 @@ if ($db->isError()) {
                     if (isset($_POST[$filename])) {
                         $val->setStatus(true);
 
-                        $isconfidential_row = $_POST[$filename];
-                        $sql = "update medias set isconfidential = :isconfidential where ese_seqno = :ese_seqno and location = :location";
-                        $binds = array(':isconfidential' => $isconfidential_row, ':ese_seqno' => $ese_seqno, ':location' => $imgsrc);
+                        $display_row = $_POST[$filename];
+                        $sql = "update medias set display = :display where ese_seqno = :ese_seqno and location = :location";
+                        $binds = array(':display' => $display_row, ':ese_seqno' => $ese_seqno, ':location' => $imgsrc);
                         $db->query($sql, $binds);
                         if ($db->isError()) {
                             echo "<div class='errormessage'>update unsuccessful</div>";
@@ -130,25 +134,21 @@ if ($db->isError()) {
                         }
                     }
                     $display = $display_row == 1 ? 'checked="yes"' : '';
-                    echo "
-<div class='block'>
-    <div class='button_tools'>
-		<button class='del' name='button-$filename' type='submit'><img alt='Del' src='/legacy/img/cross.png'></button>
+                    echo "<div class='block'><div class='butt_tools'>
+		<button class='del' name='button' type='submit'><img alt='Del' src='/legacy/img/cross.png'></button>
 		<input type='checkbox' class='img_select' name='img_select' $display/>
 		<input style='display:none;' value='$display_row' class='checksave' name = '$filename'/>
-    </div>
-    <div class='image'><input style='display:none;' name = 'autfileimgs[]' value='$imgsrc'/><img alt='$filename' src='$imgsrc'></div>
-</div>";
+		</div><div class='image'><input style='display:none;' name = 'autfileimgs[]' value='$imgsrc'/><img alt='$filename' src='$imgsrc'></div></div>";
                 }
             }
             ?>
             <input style='display:none;' name='autfileimgs[]' value=''/>
-        </fieldset>
-        <?php echo "<div>" . $this->getButtons() . "</div></div>"; ?>
+                    </fieldset>
+        <?php echo "<div>" . $this->getButtons() . "</div>"; ?>
     </form>
 <?php
 if ($val->getStatus()) {
-    //ob_end_clean();
+    ob_end_clean();
     $this->navigate();
     return;
 }
