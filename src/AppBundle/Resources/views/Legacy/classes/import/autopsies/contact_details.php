@@ -65,7 +65,9 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
     }
 
     $autopsier_opt = getHiddenInputValue('autopsier_opt');
+
     $assistant_opt = getHiddenInputValue('assistant_opt');
+
     $collector_opt = getHiddenInputValue('collector_opt');
 
     $contact_opt = array('NB' => $autopsier_opt, 'AB' => $assistant_opt, 'CB' => $collector_opt);
@@ -107,7 +109,7 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
                             $sql = "insert into event2persons(ese_seqno,psn_seqno,e2p_type) values (:ese_seqno,:toinsert,'" . $e2pType . "')";
                             $res = $db->query($sql, $binds);
                             if ($res->isError()) {
-                                $val->setError('globalerror', $res->errormessage() . 'DOMBO?');
+                                $val->setError('globalerror', $res->errormessage());
                             }
                         }
                     }
@@ -120,9 +122,10 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
 
     if ($this->getThread() != false && $val->getValue('autopsier_opt') == '' && $val->getValue('assistant_opt') == '' && $val->getValue('collector_opt') == '') {
         // select a person ( pseudo institutes are therefore excluded)
+    if($val->getValue('autopsier_opt') == ''){
         $sql = "select psn_seqno from event2persons
-			where ese_seqno = :ese_seqno
-			and psn_seqno not in (select c.psn_seqno from institutes c)";
+			where ese_seqno = :ese_seqno and e2p_type='NB'";
+
         $bind = array(':ese_seqno' => $necropsy_seqno);
         $res = $db->query($sql, $bind);
         if ($res->isError()) {
@@ -130,20 +133,39 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
         } else {
 
             while ($row = $res->fetch()) {
-                isset($row['PSN_SEQNO']) ? $_POST['person_opt'][] = $row['PSN_SEQNO'] : '';
+                isset($row['PSN_SEQNO']) ? $_POST['autopsier_opt'][] = $row['PSN_SEQNO'] : '';
             }
         }
-        // select pseudo institutes
-        $sql = "select psn_seqno from event2persons
-			where ese_seqno = :ese_seqno
-			and psn_seqno in (select c.psn_seqno from institutes c)";
-        $bind = array(':ese_seqno' => $necropsy_seqno);
-        $res = $db->query($sql, $bind);
-        if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage());
-        } else {
-            while ($row = $res->fetch()) {
-                isset($row['PSN_SEQNO']) ? $_POST['institute_opt'][] = $row['PSN_SEQNO'] : '';
+    }
+        if($val->getValue('assistant_opt') == ''){
+            $sql = "select psn_seqno from event2persons
+			where ese_seqno = :ese_seqno and e2p_type='AB'";
+
+            $bind = array(':ese_seqno' => $necropsy_seqno);
+            $res = $db->query($sql, $bind);
+            if ($res->isError()) {
+                $val->setError('globalerror', $res->errormessage());
+            } else {
+
+                while ($row = $res->fetch()) {
+                    isset($row['PSN_SEQNO']) ? $_POST['assistant_opt'][] = $row['PSN_SEQNO'] : '';
+                }
+            }
+        }
+
+        if($val->getValue('collector_opt') == ''){
+            $sql = "select psn_seqno from event2persons
+			where ese_seqno = :ese_seqno and e2p_type='CB'";
+
+            $bind = array(':ese_seqno' => $necropsy_seqno);
+            $res = $db->query($sql, $bind);
+            if ($res->isError()) {
+                $val->setError('globalerror', $res->errormessage());
+            } else {
+
+                while ($row = $res->fetch()) {
+                    isset($row['PSN_SEQNO']) ? $_POST['assistant_opt'][] = $row['PSN_SEQNO'] : '';
+                }
             }
         }
     }
@@ -208,16 +230,16 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
                                     }
                                     $bindsql_persons = '(' . implode(',', array_keys($bind_persons)) . ')';
                                     $sql = "select * from persons where seqno in $bindsql_persons";
-                                    $personDataArray = array('LAST_NAME' => '', 'SEQNO' => '');
+                                    $personDataArray = array('FIRST_NAME' => '', 'LAST_NAME' => '', 'SEQNO' => '');
                                     $autopsiersQ = new QueryEaser($this->db, $sql, $personDataArray, $bind_persons);
 
                                     if ($autopsiersQ->error) {
-                                        $val->setError('globalerror', $autopsiersQ->error . 'dombo?');
+                                        $val->setError('globalerror', $autopsiersQ->error);
                                     } else {
                                         $inputs_autopsiers = "";
                                         foreach ($autopsiersQ->resultArray as $person) {
                                             $seqno = $person['SEQNO'];
-                                            $name = $person['LAST_NAME'];
+                                            $name = $person['LAST_NAME']." ".$person['FIRST_NAME'];
                                             echo "<option pk='$seqno'>$name</option>";
                                             $inputs_autopsiers .= "<input name='autopsier_opt[]' style='display:none;' value='$seqno'>";
                                         }
@@ -243,15 +265,15 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
                                     }
                                     $bindsql_persons = '(' . implode(',', array_keys($bind_persons)) . ')';
                                     $sql = "select * from persons where seqno in $bindsql_persons";
-                                    $personDataArray = array('LAST_NAME' => '', 'SEQNO' => '');
+                                    $personDataArray = array('FIRST_NAME' => '', 'LAST_NAME' => '', 'SEQNO' => '');
                                     $assistantsQ = new QueryEaser($this->db, $sql, $personDataArray, $bind_persons);
 
                                     if ($assistantsQ->error) {
-                                        $val->setError('globalerror', $assistantsQ->error . 'dombo??');
+                                        $val->setError('globalerror', $assistantsQ->error);
                                     } else {
                                         foreach ($assistantsQ->resultArray as $person) {
                                             $seqno = $person['SEQNO'];
-                                            $name = $person['LAST_NAME'];
+                                            $name = $person['LAST_NAME']." ".$person['FIRST_NAME'];
                                             echo "<option pk='$seqno'>$name</option>";
                                             $inputs_assistants .= "<input name='autopsier_opt[]' style='display:none;' value='$seqno'>";
                                         }
@@ -271,7 +293,7 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
                                     }
                                     $bindsql_persons = '(' . implode(',', array_keys($bind_persons)) . ')';
                                     $sql = "select * from persons where seqno in $bindsql_persons";
-                                    $personDataArray = array('LAST_NAME' => '', 'SEQNO' => '');
+                                    $personDataArray = array('FIRST_NAME' => '', 'LAST_NAME' => '', 'SEQNO' => '');
                                     $collectorsQ = new QueryEaser($this->db, $sql, $personDataArray, $bind_persons);
 
                                     if ($collectorsQ->error) {
@@ -279,7 +301,7 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
                                     } else {
                                         foreach ($collectorsQ->resultArray as $person) {
                                             $seqno = $person['SEQNO'];
-                                            $name = $person['LAST_NAME'];
+                                            $name = $person['LAST_NAME']." ".$person['FIRST_NAME'];
                                             echo "<option pk='$seqno'>$name</option>";
                                             $inputs_collectors .= "<input name='autopsier_opt[]' style='display:none;' value='$seqno'>";
                                         }

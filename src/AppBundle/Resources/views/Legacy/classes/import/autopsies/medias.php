@@ -149,8 +149,8 @@ if ($db->isError()) {
     </form>
 <?php
 if ($val->getStatus()) {
+    ob_end_clean();
     $this->navigate();
-
     return;
 }
 

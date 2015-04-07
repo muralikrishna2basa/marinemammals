@@ -179,7 +179,7 @@ class Validation
 	
 	protected function notChoose($el,$message = false)
 	{
-		if(is_string($el) && $el == 'Choose')
+		if((is_string($el) && strtolower($el) === 'choose') || (is_array($el) && strtolower($el[0])==="choose"))
 		{
 			$this->status = false;
 			return "<span class='error'>".($message == false?'element required':$message)."</span>";

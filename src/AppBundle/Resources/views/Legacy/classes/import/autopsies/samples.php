@@ -98,7 +98,7 @@ if ($res->isError()) {
 // CUD on samples 
 if ($this->isSubmitted() && $val->getStatus()) // something has been submitted and no error is observed
 {
-    $organlesionssamples = $_POST['organlesionsample'];
+    isset($_POST['organlesionsample'])? $organlesionssamples=$_POST['organlesionsample'] : $organlesionssamples='';
     $organlesionssamples = is_array($organlesionssamples) ? $organlesionssamples : array();
     foreach ($organlesionssamples as $organlesionsample) {
         $lesionsample = json_decode($organlesionsample, true);

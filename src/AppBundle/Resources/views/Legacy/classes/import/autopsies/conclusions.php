@@ -25,7 +25,7 @@ $js = "/legacy/js/autopsy_import/autopsy_conclusions.js";
 
 $val = $this->validation;
 $this->init();
-ob_end_clean();
+
 ?>
 <p>You've successfully created a new necropsy in the database. </p>
 <input style='display:none;' name='flow' value = '<?php echo $this->flowname; ?>'/>

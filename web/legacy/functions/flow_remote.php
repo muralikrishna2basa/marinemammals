@@ -16,7 +16,12 @@ if (isset($_POST['flow']))  // ajax request
     $flowname = $_POST['flow'];
 
     session_start();
-    $flow = unserialize($_SESSION[$flowname]);
+    if(isset($_SESSION[$flowname])){
+        $flow = unserialize($_SESSION[$flowname]);
+    }
+   else{
+       echo 'Please start a new necropsy import procedure.';
+   }
 
     if ($flow instanceof Flow) {
         $flow->setDb($db);

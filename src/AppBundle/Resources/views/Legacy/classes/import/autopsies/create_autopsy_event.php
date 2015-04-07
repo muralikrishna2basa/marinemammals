@@ -46,7 +46,7 @@ if(array_key_exists('date_flag_ref',$_POST)){
 if(array_key_exists('Autopsy_reference',$_POST)){
     $autopsy_reference=array($_POST['Autopsy_reference']);
 }
-
+//public function set($elname,$elvalue,$methodname,$message = false)
 $val->set('date_test', array($year_date[0], $month_date[0],  $day_date[0]), 'checkdate');
 $val->set('date_flag_ref', $date_flag_ref, 'notChoose', 'Required');
 $val->set('Autopsy_reference', $autopsy_reference, 'required', 'Required');
@@ -60,7 +60,7 @@ if ($val->getStatus()) {
 
     $date = date('d-M-Y', strtotime($val->getValue('day_date') . ' ' . $val->getValue('month_date') . ' ' . $val->getValue('year_date')));
 
-    $date_flag_ref = $val->getValue('date_flag_ref');
+    $date_flag_ref = $val->getValue('date_flag_ref') ==='Choose'? null : $val->getValue('date_flag_ref');
 
     $time_event = isset($_POST['time_flow']) ? $_POST['time_flow'] : '12:00';
 

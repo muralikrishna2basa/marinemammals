@@ -43,6 +43,11 @@ select[multiple] {
     max-width: 500px;
 }
 
+div.errormessage{
+    color:red;
+    font-weight: bold;
+}
+
 
 
 
