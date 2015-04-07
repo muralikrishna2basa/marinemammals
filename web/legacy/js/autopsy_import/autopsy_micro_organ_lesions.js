@@ -3,7 +3,7 @@ $(document).ready(function () {
     // execute organ_select.js
     var fileref = document.createElement('script')
     fileref.setAttribute("type", "text/javascript")
-    fileref.setAttribute("src", "js/organ_select.js")
+    fileref.setAttribute("src", "/legacy/js/organ_select.js")
     document.getElementsByTagName("head")[0].appendChild(fileref);
 
     $('button.addlesion').click(function () {

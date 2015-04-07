@@ -157,12 +157,10 @@ $(document).ready(function(){
 	{
 		if(this.checked == true)
 		{
-			// obviously coming from a previously "to delete" registered sample 
-			if($(this).parents('td:first').find('input.organlesionsample').length == 1)
+			// obviously coming from a previously "to delete" registered sample
+            lesion_sample = $(this).parents('td:first').find('input.organlesionsample');
+			if(lesion_sample.length == 1)
 			{
-				
-				lesion_sample = $(this).parents('td:first').find('input.organlesionsample');
-				
 				lesion_sample_json = lesion_sample.val();
 				
 				lesion_sample_eval = $.evalJSON(lesion_sample_json);

@@ -297,7 +297,7 @@ $res = $db->query($sql);
 if ($res->isError()) {
     echo $res->errormessage() . '; ' . $sql;
 }
-$conservation_mode_body = "<select class='CsvModeBody minwidth'><option></option>";
+$conservation_mode_body = "<select class='CsvModeBody'><option></option>";
 while ($row = $res->fetch()) {
     $conservation_mode_body .= "<option>" . $row['RV_LOW_VALUE'] . "</option>";
     $conservation_mode[$row['RV_LOW_VALUE']] = $row['RV_MEANING'];
@@ -380,7 +380,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 <th rowspan="2"></th>
             </tr>
             <tr class='analyze_dest'>
-                <th>Organ</th>
+                <th>Analysis</th>
                 <?php foreach ($analyze_dest as $key => $vall): ?>
                     <th><?php echo $key; ?></th>
                 <?php endforeach; ?>
@@ -403,11 +403,11 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                     unset($lesion_var); ?></td>
                 <?php for ($i = 0; $i < count($analyze_dest); $i++): ?>
                     <td>
-                    <div>
+                    <div class="maintd">
                         <span style='visibility:hidden;' class='RegConsMode'></span>
                         <span class='UpdConsMode' style='visibility:hidden;'></span>
                         <span class='UpdOrgan' style='visibility:hidden;'></span>
-                        <input type='checkbox'/><br/>
+                        <input type='checkbox'/>
                         <?php echo $conservation_mode_body;
                         echo $sample_type; ?>
                     </div>
