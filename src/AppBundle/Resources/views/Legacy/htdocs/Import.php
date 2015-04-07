@@ -12,7 +12,7 @@ include_once('../directory.inc'); /* Make use of absolute path */
 require_once(Classes . "arch/Biolibd_Layout_class.php");
 
 
-$Layout = new Biolibd_Layout();
+$Layout = new Biolibd_Layout("MM: create/edit necropsy");
 
 
 $db = $Layout->getDatabase();

@@ -33,7 +33,7 @@ $flow->addInclude(array('autopsy_init'=>Classes."import/autopsies/autopsy_init.p
 						'micro_organ_lesions'=>Classes."import/autopsies/micro_organ_lesions.php",
 						'samples'=>Classes."import/autopsies/samples.php",
 						'medias'=>Classes."import/autopsies/medias.php",
-						'conclusions'=>Classes."import/autopsies/conclusions.php"));
+						'finish'=>Classes."import/autopsies/conclusions.php"));
 
 $flow->addJsCss(array('autopsy_init'=>array('css'=>'/legacy/css/autopsy_import/autopsy_autopsy_init.css','js'=>'/legacy/js/autopsy_import/autopsy_autopsy_init.js'),
 					  'create_autopsy_event'=>array('css'=>'/legacy/css/autopsy_import/autopsy_create_autopsy_event.css','js'=>'/legacy/js/autopsy_import/autopsy_create_autopsy_event.js'),
@@ -60,9 +60,7 @@ $flow->setStateBar(array('Pick event',
 						 'Microscopic lesions',
 						 'Samples',
 						 'Medias',
-						 'Conclusions'));
-						 
-				 
+						 'Finish'));
 
 // Save the actual flow, i.e include the Object in the Session						
 						

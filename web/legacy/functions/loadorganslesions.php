@@ -140,15 +140,12 @@ if(isset($db))
 
 }
 // ajax loading
-else 
-
+else
 {
-
-	require_once('../../directory.inc');
-
+    require_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc');
 	include_once(Functions.'getAuthDb.php');
 	include_once(Classes.'import/flow_class.php');	
-	
+	session_start();
 	$flow = unserialize($_SESSION['flow_autopsy']);
 	$necropsy = $flow->getThread();
 	

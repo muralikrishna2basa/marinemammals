@@ -13,7 +13,6 @@ include_once(Classes.'import/flow_class.php');
 include_once(Functions.'Fixcoding.php');
 
 
-
 // Database Access
 
 $db = $this->db;
@@ -25,6 +24,8 @@ $js = "/legacy/js/autopsy_import/autopsy_conclusions.js";
 
 
 $val = $this->validation;
+$this->init();
+ob_end_clean();
 ?>
-
+<p>You've successfully created a new necropsy in the database. </p>
 <input style='display:none;' name='flow' value = '<?php echo $this->flowname; ?>'/>

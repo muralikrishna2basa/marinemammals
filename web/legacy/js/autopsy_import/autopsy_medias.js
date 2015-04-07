@@ -1,6 +1,16 @@
+//parent.window.location.reload();
 $().ready(function(){
+
+
     $('button.del').click(function(){
         $(this).parents('div.photoselectionbox:first').remove();
+        return false;
+    });
+
+    $('button.del_from_existing').click(function(){
+        $imagediv=$(this).parents('div.button_tools:first').siblings('div.image');
+        $autfileimgs=$imagediv.find("input[name*='autfileimgs']");
+        $autfileimgs.val('');
         return false;
     });
 

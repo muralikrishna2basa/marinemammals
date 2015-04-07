@@ -120,7 +120,7 @@ if ($db->isError()) {
                     if (isset($_POST[$filename])) {
                         $val->setStatus(true);
 
-                        $isconfidential_row = $_POST[$filename];
+                        $isconfidential_row = $_POST[$filename]==="0"? null : 1;
                         $sql = "update medias set isconfidential = :isconfidential where ese_seqno = :ese_seqno and location = :location";
                         $binds = array(':isconfidential' => $isconfidential_row, ':ese_seqno' => $ese_seqno, ':location' => $imgsrc);
                         $db->query($sql, $binds);
@@ -133,8 +133,9 @@ if ($db->isError()) {
                     echo "
 <div class='block'>
     <div class='button_tools'>
-		<button class='del' name='button-$filename' type='submit'><img alt='Del' src='/legacy/img/cross.png'></button>
-		<input type='checkbox' class='img_select' name='img_select' $display/>
+		<button class='del_from_existing' name='button' type='submit'><img alt='Delete' src='/legacy/img/cross.png'></button>
+		<input id='img_select-$filename' type='checkbox' class='img_select' name='img_select' $display/>
+		<label for='img_select-$filename'>confidential</label>
 		<input style='display:none;' value='$display_row' class='checksave' name = '$filename'/>
     </div>
     <div class='image'><input style='display:none;' name = 'autfileimgs[]' value='$imgsrc'/><img alt='$filename' src='$imgsrc'></div>
@@ -148,8 +149,8 @@ if ($db->isError()) {
     </form>
 <?php
 if ($val->getStatus()) {
-    //ob_end_clean();
     $this->navigate();
+
     return;
 }
 
