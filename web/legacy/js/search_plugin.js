@@ -87,7 +87,7 @@
                             // together with the plugin datepicker
                             for (i = 0; i < options.datenames.length; i++) {
                                 if (searchbox.find('div.filters select').val() == options.datenames[i]) {
-                                    searchbox.find('div.fields input').datepick({dateFormat: 'dd-M-y'});
+                                    searchbox.find('div.fields input').datepick({dateFormat: 'dd/mm/yy'});
                                     break;
                                 }
                                 else {

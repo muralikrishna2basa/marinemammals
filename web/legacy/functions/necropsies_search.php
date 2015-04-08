@@ -4,7 +4,7 @@
  */
 if(!isset($db) || !isset($auth))
 {
-	//include_once('../../directory.inc');
+    require_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc');
 
 	include_once(Classes."db/Oracle_class.php");
 	include_once(Classes."auth/Auth_class.php");
