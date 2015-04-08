@@ -68,7 +68,6 @@ $(document).ready(function(){
 				data:datatoSend,
 	  			datatype:'json',
 	  			type: 'POST',
-
 				url:'/legacy/functions/flow_remote.php',
 				success:function(data)
 				{

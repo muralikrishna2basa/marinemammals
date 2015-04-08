@@ -50,13 +50,13 @@ if ($res->isError()) {
 
 $sql = "select  b.processus, b.ogn_code,a.seqno as oln_seqno from organ_lesions a, lesion_types b where a.lte_seqno = b.seqno and ncy_ese_seqno = '$necropsy_seqno'";
 $res = $db->query($sql);
-$registered_organ_lesion = array();
+$organ_lesion = array();
 if ($res->isError()) {
     echo $res->errormessage() . '; ' . $sql;
 } else {
     while ($row = $res->fetch()) {
         if (isset($row['OGN_CODE']) && isset($row['PROCESSUS'])) {
-            $registered_organ_lesion[$row['OLN_SEQNO']] = $row['OGN_CODE'] . "/" . $row['PROCESSUS'];
+            $organ_lesion[$row['OLN_SEQNO']] = $row['OGN_CODE'] . "/" . $row['PROCESSUS'];
         }
     }
 }
@@ -95,26 +95,25 @@ if ($res->isError()) {
 }
 
 
-// CRUD on samples
+// CUD on samples 
 if ($this->isSubmitted() && $val->getStatus()) // something has been submitted and no error is observed
 {
-    isset($_POST['organlesionsample'])? $organlesionssamples=$_POST['organlesionsample'] : $organlesionssamples='';
+    $organlesionssamples = $_POST['organlesionsample'];
     $organlesionssamples = is_array($organlesionssamples) ? $organlesionssamples : array();
     foreach ($organlesionssamples as $organlesionsample) {
         $lesionsample = json_decode($organlesionsample, true);
         $lesion = $lesionsample["lesion"];
         $lesion_type = $lesion_types[$lesion[0] . "/" . $lesion[1]];
         // in case the sample is to be created
-        $oln_seqno=array_search($lesion[0] . "/" . $lesion[1], $registered_organ_lesion);
+        $oln_seqno=array_search($lesion[0] . "/" . $lesion[1], $organ_lesion);
         if($oln_seqno===false){$oln_seqno=null;}
-        // in case of an insert
         if (!isset($lesionsample['Seqno'])) {
-            //$oln_seqno = null;
+            $oln_seqno = null;
 
             // the only organ lesions that would need to be created are related to 'NA'
 
             // if the organ lesion doesn't exist then create it
-            if ($oln_seqno===null && $lesion[1] == 'NA') {
+            if (!in_array($lesion[0] . "/" . $lesion[1], $organ_lesion) && $lesion[1] == 'NA') {
                 // get lesion type seqno // the lesion is already previously defined
 
                 $sql = "insert into organ_lesions(lte_seqno,ncy_ese_seqno,scale) values(:lte_seqno,:ncy_seqno,'1') ";
@@ -342,8 +341,8 @@ foreach ($registered_samples as $ognproc => $samples) {
 }
 
 // load organs 
-//$file_load = !file_exists('loadorganslesions.php') ? 'functions/loadorganslesions.php' : 'loadorganslesions.php';
-$file_load=WebFunctions.'/loadorganslesions.php';
+$file_load = !file_exists('loadorganslesions.php') ? 'functions/loadorganslesions.php' : 'loadorganslesions.php';
+
 
 //----------------------------------------------------------------------------------
 // get Specimen ID 
@@ -359,10 +358,10 @@ $var = $specimenlink; // variable declared in the include file
 include(WebFunctions . 'autopsy_specimen_link.php');
 
 ?>
-<form class='well samples_form <?php echo $this->flowname . '_form'; ?> default_form' action='#'>
+<form class='well <?php echo $this->flowname . '_form'; ?> default_form' action='#'>
     <fieldset id="diagnosis_fs">
         <legend>Samples</legend>
-        <table id="samples" class='tab_output samples' width="100%" border="1">
+        <table class='tab_output samples' width="100%" border="1">
             <thead>
             <tr class='conservation_mode'>
                 <th>Conservation Mode</th>
@@ -381,7 +380,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 <th rowspan="2"></th>
             </tr>
             <tr class='analyze_dest'>
-                <th>Analysis</th>
+                <th>Organ</th>
                 <?php foreach ($analyze_dest as $key => $vall): ?>
                     <th><?php echo $key; ?></th>
                 <?php endforeach; ?>
@@ -403,13 +402,13 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                     include($file_load);
                     unset($lesion_var); ?></td>
                 <?php for ($i = 0; $i < count($analyze_dest); $i++): ?>
-                    <td class="sample_select">
-                    <div class="maintd">
+                    <td>
+                    <div>
                         <span style='visibility:hidden;' class='RegConsMode'></span>
                         <span class='UpdConsMode' style='visibility:hidden;'></span>
                         <span class='UpdOrgan' style='visibility:hidden;'></span>
-                        <input type='checkbox'/>
-                        <?php //echo $conservation_mode_body;
+                        <input type='checkbox'/><br/>
+                        <?php echo $conservation_mode_body;
                         echo $sample_type; ?>
                     </div>
                     </td><?php endfor; ?>
