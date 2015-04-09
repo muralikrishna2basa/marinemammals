@@ -4,17 +4,17 @@ select.organ
 {
 	width:110px;
 }
-table.samples thead, table.samples tfoot
+table#samples thead, table#samples tfoot
 {
 background-color:#EBF2FF;
 }
 
-table.samples tbody span.UpdConsMode
+table#samples tbody span.UpdConsMode
 {
 	color:green;
 	right:-0.6em;
 }
-table.samples tbody span.RegConsMode,table.samples tbody span.UpdConsMode
+table#samples tbody span.RegConsMode,table#samples tbody span.UpdConsMode
 {
 	width:40px;
 	height:10px;
@@ -22,16 +22,16 @@ table.samples tbody span.RegConsMode,table.samples tbody span.UpdConsMode
 	position:absolute;
 	top:0.1em;
 }
-table.samples tbody span.RegConsMode
+table#samples tbody span.RegConsMode
 {
 	left:-0.6em;
 }
 
-table.samples tbody span.ToChangeConsMode
+table#samples tbody span.ToChangeConsMode
 {
 	color:red;
 }
-table.samples tbody select.CsvModeBody, table.samples tbody select.SampleType 
+table#samples tbody select.CsvModeBody, table#samples tbody select.SampleType 
 {
 	height:26px;
     width:80px;
@@ -43,12 +43,12 @@ table.samples tbody select.CsvModeBody, table.samples tbody select.SampleType
 	
 }
 
-table.samples tbody div
+table#samples tbody div
 {
 	position:relative;
 }
 
-table.samples tbody span.UpdOrgan
+table#samples tbody span.UpdOrgan
 {
 	bottom:-0.6em;
 	font-size:0.7em;
@@ -59,20 +59,21 @@ table.samples tbody span.UpdOrgan
 	width:40px;
 	color:red;
 }
-table.samples tbody .SmplteToDelete
+table#samples tbody td.SmplteToDelete
 {
-	border:1px solid red;
+	border:2px solid red;
 }
-table.samples tbody td.SmplteToUpdate 
+table#samples tbody td.SmplteToUpdate 
 {
 	border:1px solid #FFA200;
 }
-table.samples tbody td.RegSample
+table#samples tbody td.RegSample, table#samples tbody td.NewSample
 {
 	background-color:#FFF5BF;
+    border:1px solid #FFA200;
 }
 /*
-table.samples div.maintd input,table.samples div.maintd select{
+table#samples div.maintd input,table#samples div.maintd select{
     display:block;
     width:97%;
     box-sizing: border-box; /* css3 rec */

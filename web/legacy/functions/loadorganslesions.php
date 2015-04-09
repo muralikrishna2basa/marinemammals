@@ -85,7 +85,7 @@ if (!function_exists('loadchildrenslesions')) {
 
         $selected = $parentprocess == 'NA' ? "selected='selected'" : "";
 
-        $organ_select = "<select class='organ'><option class = 'selected' value = '$lesion_json' $selected>$parentname</option>";
+        $organ_select = "<select class='organ_sample'><option class = 'selected' value = '$lesion_json' $selected>$parentname</option>";
 
         if (array_key_exists($parentcode, $organ_lesions)) {
             foreach ($organ_lesions[$parentcode] as $process) {

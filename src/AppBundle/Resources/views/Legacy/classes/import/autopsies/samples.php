@@ -175,12 +175,12 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                 // update only if previously registered
                 if (array_key_exists($lesionsample['SEQNO'], $registered_samples)) {
                     // Update Sample
-                    $old_sample = $registered_samples[$lesionsample['Seqno']];
+                    $old_sample = $registered_samples[$lesionsample['SEQNO']];
 
                     $toupdate = array();
-                    $old_sample['ANALYZE_DEST'] != $lesionsample['ANALYZE_DEST'] ? $toupdate['analyze_dest'] = $lesionsample['analyze_dest'] : "";
-                    $old_sample['CONSERVATION_MODE'] != $lesionsample['CONSERVATION_MODE'] ? $toupdate['conservation_mode'] = $lesionsample['conservation_mode'] : "";
-                    $old_sample['SPE_TYPE'] != $lesionsample['SPE_TYPE'] ? $toupdate['spe_type'] = $lesionsample['sample_type'] : "";
+                    $old_sample['ANALYZE_DEST'] != $lesionsample['ANALYZE_DEST'] ? $toupdate['ANALYZE_DEST'] = $lesionsample['ANALYZE_DEST'] : "";
+                    $old_sample['CONSERVATION_MODE'] != $lesionsample['CONSERVATION_MODE'] ? $toupdate['CONSERVATION_MODE'] = $lesionsample['CONSERVATION_MODE'] : "";
+                    $old_sample['SPE_TYPE'] != $lesionsample['SPE_TYPE'] ? $toupdate['SPE_TYPE'] = $lesionsample['SPE_TYPE'] : "";
 
                     if (count($toupdate) > 0) {
                         $toupdate_array = array();
@@ -272,31 +272,35 @@ if ($res->isError()) {
 }
 
 
-// get Sample type 
+// get Sample type
+$sample_type_list=array();
 $sql = "select rv_low_value,rv_meaning from cg_ref_codes where rv_domain = 'SAMPLE_TYPE'";
 $res = $db->query($sql);
 if ($res->isError()) {
     echo $res->errormessage() . '; ' . $sql;
 }
-$sample_type = "<select class='SampleType minwidth'><option></option>";
+$sample_type = "<select class='SampleType minwidth'><option>Type...</option>";
 while ($row = $res->fetch()) {
-    $selected = $row['RV_LOW_VALUE'] == 'ORG' ? "selected='selected'" : "";
-    $sample_type .= "<option $selected value ='" . $row['RV_LOW_VALUE'] . "'>" . $row['RV_MEANING'] . "</option>";
+    //$selected = $row['RV_LOW_VALUE'] == 'ORG' ? "selected='selected'" : "";
+    $sample_type .= "<option value='" . $row['RV_LOW_VALUE'] . "'>" . $row['RV_MEANING'] . "</option>";
+    $sample_type_list[$row['RV_LOW_VALUE']]=$row['RV_MEANING'];
 }
 $sample_type .= "</select>";
+
 // get Conservation mode
-$conservation_mode = array();
+$conservation_mode_list = array();
 $sql = "select rv_low_value,rv_meaning from cg_ref_codes where rv_domain='CONSERVATION_MODE'";
 $res = $db->query($sql);
 if ($res->isError()) {
     echo $res->errormessage() . '; ' . $sql;
 }
-$conservation_mode_body = "<select class='CsvModeBody minwidth'><option></option>";
+$conservation_mode_body = "<select class='CsvModeBody minwidth'><option>Csv mode...</option>";
 while ($row = $res->fetch()) {
-    $conservation_mode_body .= "<option>" . $row['RV_LOW_VALUE'] . "</option>";
-    $conservation_mode[$row['RV_LOW_VALUE']] = $row['RV_MEANING'];
+    $conservation_mode_body .= "<option value='" . $row['RV_LOW_VALUE'] . "'>" . $row['RV_MEANING'] . "</option>";
+    $conservation_mode_list[$row['RV_LOW_VALUE']] = $row['RV_MEANING'];
 }
 $conservation_mode_body .= "</select>";
+
 // get Analyze_dest 
 $avandest = array();
 $analyze_dest = array();
@@ -362,7 +366,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 <?php foreach ($analyze_dest as $key => $vall): ?>
                     <th>
                         <select class='conservation_mode <?php echo $key; ?>'>
-                            <?php foreach ($conservation_mode as $cons_key => $cons_val) {
+                            <?php foreach ($conservation_mode_list as $cons_key => $cons_val) {
                                 $selected = $default_conservation_mode[$key] == $cons_key ? "selected='selected'" : '';
 
                                 echo "<option $selected value='$cons_key'>$cons_key</option>";
@@ -404,14 +408,14 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                         <span style='visibility:hidden;' class='RegConsMode'></span>
                         <span class='UpdConsMode' style='visibility:hidden;'></span>
                         <span class='UpdOrgan' style='visibility:hidden;'></span>
-                        <input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Availability</label>";
+                        <input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Available</label>";
                          echo $conservation_mode_body;
-                        echo $sample_type;
+                         echo $sample_type;
                     echo "</div>
                     </td>";
                 endfor
                 ?>
-                <td>
+                <td class="sample_delete">
                     <input type="checkbox" class="tobedeleted" /><label>Delete</label>
                     <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                 </td>
@@ -457,7 +461,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 $consmodeorgan = "";
                                 $r=rand (10000, 20000);
                                 if (strlen($lesionsamplejson) != 0) {
-                                    echo "<span  class='RegConsMode'>" . $registered_sample['CONSERVATION_MODE'] . "</span>";
+                                    echo "<span  class='RegConsMode' style='visibility:hidden;>" . $registered_sample['CONSERVATION_MODE'] . "</span>";
                                     $organcodelesion = $registered_sample['OGN_CODE'] . "/NA";
                                     $consmodeorgan = $registered_sample['CONSERVATION_MODE'];
                                 } else {
@@ -468,7 +472,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 <span class='UpdOrgan' style='visibility:hidden;'><?php echo $organcodelesion; ?></span>
                                 <?php
                                 if (strlen($lesionsamplejson) != 0) {
-                                    echo "<input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Availability</label>";
+                                    echo "<input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Available</label>";
                                     //echo "<input type='checkbox' checked = 'checked'/>";
                                     echo "<input class='organlesionsample' style='display:none;' name = 'organlesionsample[]' value = '$lesionsamplejson'/>";
                                     echo "<input class='regorganlesionsample' style='display:none;' value = '$lesionsamplejson'/>";
@@ -477,14 +481,28 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 }
 
                                 if (strlen($lesionsamplejson) != 0) {
-                                    echo $conservation_mode_body;
-                                    echo $sample_type;
+                                    $presel_sample_type = "<select class='SampleType minwidth'>";
+                                    foreach ($sample_type_list as $key=>$sample_type_value) {
+                                        $selected = $lesionsample['SPE_TYPE'] == $key ? "selected='selected'" : "";
+                                        $presel_sample_type .= "<option $selected value ='" . $key . "'>" . $sample_type_value . "</option>";
+                                    }
+                                    $presel_sample_type .= "</select>";
+
+                                    $presel_conservation_mode = "<select class='CsvModeBody minwidth'>";
+                                    foreach ($conservation_mode_list as $key=>$conservation_mode_value) {
+                                        $selected = $lesionsample['CONSERVATION_MODE'] == $key ? "selected='selected'" : "";
+                                        $presel_conservation_mode .= "<option $selected value ='" . $key . "'>" . $conservation_mode_value . "</option>";
+                                    }
+                                    $presel_conservation_mode .= "</select>";
+
+                                    echo $presel_conservation_mode;
+                                    echo $presel_sample_type;
                                 }
                                 ?>
                             </div>
                         </td>
                     <?php endforeach;?>
-                    <td>
+                    <td class="sample_delete">
                         <input type="checkbox" class="tobedeleted" /><label>Delete</label>
                         <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
@@ -532,7 +550,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 <input type='checkbox'/>
                             </div>
                         </td><?php endforeach;?>
-                    <td>
+                    <td class="sample_delete">
                         <input type="checkbox" class="tobedeleted" /><label>Delete</label>
                         <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
