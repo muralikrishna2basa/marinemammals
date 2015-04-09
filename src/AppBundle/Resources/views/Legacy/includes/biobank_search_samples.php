@@ -52,7 +52,7 @@ EOD;
 ob_start();
 ?>
 <div id = "search_samples">
-<div class = "samples_results"><?php include(Web.'functions/perform_search.php');?></div>
+<div class = "samples_results"><?php include(WebFunctions.'/perform_search.php');?></div>
 <?php
 if($Layout->getAuth()->getSessionGroupname()!='GUEST')
 {

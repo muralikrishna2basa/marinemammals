@@ -395,19 +395,25 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 <td class='organ_select'><?php $lesion_var = 'ROOT';
                     include($file_load);
                     unset($lesion_var); ?></td>
-                <?php for ($i = 0; $i < count($analyze_dest); $i++): ?>
-                    <td class="sample_select">
-                    <div class="maintd">
+                <?php
+                for ($i = 0; $i < count($analyze_dest); $i++):
+                    $r=rand (0, 10000);
+
+                    echo "<td class='sample_select'>
+                    <div class='maintd'>
                         <span style='visibility:hidden;' class='RegConsMode'></span>
                         <span class='UpdConsMode' style='visibility:hidden;'></span>
                         <span class='UpdOrgan' style='visibility:hidden;'></span>
-                        <input type='checkbox'/>
-                        <?php //echo $conservation_mode_body;
-                        echo $sample_type; ?>
-                    </div>
-                    </td><?php endfor; ?>
+                        <input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Availability</label>";
+                         echo $conservation_mode_body;
+                        echo $sample_type;
+                    echo "</div>
+                    </td>";
+                endfor
+                ?>
                 <td>
-                    <button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button>
+                    <input type="checkbox" class="tobedeleted" /><label>Delete</label>
+                    <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                 </td>
             </tr>
             <?php // DISPLAY ALL SAMPLE LESIONS
@@ -449,6 +455,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 <?php
                                 $organcodelesion = "";
                                 $consmodeorgan = "";
+                                $r=rand (10000, 20000);
                                 if (strlen($lesionsamplejson) != 0) {
                                     echo "<span  class='RegConsMode'>" . $registered_sample['CONSERVATION_MODE'] . "</span>";
                                     $organcodelesion = $registered_sample['OGN_CODE'] . "/NA";
@@ -461,7 +468,8 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 <span class='UpdOrgan' style='visibility:hidden;'><?php echo $organcodelesion; ?></span>
                                 <?php
                                 if (strlen($lesionsamplejson) != 0) {
-                                    echo "<input type='checkbox' checked = 'checked'/>";
+                                    echo "<input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Availability</label>";
+                                    //echo "<input type='checkbox' checked = 'checked'/>";
                                     echo "<input class='organlesionsample' style='display:none;' name = 'organlesionsample[]' value = '$lesionsamplejson'/>";
                                     echo "<input class='regorganlesionsample' style='display:none;' value = '$lesionsamplejson'/>";
                                 } else {
@@ -477,6 +485,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                         </td>
                     <?php endforeach;?>
                     <td>
+                        <input type="checkbox" class="tobedeleted" /><label>Delete</label>
                         <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>
@@ -524,7 +533,8 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                             </div>
                         </td><?php endforeach;?>
                     <td>
-                        <button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button>
+                        <input type="checkbox" class="tobedeleted" /><label>Delete</label>
+                        <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>
             <?php endwhile;

@@ -324,9 +324,7 @@ class BLP_Search
      */
     public function __toString()
     {
-
         $this->renderer->build();
-
         return $this->renderer->table;
     }
 
@@ -847,7 +845,7 @@ class Search_Samples extends BLP_Search
         $this->query->addJoin($aliastable1 . '.SPE_TYPE =' . $aliastable4 . '.RV_LOW_VALUE');
         $this->query->addJoin($aliastable2 . '.RV_DOMAIN = \'CONSERVATION_MODE\'');
         $this->query->addJoin($aliastable3 . '.RV_DOMAIN = \'ANALYZE_DEST\'');
-        $this->query->addJoin($aliastable4 . '.RV_DOMAIN = \'SPE_TYPE\'');
+        $this->query->addJoin($aliastable4 . '.RV_DOMAIN = \'SAMPLE_TYPE\'');
 
         $filter = array('Filter_Sample_Conservation_mode',
             'Filter_Sample_Organs',
@@ -863,8 +861,6 @@ class Search_Samples extends BLP_Search
             'Filter_Sample_Date_Found');
 
         $this->addFilter($filter);
-
-
     }
 }
 

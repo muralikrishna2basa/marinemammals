@@ -166,6 +166,12 @@ mm_necropsies_photo_upload:
     requirements:
         _method:  POST
 
+mm_samples_view:
+    pattern:  /samples
+    defaults: { _controller: AppBundle:Samples:index }
+    requirements:
+        _method:  GET
+
 mm_observations_edit:
     pattern:  /mgmt/observations/update/{id}
     defaults: { _controller: AppBundle:Observations:edit }
