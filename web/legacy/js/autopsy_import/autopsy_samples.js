@@ -332,6 +332,7 @@ $(document).ready(function () {
      and an ajax request is sent to get the lesions organs or the sane ones
      */
     $('.organ_select select.organ_sample').change(function (e) {
+        alert("You've changed the organ this sample is taken from. Please not that in this case, the ");
         getorganslesionsfunction(e);
     });
 });

@@ -196,7 +196,7 @@ class Db_record
 	 * Implemented by inheritance
 	 *
 	 */
-	protected function getDetails()
+	protected function getDetails($id)
 	{
 		
 	}
@@ -303,9 +303,7 @@ EOD;
 		$res = $this->db->query($sql,$bind);
 		
 		$this->elements =  $res->fetch();
-		
-		
-		
+
 		$this->eltypes = array('Specimen ID'=>'text',
 								'Specie'=>'text',
 							    'Number'=>'text',

@@ -127,7 +127,7 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                     $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
                 } else {
                     $oln_seqno = $db->query("select organ_lesions_seq.currval from dual")->fetch()['CURRVAL'];
-                    $registered_organ_lesion[$oln_seqno]=$lesion[0] . "/" . $lesion[1]; //update registered organ lesion
+                    $registered_organ_lesion[$oln_seqno] = $lesion[0] . "/" . $lesion[1]; //update registered organ lesion
 
                 }
             }
@@ -198,46 +198,74 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                         $sql = "update samples set $toupdate_string where seqno = :seqno";
                         $binds[':seqno'] = $lesionsample['SEQNO'];
 
-                         $res = $db->query($sql,$binds);
-                         if($res->isError()){ echo $res->errormessage() . '; ' . $sql;}
+                        $res = $db->query($sql, $binds);
+                        if ($res->isError()) {
+                            echo $res->errormessage() . '; ' . $sql;
+                        }
                     }
-
 
                     // check if an organ (=lesion type actually) update is neccessary
                     if ($lesion[0] != $old_sample['OGN_CODE'] || $lesion[1] != $old_sample['PROCESSUS']) {
-                        // delete link between sample and organ lesion
-                        //$sql = "delete from lesions2sample where spe_seqno = :spe_seqno and oln_seqno = :oln_seqno";
-                        //$binds = array(':spe_seqno' => $lesionsample['SEQNO'], ':oln_seqno' => $old_sample['SEQNO']); //todo CHECK old sample seqno
-                        // $res = $db->query($sql,$binds);
-                        // if($res->isError()){ echo $res->errormessage() . '; ' . $sql;}
+                        $new_lesion_type = $lesion_types[$lesion[0] . "/" . $lesion[1]]['seqno'];
+                        $lesion_type_to_be_updated = $lesion_types[$old_sample['OGN_CODE'] . "/" . $old_sample['PROCESSUS']]['seqno'];
 
-                        if ($oln_seqno === null && $lesion[1] == 'NA') {
-
+                        $oln_seqno = array_search($lesion[0] . "/" . $lesion[1], $registered_organ_lesion);
+                        if ($oln_seqno === false) {
+                            $oln_seqno = null;
                         }
-                        //if the lesion type actually already exists, assign it to it
-
-                        //else change the old organ_lesions accordingly
-
-                        $old_lesion_type = $lesion_types[$old_sample['OGN_CODE'] . "/" . $old_sample["PROCESSUS"]];
-                        // $new_lesion_type = $lesion_types[$lesion[0] . "/" . $lesion[1]];
-                        $sql = "update organ_lesions set lte_seqno = :new_lte_seqno where ncy_ese_seqno = :necropsy_seqno";
-                        $binds = array(':new_lte_seqno' => $lesion_type['seqno'], ':necropsy_seqno' => $necropsy_seqno);
-                        // ':new_ogn_code' => $lesion[0],
-                        // ':old_lte_seqno' => $old_lesion_type['seqno'],
-                        // ':old_ogn_code' => $old_sample['OGN_CODE']);
+                        //test if there aren't any lesion values attached to it
+                        $sql = "select 1 from lesion_values lv right join organ_lesions ol on lv.oln_seqno=ol.seqno where ol.ncy_ese_seqno = :necropsy_seqno and ol.lte_seqno = :old_lte_seqno and lv.value is not null";
+                        $binds = array(
+                            ':necropsy_seqno' => intval($necropsy_seqno),
+                            ':old_lte_seqno' => intval($lesion_type_to_be_updated));
                         $res = $db->query($sql, $binds);
+                        $r = $res->fetch();
                         if ($res->isError()) {
                             $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
+                        } elseif ($r) {
+                            $val->setError('globalerror', "The lesion value you tried to change ('".$lesion_types[$old_sample['OGN_CODE'] . "/" . $old_sample['PROCESSUS']]."') has values attached to it. Therefore it can't be changed.");
+                        } else { //the organ_lesion has no values attached
+
+                            //if the new lesion type isn't yet occurring as an organ lesion, use the combination
+                            if ($oln_seqno === null) {
+
+                                $sql = "update organ_lesions set lte_seqno = :new_lte_seqno where ncy_ese_seqno = :necropsy_seqno and lte_seqno = :old_lte_seqno";
+                                $binds = array(
+                                    ':new_lte_seqno' => intval($new_lesion_type),
+                                    ':necropsy_seqno' => intval($necropsy_seqno),
+                                    ':old_lte_seqno' => intval($lesion_type_to_be_updated));
+                                $res = $db->query($sql, $binds);
+                                if ($res->isError()) {
+                                    $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
+                                } else {
+                                    $registered_organ_lesion[$oln_seqno] = $lesion[0] . "/" . $lesion[1]; //update registered organ lesion
+                                }
+
+                                $sql = "update organ_lesions set lte_seqno = :new_lte_seqno where ncy_ese_seqno = :necropsy_seqno and lte_seqno = :old_lte_seqno";
+                                $binds = array(
+                                    ':new_lte_seqno' => intval($new_lesion_type),
+                                    ':necropsy_seqno' => intval($necropsy_seqno),
+                                    ':old_lte_seqno' => intval($lesion_type_to_be_updated));
+                                $res = $db->query($sql, $binds);
+                                if ($res->isError()) {
+                                    $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
+                                } else {
+                                    $registered_organ_lesion[$oln_seqno] = $lesion[0] . "/" . $lesion[1]; //update registered organ lesion
+                                }
+                            } else {
+                                //if the new lesion type actually already exists, assign it to it (this means the lesion type has more than one sample)
+                                $existing_lesion_type = $lesion_types[$lesion[0] . "/" . $lesion[1]];
+                                $sql = "update organ_lesions set lte_seqno = :new_lte_seqno where ncy_ese_seqno = :necropsy_seqno and lte_seqno = :old_lte_seqno";
+                                $binds = array(
+                                    ':new_lte_seqno' => intval($existing_lesion_type),
+                                    ':necropsy_seqno' => intval($necropsy_seqno),
+                                    ':old_lte_seqno' => intval($lesion_type_to_be_updated));
+                                $res = $db->query($sql, $binds);
+                                if ($res->isError()) {
+                                    $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
+                                }
+                            }
                         }
-                        /*else {
-                            // if the update went well, then create the link between the sample and the corresponding lesion
-                            $sql = "insert into lesions2sample(spe_seqno,oln_seqno,oln_ncy_ese_seqno,oln_lte_ogn_code) values (:spe_seqno,:lte_seqno,:ese_seqno,:ogn_code)";
-                            $binds = array(':spe_seqno' => $lesionsample['SEQNO'], ':lte_seqno' => $lesion_type['seqno'], ':ese_seqno' => $necropsy_seqno, ':ogn_code' => $lesion[0]);*/
-
-//			$res = $db->query($sql,$binds);
-//			if($res->isError()){ echo $res->errormessage() . '; ' . $sql;
-
-                        //}
                     }
                 }
             }
@@ -458,7 +486,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 'ANALYZE_DEST' => $registered_sample['ANALYZE_DEST'],
                                 'SPE_TYPE' => $registered_sample['SPE_TYPE'],
                                 'SEQNO' => $registered_sample['SEQNO'],
-                                'AVAILABILTY' => $registered_sample['AVAILABILITY'] === 'yes' ? true:false
+                                'AVAILABILTY' => $registered_sample['AVAILABILITY'] === 'yes' ? true : false
                             );
                             $lesionsamplejson = json_encode($lesionsample, JSON_PRETTY_PRINT); //TODO CHECK JSON_PRETTY_PRINT
                         } else {
@@ -486,10 +514,9 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 <span class='UpdOrgan' style='visibility:hidden;'><?php echo $organcodelesion; ?></span>
                                 <?php
                                 if (strlen($lesionsamplejson) != 0) {
-                                    if($lesionsample['AVAILABILTY']){
+                                    if ($lesionsample['AVAILABILTY']) {
                                         echo "<input type='checkbox' id='availability-" . $r . "' class='availability' checked/><label for='availability-" . $r . "'>Available</label>";
-                                    }
-                                    else{
+                                    } else {
                                         echo "<input type='checkbox' id='availability-" . $r . "' class='availability'/><label for='availability-" . $r . "'>Available</label>";
                                     }
                                     //echo "<input type='checkbox' checked = 'checked'/>";
