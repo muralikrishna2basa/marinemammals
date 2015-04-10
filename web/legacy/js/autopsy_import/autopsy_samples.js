@@ -2,7 +2,6 @@ var relevantCols = 7;
 var totalCols = relevantCols + 2;
 var possible_analysis_dest = [];
 var possible_conservation_mode = [];
-//var organsamples = [];
 /* = [
  {
  lesion: {
@@ -38,101 +37,109 @@ var changeSample = function (cell) {
     var coord = getCellCoord(cell, null, null, true);
     var table = $(cell).parents('table.samples')[0];
     var row = cell.parentNode;
-    //checkboxval=$(td).find('input.availability')[0].value;
+
     var available = $(cell).find('input.availability')[0].checked;
+    var sampletype = $(cell).find('select.SampleType')[0].value;
+    var conservation_mode = $(cell).find('select.CsvModeBody')[0].value;
+
     var lesion_select = $(row).find('select.organ_sample')[0];
     var lesion = JSON.parse(lesion_select.value);
 
-    var tobe_deleted = $(row.cells[totalCols - 1]).find('input.tobedeleted')[0].checked;
+    var actuallyDoSomething=sampletype !== '' || conservation_mode !== '';
 
-    if (possible_analysis_dest.length < relevantCols) {
-        getAllAnalyzeDests('samples');
-    }
-    if (possible_conservation_mode.length < relevantCols) {
-        getAllConservationModes('samples');
-    }
+    var lesion_notset = lesion['lesion'][0] === 'ROOT';
+    if (!lesion_notset && actuallyDoSomething) {
+        actuallyDoSomething=false;
+        var tobe_deleted = $(row.cells[totalCols - 1]).find('input.tobedeleted')[0].checked;
 
-    //var conservation_mode = getConservationMode(null, coord[1]);
-    var analyze_dest = getAnalysisDest(null, coord[1]);
-    var sampletype = $(cell).find('select.SampleType')[0].value;
-    //var sampletype = sampletype_select.value;
-    var conservation_mode = $(cell).find('select.CsvModeBody')[0].value;
+        if (possible_analysis_dest.length < relevantCols) {
+            getAllAnalyzeDests('samples');
+        }
+        if (possible_conservation_mode.length < relevantCols) {
+            getAllConservationModes('samples');
+        }
 
-    var organlesionsample_input = $(cell).find('input.organlesionsample')[0];
-    var organsamples = {};
-    if (typeof organlesionsample_input === 'undefined') {
-        $(cell).append("<input class='organlesionsample' name ='organlesionsample[]' value='' style='display:none;'/>");
-        organlesionsample_input = $(cell).find('input.organlesionsample')[0];
-        //organsamples = {};
-    }
-    else {
-        organsamples = JSON.parse(organlesionsample_input.value);
-    }
-    var already_registered = true;
-    if (typeof (organsamples.SEQNO) === 'undefined') {
-        already_registered = false;
-    }
-    if (already_registered) {
-        if (tobe_deleted) {
-            organsamples.DEL = 'TRUE';
+        var analyze_dest = getAnalysisDest(null, coord[1]);
+
+        var organlesionsample_input = $(cell).find('input.organlesionsample')[0];
+        var organsamples = {};
+        if (typeof organlesionsample_input === 'undefined') {
+            $(cell).append("<input class='organlesionsample' name ='organlesionsample[]' value='' style='display:none;'/>");
+            organlesionsample_input = $(cell).find('input.organlesionsample')[0];
+            //organsamples = {};
         }
         else {
-            organsamples.DEL = 'FALSE';
+            organsamples = JSON.parse(organlesionsample_input.value);
+        }
+        var already_registered = true;
+        if (typeof (organsamples.SEQNO) === 'undefined') {
+            already_registered = false;
+        }
 
-            //organsamples.lesion = lesion;
+        if (already_registered) {
+            if (tobe_deleted) {
+                organsamples.DEL = 'TRUE';
+            }
+            else {
+                organsamples.DEL = 'FALSE';
+                if (organsamples.CONSERVATION_MODE != conservation_mode) {
+                    organsamples.CONSERVATION_MODE = conservation_mode;
+                    organsamples.UPD = 'TRUE';
+                }
+
+                if (organsamples.ANALYZE_DEST != analyze_dest) {
+                    organsamples.ANALYZE_DEST = analyze_dest;
+                    organsamples.UPD = 'TRUE';
+                }
+
+                if (organsamples.SPE_TYPE != sampletype) {
+                    organsamples.SPE_TYPE = sampletype;
+                    organsamples.UPD = 'TRUE';
+                }
+
+                if (available) {
+                    organsamples.UPD = 'TRUE';
+                    organsamples.AVAILABILITY = 'yes';
+                }
+                else {
+                    organsamples.UPD = 'TRUE';
+                    organsamples.AVAILABILITY = 'no';
+                }
+
+            }
+            if(organsamples.UPD === 'TRUE' || organsamples.DEL === 'TRUE'){
+                actuallyDoSomething=true;
+            }
+        }
+        else {
             if (organsamples.CONSERVATION_MODE != conservation_mode) {
                 organsamples.CONSERVATION_MODE = conservation_mode;
-                organsamples.UPD = 'TRUE';
+                actuallyDoSomething=true;
             }
 
             if (organsamples.ANALYZE_DEST != analyze_dest) {
                 organsamples.ANALYZE_DEST = analyze_dest;
-                organsamples.UPD = 'TRUE';
+                actuallyDoSomething=true;
             }
 
             if (organsamples.SPE_TYPE != sampletype) {
                 organsamples.SPE_TYPE = sampletype;
-                organsamples.UPD = 'TRUE';
+                actuallyDoSomething=true;
             }
 
-            if (available) {
-                organsamples.UPD = 'TRUE';
+            if (available && organsamples.AVAILABILITY === 'no' || typeof (organsamples.AVAILABILITY) === 'undefined') {
                 organsamples.AVAILABILITY = 'yes';
+                actuallyDoSomething=true;
             }
-            else {
-                organsamples.UPD = 'TRUE';
+            if(!available && organsamples.AVAILABILITY === 'yes' || typeof (organsamples.AVAILABILITY) === 'undefined') {
                 organsamples.AVAILABILITY = 'no';
+                actuallyDoSomething=true;
             }
         }
+        $.extend(true, organsamples, lesion);
+        $(organlesionsample_input).val(JSON.stringify(organsamples));
     }
-    else {
-        //organsamples.lesion = lesion;
-        if (organsamples.CONSERVATION_MODE != conservation_mode) {
-            organsamples.CONSERVATION_MODE = conservation_mode;
-        }
-
-        if (organsamples.ANALYZE_DEST != analyze_dest) {
-            organsamples.ANALYZE_DEST = analyze_dest;
-        }
-
-        if (organsamples.SPE_TYPE != sampletype) {
-            organsamples.SPE_TYPE = sampletype;
-        }
-
-        if (available) {
-            organsamples.AVAILABILITY = 'yes';
-        }
-        else {
-            organsamples.AVAILABILITY = 'no';
-        }
-    }
-    $.extend(true, organsamples, lesion);
-
-    //organsamples.push(lesion);
-    //organsamples.shift();
-    //var a=JSON.stringify(organsamples);
-    //var a=$.toJSON(organsamples);
-    $(organlesionsample_input).val(JSON.stringify(organsamples));
+    return !lesion_notset && actuallyDoSomething;
 };
 
 var getConservationMode = function (cell, rowid) {
@@ -185,57 +192,6 @@ var getAllAnalyzeDests = function (tableId) {
         }
     }
 };
-/*
-
-
- var buildSamples = function (tableId) {
- var table = document.getElementById(tableId);
- for (var i = 0, row; row = table.rows[i]; i++) {
- if (row.className.indexOf('conservation_mode') == 0) {
- for (var k = 0, consmode_col; consmode_col = row.cells[k]; k++) {
- if (k > 0) {
- var consmode = $(consmode_col).find('select.conservation_mode')[0];
- if (typeof consmode === 'undefined') {
- continue;
- }
- possible_conservation_mode[k - 1] = consmode.value;
- }
- }
- }
- if (row.className.indexOf('analyze_dest') == 0) {
- for (var k = 0, consmode_col; consmode_col = row.cells[k]; k++) {
- if (k > 0) {
- possible_analysis_dest[k - 1] = consmode_col.innerHTML;
- }
- }
- }
- if (row.className.indexOf('row') == 0) {
- $(row).append("<td class='sample_array_cell'><input class='organlesionsample' name ='organlesionsample[]' value='' style='display:none;'/></td>");
- for (var j = 0, col; col = row.cells[j]; j++) {
- var roworgansamples = {};
- if (col.className.indexOf('organ_select') == 0) {
- var organ_select = $(col).find('select.organ')[0];
- //var lesion=$option.val();
- organsamples.lesion = organ_select.value;
- }
- else {
- var sampletype_select = $(col).find('select.SampleType')[0];
- if (typeof sampletype_select === 'undefined') {
- continue;
- }
- roworgansamples.lesion = organsamples.lesion;
- roworgansamples.conservation_mode = possible_conservation_mode[j - 1];
- roworgansamples.analyze_dest = possible_analysis_dest[j - 1];
- roworgansamples.sample_type = sampletype_select.value;
- }
- organsamples.push(roworgansamples);
- }
- organsamples.shift();
- $(row.id + 'input.organlesionsample').val(JSON.stringify(organsamples));
- //$(row.id + 'input.organlesionsample').val('s<gwdgwdfggdf');
- }
- }
- }*/
 
 var getorganslesionsfunction = function (e) {
     // go trough all table data's, in case a registered appeared =>
@@ -259,63 +215,12 @@ var getorganslesionsfunction = function (e) {
         success: function (data) {
             $('.targeted').parents('td:first').addClass('targeted').html(data);
             $('.targeted').siblings('td.sample_select').each(function () {
-                /*var cell = $(this).parents('td.sample_delete')[0];
-                 var row = cell.parentNode;
-                 var $tds = $(row).find('td.sample_select');
-                 var $anySelect = $tds.find('select.CsvModeBody');//just to have one
-                 var $relevantInputSelect = $tds.find('input.availability, select.CsvModeBody, select.SampleType');
-                 if (this.checked === true) {
-                 $tds.addClass('SmplteToDelete');
-                 $relevantInputSelect.attr('disabled', true);
-                 }
-                 else {
-                 $tds.removeClass("SmplteToDelete");
-                 $relevantInputSelect.attr('disabled', false);
-                 }*/
                 var $anySelect = $(this).find('select.CsvModeBody');//just to have one
                 $anySelect.trigger("change");
-
-                /*if ($(this).find('input.organlesionsample').length == 1) {
-                 /*
-                 organ_code = $('.targeted select.organ').val();
-
-                 lesion = $.evalJSON(organ_code);
-
-                 lesionsample_json = $(this).find('input.organlesionsample').val();
-
-                 lesionsample = $.evalJSON(lesionsample_json);
-
-                 if (lesionsample['SEQNO'] != undefined) {
-                 oldlesion = lesionsample['lesion'];
-                 lesionsample['lesion'] = lesion["lesion"];
-                 lesionsample["oldlesion"] = oldlesion; // remember the old lesion ( since it is part of the primarey key) might
-                 // be a bad design... but for now, it's left as it is // btw it is possible that a sample point to multiple organs
-                 lesionsample['UPD'] = "TRUE";
-                 if (lesionsample['DEL'] != undefined) {
-                 lesionsample['DEL'] = "FALSE";
-                 }
-
-                 $(this).find('input[type=checkbox]').get(0).checked = true;
-
-                 new_lesionsample_json = $.toJSON(lesionsample);
-
-                 $(this).find('input.organlesionsample').val(new_lesionsample_json);
-
-                 $(this).addClass("SmplteToUpdate").removeClass("SmplteToDelete");
-                 //		ogn = oldlesion[0];lsn = oldlesion[1]; server side set-up
-                 $(this).find("span.UpdOrgan").css("visibility", "visible");
-                 }
-                 else {
-                 $(this).find('input[type=checkbox]:checked').click();
-                 }
-                 }*/
             });
-
-
             $('.targeted select.organ_sample').change(function (e) {
                 getorganslesionsfunction(e)
             });
-
             $('.targeted').removeClass('targeted');
         }
     });
@@ -331,10 +236,12 @@ $(document).ready(function () {
 
     $('table.samples td.sample_select select, table.samples td.sample_select input').change(function () {
         var td = $(this).parents('td.sample_select')[0];
-        if($(td).hasClass('NewSampleDefault') && !$(td).hasClass('SmplteToDelete')){
-            $(td).removeClass('NewSampleDefault').addClass('NewSample');
+        var actuallyDoneSomething = changeSample(td);
+        if (actuallyDoneSomething) {
+            if ($(td).hasClass('NewSampleDefault') && !$(td).hasClass('SmplteToDelete')) {
+                $(td).removeClass('NewSampleDefault').addClass('NewSample');
+            }
         }
-        changeSample(td);
     });
 
     /*$('table.samples input[type=checkbox]').click(function () {
@@ -383,49 +290,6 @@ $(document).ready(function () {
         $('table.samples tr.initbodyrow').clone(true).removeClass('initbodyrow').addClass('row' + c).show().appendTo('table.samples tbody').children('td.sample_select').addClass('NewSampleDefault');
     });
 
-    // delete the row if the user is pressing the delete button
-    /*
-     $('button.delsample').click(function (e) {
-     todelete = 1;
-     // check if there is samples in the row that contains a Seqno
-     $(this).parents('tr:first').find('td.organ_select').siblings().each(function () {
-     // in case the sample is checked
-     if ($(this).find('input.organlesionsample').length == 1) {
-     organlesionsample_to_eval = $(this).find('input.organlesionsample').val();
-
-     organlesionsample = $.evalJSON(organlesionsample_to_eval);
-
-     // if there is at least one registered sample then, don't delete the row but issue a click on each selected items
-     if (organlesionsample['SEQNO'] != undefined) {
-     todelete = 0;
-
-     organlesionsample['DEL'] = 'TRUE';
-
-     //	if(organlesionsample['UPD'] != undefined ) {organlesionsample['UPD'] = 'FALSE';}
-
-     organlesionsample_json = $.toJSON(organlesionsample);
-
-     $(this).find('input.organlesionsample').val(organlesionsample_json);
-     $(this).addClass('SmplteToDelete').removeClass("SmplteToUpdate");
-     $(this).find('input[type=checkbox]').get(0).checked = false;
-     }
-     else  // uncheck all items on the row
-     {
-     $(this).find('input[type=checkbox]').get(0).checked = false;
-     $(this).find('input.organlesionsample,select').remove();
-     $(this).find('span').html('');
-     $(this).removeClass('SmplteToUpdate');
-     }
-     }
-     });
-
-     if (todelete == 1 && $('table.samples tbody tr:visible').length != 1) {
-     $(e.target).parents('tr:first').remove();
-     }
-
-     });*/
-
-
     // toggle the visibility of the default samples
 
     $('button.toggledefault').click(function () {
@@ -448,11 +312,10 @@ $(document).ready(function () {
 
         $(this).hide().siblings('.toggledefault').show();
 
-    })
+    });
 
     // by default it is assumed that the default samples are hidden
     $('button.toggledefault.hide').click();
-
 
     // visually better
     $('table.samples tbody div select').hover(
@@ -471,244 +334,4 @@ $(document).ready(function () {
     $('.organ_select select.organ_sample').change(function (e) {
         getorganslesionsfunction(e);
     });
-
-
-    /*var checkToUpdateLesionSample = function (element) {
-     var checkupdate = false;
-
-     elementvaljson = element.find('input.organlesionsample').val();
-
-     regelementvaljson = element.find('input.regorganlesionsample').val();
-
-     if (regelementvaljson == undefined) {
-     return true;
-     }
-
-     elementvaljson_eval = $.evalJSON(elementvaljson);
-
-     regelementvaljson_eval = $.evalJSON(regelementvaljson);
-
-
-     for (var i in elementvaljson_eval) {
-     if (i == 'UPD' || i == 'DEL') {
-     continue;
-     }
-
-     if ($.toJSON(regelementvaljson_eval[i]) != $.toJSON(elementvaljson_eval[i])) {
-     return true;
-     }
-     }
-     return checkupdate;
-
-     }*/
-    /*var getJsonElement = function (element, value) {
-     eljson = element.val();
-
-
-     eljsoneval = $.evalJSON(eljson);
-
-
-     return eljsoneval[value];
-
-     }*/
-    /*
-     var ChangeJsonElement = function (element, key, value) {
-     to_eval_chgf = element.val();
-
-
-     eval_chgf = $.evalJSON(to_eval_chgf);
-
-     eval_chgf[key] = value;
-
-     eval_json_chgf = $.toJSON(eval_chgf);
-
-     element.val(eval_json_chgf);
-
-     return eval_chgf;
-     }*/
-
-
-    /* When the user click on a checkbox, then the checkbox receive all needed informations prepared to be send to the server */
-
-    /*$('table.samples input[type=checkbox]').click(function () {
-     if (this.checked == true) {
-     // obviously coming from a previously "to delete" registered sample
-     lesion_sample = $(this).parents('td:first').find('input.organlesionsample');
-     if (lesion_sample.length == 1) {
-     lesion_sample_json = lesion_sample.val();
-
-     lesion_sample_eval = $.evalJSON(lesion_sample_json);
-
-     test = checkToUpdateLesionSample($(this).parents('td:first'));
-
-     if (test == true) {
-     $(this).parents('td:first').addClass('SmplteToUpdate');
-     ChangeJsonElement($(this).parents('td:first').find('input.organlesionsample'), "UPD", "TRUE");
-     }
-     else {
-     ChangeJsonElement($(this).parents('td:first').find('input.organlesionsample'), "UPD", "FALSE");
-     $(this).parents('td:first').removeClass('SmplteToUpdate');
-     }
-
-     ChangeJsonElement(lesion_sample, 'DEL', 'FALSE');
-
-     $(this).parents('td:first').removeClass('SmplteToDelete');
-
-     }
-     else // create the sample to register
-     {
-     index_sample = $(this).parents('tr').find('td').index($(this).parents('td:first'));
-
-     analyze_dest = $(this).parents('table:first').find('tr.analyze_dest th')[index_sample].textContent;
-
-     conservation_code_html = $(this).parents('table:first').find('tr.conservation_mode th')[index_sample];
-
-     conservation_mode = $(conservation_code_html).find('select').val();
-
-     lesion_json = $(this).parents('tr:first').find('td:first select').val();
-
-     lesion = $.evalJSON(lesion_json);
-
-     sample_type = $(this).parents('td:first').find('select.SampleType').val();
-
-     var toencode = {
-     'lesion': lesion['lesion'],
-     'conservation_mode': conservation_mode,
-     'analyze_dest': analyze_dest,
-     'sample_type': sample_type
-     };
-
-     json_encoded = $.toJSON(toencode);
-
-     $(this).parent().append("<input class='organlesionsample' name ='organlesionsample[]' value='" + json_encoded + "' style='display:none;'/>");
-     htmltoappend = $("div.RegDetailsSample").html();
-
-     $('table.samples tr.initbodyrow td:eq(1) select.minwidth').clone(true).appendTo(this.parentNode);
-
-     }
-     }
-     else // in case the user uncheck the checkbox => ok
-     {
-     organlesionsample_to_eval = $(this).parents('td:first').find('input.organlesionsample').val();
-
-     organlesionsample = $.evalJSON(organlesionsample_to_eval);
-
-     RegSample = organlesionsample['Seqno'];
-
-
-     if (RegSample != undefined) {
-     if (organlesionsample['DEL'] == undefined || organlesionsample['DEL'] == 'FALSE') {
-     organlesionsample['DEL'] = 'TRUE';
-
-     organlesionsample_json = $.toJSON(organlesionsample);
-
-     $(this).parents('td:first').find('input.organlesionsample').val(organlesionsample_json);
-
-     $(this).parents('td:first').addClass('SmplteToDelete').removeClass("SmplteToUpdate");
-     }
-     }
-     else {
-
-     $(this).parents('td:first').find('input.organlesionsample,select').remove();
-     $(this).parents('td:first').find('span').html('');
-     $(this).parents('td:first').removeClass('SmplteToUpdate');
-     }
-     }
-     });*/
-
-    /* When the user is changing the default mode of conservation => the entire corresponding column change accordingly */
-    /*
-     $('table.samples th select.conservation_mode').change(function () {
-
-     column_index = $(this).parents('tr').find('th').index($(this).parents('th:first'));
-
-     conservation_mode = $(this).val();
-
-
-     $('table.samples tbody tr').each(function () {
-
-     td = $(this).find('td').get(column_index);
-
-
-     if ($(td).find('input.organlesionsample').length == 1 && $(td).find('input[type=checkbox]').get(0).checked == true) {
-
-     organlesionsample = ChangeJsonElement($(td).find('input.organlesionsample'), "conservation_mode", conservation_mode);
-
-     test = checkToUpdateLesionSample($(td));
-     if (test == true) {
-     ChangeJsonElement($(td).find('input.organlesionsample'), "UPD", "TRUE");
-     $(td).addClass("SmplteToUpdate");
-     $(td).find('span.UpdConsMode').css('visibility', 'visible').html(conservation_mode);
-
-     }
-     else {
-     ChangeJsonElement($(td).find('input.organlesionsample'), "UPD", "FALSE");
-     $(td).removeClass("SmplteToUpdate");
-     $(td).find('span.UpdConsMode').css('visibility', 'hidden');
-     }
-     }
-
-     });
-     });*/
-    // change default sample type
-    /*$('table.samples tbody select.SampleType').change(function () {
-
-     var td = $(this).parents('td:first');
-     var new_sample_type = $(this).val();
-     var organlesionsample_el = td.find('input.organlesionsample');
-     if (organlesionsample_el.length == 1) {
-     organlesionsample = ChangeJsonElement($(td).find('input.organlesionsample'), "sample_type", new_sample_type);
-
-     test = checkToUpdateLesionSample($(td));
-
-     if (test == true && $(td).find('input[type=checkbox]').get(0).checked == true) // if the item is not deleted
-     {
-     ChangeJsonElement($(td).find('input.organlesionsample'), "UPD", "TRUE");
-     $(td).addClass("SmplteToUpdate");
-     }
-     else if (test == false) {
-     ChangeJsonElement($(td).find('input.organlesionsample'), "UPD", "FALSE");
-     $(td).removeClass("SmplteToUpdate");
-     $(this).parents('td:first').find('span.UpdConsMode').css('visibility', 'hidden');
-     }
-
-     }
-     });*/
-
-    // if conservation mode is set manually, then it change the corresponding sample
-    /*$('table.samples tbody div select.CsvModeBody').change(function () {
-
-     conservation_mode_to_change = $(this).val();
-
-     organlesionsample = $(this).parents('td:first').find('input.organlesionsample');
-
-     if (organlesionsample.length == 1) {
-
-
-     oldconservationmode = $(this).parents('td:first').find('span.RegConsMode').html();
-
-     oldconservationmoderegistered = getJsonElement(organlesionsample, "conservation_mode");
-
-     organlesion_smple = ChangeJsonElement(organlesionsample, "conservation_mode", conservation_mode_to_change);
-
-     test = checkToUpdateLesionSample($(this).parents('td:first'));
-
-     if (test == true) {
-
-     ChangeJsonElement($(this).parents('td:first').find('input.organlesionsample'), "UPD", "TRUE");
-     $(this).parents('td:first').addClass("SmplteToUpdate");
-     $(this).parents('td:first').find('span.UpdConsMode').css('visibility', 'visible').html(conservation_mode_to_change);
-
-     }
-     else {
-     ChangeJsonElement($(this).parents('td:first').find('input.organlesionsample'), "UPD", "FALSE");
-     $(this).parents('td:first').removeClass("SmplteToUpdate");
-     $(this).parents('td:first').find('span.UpdConsMode').css('visibility', 'hidden');
-     }
-
-
-     //	$(this).siblings().find('input.ToChangeConsMode').show().val(oldconservationmode);
-     }
-     });*/
-
 });

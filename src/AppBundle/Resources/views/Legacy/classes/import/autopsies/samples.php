@@ -66,6 +66,7 @@ if ($res->isError()) {
 $sql = "SELECT c.ogn_code,
   c.processus,
   b.ncy_ese_seqno,
+  d.availability,
   d.conservation_mode,
   d.analyze_dest,
   d.spe_type,
@@ -126,11 +127,13 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                     $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
                 } else {
                     $oln_seqno = $db->query("select organ_lesions_seq.currval from dual")->fetch()['CURRVAL'];
+                    $registered_organ_lesion[$oln_seqno]=$lesion[0] . "/" . $lesion[1]; //update registered organ lesion
+
                 }
             }
             // insert sample into database
-            $sql = "insert into samples(availability,conservation_mode,analyze_dest,spe_type) values (1,:cvt_mode,:an_dest,:spe_type)";
-            $binds = array(':cvt_mode' => $lesionsample['CONSERVATION_MODE'],
+            $sql = "insert into samples(availability,conservation_mode,analyze_dest,spe_type) values (:availability,:cvt_mode,:an_dest,:spe_type)";
+            $binds = array(':availability' => $lesionsample['AVAILABILITY'], ':cvt_mode' => $lesionsample['CONSERVATION_MODE'],
                 ':an_dest' => $lesionsample['ANALYZE_DEST'],
                 ':spe_type' => $lesionsample['SPE_TYPE']);
 
@@ -144,7 +147,7 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
 
                 // link sample to organlesion
 
-                $sql = "insert into lesions2sample(spe_seqno,oln_seqno) values (:spe_seqno,:oln:seqno)";
+                $sql = "insert into lesions2sample(spe_seqno,oln_seqno) values (:spe_seqno,:oln_seqno)";
                 $binds = array(':spe_seqno' => $sample_seqno, ':oln_seqno' => $oln_seqno);
 
                 $res = $db->query($sql, $binds);
@@ -153,7 +156,7 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                 }
             }
         } else {
-            // in case of a delete
+            // in case of a delete: actually delete it; availability is another matter 
             if (isset($lesionsample['SEQNO']) && isset($lesionsample['DEL']) && $lesionsample['DEL'] == 'TRUE') {
                 $sql = "delete from lesions2sample where spe_seqno = :spe_seqno and oln_seqno = :oln_seqno";
                 $binds = array(':spe_seqno' => $lesionsample['SEQNO'], ':oln_seqno' => $oln_seqno);
@@ -162,7 +165,7 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                     $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
                 }
 
-                $sql = "update samples set availability = '0' where seqno = :seqno";
+                $sql = "delete from samples where seqno = :seqno";
                 $binds = array(':seqno' => $lesionsample['SEQNO']);
                 $res = $db->query($sql, $binds);
                 if ($res->isError()) {
@@ -181,6 +184,7 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                     $old_sample['ANALYZE_DEST'] != $lesionsample['ANALYZE_DEST'] ? $toupdate['ANALYZE_DEST'] = $lesionsample['ANALYZE_DEST'] : "";
                     $old_sample['CONSERVATION_MODE'] != $lesionsample['CONSERVATION_MODE'] ? $toupdate['CONSERVATION_MODE'] = $lesionsample['CONSERVATION_MODE'] : "";
                     $old_sample['SPE_TYPE'] != $lesionsample['SPE_TYPE'] ? $toupdate['SPE_TYPE'] = $lesionsample['SPE_TYPE'] : "";
+                    $old_sample['AVAILABILITY'] != $lesionsample['AVAILABILITY'] ? $toupdate['AVAILABILITY'] = $lesionsample['AVAILABILITY'] : "";
 
                     if (count($toupdate) > 0) {
                         $toupdate_array = array();
@@ -192,40 +196,48 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
                         }
                         $toupdate_string = implode(',', $toupdate_array);
                         $sql = "update samples set $toupdate_string where seqno = :seqno";
-                        $binds[':seqno'] = $lesionsample['Seqno'];
+                        $binds[':seqno'] = $lesionsample['SEQNO'];
 
-                        // $res = $db->query($sql,$binds);
-                        // if($res->isError()){ echo $res->errormessage() . '; ' . $sql;}
+                         $res = $db->query($sql,$binds);
+                         if($res->isError()){ echo $res->errormessage() . '; ' . $sql;}
                     }
 
-                }
-                // check if an organ update is neccessary
-                if ($lesion[0] != $old_sample['OGN_CODE'] || $lesion[1] != $old_sample['PROCESSUS']) {
-                    // delete link between sample and organ lesion
-                    $sql = "delete from lesions2sample where spe_seqno = :spe_seqno and oln_ncy_ese_seqno = :necropsy_seqno";
-                    $binds = array(':spe_seqno' => $lesionsample['SEQNO'], ':necropsy_seqno' => $necropsy_seqno);
-                    // $res = $db->query($sql,$binds);
-                    // if($res->isError()){ echo $res->errormessage() . '; ' . $sql;}
 
-                    // update organ_lesions accordingly
-                    $old_lesion_type = $lesion_types[$old_sample['OGN_CODE'] . "/" . $old_sample["PROCESSUS"]];
-                    $sql = "update organ_lesions set lte_seqno = :new_lte_seqno, lte_ogn_code = :new_ogn_code
-					where lte_seqno = :old_lte_seqno and lte_ogn_code = :old_ogn_code";
-                    $binds = array(':new_lte_seqno' => $lesion_type['seqno'],
-                        ':new_ogn_code' => $lesion[0],
-                        ':old_lte_seqno' => $old_lesion_type['seqno'],
-                        ':old_ogn_code' => $old_sample['OGN_CODE']);
-                    //$res = $db->query($sql,$binds);
-                    if ($res->isError()) {
-                        $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
-                    } else {
-                        // if the update went well, then create the link between the sample and the corresponding lesion
-                        $sql = "insert into lesions2sample(spe_seqno,oln_lte_seqno,oln_ncy_ese_seqno,oln_lte_ogn_code) values (:spe_seqno,:lte_seqno,:ese_seqno,:ogn_code)";
-                        $binds = array(':spe_seqno' => $lesionsample['SEQNO'], ':lte_seqno' => $lesion_type['seqno'], ':ese_seqno' => $necropsy_seqno, ':ogn_code' => $lesion[0]);
+                    // check if an organ (=lesion type actually) update is neccessary
+                    if ($lesion[0] != $old_sample['OGN_CODE'] || $lesion[1] != $old_sample['PROCESSUS']) {
+                        // delete link between sample and organ lesion
+                        //$sql = "delete from lesions2sample where spe_seqno = :spe_seqno and oln_seqno = :oln_seqno";
+                        //$binds = array(':spe_seqno' => $lesionsample['SEQNO'], ':oln_seqno' => $old_sample['SEQNO']); //todo CHECK old sample seqno
+                        // $res = $db->query($sql,$binds);
+                        // if($res->isError()){ echo $res->errormessage() . '; ' . $sql;}
+
+                        if ($oln_seqno === null && $lesion[1] == 'NA') {
+
+                        }
+                        //if the lesion type actually already exists, assign it to it
+
+                        //else change the old organ_lesions accordingly
+
+                        $old_lesion_type = $lesion_types[$old_sample['OGN_CODE'] . "/" . $old_sample["PROCESSUS"]];
+                        // $new_lesion_type = $lesion_types[$lesion[0] . "/" . $lesion[1]];
+                        $sql = "update organ_lesions set lte_seqno = :new_lte_seqno where ncy_ese_seqno = :necropsy_seqno";
+                        $binds = array(':new_lte_seqno' => $lesion_type['seqno'], ':necropsy_seqno' => $necropsy_seqno);
+                        // ':new_ogn_code' => $lesion[0],
+                        // ':old_lte_seqno' => $old_lesion_type['seqno'],
+                        // ':old_ogn_code' => $old_sample['OGN_CODE']);
+                        $res = $db->query($sql, $binds);
+                        if ($res->isError()) {
+                            $val->setError('globalerror', $res->errormessage() . '; ' . $sql);
+                        }
+                        /*else {
+                            // if the update went well, then create the link between the sample and the corresponding lesion
+                            $sql = "insert into lesions2sample(spe_seqno,oln_seqno,oln_ncy_ese_seqno,oln_lte_ogn_code) values (:spe_seqno,:lte_seqno,:ese_seqno,:ogn_code)";
+                            $binds = array(':spe_seqno' => $lesionsample['SEQNO'], ':lte_seqno' => $lesion_type['seqno'], ':ese_seqno' => $necropsy_seqno, ':ogn_code' => $lesion[0]);*/
 
 //			$res = $db->query($sql,$binds);
-//			if($res->isError()){ echo $res->errormessage() . '; ' . $sql;}
+//			if($res->isError()){ echo $res->errormessage() . '; ' . $sql;
 
+                        //}
                     }
                 }
             }
@@ -243,6 +255,7 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
 $sql = "SELECT c.ogn_code,
   c.processus,
   b.ncy_ese_seqno,
+  d.availability,
   d.conservation_mode,
   d.analyze_dest,
   d.spe_type,
@@ -273,17 +286,17 @@ if ($res->isError()) {
 
 
 // get Sample type
-$sample_type_list=array();
+$sample_type_list = array();
 $sql = "select rv_low_value,rv_meaning from cg_ref_codes where rv_domain = 'SAMPLE_TYPE'";
 $res = $db->query($sql);
 if ($res->isError()) {
     echo $res->errormessage() . '; ' . $sql;
 }
-$sample_type = "<select class='SampleType minwidth'><option>Type...</option>";
+$sample_type = "<select class='SampleType minwidth'><option value=''>Type...</option>";
 while ($row = $res->fetch()) {
     //$selected = $row['RV_LOW_VALUE'] == 'ORG' ? "selected='selected'" : "";
     $sample_type .= "<option value='" . $row['RV_LOW_VALUE'] . "'>" . $row['RV_MEANING'] . "</option>";
-    $sample_type_list[$row['RV_LOW_VALUE']]=$row['RV_MEANING'];
+    $sample_type_list[$row['RV_LOW_VALUE']] = $row['RV_MEANING'];
 }
 $sample_type .= "</select>";
 
@@ -294,7 +307,7 @@ $res = $db->query($sql);
 if ($res->isError()) {
     echo $res->errormessage() . '; ' . $sql;
 }
-$conservation_mode_body = "<select class='CsvModeBody minwidth'><option>Csv mode...</option>";
+$conservation_mode_body = "<select class='CsvModeBody minwidth'><option value=''>Csv mode...</option>";
 while ($row = $res->fetch()) {
     $conservation_mode_body .= "<option value='" . $row['RV_LOW_VALUE'] . "'>" . $row['RV_MEANING'] . "</option>";
     $conservation_mode_list[$row['RV_LOW_VALUE']] = $row['RV_MEANING'];
@@ -401,22 +414,22 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                     unset($lesion_var); ?></td>
                 <?php
                 for ($i = 0; $i < count($analyze_dest); $i++):
-                    $r=rand (0, 10000);
+                    $r = rand(0, 10000);
 
                     echo "<td class='sample_select'>
                     <div class='maintd'>
                         <span style='visibility:hidden;' class='RegConsMode'></span>
                         <span class='UpdConsMode' style='visibility:hidden;'></span>
                         <span class='UpdOrgan' style='visibility:hidden;'></span>
-                        <input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Available</label>";
-                         echo $conservation_mode_body;
-                         echo $sample_type;
+                        <input type='checkbox' id='availability-" . $r . "' class='availability'/><label for='availability-" . $r . "'>Available</label>";
+                    echo $conservation_mode_body;
+                    echo $sample_type;
                     echo "</div>
                     </td>";
                 endfor
                 ?>
                 <td class="sample_delete">
-                    <input type="checkbox" class="tobedeleted" /><label>Delete</label>
+                    <input type="checkbox" class="tobedeleted"/><label>Delete</label>
                     <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                 </td>
             </tr>
@@ -444,7 +457,8 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 'CONSERVATION_MODE' => $registered_sample['CONSERVATION_MODE'],
                                 'ANALYZE_DEST' => $registered_sample['ANALYZE_DEST'],
                                 'SPE_TYPE' => $registered_sample['SPE_TYPE'],
-                                'SEQNO' => $registered_sample['SEQNO']
+                                'SEQNO' => $registered_sample['SEQNO'],
+                                'AVAILABILTY' => $registered_sample['AVAILABILITY'] === 'yes' ? true:false
                             );
                             $lesionsamplejson = json_encode($lesionsample, JSON_PRETTY_PRINT); //TODO CHECK JSON_PRETTY_PRINT
                         } else {
@@ -459,7 +473,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 <?php
                                 $organcodelesion = "";
                                 $consmodeorgan = "";
-                                $r=rand (10000, 20000);
+                                $r = rand(10000, 20000);
                                 if (strlen($lesionsamplejson) != 0) {
                                     echo "<span  class='RegConsMode' style='visibility:hidden;>" . $registered_sample['CONSERVATION_MODE'] . "</span>";
                                     $organcodelesion = $registered_sample['OGN_CODE'] . "/NA";
@@ -472,7 +486,12 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                 <span class='UpdOrgan' style='visibility:hidden;'><?php echo $organcodelesion; ?></span>
                                 <?php
                                 if (strlen($lesionsamplejson) != 0) {
-                                    echo "<input type='checkbox' id='availability-".$r."' class='availability'/><label for='availability-".$r."'>Available</label>";
+                                    if($lesionsample['AVAILABILTY']){
+                                        echo "<input type='checkbox' id='availability-" . $r . "' class='availability' checked/><label for='availability-" . $r . "'>Available</label>";
+                                    }
+                                    else{
+                                        echo "<input type='checkbox' id='availability-" . $r . "' class='availability'/><label for='availability-" . $r . "'>Available</label>";
+                                    }
                                     //echo "<input type='checkbox' checked = 'checked'/>";
                                     echo "<input class='organlesionsample' style='display:none;' name = 'organlesionsample[]' value = '$lesionsamplejson'/>";
                                     echo "<input class='regorganlesionsample' style='display:none;' value = '$lesionsamplejson'/>";
@@ -482,14 +501,14 @@ include(WebFunctions . 'autopsy_specimen_link.php');
 
                                 if (strlen($lesionsamplejson) != 0) {
                                     $presel_sample_type = "<select class='SampleType minwidth'>";
-                                    foreach ($sample_type_list as $key=>$sample_type_value) {
+                                    foreach ($sample_type_list as $key => $sample_type_value) {
                                         $selected = $lesionsample['SPE_TYPE'] == $key ? "selected='selected'" : "";
                                         $presel_sample_type .= "<option $selected value ='" . $key . "'>" . $sample_type_value . "</option>";
                                     }
                                     $presel_sample_type .= "</select>";
 
                                     $presel_conservation_mode = "<select class='CsvModeBody minwidth'>";
-                                    foreach ($conservation_mode_list as $key=>$conservation_mode_value) {
+                                    foreach ($conservation_mode_list as $key => $conservation_mode_value) {
                                         $selected = $lesionsample['CONSERVATION_MODE'] == $key ? "selected='selected'" : "";
                                         $presel_conservation_mode .= "<option $selected value ='" . $key . "'>" . $conservation_mode_value . "</option>";
                                     }
@@ -503,7 +522,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                         </td>
                     <?php endforeach;?>
                     <td class="sample_delete">
-                        <input type="checkbox" class="tobedeleted" /><label>Delete</label>
+                        <input type="checkbox" class="tobedeleted"/><label>Delete</label>
                         <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>
@@ -551,7 +570,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                             </div>
                         </td><?php endforeach;?>
                     <td class="sample_delete">
-                        <input type="checkbox" class="tobedeleted" /><label>Delete</label>
+                        <input type="checkbox" class="tobedeleted"/><label>Delete</label>
                         <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>

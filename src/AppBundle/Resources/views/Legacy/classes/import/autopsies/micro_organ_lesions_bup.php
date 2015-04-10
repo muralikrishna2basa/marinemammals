@@ -494,7 +494,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 } ?>
                 <td><input class='Description'/></td>
                 <td>
-                    <button class="dellesion" type="button"><img alt="Del" src="/img/cross.png"/></button>
+                    <button class="dellesion" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                 </td>
                 <td style='display:none;'><input class='diagnosis' name='diagnosis[]'/></td>
             </tr>
@@ -538,7 +538,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                     <td><input class='Description'
                                value='<?php echo isset($lesion['Description']) ? $lesion['Description'] : ''; ?>'/></td>
                     <td>
-                        <button class="dellesion" type="button"><img alt="Del" src="/img/cross.png"></button>
+                        <button class="dellesion" type="button"><img alt="Del" src="/legacy/img/cross.png"></button>
                     </td>
                     <td style='display:none;'><input class='diagnosis' name='diagnosis[]'
                                                      value='<?php echo json_encode($lesion); ?>'/></td>
@@ -552,7 +552,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 } ?>
                 <td><input class='Description'/></td>
                 <td>
-                    <button class="dellesion" type="button"><img alt="Del" src="/img/cross.png"/></button>
+                    <button class="dellesion" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                 </td>
                 <td style='display:none;'><input class='diagnosis' name='diagnosis[]'/></td>
             </tr>

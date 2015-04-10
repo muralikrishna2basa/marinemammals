@@ -387,7 +387,7 @@ while($row = $res->fetch())
 <?php echo $conservation_mode_body; echo $sample_type;?>
 </div>
 </td><?php endfor;?>
- <td><button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button></td>
+ <td><button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button></td>
 </tr>
 <?php  // DISPLAY ALL ORGANS ROW 
 // get organs
@@ -471,7 +471,7 @@ echo $sample_type;
 ?>
 </div>
 </td><?php endforeach;?>
-<td><button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button></td>
+<td><button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button></td>
 </tr>
 <?php endwhile; 
 ?>
@@ -556,7 +556,7 @@ echo $sample_type;
 ?>
 </div>
 </td><?php endforeach;?>
-<td><button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button></td>
+<td><button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button></td>
 </tr>
 
 <?php endforeach;?>

@@ -413,7 +413,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                     </div>
                     </td><?php endfor; ?>
                 <td>
-                    <button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button>
+                    <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                 </td>
             </tr>
             <?php // DISPLAY ALL SAMPLE LESIONS
@@ -483,7 +483,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                         </td>
                     <?php endforeach;?>
                     <td>
-                        <button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button>
+                        <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>
             <?php
@@ -530,7 +530,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                             </div>
                         </td><?php endforeach;?>
                     <td>
-                        <button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button>
+                        <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>
             <?php endwhile;

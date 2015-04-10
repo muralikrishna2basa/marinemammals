@@ -96,7 +96,7 @@ while($row = $res->fetch())
 <tr style="display:none;" class='initbodyrow'>
 <td class='organ_select'><?php $lesion_var = 'ROOT';include($file_load);unset($lesion_var);?></td>
 <?php for($i=0;$i<count($analyze_dest);$i++):?><td><input type='checkbox'/></td><?php endfor;?>
- <td><button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button></td>
+ <td><button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button></td>
 </tr>
 <?php 
 // get organs
@@ -109,7 +109,7 @@ while($row = $res->fetch()):
 <tr>
 <td class='organ_select'><?php $lesion_var = $row['CODE']; include($file_load); unset($lesion_var);?></td>
 <?php for($i=0;$i<count($analyze_dest);$i++):?><td><input type='checkbox'/></td><?php endfor;?>
-<td><button class="delsample" type="button"><img alt="Del" src="/img/cross.png"/></button></td>
+<td><button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button></td>
 </tr>
 <?php endwhile;?>
 </tbody>
