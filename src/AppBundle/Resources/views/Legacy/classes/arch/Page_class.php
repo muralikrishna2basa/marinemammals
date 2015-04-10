@@ -115,11 +115,7 @@ class Page
     <link rel="stylesheet" href="/css/0600193_odnature_3.css"/>
     <link rel="stylesheet" href="/css/0600193_mm_4.css"/>
 
-
-    <link rel="stylesheet" href="/css/e8685cd_datepicker_1.css"/>
     <link rel="stylesheet" href="/css/e8685cd_font-awesome_2.css"/>
-    <link rel="stylesheet" href="/css/e8685cd_jquery.qtip.min_3.css"/>
-    <link rel="stylesheet" href="/css/e8685cd_select2.min_4.css"/>
     $heads
 </head>
 <body>
@@ -134,7 +130,6 @@ class Page
             web sites and applications</a>
         </div>
         <div class="top-links">
-            <span>Logged in as tvandenberghe</span>
             <a href="/logout" class="navbar-pseudo-btn-link">Logout</a>
         </div>
         <div class="branding-main">
@@ -188,7 +183,7 @@ class Page
                                 class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/observations">Strandings and observations</a></li>
-                                <li><a href="/tissuebank">Tissue bank</a></li>
+                                <li><a href="/samples">Tissue bank</a></li>
                             </ul>
                         </li>
 

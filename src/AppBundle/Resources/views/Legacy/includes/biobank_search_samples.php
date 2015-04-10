@@ -54,12 +54,13 @@ ob_start();
 <div id = "search_samples">
 <div class = "samples_results"><?php include(WebFunctions.'/perform_search.php');?></div>
 <?php
-if($Layout->getAuth()->getSessionGroupname()!='GUEST')
+echo $order_samples;
+/*if($Layout->getAuth()->getSessionGroupname()!='GUEST')
 {
 	
 	echo $order_samples;
 		
-}
+}*/
 ?>
 <div class = "Search_search_tool" style="display:none;"> 
 		<div class = "Search">
@@ -92,12 +93,16 @@ if($Layout->getAuth()->getSessionGroupname()!='GUEST')
 <?php
 
 
-if($Layout->getAuth()->getSessionGroupname()!='GUEST')
+/*if($Layout->getAuth()->getSessionGroupname()!='GUEST')
 {
 	
 	include(Web.'functions/export_samples.php');
 		
-}
+}*/
+
+include(WebFunctions.'/export_samples.php');
+
+
 
 $tmp = ob_get_contents();
 

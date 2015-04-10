@@ -9,5 +9,5 @@ define('Web',Main.'htdocs/');
 define('Includes',Main.'includes/');
 define('WebFunctions',sfWeb.'legacy/functions/');
 define('Vendor',sfMain.'vendor/');
-define('QuickForm2',Vendor.'HTML_QuickForm2-2.0.2/HTML/');
+define('QuickForm2',Vendor.'pear/html_quickform2/HTML/');
 ?>

@@ -61,7 +61,7 @@ table#samples tbody span.UpdOrgan
 }
 table#samples tbody td.SmplteToDelete
 {
-	border:2px solid red;
+	border:2px solid red !important;
 }
 table#samples tbody td.SmplteToUpdate 
 {

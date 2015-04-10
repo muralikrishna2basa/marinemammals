@@ -45,11 +45,11 @@ var changeSample = function (cell) {
     var lesion_select = $(row).find('select.organ_sample')[0];
     var lesion = JSON.parse(lesion_select.value);
 
-    var actuallyDoSomething=sampletype !== '' || conservation_mode !== '';
+    var actuallyDoSomething = sampletype !== '' || conservation_mode !== '';
 
     var lesion_notset = lesion['lesion'][0] === 'ROOT';
     if (!lesion_notset && actuallyDoSomething) {
-        actuallyDoSomething=false;
+        actuallyDoSomething = false;
         var tobe_deleted = $(row.cells[totalCols - 1]).find('input.tobedeleted')[0].checked;
 
         if (possible_analysis_dest.length < relevantCols) {
@@ -107,33 +107,33 @@ var changeSample = function (cell) {
                 }
 
             }
-            if(organsamples.UPD === 'TRUE' || organsamples.DEL === 'TRUE'){
-                actuallyDoSomething=true;
+            if (organsamples.UPD === 'TRUE' || organsamples.DEL === 'TRUE') {
+                actuallyDoSomething = true;
             }
         }
         else {
             if (organsamples.CONSERVATION_MODE != conservation_mode) {
                 organsamples.CONSERVATION_MODE = conservation_mode;
-                actuallyDoSomething=true;
+                actuallyDoSomething = true;
             }
 
             if (organsamples.ANALYZE_DEST != analyze_dest) {
                 organsamples.ANALYZE_DEST = analyze_dest;
-                actuallyDoSomething=true;
+                actuallyDoSomething = true;
             }
 
             if (organsamples.SPE_TYPE != sampletype) {
                 organsamples.SPE_TYPE = sampletype;
-                actuallyDoSomething=true;
+                actuallyDoSomething = true;
             }
 
             if (available && organsamples.AVAILABILITY === 'no' || typeof (organsamples.AVAILABILITY) === 'undefined') {
                 organsamples.AVAILABILITY = 'yes';
-                actuallyDoSomething=true;
+                actuallyDoSomething = true;
             }
-            if(!available && organsamples.AVAILABILITY === 'yes' || typeof (organsamples.AVAILABILITY) === 'undefined') {
+            if (!available && organsamples.AVAILABILITY === 'yes' || typeof (organsamples.AVAILABILITY) === 'undefined') {
                 organsamples.AVAILABILITY = 'no';
-                actuallyDoSomething=true;
+                actuallyDoSomething = true;
             }
         }
         $.extend(true, organsamples, lesion);
@@ -206,6 +206,12 @@ var getorganslesionsfunction = function (e) {
         return false;
     }
 
+    var tr_reg= $(e.target).parents('tr.reg_sample ')[0];
+    if(typeof tr_reg !== 'undefined'){
+        $('p#organ_change_dialog').dialog('open');
+    }
+
+
     $(e.target).addClass('targeted');
 
     $.ajax({
@@ -228,13 +234,19 @@ var getorganslesionsfunction = function (e) {
 
 $(document).ready(function () {
 
+    $('p#organ_change_dialog').dialog({
+        autoOpen: false,
+        modal: true,
+        draggable: false
+    });
+
     // execute organ_select.js
     /*var fileref = document.createElement('script');
      fileref.setAttribute("type", "text/javascript");
      fileref.setAttribute("src", "/legacy/js/organ_select.js");
      document.getElementsByTagName("head")[0].appendChild(fileref);*/
 
-    $('table.samples td.sample_select select, table.samples td.sample_select input').change(function () {
+    $('table.samples td.sample_select select, table.samples td.sample_select input').not('input.addRegSample').change(function () {
         var td = $(this).parents('td.sample_select')[0];
         var actuallyDoneSomething = changeSample(td);
         if (actuallyDoneSomething) {
@@ -242,6 +254,14 @@ $(document).ready(function () {
                 $(td).removeClass('NewSampleDefault').addClass('NewSample');
             }
         }
+    });
+
+    $('input.addRegSample').change(function () {
+        var $td = $(this).parents('td.sample_select');
+        var $exampleTd = $($('table.samples tr.initbodyrow td.sample_select').get(0));
+        $td.replaceWith($exampleTd.clone(true).show().addClass('NewSampleDefault'));
+
+        $(this).remove();
     });
 
     /*$('table.samples input[type=checkbox]').click(function () {
@@ -266,7 +286,7 @@ $(document).ready(function () {
         var $anySelect = $tds.find('select.CsvModeBody');//just to have one
         var $relevantInputSelect = $tds.find('input.availability, select.CsvModeBody, select.SampleType');
         if (this.checked === true) {
-            $tds.addClass('SmplteToDelete');
+            $tds.removeClass('NewSample').addClass('SmplteToDelete');
             $relevantInputSelect.attr('disabled', true);
         }
         else {
@@ -287,7 +307,7 @@ $(document).ready(function () {
             c = $('table.samples tbody tr:visible:last').index() + 1;
         }
         //var c = $('table.samples tbody tr:visible:last').attr('class').replace('row','') || $('table.samples tbody tr:visible:last').index() + 1;
-        $('table.samples tr.initbodyrow').clone(true).removeClass('initbodyrow').addClass('row' + c).show().appendTo('table.samples tbody').children('td.sample_select').addClass('NewSampleDefault');
+        $('table.samples tr.initbodyrow').clone(true).removeClass('initbodyrow').addClass('row' + c).addClass('new_sample').show().appendTo('table.samples tbody').children('td.sample_select').addClass('NewSampleDefault');
     });
 
     // toggle the visibility of the default samples
@@ -332,7 +352,6 @@ $(document).ready(function () {
      and an ajax request is sent to get the lesions organs or the sane ones
      */
     $('.organ_select select.organ_sample').change(function (e) {
-        alert("You've changed the organ this sample is taken from. Please not that in this case, the ");
         getorganslesionsfunction(e);
     });
 });

@@ -92,10 +92,11 @@ if(!$order_form->validate() || $order_form->getValue() == null)
 		echo $search_selected_samples;	
 		echo $order_form->__toString();
 		
-		if($Layout->getAuth()->getSessionGroupname()!='GUEST')
+		/*if($Layout->getAuth()->getSessionGroupname()!='GUEST')
 		{
 			include(Web.'functions/export_order_samples.php');
-		}
+		}*/
+            include(WebFunctions.'/export_order_samples.php');
 		$tmp = ob_get_contents();
 		ob_end_clean();
 		return $tmp;	

@@ -193,7 +193,9 @@ class Flow
     protected function clearPosted()
     {
         foreach ($this->posted as $postname) {
-            unset($_POST[$postname]);
+            if (isset($_POST)) {
+                unset($_POST[$postname]);
+            }
         }
     }
 

@@ -458,7 +458,6 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 ?>
                 <td class="sample_delete">
                     <input type="checkbox" class="tobedeleted"/><label>Delete</label>
-                    <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                 </td>
             </tr>
             <?php // DISPLAY ALL SAMPLE LESIONS
@@ -468,7 +467,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                 list($lesion_var, $processus_var, $num) = explode('/', $ognprocnum);
                 $defaults[] = $lesion_var . "/" . $processus_var;
                 ?>
-                <tr>
+                <tr class="reg_sample">
                     <td class='organ_select'>
                         <?php
                         include($file_load);
@@ -523,7 +522,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                                     echo "<input class='organlesionsample' style='display:none;' name = 'organlesionsample[]' value = '$lesionsamplejson'/>";
                                     echo "<input class='regorganlesionsample' style='display:none;' value = '$lesionsamplejson'/>";
                                 } else {
-                                    echo "<input type='checkbox'/>";
+                                    echo "<input class='addRegSample' type='checkbox'/>";
                                 }
 
                                 if (strlen($lesionsamplejson) != 0) {
@@ -550,7 +549,6 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                     <?php endforeach;?>
                     <td class="sample_delete">
                         <input type="checkbox" class="tobedeleted"/><label>Delete</label>
-                        <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>
             <?php
@@ -598,7 +596,6 @@ include(WebFunctions . 'autopsy_specimen_link.php');
                         </td><?php endforeach;?>
                     <td class="sample_delete">
                         <input type="checkbox" class="tobedeleted"/><label>Delete</label>
-                        <button class="delsample" type="button"><img alt="Del" src="/legacy/img/cross.png"/></button>
                     </td>
                 </tr>
             <?php endwhile;
@@ -606,6 +603,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
             </tbody>
         </table>
         <div class='errormessage'><?php echo $val->getError('globalerror'); ?></div>
+        <p id='organ_change_dialog' style='display:none;'>You've changed the organ this sample is taken from. Please note that then all other samples taken from this organ will now also be taken from the 'new' organ. If you wish to keep the other samples attached to the 'old' organ, delete and recreate them.<p>
     </fieldset>
     <?php echo $this->getButtons(); ?>
 </form>
