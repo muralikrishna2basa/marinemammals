@@ -89,6 +89,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="/observations/about">Strandings and observations</a></li>
                                     <li><a href="/necropsies/about">Necropsies</a></li>
+                                    <li><a href="/samples/about">Biobank</a></li>
                                 </ul>
                             </li>
                             <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Browse data<span
@@ -96,7 +97,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="/observations">Strandings and observations</a></li>
                                     {% if app.user and is_granted('ROLE_USER') %}
-                                        <li><a href="/samples">Tissue bank</a></li>
+                                        <li><a href="/samples">Biobank</a></li>
                                     {% endif %}
                                 </ul>
                             </li>

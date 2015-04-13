@@ -5,7 +5,7 @@
 
 if(!isset($db) || !isset($auth))
 {
-	require_once('../../directory.inc');
+    include_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc'); /* Make use of absolute path */
 
 	include_once(Functions.'getAuthDb.php');
 	

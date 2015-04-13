@@ -20,11 +20,12 @@ class TaxaType extends AbstractType
         $builder->add('canonicalName', 'text');
         $builder->add('scientificNameAuthorship', 'text');
         $builder->add('vernacularNameEn', 'text');
-        $builder->add('taxonrank', 'choice',array(
+        $builder->add('taxonrank', 'choice', array(
             'empty_value' => 'Select...',
             'required' => false,
-            'choice_list'=>new TaxonrankList($this->doctrine)));
-        $builder->add('idodId', 'integer',array('required' => false));
+            'choice_list' => new TaxonrankList($this->doctrine)));
+        $builder->add('idodId', 'integer', array('required' => false));
+        $builder->add('presentInEurope', 'checkbox', array('required' => false));
     }
 
     public function getName()

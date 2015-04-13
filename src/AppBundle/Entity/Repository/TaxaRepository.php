@@ -21,6 +21,15 @@ class TaxaRepository extends EntityRepository
             ->addOrderBy('t.canonicalName', 'ASC');
     }
 
+    public function getAllEuropeanTaxaQb()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->addOrderBy('t.taxonrank', 'ASC')
+            ->addOrderBy('t.canonicalName', 'ASC')
+            ->where('t.presentInEurope = true');
+    }
+
     public function getAllTaxonranks()
     {
         $qb = $this->createQueryBuilder('t')

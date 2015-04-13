@@ -56,7 +56,7 @@ $().ready(function(){
     
     options1 = { 
     			search_object :"Search_Samples",
-    		    perform_search:"functions/perform_search.php",
+    		    perform_search:"/legacy/functions/perform_search.php",
     		    callback_results:callback,
     		    search_results:"samples_results",
     		    datenames:['date','other date','Date Found'],
@@ -68,7 +68,7 @@ $().ready(function(){
 	 
 	 options2 = {
 	 	search_object :"Search_Samples",
-	 	perform_search:"functions/search_order_samples.php",
+	 	perform_search:"/legacy/functions/search_order_samples.php",
 	 	search_results:"search_selected_results"
 	 	};
 	 	

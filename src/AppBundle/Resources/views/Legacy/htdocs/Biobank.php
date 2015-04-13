@@ -9,16 +9,16 @@ include_once('../directory.inc'); /* Make use of absolute path */
 require_once(Classes."arch/Biolibd_Layout_class.php");
 
 
-$Layout = new Biolibd_Layout();
+$Layout = new Biolibd_Layout('MM: Biobank');
 
 $db = $Layout->getDatabase();
 
 $auth = $Layout->getAuth();
 
-$Layout->addHead(array('<link rel="stylesheet" type="text/css" href="css/Biobank.css" />',
-						'<link rel="stylesheet" type="text/css" href="css/search.css" />',
-						'<script type="text/javascript" src="js/search_plugin.js"></script>',
-						'<script type="text/javascript" src="js/Biobank.js"></script>'));
+$Layout->addHead(array('<link rel="stylesheet" type="text/css" href="/legacy/css/Biobank.css" />',
+						'<link rel="stylesheet" type="text/css" href="/legacy/css/search.css" />',
+						'<script type="text/javascript" src="/legacy/js/search_plugin.js"></script>',
+						'<script type="text/javascript" src="/legacy/js/Biobank.js"></script>'));
 
 $navigation_list = array("#description_biobank"=>"Description","#manage_samples"=>"Search for Samples",
 						 "#agreement_biobank" =>"Order ( Agreement)","#order_samples"=>"Order ( Review)");

@@ -31,6 +31,39 @@ class ControllerFormSuccessPlugin
         return $this->renderForm($a['form1'], $a['entity1List'], $success1, $a['form2'], $a['entity2List'], $success2);
     }
 
+    public function createFormsAndLists($entity1, $entity2=null)
+    {
+        $a = array();
+        $em = $this->doctrine;
+
+        $entity1List = $em->getRepository($this->typeRepo1)
+            ->getAll();
+        //$entity1 = new $this->type1;
+
+        $form1 = $this->controller->createForm($this->formtype1, $entity1);
+
+        //$entity2 = null;
+        $entity2List = null;
+        $form2 = null;
+
+        if ($this->type2 !== null && $this->formtype2 !== null && $this->typeRepo2 !== null) {
+            $entity2List = $em->getRepository($this->typeRepo2)
+                ->getAll();
+            //$entity2 = new $this->type2;
+            $form2 = $this->controller->createForm($this->formtype2, $entity2);
+        }
+
+        $a['entity1'] = $entity1;
+        $a['entity1List'] = $entity1List;
+        $a['form1'] = $form1;
+
+        $a['entity2'] = $entity2;
+        $a['entity2List'] = $entity2List;
+        $a['form2'] = $form2;
+
+        return $a;
+    }
+
     public function createEntitiesFormsAndLists()
     {
         $a = array();
@@ -83,4 +116,5 @@ class ControllerFormSuccessPlugin
             ));
         }
     }
+
 }

@@ -13,7 +13,7 @@ class PageController extends Controller
         $filter['country']='BE';
         $filter['topNLatest']=10;
 
-        $observations = $this->get('observations_provider')->loadObservationsByFilter($filter);
+        $observations = $this->get('observations_provider')->loadObservationsByFilter($filter,true);
         return $this->render('AppBundle:Page:index.html.twig', array(
             'observations'=>$observations
         ));
@@ -27,6 +27,10 @@ class PageController extends Controller
     public function aboutNecropsiesAction()
     {
         return $this->render('AppBundle:Page:about-necropsies.html.twig');
+    }
+
+    public function aboutBiobankAction(){
+        return $this->render('AppBundle:Page:about-biobank.html.twig');
     }
 
 }

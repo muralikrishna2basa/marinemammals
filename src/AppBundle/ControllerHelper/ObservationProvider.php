@@ -89,9 +89,14 @@ class ObservationProvider
         return $observation;
     }
 
-    public function loadObservationsByFilter($filter)
+    public function loadObservationsByFilter($filter,$fast)
     {
-        $filterBuilder = $this->repo->getCompleteObservationsQb();
+        if($fast){
+            $filterBuilder = $this->repo->getFastObservationsQb();
+        }
+        else{
+            $filterBuilder = $this->repo->getCompleteObservationsQb();
+        }
 
         $excludeConfidential=null;
         $country = null;
@@ -183,22 +188,36 @@ class ObservationProvider
             $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
             $filterBuilder->setParameter('stnSeqno', $stn);
         }
-        $q = $filterBuilder->getQuery()->getSql();
-        return $filterBuilder->getQuery()->getResult();
+
+        if($fast){
+            return $filterBuilder->getQuery()->getScalarResult();
+        }
+        else{
+            return $filterBuilder->getQuery()->getResult();
+        }
     }
 
-    public function loadObservations($excludeConfidential, $excludeNonBelgian)
+    public function loadObservations($excludeConfidential, $excludeNonBelgian,$fast)
     {
-        $qb = $this->repo->getCompleteObservationsQb();
+        if($fast){
+            $qb = $this->repo->getFastObservationsQb();
+        }
+        else{
+            $qb = $this->repo->getCompleteObservationsQb();
+        }
         if ($excludeConfidential) {
             $qb = $qb->andWhere('o.isconfidential is null');
         }
         if ($excludeNonBelgian) {
             $qb = $qb->andWhere("p1.name='BE' or p2.name='BE' or p3.name='BE' or p4.name='BE'");
         }
-        return $qb->getQuery()->getResult();
+        if($fast){
+            return $qb->getQuery()->getScalarResult();
+        }
+        else{
+            return $qb->getQuery()->getResult();
+        }
     }
-
 
     private function filterByStation($stations, $filterBuilder)
     {
@@ -210,47 +229,4 @@ class ObservationProvider
         }
         return $filterBuilder;
     }
-
-    /*public function supplementCgDescriptionMultiple($observations)
-{
-    foreach ($observations as $o) {
-        $this->supplementCgDescriptionSingle($o);
-    }
-    return $observations;
-}
-
-private function supplementCgDescriptionSingle(Observations &$o)
-{
-    $this->cgRefCodesPropertiesSet->setAll($o);
-}*/
-    /*
-
-        private function filterByCountry($country, $observations)
-        {
-            if ($country !== '' and $country !== null) {
-                return array_filter($observations, function ($o) use ($country) {
-                    if ($o->getStnSeqno() !== null) {
-                        return $o->getStnSeqno()->getCountry() === $country;
-                    } else return false;
-
-                });
-            }
-            return $observations;
-        }
-        private function excludeConfidentialObservations($observations)
-        {
-            return array_filter($observations, function ($o) {
-                return $o->getIsconfidential() === null;
-            });
-        }
-
-        private function excludeNonBelgianObservations($observations)
-        {
-            return array_filter($observations, function ($e) {
-                if ($e->getStnSeqno() !== null) {
-                    return $e->getStnSeqno()->getCountry() === 'BE';
-                } else return false;
-            });
-        }
-    */
 }

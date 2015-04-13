@@ -3,19 +3,18 @@
     <table class="table table-striped simple-observationstable">
         <tbody>
         {% for o in observations %}
-            {% if o.eseSeqno.spec2events is defined and o.eseSeqno.spec2events is not null and o.eseSeqno.spec2events.scnSeqno is defined and o.eseSeqno.spec2events.scnSeqno is not null and o.eseSeqno.spec2events.scnSeqno.txnSeqno is defined and o.eseSeqno.spec2events.scnSeqno.txnSeqno is not null %}
+            {% if o.t_seqno is not null %}
                 <tr>
-                    <td>{{ o.eseSeqno.eventDatetime|date("d/m/Y") }}</td>
-                    <td>{{ o.osnTypeRef.rvMeaning }}</td>
+                    <td>{{ o.e_eventDatetime|date("d/m/Y") }}</td>
+                    <td>{{ o.cg1_rvMeaning }}</td>
                     <td>
                         <a href="
                 {% if app.user and is_granted('ROLE_ADMIN') %}
-                        {{ path('mm_observations_mgmtview', {'id': o.eseSeqno.seqno}) }}
+                        {{ path('mm_observations_mgmtview', {'id': o.e_seqno}) }}
                 {% else %}
-                        {{ path('mm_observations_view', {'id': o.eseSeqno.seqno}) }}
+                        {{ path('mm_observations_view', {'id': o.e_seqno}) }}
                 {% endif %}">
-                            {{ o.eseSeqno.spec2events.scnSeqno.txnSeqno.vernacularNameEn }}</a>
-
+                            {{ o.t_vernacularNameEn }}</a>
                     </td>
                 </tr>
             {% endif %}

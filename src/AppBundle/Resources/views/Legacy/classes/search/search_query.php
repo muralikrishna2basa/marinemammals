@@ -316,7 +316,6 @@ class BLP_Query
             }
             $this->sqlquery .= implode(",", $ordercomplete);
         }
-
     }
 
     /**

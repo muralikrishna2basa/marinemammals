@@ -619,6 +619,17 @@ class Persons
     }
 
     /**
+     * set grpName
+     * @param \AppBundle\Entity\Groups $grpName
+     * @return Persons
+     */
+    public function setGrpName($grpName)
+    {
+        $this->addGrpName($grpName);
+        return $this;
+    }
+
+    /**
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getEvent2Persons()

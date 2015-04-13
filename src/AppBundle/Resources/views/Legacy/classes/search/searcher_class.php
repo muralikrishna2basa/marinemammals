@@ -828,13 +828,13 @@ class Search_Samples extends BLP_Search
         $aliastable2 = $this->query->setTable("Cg_ref_codes");
         $aliastable3 = $this->query->setTable("Cg_ref_codes", "f"); // Force the table to be set
         $aliastable4 = $this->query->setTable("Cg_ref_codes", "f"); // Force the table to be set
-        $aliastable5 = $this->query->setTable("Cg_ref_codes", "f"); // Force the table to be set
+        //$aliastable5 = $this->query->setTable("Cg_ref_codes", "f"); // Force the table to be set
 
         $basecolumns = array('Seqno' => $aliastable1 . '.SEQNO',
             'Conservation Mode' => $aliastable2 . '.RV_MEANING',
             'Intended Use' => $aliastable3 . '.RV_MEANING',
             'Sample Type' => $aliastable4 . '.RV_MEANING',
-            'Availability' => $aliastable5 . '.AVAILABILITY'
+            //'Availability' => $aliastable5 . '.AVAILABILITY'
         );
 
         foreach ($basecolumns as $column => $alias) {
@@ -844,11 +844,11 @@ class Search_Samples extends BLP_Search
         $this->query->addJoin($aliastable1 . '.CONSERVATION_MODE =' . $aliastable2 . '.RV_LOW_VALUE');
         $this->query->addJoin($aliastable1 . '.ANALYZE_DEST =' . $aliastable3 . '.RV_LOW_VALUE');
         $this->query->addJoin($aliastable1 . '.SPE_TYPE =' . $aliastable4 . '.RV_LOW_VALUE');
-        $this->query->addJoin($aliastable1 . '.AVAILABILITY =' . $aliastable5 . '.RV_LOW_VALUE');
+        //$this->query->addJoin($aliastable1 . '.AVAILABILITY =' . $aliastable5 . '.RV_LOW_VALUE');
         $this->query->addJoin($aliastable2 . '.RV_DOMAIN = \'CONSERVATION_MODE\'');
         $this->query->addJoin($aliastable3 . '.RV_DOMAIN = \'ANALYZE_DEST\'');
         $this->query->addJoin($aliastable4 . '.RV_DOMAIN = \'SAMPLE_TYPE\'');
-        $this->query->addJoin($aliastable5 . '.RV_DOMAIN = \'AVAILABILITY\'');
+        //$this->query->addJoin($aliastable5 . '.RV_DOMAIN = \'AVAILABILITY\'');
 
         $filter = array('Filter_Sample_Conservation_mode',
             'Filter_Sample_Organs',

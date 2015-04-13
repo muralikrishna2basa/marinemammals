@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Groups
  *
  * @ORM\Table(name="GROUPS")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\GroupsRepository")
  */
 class Groups
 {
@@ -59,8 +59,6 @@ class Groups
      *
      * @ORM\Column(name="NAME", type="string", length=30)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="GROUPS_NAME_seq", allocationSize=1, initialValue=1)
      */
     private $name;
 
@@ -246,6 +244,17 @@ class Groups
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set name
+     * @param string $name
+     * @return Groups
+     */
+    public function setName($name)
+    {
+        $this->name=$name;
+        return $this;
     }
 
     /**

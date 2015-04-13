@@ -21,22 +21,22 @@
     </thead>
     {% for e in entities %}
         <tr>
-            <td>{% if e.stnSeqno is defined and e.stnSeqno is not null %}{{ e.stnSeqno.areaType }} {% endif %}</td>
-            <td>{% if e.stnSeqno is defined and e.stnSeqno is not null %}{{ e.stnSeqno.placeName }} {% endif %}</td>
-            <td>{% if e.stnSeqno is defined and e.stnSeqno is not null %}{{ e.stnSeqno.description }} {% endif %}</td>
-            <td>{{ e.latDec }}</td>
-            <td>{{ e.lonDec }}</td>
-            <td>{{ e.eseSeqno.eventDatetime|date("d/m/Y") }}</td>
-            <td>{{ e.osnTypeRef.rvMeaning }}</td>
-            <td>{% if e.eseSeqno.spec2events is defined and e.eseSeqno.spec2events is not null and e.eseSeqno.spec2events.scnSeqno is defined and e.eseSeqno.spec2events.scnSeqno is not null and e.eseSeqno.spec2events.scnSeqno.txnSeqno is defined and e.eseSeqno.spec2events.scnSeqno.txnSeqno is not null %}
-                    <i>{{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName }}</i> ({{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.vernacularNameEn }}){% endif %}
+            <td>{% if e.st_seqno is not null %}{{ e.st_areaType }} {% endif %}</td>
+            <td>{% if e.p1_seqno is not null %}{{ e.p1_name }} {% endif %}</td>
+            <td>{% if e.st_seqno is not null %}{{ e.st_description }} {% endif %}</td>
+            <td>{{ e.o_latDec }}</td>
+            <td>{{ e.o_lonDec }}</td>
+            <td>{{ e.e_eventDatetime|date("d/m/Y") }}</td>
+            <td>{{ e.cg1_rvMeaning }}</td>
+            <td>{% if e.t_seqno is not null %}
+                    <i>{{ e.t_canonicalName }}</i> ({{ e.t_vernacularNameEn }}){% endif %}
             </td>
             <td>
                 <a href="
                 {% if app.user and is_granted('ROLE_ADMIN') %}
-                        {{ path('mm_observations_mgmtview', {'id': e.eseSeqno.seqno}) }}
+                        {{ path('mm_observations_mgmtview', {'id': e.e_seqno}) }}
                 {% else %}
-                        {{ path('mm_observations_view', {'id': e.eseSeqno.seqno}) }}
+                        {{ path('mm_observations_view', {'id': e.e_seqno}) }}
                 {% endif %}">
                     VIEW OBSERVATION</a></td>
         </tr>

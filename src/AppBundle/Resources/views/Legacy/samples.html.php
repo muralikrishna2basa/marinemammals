@@ -16,10 +16,10 @@ $db = $Layout->getDatabase();
 
 //$auth = $Layout->getAuth();
 
-$Layout->addHead(array('<link rel="stylesheet" type="text/css" href="css/Biobank.css" />',
-						'<link rel="stylesheet" type="text/css" href="css/search.css" />',
-						'<script type="text/javascript" src="js/search_plugin.js"></script>',
-						'<script type="text/javascript" src="js/Biobank.js"></script>'));
+$Layout->addHead(array('<link rel="stylesheet" type="text/css" href="/legacy/css/Biobank.css" />',
+						'<link rel="stylesheet" type="text/css" href="/legacy/css/search.css" />',
+						'<script type="text/javascript" src="/legacy/js/search_plugin.js"></script>',
+						'<script type="text/javascript" src="/legacy/js/Biobank.js"></script>'));
 
 /*$navigation_list = array("#description_biobank"=>"Description","#manage_samples"=>"Search for Samples",
 						 "#agreement_biobank" =>"Order ( Agreement)","#order_samples"=>"Order ( Review)");
@@ -29,9 +29,9 @@ $Layout->addNavigationList('biobank_navigation',$navigation_list,true);
 	
 $Layout->addHiddenNavigation('biobank_navigation',array("#agreement_biobank","#order_samples"));					 */
 						 
-
+/*
 $description_biobank_inc = include(Includes.'description_biobank.php');
-$Layout->addContent('<div id = "description_biobank">'.$description_biobank_inc.'</div>');
+$Layout->addContent('<div id = "description_biobank">'.$description_biobank_inc.'</div>');*/
 
 $agreement_biobank_inc = include(Includes.'agreement_biobank.php');
 $Layout->addContent('<div id = "agreement_biobank">'.$agreement_biobank_inc.'</div>');

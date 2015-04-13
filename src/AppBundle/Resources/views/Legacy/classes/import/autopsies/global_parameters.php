@@ -40,7 +40,7 @@ $basicParamsStr = "'" . implode("','", $basicParams) . "'";
 $externalPathParams = array('LEBITE', 'LEBROB', 'LECUTS', 'LEENLE', 'LEFINA', 'LEHBIT', 'LEHCUT', 'LEHNET', 'LEHOPW', 'LEHPOX', 'LEHYPO', 'LENETM', 'LENETP', 'LENETS', 'LENETT', 'LEOPEN', 'LEOTH', 'LESCBI', 'LESCPI', 'LESTAB', 'OTHEXT', 'OTHFIS', 'OTHFRO', 'OTHOIL', 'OTHPRE', 'OTHREM', 'REMA');
 
 $allParams = array_merge($basicParams, $externalPathParams);
-$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'basic' else 'pathology' end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name,b.code";
+$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else 'External examination' end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name,b.code";
 
 $res = $db->query($sql);
 

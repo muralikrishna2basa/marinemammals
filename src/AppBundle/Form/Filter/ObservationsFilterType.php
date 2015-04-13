@@ -104,7 +104,7 @@ class ObservationsFilterType extends AbstractType
             'class' => 'AppBundle:Taxa',
             'property' => 'fullyQualifiedName',
             'query_builder' => function (TaxaRepository $er) {
-                return $er->getAllTaxaQb();
+                return $er->getAllEuropeanTaxaQb();
             }
         ));
     }

@@ -671,6 +671,12 @@ AppBundle\Entity\Sources:
                      min: 0
                      max: 50
 AppBundle\Entity\Taxa:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: idodId
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [canonicalName, scientificNameAuthorship]
+            errorPath: scientificNameAuthorship
+            message: 'The formal scientific species name (name+author) already occurs in the database. Please change.'
     properties:
         idodId:
                 - NotBlank: ~

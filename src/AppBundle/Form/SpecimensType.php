@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Repository\TaxaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\ChoiceList\CgRefChoiceList;
@@ -42,6 +43,7 @@ class SpecimensType extends AbstractType
             'empty_value' => 'Select...',
             'required' => true,
             'class' => 'AppBundle:Taxa',
+            'query_builder'=> function(TaxaRepository $er){return $er->getAllEuropeanTaxaQb();},
             'property' => 'canonicalName'
         ));
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($builder) {

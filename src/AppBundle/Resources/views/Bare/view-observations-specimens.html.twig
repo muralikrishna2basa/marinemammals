@@ -19,7 +19,7 @@
     <tbody>
     <tr>
         <td>Date</td>
-        <td>{{ observation.eseSeqno.eventDatetime.date }}<span
+        <td>{{ observation.eseSeqno.eventDatetime.date|date("m/d/Y H:i") }}<span
                     data-tooltip="{{ observation.eseSeqno.eventDatetimeFlagRef.rvMeaning }}"
                     class="fa fa-clock-o has-clock-tooltip"></span></td>
     </tr>
@@ -51,13 +51,15 @@
     {% endif %}
     <tr>
         <td>Decimal latitude</td>
-        <td>{{ observation.latDec }}{% if observation.latDec %}<span
+        <td>{% if observation.latDec %}{{ observation.latDec }}{% else %}No coordinate given{% endif %}
+            {% if observation.latDec %} <span
                 data-tooltip="{% if observation.precisionFlag == null %}imprecise coordinate{% else %}precise coordinate{% endif %}"
                 class="has-map-tooltip"></span>{% endif %}</td>
     </tr>
     <tr>
         <td>Decimal longitude</td>
-        <td>{{ observation.lonDec }}{% if observation.latDec %}<span
+        <td>{% if observation.lonDec %}{{ observation.lonDec }}{% else %}No coordinate given{% endif %}
+            {% if observation.lonDec %}<span
                 data-tooltip="{% if observation.precisionFlag == null %}imprecise coordinate{% else %}precise coordinate{% endif %}"
                 class="has-map-tooltip"></span>{% endif %}</td>
     </tr>
@@ -82,10 +84,18 @@
             <td>{{ observation.eseSeqno.spec2events.collection.value }}</td>
         </tr>
     {% endif %}
+    {% if observation.eseSeqno.spec2events.scnSeqno.rbinsTag %}
     <tr>
         <td>RBINS tag</td>
         <td>{{ observation.eseSeqno.spec2events.scnSeqno.rbinsTag }}</td>
     </tr>
+    {% endif %}
+    {% if observation.eseSeqno.spec2events.scnSeqno.necropsyTag %}
+    <tr>
+        <td>Collection tag</td>
+        <td>{{ observation.eseSeqno.spec2events.scnSeqno.necropsyTag }}</td>
+    </tr>
+    {% endif %}
     {% if observation.eseSeqno.hasNecropsyAttached %}
         <tr>
             <td>Necropsied</td>
@@ -94,10 +104,7 @@
                     Necropsy done, no autopsy or lab reference{% endif %}</td>
         </tr>
     {% endif %}
-    <tr>
-        <td>Collection tag</td>
-        <td>{{ observation.eseSeqno.spec2events.scnSeqno.necropsyTag }}</td>
-    </tr>
+
     </tbody>
 </table>
 

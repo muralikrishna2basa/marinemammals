@@ -32,11 +32,19 @@ class ObservationsRepository extends EntityRepository
         return ($res);
     }
 
+    public function getFastObservationsQb()
+    {
+        return $this->buildObservationQuery()->select('partial o.{eseSeqno,precisionFlag,creDat,isconfidential,latDec,lonDec,stnSeqno}, partial st.{seqno,areaType,description,pceSeqno, code,latDec,lonDec}, partial p1.{seqno,pceSeqno,name,type}, partial p2.{seqno,pceSeqno,name,type},partial p3.{seqno,pceSeqno,name,type}, partial e.{seqno,eventDatetime, description}, partial ncy.{eseSeqno},partial s2e.{eseSeqno,scnSeqno}, partial s.{seqno,scnNumber,sex,creDat,txnSeqno}, partial t.{seqno,canonicalName,scientificNameAuthorship,taxonrank,vernacularNameEn},partial cg1.{seqno,rvLowValue,rvMeaning},partial cg2.{seqno,rvLowValue,rvMeaning},partial cg2.{seqno,rvLowValue,rvMeaning}');
+    }
+
     public function getCompleteObservationsQb()
     {
+        return $this->buildObservationQuery()->select('o,st,p1,p2,p3,e,ncy,s2e,s,t');
+    }
+
+    private function buildObservationQuery()
+    {
         return $this->createQueryBuilder('o')
-            //->select('partial o.{eseSeqno,osnType,precisionFlag,creDat,isconfidential,samplingeffort,latDec,lonDec,stnSeqno}, partial st.{seqno,areaType,description,pceSeqno, code,latDec,lonDec}, partial p1.{seqno,pceSeqno,name,type}, partial p2.{seqno,pceSeqno,name,type},partial p3.{seqno,pceSeqno,name,type}, partial e.{seqno,eventDatetime,eventDatetimeFlag, description}, partial s2e.{eseSeqno,scnSeqno}, partial s.{seqno,scnNumber,sex,creDat,txnSeqno}, partial t.{seqno,canonicalName,scientificNameAuthorship,taxonrank,vernacularNameEn}')
-            ->select('o,st,p1,p2,p3,e,ncy,s2e,s,t')
             ->join('o.stnSeqno', 'st')
             ->leftJoin('o.osnTypeRef', 'cg1')
             ->leftJoin('o.samplingeffortRef', 'cg2')

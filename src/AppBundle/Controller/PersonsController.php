@@ -4,6 +4,9 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Groups;
+use AppBundle\Entity\Persons;
+use AppBundle\Entity\Institutes;
 
 class PersonsController extends Controller
 {
@@ -11,18 +14,35 @@ class PersonsController extends Controller
     public function newAction()
     {
         $cp = new ControllerFormSuccessPlugin($this, 'AppBundle\Entity\Persons', 'AppBundle\Entity\Institutes', 'personstype', 'institutestype', 'AppBundle:Persons', 'AppBundle:Institutes', 'AppBundle:Page:add-persons.html.twig');
-        return $cp->createEntitiesAndRenderForm('na', 'na');
+        //return $cp->createEntitiesAndRenderForm('na', 'na');
+        //$group = $this->getDoctrine()->getManager()->getRepository('AppBundle:Groups')->findByName('OBSERVER');
+        //$group = new Groups();
+        $person = new Persons();
+        //$person->addGrpName($group);
+        $institute = new Institutes();
+
+        $a = $cp->createFormsAndLists($person, $institute);
+
+        return $cp->renderForm($a['form1'], $a['entity1List'], 'na', $a['form2'], $a['entity2List'], 'na');
     }
 
     public function createAction(Request $request)
     {
         $cp = new ControllerFormSuccessPlugin($this, 'AppBundle\Entity\Persons', 'AppBundle\Entity\Institutes', 'personstype', 'institutestype', 'AppBundle:Persons', 'AppBundle:Institutes', 'AppBundle:Page:add-persons.html.twig');
 
-        $a = $cp->createEntitiesFormsAndLists();
+        $group = new Groups();
+        $person = new Persons();
+        $person->addGrpName($group);
+        $institute = new Institutes();
+
+        $a = $cp->createFormsAndLists($person, $institute);
 
         $person = $a['entity1'];
         $persons = $a['entity1List'];
         $pform = $a['form1'];
+
+        /* $group = new Groups();
+         $person->addGrpName($group);*/
 
         $institute = $a['entity2'];
         $institutes = $a['entity2List'];

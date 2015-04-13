@@ -79,6 +79,7 @@ class Page
 
     public function __toString()
     {
+
         $content = $this->buildContent();
 
         $wrapper = "<div id='Layout_wrapper'>$content</div>";
@@ -177,13 +178,14 @@ class Page
                             <ul class="dropdown-menu">
                                 <li><a href="/observations/about">Strandings and observations</a></li>
                                 <li><a href="/necropsies/about">Necropsies</a></li>
+                                <li><a href="/samples/about">Biobank</a></li>
                             </ul>
                         </li>
                         <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Browse data<span
                                 class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/observations">Strandings and observations</a></li>
-                                <li><a href="/samples">Tissue bank</a></li>
+                                <li><a href="/samples">Biobank</a></li>
                             </ul>
                         </li>
 

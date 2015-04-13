@@ -24,9 +24,8 @@ if(isset($_GET['disagree_agreement']) && is_string($_GET['disagree_agreement']) 
 
 ?>
 <div id ="agreement_list">
-<p>The applicant agrees to the following general terms and conditions, 
-for the use of marine mammal tissues held at the BMMB 
-(a request from a student must be countersigned by the su-pervisor of the work or the head of the laboratory).
+<p>The applicant agrees to the following general terms and conditions, for the use of marine mammal tissues held at the BMMB
+(a request from a student must be countersigned by the supervisor of the work or the head of the laboratory).
  The applicant must provide the requested information where appropriate (items 1, 2) </p>
 
 <ol>

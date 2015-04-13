@@ -638,18 +638,20 @@ class Filter_Sample_Aut_Ref extends BLP_Filter
 
     public function process($token, $item = false)
     {
-        $tblalias1 = $this->query->setTable('Necropsies');
-        $tblalias2 = $this->query->setTable('Lesions2sample');
-        $tblalias3 = $this->query->setTable('Samples');
+        $necropsies = $this->query->setTable('Necropsies');
+        $organLesions= $this->query->setTable('organ_lesions');
+        $lesions2sample = $this->query->setTable('Lesions2sample');
+        $samples = $this->query->setTable('Samples');
 
-        $this->query->addColumn('Ref_aut', $tblalias1 . '.REF_AUT');
+        $this->query->addColumn('Ref_aut', $necropsies . '.REF_AUT');
 
         if (!in_array($token, $this->tokens)) {
             $token = $this->tokens[0];
         }  // if the operator is unknown, then choose the first one
 
-        $this->query->addJoin($tblalias1 . '.ESE_SEQNO=' . $tblalias2 . '.OLN_NCY_ESE_SEQNO');
-        $this->query->addJoin($tblalias3 . '.SEQNO=' . $tblalias2 . '.SPE_SEQNO');
+        $this->query->addJoin($necropsies . '.ESE_SEQNO=' . $organLesions . '.NCY_ESE_SEQNO');
+        $this->query->addJoin($organLesions . '.SEQNO=' . $lesions2sample . '.OLN_SEQNO');
+        $this->query->addJoin($samples . '.SEQNO=' . $lesions2sample . '.SPE_SEQNO');
 
         if (!$item) {
             return;
@@ -657,10 +659,10 @@ class Filter_Sample_Aut_Ref extends BLP_Filter
 
         switch ($token) {
             case "like";
-                $this->query->addWhere(array('lower(' . $tblalias1 . '.REF_AUT) ' . $token . ' lower(', array("%$item%"), ')'));
+                $this->query->addWhere(array('lower(' . $necropsies . '.REF_AUT) ' . $token . ' lower(', array("%$item%"), ')'));
                 break;
             default:
-                $this->query->addWhere(array($tblalias1 . '.REF_AUT ' . $token, array($item)));
+                $this->query->addWhere(array($necropsies . '.REF_AUT ' . $token, array($item)));
                 break;
         }
 
@@ -732,7 +734,6 @@ class Filter_Sample_Date_Found extends BLP_Filter
     {
         $this->name = 'Date Found';
         //	$this->allowedgrouplevel = 3;
-
     }
 
     public function initTokens()
@@ -784,18 +785,20 @@ class Filter_Sample_Ref_Labo extends BLP_Filter
 
     public function process($token, $item = false)
     {
-        $tblalias1 = $this->query->setTable('Necropsies');
-        $tblalias2 = $this->query->setTable('Lesions2sample');
-        $tblalias3 = $this->query->setTable('Samples');
+        $necropsies = $this->query->setTable('Necropsies');
+        $organLesions= $this->query->setTable('organ_lesions');
+        $lesions2sample = $this->query->setTable('Lesions2sample');
+        $samples = $this->query->setTable('Samples');
 
-        $this->query->addColumn('Ref_labo', $tblalias1 . '.REF_LABO');
+        $this->query->addColumn('Ref_labo', $necropsies . '.REF_LABO');
 
         if (!in_array($token, $this->tokens)) {
             $token = $this->tokens[0];
         }  // if the operator is unknown, then choose the first one
 
-        $this->query->addJoin($tblalias1 . '.ESE_SEQNO=' . $tblalias2 . '.OLN_NCY_ESE_SEQNO');
-        $this->query->addJoin($tblalias3 . '.SEQNO=' . $tblalias2 . '.SPE_SEQNO');
+        $this->query->addJoin($necropsies . '.ESE_SEQNO=' . $organLesions . '.NCY_ESE_SEQNO');
+        $this->query->addJoin($organLesions . '.SEQNO=' . $lesions2sample . '.OLN_SEQNO');
+        $this->query->addJoin($samples . '.SEQNO=' . $lesions2sample . '.SPE_SEQNO');
 
         if (!$item) {
             return;
@@ -803,10 +806,10 @@ class Filter_Sample_Ref_Labo extends BLP_Filter
 
         switch ($token) {
             case "like";
-                $this->query->addWhere(array('lower(' . $tblalias1 . '.REF_LABO) ' . $token . ' lower(', array("%$item%"), ')'));
+                $this->query->addWhere(array('lower(' . $necropsies . '.REF_LABO) ' . $token . ' lower(', array("%$item%"), ')'));
                 break;
             default:
-                $this->query->addWhere(array($tblalias1 . '.REF_LABO ' . $token, array($item)));
+                $this->query->addWhere(array($necropsies . '.REF_LABO ' . $token, array($item)));
                 break;
         }
 
@@ -846,7 +849,6 @@ class Filter_Sample_Availability extends BLP_Filter
         $column = $tblalias . ".AVAILABILITY";
         $this->query->addWhere(array("lower($column )" . $token, array($item)));
     }
-
 }
 
 class Filter_Sample_Seqno extends BLP_Filter
@@ -956,43 +958,41 @@ class Filter_Sample_Specimen extends BLP_Filter
 
     public function process($token = '<|>', $item = false)
     {
-        $tblalias1 = $this->query->setTable('Samples');
-        $tblalias2 = $this->query->setTable('Specimens');
-        $tblalias3 = $this->query->setTable('Spec2events');
-        $tblalias4 = $this->query->setTable('Event_states');
-        $tblalias5 = $this->query->setTable('Lesions2sample');
-        $tblalias6 = $this->query->setTable('Taxas');
-
+        $samples = $this->query->setTable('Samples');
+        $specimens = $this->query->setTable('Specimens');
+        $spec2events = $this->query->setTable('Spec2events');
+        $eventStates = $this->query->setTable('Event_states');
+        $organLesions = $this->query->setTable('organ_lesions');
+        $lesions2sample = $this->query->setTable('Lesions2sample');
+        $taxa = $this->query->setTable('Taxa');
 
         if (!in_array($token, $this->tokens)) {
             $token = $this->tokens[0];
         }  // if the operator is unknown, then choose the first one
 
 
-        $this->query->addJoin($tblalias2 . '.TXN_SEQNO =' . $tblalias6 . '.IDOD_ID');
-        $this->query->addJoin($tblalias3 . '.SCN_SEQNO = ' . $tblalias2 . '.SEQNO');
-        $this->query->addJoin($tblalias4 . '.SEQNO = ' . $tblalias3 . '.ESE_SEQNO');
-        $this->query->addJoin($tblalias4 . '.SEQNO=' . $tblalias5 . '.OLN_NCY_ESE_SEQNO');
-        $this->query->addJoin($tblalias5 . '.SPE_SEQNO=' . $tblalias1 . '.SEQNO');
+        $this->query->addJoin($specimens . '.TXN_SEQNO =' . $taxa . '.SEQNO');
+        $this->query->addJoin($spec2events . '.SCN_SEQNO = ' . $specimens . '.SEQNO');
+        $this->query->addJoin($eventStates . '.SEQNO = ' . $spec2events . '.ESE_SEQNO');
+        $this->query->addJoin($organLesions . '.NCY_ESE_SEQNO=' . $eventStates . '.SEQNO');
+        $this->query->addJoin($organLesions . '.SEQNO=' . $lesions2sample . '.OLN_SEQNO');
+        $this->query->addJoin($lesions2sample . '.SPE_SEQNO=' . $samples . '.SEQNO');
 
-        $this->query->addColumn('Taxa', $tblalias6 . '.TRIVIAL_NAME');
-        $this->query->addColumn('Idod_id', $tblalias6 . '.IDOD_ID');
+        $this->query->addColumn('Taxa', $taxa . '.VERNACULAR_NAME_EN');
+        $this->query->addColumn('Idod_id', $taxa . '.IDOD_ID');
 
         if (!$item) {
             return;
         }
         switch ($token) {
             case "like";
-                $this->query->addWhere(array('lower(' . $tblalias6 . '.TRIVIAL_NAME) ' . $token . ' lower(', array("%$item%"), ')'));
+                $this->query->addWhere(array('lower(' . $taxa . '.VERNACULAR_NAME_EN) ' . $token . ' lower(', array("%$item%"), ')'));
                 break;
             default:
-                $this->query->addWhere(array($tblalias6 . '.TRIVIAL_NAME ' . $token, array($item)));
+                $this->query->addWhere(array($taxa . '.VERNACULAR_NAME_EN ' . $token, array($item)));
                 break;
         }
-
-
     }
-
 }
 
 class Filter_Order_by_PersonId extends BLP_Filter
@@ -1390,7 +1390,6 @@ class Filter_Sample_Sample_Type extends BLP_Filter
     public function initName()
     {
         $this->name = 'Sample Type';
-
     }
 
     public function initTokens()
@@ -1401,7 +1400,7 @@ class Filter_Sample_Sample_Type extends BLP_Filter
     public function initDomain()
     {
         $list_items = 'SAMPLE_TYPE';
-        $sql = "select lower(rv_meaning) as $list_items from cg_ref_codes where rv_domain = 'SPE_TYPE'";
+        $sql = "select lower(rv_meaning) as $list_items from cg_ref_codes where rv_domain = 'SAMPLE_TYPE'";
         $this->AddDomain($sql, $list_items);
     }
 
@@ -1481,16 +1480,20 @@ class Filter_Sample_Organs extends BLP_Filter
 
     public function process($token, $item = false)
     {
-        $tblalias = $this->query->setTable('Samples');
-        $tblalias2 = $this->query->setTable('Organs');
-        $tblalias3 = $this->query->setTable('Lesions2sample');
-        $this->query->addColumn('Organ', $tblalias2 . '.NAME');
+        $samples = $this->query->setTable('Samples');
+        $organs = $this->query->setTable('Organs');
+        $lesions2sample = $this->query->setTable('Lesions2sample');
+        $organLesions = $this->query->setTable('organ_lesions');
+        $lesionTypes = $this->query->setTable('lesion_types');
+        $this->query->addColumn('Organ', $organs . '.NAME');
         if (!in_array($token, $this->tokens)) {
             $token = $this->tokens[0];
         }  // if the operator is unknown, then choose the first one
 
-        $this->query->addJoin($tblalias . '.SEQNO=' . $tblalias3 . '.SPE_SEQNO');
-        $this->query->addJoin($tblalias2 . '.CODE=' . $tblalias3 . '.OLN_LTE_OGN_CODE');
+        $this->query->addJoin($samples . '.SEQNO=' . $lesions2sample . '.SPE_SEQNO');
+        $this->query->addJoin($organLesions . '.SEQNO=' . $lesions2sample . '.OLN_SEQNO');
+        $this->query->addJoin($lesionTypes . '.SEQNO=' . $organLesions . '.LTE_SEQNO');
+        $this->query->addJoin($organs . '.CODE=' . $lesionTypes . '.OGN_CODE');
 
         if (!$item) {
             return;
@@ -1498,14 +1501,12 @@ class Filter_Sample_Organs extends BLP_Filter
 
         switch ($token) {
             case "like";
-                $this->query->addWhere(array('lower(' . $tblalias2 . '.NAME) ' . $token . ' lower(', array("%$item%"), ')'));
+                $this->query->addWhere(array('lower(' . $organs . '.NAME) ' . $token . ' lower(', array("%$item%"), ')'));
                 break;
             default:
-                $this->query->addWhere(array($tblalias2 . '.NAME ' . $token, array($item)));
+                $this->query->addWhere(array($organs . '.NAME ' . $token, array($item)));
                 break;
         }
-
-
     }
 }
 

@@ -48,6 +48,13 @@ class Taxa
     private $vernacularNameEn;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="PRESENT_IN_EUROPE", type="boolean", nullable=true)
+     */
+    private $presentInEurope;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="SEQNO", type="integer")
@@ -56,8 +63,6 @@ class Taxa
      * @ORM\SequenceGenerator(sequenceName="taxa_seq", allocationSize=1, initialValue=1)
      */
     private $seqno;
-
-
 
     /**
      * Set canonicalName
@@ -183,6 +188,25 @@ class Taxa
     {
         return $this->seqno;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isPresentInEurope()
+    {
+        return $this->presentInEurope;
+    }
+
+    /**
+     * @param boolean $presentInEurope
+     * @return Taxa
+     */
+    public function setPresentInEurope($presentInEurope)
+    {
+        $this->presentInEurope = $presentInEurope;
+        return $this;
+    }
+
 
     public function getFullyQualifiedName(){
         return $this->getCanonicalName().' ('.$this->getVernacularNameEn().')';

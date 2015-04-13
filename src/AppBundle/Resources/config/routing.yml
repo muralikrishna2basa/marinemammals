@@ -34,6 +34,12 @@ mm_necropsies_about:
     requirements:
         _method:  GET
 
+mm_samples_about:
+    pattern:  /samples/about
+    defaults: { _controller: AppBundle:Page:aboutBiobank }
+    requirements:
+        _method:  GET
+
 mm_observations_index:
     pattern:  /observations
     defaults: { _controller: AppBundle:ObservationsRetrieval:index }

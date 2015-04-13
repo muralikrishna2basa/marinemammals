@@ -185,7 +185,7 @@ $samples->renderer->setCurrentPage($search_page);
 
 $samples->renderer->sortColumns(array('Seqno', 'Taxa', 'Organ', 'Conservation Mode', 'Intended Use', 'Date Found', 'Country', 'Availability'));
 
-echo $samples; //todo put back!!
+echo $samples;
 
 // store the resulting query 
 $bindings = $samples->query->bindings;

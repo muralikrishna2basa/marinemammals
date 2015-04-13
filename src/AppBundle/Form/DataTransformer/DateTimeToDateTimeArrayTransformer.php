@@ -40,8 +40,13 @@ class DateTimeToDateTimeArrayTransformer implements DataTransformerInterface
         $date = $array['date'];
         $time = $array['time'];
 
-        if(null == $date || null == $time)
-            return null;
+        if(null === $date)
+        {return null;}
+        if(null === $time)
+        {
+            $time=new \DateTime();
+            $time->setTime(0, 0, 0);
+        }
         $date->setTimezone(new \DateTimeZone('Europe/Paris'));
         $date->setTime($time->format('G'), $time->format('i'));
 
