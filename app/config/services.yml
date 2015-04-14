@@ -8,12 +8,6 @@ services:
         tags:
             - { name: form.type_extension, alias: choice }
 
-    type.group_select:
-        class: AppBundle\Form\GroupsSelectType
-        arguments: [@doctrine.orm.entity_manager]
-        tags:
-          - { name: form.type, alias: group_select }
-
     type.stationstype:
         class: AppBundle\Form\StationsType
         arguments: ["@doctrine.orm.entity_manager"]

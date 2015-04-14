@@ -35,11 +35,6 @@ class PersonsType extends AbstractType
         $builder->add('sex', 'choice', array('empty_value' => 'Select...', 'required' => true, 'choice_list' => new CgRefChoiceList($this->doctrine, 'SEX')));
         $builder->add('title', 'choice', array('empty_value' => 'Select or leave empty...', 'required' => false, 'choice_list' => new CgRefChoiceList($this->doctrine, 'PSN_TITLE')));
         $builder->add('idodId', 'integer', array('required' => false));
-        /*$builder->add('grpName', 'collection', array('type' => 'group_select',
-            'allow_add' => true,
-            'allow_delete' => true,
-            'delete_empty' => true
-        ));*/
         $builder->add('grpName', 'entity', array(
             'class' => 'AppBundle:Groups',
             'property' => 'name',
@@ -48,16 +43,10 @@ class PersonsType extends AbstractType
             'multiple' => true,
             'expanded' => true,
             'required' => true,
-            /*'query_builder' => function (GroupsRepository $er) {
+            'query_builder' => function (GroupsRepository $er) {
                 return $er->getAllGroupsQb();
-            }*/
+            }
         ));
-        /*$builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($builder) {
-            $form = $event->getForm();
-            $p = $event->getData();
-            $grp=$form->get('grpName')->getData();
-            $p->addGrpName($grp);
-        });*/
     }
 
     public function getName()
