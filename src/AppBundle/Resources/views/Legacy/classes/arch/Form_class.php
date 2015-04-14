@@ -5,7 +5,8 @@
  *  Last Modified:23/12/2009
  *
  */
-require_once QuickForm2.'QuickForm2.php';
+//require_once QuickForm2.'QuickForm2.php';
+
 
 class Form extends HTML_QuickForm2
 {

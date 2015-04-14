@@ -26,7 +26,7 @@ class NecropsiesController extends Controller
 // symfony will now interface with the existing PHP session
         //$session->start();
         //return $this->forward()
-        return $this->render('AppBundle:Legacy:import.html.php');
+        return $this->render('AppBundle::import.html.php');
         //return new RedirectResponse('/legacy/Import.php',301);
     }
 }

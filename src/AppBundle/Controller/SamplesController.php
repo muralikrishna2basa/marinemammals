@@ -26,7 +26,7 @@ class SamplesController extends Controller
 // symfony will now interface with the existing PHP session
         //$session->start();
         //return $this->forward()
-        return $this->render('AppBundle:Legacy:samples.html.php');
+        return $this->render('AppBundle::samples.html.php');
         //return new RedirectResponse('/legacy/Import.php',301);
     }
 }
