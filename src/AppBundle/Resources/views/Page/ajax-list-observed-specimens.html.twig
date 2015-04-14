@@ -1,0 +1,61 @@
+{# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig  #}
+{% extends 'AppBundle::list-observations.html.twig' %}
+{% set baseparent='bare.html.twig' %}
+ {% block title %}Browse observations{% endblock %}
+{% block container %}
+    <div id="specimen-searcher">
+    {% include'AppBundle:Bare:mgmt-list-observed-specimens.html.twig' with {loadedByAjax: true} %}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="application/javascript">
+
+        function postForm( $form, callback ){
+            /*
+             * Get all form values
+             */
+            var values = {};
+            $.each( $form.serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+            /*
+             * Throw the form values to the server!
+             */
+            $.ajax({
+                type        : $form.attr( 'method' ),
+                url         : $form.attr( 'action' ),
+                data        : values,
+                success     : function(data) {
+                    callback( data );
+                }
+            });
+        }
+
+        $myself=$('div#specimen-searcher');
+
+        $(document).ready(function () {
+            /*$('input.submit').click(function(){
+                $.ajax({
+                    url: '/legacy/functions/autopsy_specimen_link.php',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: datatosend,
+                    success: function (data) {
+                        $('#autopsy_importation_tool div.specimen_card').html(data);
+                    }
+                });
+            });*/
+            $('form#observationfilterform').submit( function( e ){
+                e.preventDefault();
+
+                postForm( $(this), function( response ){
+                    $myself.html(response);
+                });
+
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+

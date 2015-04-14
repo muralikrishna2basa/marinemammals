@@ -64,6 +64,18 @@ mm_observations_mgmtfilter:
     requirements:
         _method:  GET
 
+mm_observed_specimens_mgmtindex:
+    pattern:  /ajax/observed-specimens
+    defaults: { _controller: AppBundle:ObservationsRetrieval:ajaxIndexSpecimen }
+    requirements:
+        _method:  GET
+
+mm_observed_specimens_mgmtfilter:
+    pattern:  /ajax/observed-specimens/filtered
+    defaults: { _controller: AppBundle:ObservationsRetrieval:ajaxFilterSpecimen }
+    requirements:
+        _method:  GET
+
 mm_observations_jsonexport:
     pattern:  /observations/json
     defaults: { _controller: AppBundle:ObservationsRetrieval:jsonExport }

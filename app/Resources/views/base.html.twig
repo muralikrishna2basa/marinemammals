@@ -1,29 +1,6 @@
-<!-- app/Resources/views/base.html.twig -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html" charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Marine Mammals">
-    <meta name="author" content="Thomas Vandenberghe">
-    <title>MM: {% block title %}{% endblock %}</title>
-    <link rel="shortcut icon"
-          href="http://www.odnature.be/assets/nav/logos/logo32x32.ico"/>
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-    {% stylesheets
-    'http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic|Patua+One|Yanone+Kaffeesatz'
-    'http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css'
-    'http://www.odnature.be/css/odnature.css'
-    '@AppBundle/Resources/public/css/mm.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
-    {% block stylesheets %}
-    {% endblock %}
-</head>
-<body>
+{% extends 'bare.html.twig' %}
+{% block container %}
+
 <div class="container">
     <header>
         <div class="top-links">
@@ -111,12 +88,11 @@
                                         {% if app.user and is_granted('ROLE_OBSERVATION_MGR') %}
                                             <li><a href="/mgmt/observations/add">Create
                                                     new</a></li>
-                                            <li><a href="/mgmt/observations/import">Batch
-                                                    import</a></li>
+                                            {#<li><a href="/mgmt/observations/import">Batch
+                                                    import</a></li>#}
                                         {% endif %}
                                         <li class="divider"></li>
                                         <li class="dropdown-header">Necropsies</li>
-                                        <li><a href="/mgmt/necropsies">Browse</a></li>
                                         {% if app.user and is_granted('ROLE_AUTOPSY_MGR') %}
                                             <li><a href="/mgmt/necropsies/add-edit">Create
                                                     new</a></li>
@@ -153,6 +129,8 @@
         {% block main_content %}{% endblock %}
     </div>
 </div>
+{% endblock %}
+{% block footer_container %}
 <footer>
     {% block footer %}
         <div class="container">
@@ -216,7 +194,9 @@
         </div>
     {% endblock %}
 </footer>
-<a href="#" class="scrollup">Scroll</a> {% block javascripts %}
+<a href="#" class="scrollup">Scroll</a>
+{% endblock %}
+{% block javascripts %}
     {% javascripts
     'http://code.jquery.com/jquery-1.11.2.min.js'
     'http://code.jquery.com/ui/1.11.2/jquery-ui.js'
@@ -226,9 +206,6 @@
     <script type="application/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
-
-</body>
-</html>
 
 
 

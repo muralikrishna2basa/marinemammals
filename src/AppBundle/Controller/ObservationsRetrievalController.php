@@ -58,6 +58,7 @@ class ObservationsRetrievalController extends Controller
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
     }
 /*--------------------------------------*/
+
     public function indexAction()
     {
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => true));
@@ -83,6 +84,25 @@ class ObservationsRetrievalController extends Controller
         $ps = new MgmtObservationIndexPropertiesSet();
         return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig', false, false, $ps,false);
     }
+
+    /*--------------------------------------*/
+
+    public function ajaxIndexSpecimenAction()
+    {
+        $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => false));
+        $observations = array();//$this->get('observations_provider')->loadObservations(false, false,false);
+        return $this->generalIndexAction('AppBundle:Page:ajax-list-observed-specimens.html.twig', $form, $observations);
+    }
+
+    public function ajaxFilterSpecimenAction(Request $request)
+    {
+        $ps = new MgmtObservationIndexPropertiesSet();
+        if ($request->isMethod('GET')) {
+            $request->query->add(array('submit' => true));
+            return $this->generalFilterAction($request, 'AppBundle:Page:ajax-list-observed-specimens.html.twig', false, false, $ps,false);
+        }
+    }
+
     /*--------------------------------------*/
     private function paginate($array)
     {

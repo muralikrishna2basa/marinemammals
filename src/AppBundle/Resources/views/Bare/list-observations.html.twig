@@ -1,4 +1,4 @@
-{{ include('AppBundle:Bare:filter-observations.html.twig') }}
+{% include 'AppBundle:Bare:filter-observations.html.twig' with {'include_path': 'mm_observations_filter', 'method': 'GET'} %}
 <div id="map"></div>
 <h2>List of Belgian strandings and observations</h2>
 <p class="count">

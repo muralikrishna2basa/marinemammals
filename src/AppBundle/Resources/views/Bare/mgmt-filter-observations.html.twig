@@ -1,4 +1,4 @@
-{{ form_start(form, {'method': 'GET','action': path('mm_observations_mgmtfilter'),'attr':{'id':'observationfilterform', 'novalidate':'true'}}) }}
+{{ form_start(form, {'method': method,'action': path(include_path),'attr':{'id':'observationfilterform', 'novalidate':'true'}}) }}
 <div class="well">
     <fieldset>
         <legend>Search observations</legend>
@@ -20,9 +20,11 @@
     <p>
         <input type="submit" value="Search" id="submit" name="submit" class="btn btn-od">
     </p>
-    <p>
-        <input type="submit" value="Download result" id="export" name="export" class="btn btn-od">
-    </p>
+    {% if loadedByAjax == false %}
+        <p>
+            <input type="submit" value="Download result" id="export" name="export" class="btn btn-od">
+        </p>
+    {% endif %}
 </div>
 {{ form_end(form) }}
 

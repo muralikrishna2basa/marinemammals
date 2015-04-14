@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets
+    '@AppBundle/Resources/public/css/jquery-ui.css'
     '@AppBundle/Resources/public/css/datepicker.css'
     '@AppBundle/Resources/public/css/font-awesome.css'
     'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css'
@@ -167,11 +168,52 @@
             });
 
             $(":input, textarea").keypress(function (evt) {
-
                 var keycode = evt.charCode || evt.keyCode;
                 if (keycode == 13) { //Enter key's keycode
                     return false;
                 }
+            });
+
+            var dialogName = 'div#specimen-searcher-modal';
+
+            $(dialogName).dialog({
+                autoOpen: false,
+                modal: true,
+                draggable: false,
+                open: function () {
+                    $(this).load('/ajax/observed-specimens');
+                },
+                height: 800,
+                width: 1400,
+                title: 'Search a specimen'
+            });
+
+
+            /*$('div#specimenmodal').load('/mgmt/observed-specimens').dialog({
+             autoOpen: false,
+             modal: true,
+             draggable: false
+             });*/
+
+            $('button#b_search_scn').click(function () {
+                $(dialogName).dialog('open');
+
+               /* var dialogName = 'div#specimenmodal';
+                $.ajax({
+                    url: "/mgmt/observed-specimens",
+                    data: {},
+                    success: function (data) {
+                        $(dialogName).remove();
+                        $(dialogName).html(data);
+                        $(dialogName)
+                                .dialog({
+                                    autoOpen: false,
+                                    modal: true,
+                                    draggable: false
+                                });
+                        $(dialogName).dialog('open');
+                    }
+                });*/
             });
 
 

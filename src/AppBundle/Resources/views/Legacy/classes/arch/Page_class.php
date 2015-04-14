@@ -224,11 +224,8 @@ class Page
                                         <li><a href="/mgmt/observations">Browse</a></li>
                                                                                     <li><a href="/mgmt/observations/add">Create
                                                     new</a></li>
-                                            <li><a href="/mgmt/observations/import">Batch
-                                                    import</a></li>
                                                                                 <li class="divider"></li>
                                         <li class="dropdown-header">Necropsies</li>
-                                        <li><a href="/mgmt/necropsies">Browse</a></li>
                                                                                     <li><a href="/mgmt/necropsies/add-edit">Create
                                                     new</a></li>
 
@@ -325,8 +322,10 @@ $body
         </div>
     </footer>
 <a href="#" class="scrollup">Scroll</a>
-
-        <script type="application/javascript">$('.nav').dropdown();</script>
+<script type="application/javascript" src="/legacy/js/bootstrap-dropdown.js"></script>
+<script type="application/javascript">
+$('.nav').dropdown();
+</script>
 </body>
 </html>
 

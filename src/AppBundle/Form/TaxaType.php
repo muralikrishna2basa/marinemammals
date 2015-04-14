@@ -22,7 +22,7 @@ class TaxaType extends AbstractType
         $builder->add('vernacularNameEn', 'text');
         $builder->add('taxonrank', 'choice', array(
             'empty_value' => 'Select...',
-            'required' => false,
+            'required' => true,
             'choice_list' => new TaxonrankList($this->doctrine)));
         $builder->add('idodId', 'integer', array('required' => false));
         $builder->add('presentInEurope', 'checkbox', array('required' => false));
