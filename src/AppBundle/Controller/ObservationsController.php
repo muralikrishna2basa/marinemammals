@@ -41,7 +41,15 @@ class ObservationsController extends Controller
             $specimen = $s2e->getScnSeqno();
             $s2eColl = $specimen->getSpec2Events();
 
+            foreach ($observation->getValues() as $ev) {
+                $em->remove($ev);
+            }
             $em->remove($observation);
+
+            foreach ($event->getEvent2Persons() as $e2p) {
+                $em->remove($e2p);
+            }
+
             $em->remove($event);
             $em->remove($s2e);
             foreach ($s2e->getValues() as $ev) {

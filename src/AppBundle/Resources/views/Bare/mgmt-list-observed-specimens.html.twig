@@ -36,12 +36,14 @@
                 <td>{{ e.eseSeqno.spec2events.scnSeqno.necropsyTag }}</td>
                 <td>{{ e.eseSeqno.spec2events.scnSeqno.sex }}</td>
                 <td>{{ e.eseSeqno.spec2events.scnSeqno.scnNumber }}</td>
-                <td>{{ e.eseSeqno.spec2events.scnSeqno.seqno }}</td>
+                <td class="seqno">{{ e.eseSeqno.spec2events.scnSeqno.seqno }}</td>
             {% endif %}
         </tr>
     {% else %}
         <tr>
             <td>No observations found.</td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

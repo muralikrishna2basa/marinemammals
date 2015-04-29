@@ -765,7 +765,7 @@ class Filter_Sample_Date_Found extends BLP_Filter
 //                  and c.seqno in (select ese_seqno from observations)
 //                  group by a.seqno having max(c.event_datetime) ";
 
-        $this->query->addWhere(array($tblalias2 . ".EVENT_DATETIME " . $token, array($item), ')'));
+        $this->query->addWhere(array($tblalias2 . ".EVENT_DATETIME " . $token." to_date('".$item."','dd/mm/yyyy')"));
     }
 }
 

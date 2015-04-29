@@ -8,22 +8,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\ControllerHelper\ObservationIndexPropertiesSet;
+use AppBundle\ControllerHelper\ObservationIndexArrayPropertiesSet;
 use AppBundle\ControllerHelper\MgmtObservationIndexPropertiesSet;
 
 class ObservationsRetrievalController extends Controller
 {
 
-    private function generalFilterAction(Request $request, $page, $excludeConfidential, $onlyBelgium, $ps,$fast)
+    private function generalFilterAction(Request $request, $page, $excludeConfidential, $onlyBelgium, $ps, $resultIsSimple)
     {
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => $onlyBelgium));
         if ($request->query->has($form->getName())) {
             $form->submit($request->query->get($form->getName()));
             $filter = $form->getData();
             $filter['excludeConfidential'] = $excludeConfidential;
-            $observations = $this->get('observations_provider')->loadObservationsByFilter($filter,$fast);
+            $observations = $this->get('observations_provider')->loadObservationsByFilter($filter, $resultIsSimple);
             $results = array();
             foreach ($observations as $o) {
-                array_push($results, $ps->getAll($o));
+                 array_push($results, $ps->getAll($o));
             }
             if ($request->query->has('export')) {
                 return $this->excelExport($results);
@@ -41,14 +42,14 @@ class ObservationsRetrievalController extends Controller
     {
         $ps = new MgmtObservationIndexPropertiesSet();
         $request->query->add(array('json' => true));
-        return new JsonResponse($this->generalFilterAction($request, null,false, false, $ps,false),Response::HTTP_OK, array('Content-Type' => 'application/json'));
+        return new JsonResponse($this->generalFilterAction($request, null, false, false, $ps, false), Response::HTTP_OK, array('Content-Type' => 'application/json'));
     }
 
     public function jsonExportAction(Request $request)
     {
         $ps = new ObservationIndexPropertiesSet();
         $request->query->add(array('json' => true));
-        return new JsonResponse($this->generalFilterAction($request, null,true, true, $ps,false),Response::HTTP_OK, array('Content-Type' => 'application/json'));
+        return new JsonResponse($this->generalFilterAction($request, null, true, true, $ps, false), Response::HTTP_OK, array('Content-Type' => 'application/json'));
     }
 
     private function generalIndexAction($page, $form, $observations)
@@ -57,32 +58,33 @@ class ObservationsRetrievalController extends Controller
         //$observations=$this->get('observations_provider')->supplementCgDescriptionMultiple($observations);
         return $this->render($page, array('entities' => $observations, 'form' => $form->createView()));
     }
-/*--------------------------------------*/
+
+    /*--------------------------------------*/
 
     public function indexAction()
     {
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => true));
-        $observations = $this->get('observations_provider')->loadObservations(true, true,true);
+        $observations = $this->get('observations_provider')->loadObservations(true, true, true);
         return $this->generalIndexAction('AppBundle:Page:list-observations.html.twig', $form, $observations);
     }
 
     public function mgmtIndexAction()
     {
         $form = $this->createForm(new ObservationsFilterType($this->getDoctrine()), null, array('onlyBelgium' => false));
-        $observations = $this->get('observations_provider')->loadObservations(false, false,false);
+        $observations = $this->get('observations_provider')->loadObservations(false, false, false);
         return $this->generalIndexAction('AppBundle:Page:mgmt-list-observations.html.twig', $form, $observations);
     }
 
     public function filterAction(Request $request)
     {
-        $ps = new ObservationIndexPropertiesSet();
-        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true, true, $ps,true);
+        $ps = new ObservationIndexArrayPropertiesSet();
+        return $this->generalFilterAction($request, 'AppBundle:Page:list-observations.html.twig', true, true, $ps, true);
     }
 
     public function mgmtFilterAction(Request $request)
     {
         $ps = new MgmtObservationIndexPropertiesSet();
-        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig', false, false, $ps,false);
+        return $this->generalFilterAction($request, 'AppBundle:Page:mgmt-list-observations.html.twig', false, false, $ps, false);
     }
 
     /*--------------------------------------*/
@@ -99,7 +101,7 @@ class ObservationsRetrievalController extends Controller
         $ps = new MgmtObservationIndexPropertiesSet();
         if ($request->isMethod('GET')) {
             $request->query->add(array('submit' => true));
-            return $this->generalFilterAction($request, 'AppBundle:Page:ajax-list-observed-specimens.html.twig', false, false, $ps,false);
+            return $this->generalFilterAction($request, 'AppBundle:Page:ajax-list-observed-specimens.html.twig', false, false, $ps, false);
         }
     }
 
@@ -171,8 +173,9 @@ class ObservationsRetrievalController extends Controller
         return $response;
     }
 
-    private function jsonExport($results){
-        $a=json_encode($results);
+    private function jsonExport($results)
+    {
+        $a = json_encode($results);
         return $a;
     }
 }

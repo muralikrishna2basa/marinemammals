@@ -6,7 +6,7 @@
         {% import "AppBundle::errors.html.twig" as forgotten %}
         {{ forgotten.errors('scnSeqnoNew[eseSeqno][spec2events][scnSeqnoExisting]',errors) }}
         <button id="b_search_scn">Search for existing specimen in list</button>
-        <div id="specimen-searcher-modal" style="display:none;"></div>
+        <div id="specimen-searcher-modal" class="modal" style="display:none;"></div>
     </div>
     <div id="scnInfo">
     </div>

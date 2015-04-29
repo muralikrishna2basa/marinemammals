@@ -42,9 +42,9 @@ if(isset($_POST['gobackend']) == true && is_string($_POST['gobackend']) == true 
 $order_samples = <<<EOD
 <div id = "order_div">
 <form>
-<button value="order" class="order_samples" name="order_samples" type="submit">Confirm Order</button>
+<button value="order" class="order_samples" name="order_samples" type="submit">Order the samples</button>
 <button value="clean" class="clean_samples" name="clean_samples" type="submit">Clean Selection</button>
-<button value="add" class="add_samples" name="add_samples" type="submit">Update Basket</button>
+<button value="add" class="add_samples" name="add_samples" type="submit">Update selected samples</button>
 </form>
 </div>
 EOD;
@@ -57,9 +57,7 @@ ob_start();
 echo $order_samples;
 /*if($Layout->getAuth()->getSessionGroupname()!='GUEST')
 {
-	
 	echo $order_samples;
-		
 }*/
 ?>
 <div class = "Search_search_tool" style="display:none;"> 

@@ -23,10 +23,7 @@ if(isset($_POST['testsubmit']) && isset($_POST['download_format'])) // call via 
 	}
 	else 
 	{
-
-
 		$samples = new Search_Samples($db,$auth->getSessionGrouplevel());
-
 
 		$smples = $_SESSION['samples'];
 

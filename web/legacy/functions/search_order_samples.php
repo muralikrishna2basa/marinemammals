@@ -51,11 +51,12 @@ if (isset($_SESSION['samples'])) {
 }
 $samples_seqno = array();
 
-
-foreach ($samples_tmp as $item) {
-    $samples_tmp = json_decode(stripslashes($item))->Seqno;
-    if ($samples_tmp != null) {
-        $samples_seqno[] = $samples_tmp;
+if (isset ($samples_tmp)) {
+    foreach ($samples_tmp as $item) {
+        $samples_tmp = json_decode(stripslashes($item))->Seqno;
+        if ($samples_tmp != null) {
+            $samples_seqno[] = $samples_tmp;
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-{% include 'AppBundle:Bare:mgmt-filter-observations.html.twig' with {'include_path': 'mm_observed_specimens_mgmtfilter', 'method': 'GET'} %}
+{% include 'AppBundle:Bare:mgmt-filter-observations.html.twig' with {'include_path': 'mm_observed_specimens_mgmtfilter', 'method': 'GET','popup':false} %}
 <div id="map"></div>
 <h2>List of observations</h2>
 <p class="count">
@@ -42,6 +42,10 @@
     {% else %}
         <tr>
             <td>No observations found.</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

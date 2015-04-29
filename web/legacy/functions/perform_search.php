@@ -46,7 +46,6 @@ if (isset($_GET['search_page'])) {
     $search_page = 1;
 }
 
-
 if (isset($_GET['search_ppr']) && $_GET['search_ppr'] != 'undefined') {
     $samples->renderer->pager->rows_per_page = $_GET['search_ppr'];
 } else {
@@ -106,7 +105,6 @@ if (isset($_GET['uncheck']) && is_string($_GET['uncheck']) && strlen($_GET['unch
     $uncheck = array();
 }
 
-
 //echo get_magic_quotes_gpc ();
 //echo 'register_globals = ' . ini_get('register_globals') . "\n";
 
@@ -148,7 +146,6 @@ function checkpk($samples)
 }
 
 $samples->renderer->addFunctionColumn('<input type="checkbox" class="sample_select"/>', "checkpk");
-
 
 function availability_tr($cell)
 {

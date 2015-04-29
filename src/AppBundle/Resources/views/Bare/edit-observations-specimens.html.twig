@@ -9,11 +9,11 @@
 {{ form(delete_form) }}
 {{ form_start(form, {'method': 'POST','action': path('mm_observations_update', {'id': id}),'attr':{'id':'observationform', 'novalidate':'false'}}) }}
 <ul class="nav nav-tabs">
-    <li class="tab"><a href="#tab-1">Observation</a></li>
-    <li class="tab"><a href="#tab-2">Specimen</a></li>
-    <li class="tab"><a href="#tab-3">External examination</a></li>
-    <li class="tab"><a href="#tab-4">Cause of death</a></li>
-    <li class="tab"><a href="#tab-5">Sources and media</a></li>
+    <li class="tab"><a href="#tab-1" class="initially-disabled">Observation</a></li>
+    <li class="tab"><a href="#tab-2" class="initially-disabled">Specimen</a></li>
+    <li class="tab"><a href="#tab-3" class="initially-disabled">External examination</a></li>
+    <li class="tab"><a href="#tab-4" class="initially-disabled">Cause of death</a></li>
+    <li class="tab"><a href="#tab-5" class="initially-disabled">Sources and media</a></li>
 </ul>
 <div class="well subformcontainer">
     <p id="formerror" class="text-danger">
@@ -39,27 +39,26 @@
         MUMM tag cannot be completed when an existing specimen is completed. They have been removed from the form.</p>
     <fieldset id="tab-1">
         {{ include('AppBundle:Bare:add-observations.html.twig') }}
-        <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
+        <h4><a class="next-tab ctl initially-disabled" href="#">NEXT</a></h4>
     </fieldset>
     <fieldset id="tab-2">
         {{ include('AppBundle:Bare:add-specimens.html.twig') }}
-        <h4><a class="prev-tab ctl" href="#">PREVIOUS</a></h4>
-        <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
+        <h4><a class="prev-tab ctl initially-disabled" href="#">PREVIOUS</a></h4>
+        <h4><a class="next-tab ctl initially-disabled" href="#">NEXT</a></h4>
     </fieldset>
     <fieldset id="tab-3">
         {{ include('AppBundle:Bare:add-externalpathology.html.twig') }}
-        <h4><a class="prev-tab ctl" href="#">PREVIOUS </a></h4>
-        <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
+        <h4><a class="prev-tab ctl initially-disabled" href="#">PREVIOUS </a></h4>
+        <h4><a class="next-tab ctl initially-disabled" href="#">NEXT</a></h4>
     </fieldset>
     <fieldset id="tab-4">
         {{ include('AppBundle:Bare:add-causeofdeath.html.twig') }}
-        <h4><a class="prev-tab ctl" href="#">PREVIOUS </a></h4>
-        <h4><a class="next-tab ctl" href="#">NEXT</a></h4>
+        <h4><a class="prev-tab ctl initially-disabled" href="#">PREVIOUS </a></h4>
+        <h4><a class="next-tab ctl initially-disabled" href="#">NEXT</a></h4>
     </fieldset>
     <fieldset id="tab-5">
         {{ include('AppBundle:Bare:add-sources-media.html.twig') }}
-        <h4><a class="prev-tab ctl" href="#">PREVIOUS</a></h4>
-
+        <h4><a class="prev-tab ctl initially-disabled" href="#">PREVIOUS</a></h4>
         <p>
             <input type="submit" value="Submit" id="submit" class="btn btn-od">
         </p>
