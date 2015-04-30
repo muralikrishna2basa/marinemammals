@@ -9922,18 +9922,18 @@ blockquote {
     display: inline;
 }
 
-.branding-main .branding-logo{
-    width:33%;
+.branding-main .branding-logo {
+    width: 33%;
 }
 
-.branding-main .branding-text{
-    padding:0;
-    width:auto;
+.branding-main .branding-text {
+    padding: 0;
+    width: auto;
     text-align: left;
 }
 
-.branding-logo img{
-    padding:0;
+.branding-logo img {
+    padding: 0;
 }
 
 .branding-right .branding-text {
@@ -9943,16 +9943,17 @@ blockquote {
 
 .branding-right {
     padding-right: 15px;
-    width:50%;
+    width: 50%;
     float: right;
     display: inline;
 }
+
 .branding-right .branding-logo {
     float: right;
 }
 
-.top-links{
-    padding-bottom:6px;
+.top-links {
+    padding-bottom: 6px;
 }
 
 table.table tbody tr td a {
@@ -9961,12 +9962,12 @@ table.table tbody tr td a {
     height: 100%;
 }
 
-table.simple-observationstable{
-    cursor:pointer;
+table.simple-observationstable {
+    cursor: pointer;
 }
 
 select#taxatype_taxonrank {
-    width:auto;
+    width: auto;
 }
 
 /*Compatibility with OD Nature site*/
@@ -9974,6 +9975,90 @@ select#taxatype_taxonrank {
     background: url('/images/icon_top.png') no-repeat;
 }
 
+#loading.fa-spinner {
+    position: fixed; /* or absolute */
+    top: 50%;
+    left: 50%;
+    font-size: 200%;
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+/*.ui-widget-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #444;
+    opacity: .3;
+    filter: Alpha(Opacity=30);
+}*/
+
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1) rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin2 {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+a.initially-disabled {
+    pointer-events: none;
+}
+
+#specimen-searcher #observationstable tbody tr {
+    cursor: pointer;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #fafafa;
+}
+
+#specimen-searcher #observationstable tbody tr td:hover {
+    background-color: transparent;
+!important;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: transparent;
+!important;
+}
+
+#specimen-searcher #observationstable tbody tr:hover {
+    background-color: #31708f !important;
+}
+
+#specimen-searcher #observationstable tr.selected {
+    background-color: #31708f !important;
+}
+
+ul.observation-map{
+    margin: 0;
+    padding: 0;
+    float:right;
+    list-style-type: none;
+}
+
+#map-canvas {
+    height: 350px;
+    width: 500px;
+    margin: 0;
+    padding: 0;
+    float:right;
+}
 
 @font-face {
     font-family: 'Glyphicons Halflings';

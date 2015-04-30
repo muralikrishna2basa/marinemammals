@@ -41,15 +41,13 @@ var initAsyncLayout = function ($form) {
     $(document)
         .ajaxStart(function () {
             //$myself.addClass('ui-widget-overlay');
-            $form.attr('disabled', true);
             $form.find(':input').attr('disabled', true);
-            $loadIcon.show();
+            //$loadIcon.show();
         })
         .ajaxStop(function () {
             //$myself.removeClass('ui-widget-overlay');
             $form.attr('disabled', false);
-            $form.find(':input').attr('disabled', false);
-            $loadIcon.hide();
+            //$loadIcon.hide();
         });
 };
 
@@ -72,6 +70,7 @@ var allowAsyncSubmit = function ($myself, $form, callback) {
 var allowAsyncLink = function ($myself, $a) {
     initAsyncLayout($form);
     $a.click(function (e) {
+        console.log($a);
         e.preventDefault();
         $.ajax({
             //type: $form.attr('method'),
@@ -83,7 +82,6 @@ var allowAsyncLink = function ($myself, $a) {
                 allowAsyncLinks($myself, $as);
             }
         });
-        return false;
     });
 };
 
@@ -97,7 +95,6 @@ var allowAsyncLinks = function ($myself, $as) {
 $(document).ready(function () {
     var $form = $('form#observationfilterform');
     $modal = $($myself.parents(".modal")[0]);
-   // console.log($myself);
     allowAsyncSubmit($myself, $form);
     $as = $('ul.pagination a');
     allowAsyncLinks($myself, $as);

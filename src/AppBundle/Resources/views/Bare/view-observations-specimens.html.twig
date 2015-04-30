@@ -1,130 +1,116 @@
-<h2>{{ observation.eseSeqno.spec2events.scnSeqno.txnSeqno.vernacularNameEn|capitalize }} -
-    <i>{{ observation.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName }}</i></h2>
-<ul class="observation-remark">{% if observation.isconfidential %}
-        <li><span class="warning">Confidential observation</span></li>{% endif %}
-    {% if observation.samplingeffortRef %}
-        <li><span>{{ observation.samplingeffortRef.rvMeaning }}</span></li>{% endif %}
-    {% if observation.cpnCode %}
-        <li><span>Campaign: {{ observation.cpnCode }}</span></li>{% endif %}
-    {% if observation.eseSeqno.spec2events.scnSeqno.identificationCertainty is null %}
-        <li><span class="warning">Identification is uncertain</span></li>
-    {% endif %}
-</ul>
+    <ul class="observation-remark">{% if observation.isconfidential %}
+            <li><span class="warning">Confidential observation</span></li>{% endif %}
+        {% if observation.samplingeffortRef %}
+            <li><span>{{ observation.samplingeffortRef.rvMeaning }}</span></li>{% endif %}
+        {% if observation.cpnCode %}
+            <li><span>Campaign: {{ observation.cpnCode }}</span></li>{% endif %}
+        {% if observation.eseSeqno.spec2events.scnSeqno.identificationCertainty is null %}
+            <li><span class="warning">Identification is uncertain</span></li>
+        {% endif %}
+    </ul>
 
-<table class="observation-basic-view observation-view table table-striped">
-    <thead>
-    <th>
-    <th>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Date</td>
-        <td>{{ observation.eseSeqno.eventDatetime.date|date("m/d/Y H:i") }}<span
-                    data-tooltip="{{ observation.eseSeqno.eventDatetimeFlagRef.rvMeaning }}"
-                    class="fa fa-clock-o has-clock-tooltip"></span></td>
-    </tr>
-    <tr>
-        <td>Number</td>
-        <td>{{ observation.eseSeqno.spec2events.scnSeqno.scnNumber }} {{ observation.eseSeqno.spec2events.scnSeqno.sex }} {{ observation.osnTypeRef.rvMeaning }}{% if observation.eseSeqno.spec2events.decompositionCode %} - decomp. code: {{ observation.eseSeqno.spec2events.decompositionCode.value }}{% endif %}</td>
-    </tr>
-    {% if observation.eseSeqno.spec2events.beforeIntervention %}
+    <table class="observation-basic-view observation-view table table-striped">
+        <thead>
+        <th>
+        <th>
+        </thead>
+        <tbody>
         <tr>
-            <td>Before intervention</td>
-            <td>{{ observation.eseSeqno.spec2events.beforeIntervention.value }}</td>
+            <td>Date</td>
+            <td>
+                {% if observation.eseSeqno.eventDatetime.date|date("H:i") == '00:00' %}
+                {{ observation.eseSeqno.eventDatetime.date|date("d/m/Y") }}
+                <span data-tooltip="time unknown"
+                      class="fa fa-clock-o has-clock-tooltip"></span>
+            {% else %}
+                {{ observation.eseSeqno.eventDatetime.date|date("d/m/Y H:i") }}
+            {% endif %}
+            <span data-tooltip="{{ observation.eseSeqno.eventDatetimeFlagRef.rvMeaning }}"
+                  class="fa fa-clock-o has-clock-tooltip"></span></td>
         </tr>
-    {% endif %}
-    {% if observation.eseSeqno.spec2events.duringIntervention %}
         <tr>
-            <td>Intervention</td>
-            <td>{{ observation.eseSeqno.spec2events.duringIntervention.value }}</td>
+            <td>Number</td>
+            <td>{{ observation.eseSeqno.spec2events.scnSeqno.scnNumber }} {{ observation.eseSeqno.spec2events.scnSeqno.sex }} {{ observation.osnTypeRef.rvMeaning }}{% if observation.eseSeqno.spec2events.decompositionCode %} - decomp. code: {{ observation.eseSeqno.spec2events.decompositionCode.value }}{% endif %}</td>
         </tr>
+        {% if observation.eseSeqno.spec2events.beforeIntervention %}
+            <tr>
+                <td>Before intervention</td>
+                <td>{{ observation.eseSeqno.spec2events.beforeIntervention.value }}</td>
+            </tr>
+        {% endif %}
+        {% if observation.eseSeqno.spec2events.duringIntervention %}
+            <tr>
+                <td>Intervention</td>
+                <td>{{ observation.eseSeqno.spec2events.duringIntervention.value }}</td>
+            </tr>
+        {% endif %}
+        {% if observation.singleSource %}
+            <tr>
+                <td>Source</td>
+                <td>{{ observation.singleSource.name }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    {% if observation.eseSeqno.spec2events.collection or observation.eseSeqno.spec2events.scnSeqno.rbinsTag or observation.eseSeqno.spec2events.scnSeqno.necropsyTag %}
+        <h3>Collection</h3>
+
+        <table class="observation-collection-view observation-view table table-striped">
+            <thead>
+            <th>
+            <th>
+            </thead>
+            <tbody>
+            {% if observation.eseSeqno.spec2events.collection %}
+                <tr>
+                    <td>Collection</td>
+                    <td>{{ observation.eseSeqno.spec2events.collection.value }}</td>
+                </tr>
+            {% endif %}
+            {% if observation.eseSeqno.spec2events.scnSeqno.rbinsTag %}
+                <tr>
+                    <td>RBINS tag</td>
+                    <td>{{ observation.eseSeqno.spec2events.scnSeqno.rbinsTag }}</td>
+                </tr>
+            {% endif %}
+            {% if observation.eseSeqno.spec2events.scnSeqno.necropsyTag %}
+                <tr>
+                    <td>Collection tag</td>
+                    <td>{{ observation.eseSeqno.spec2events.scnSeqno.necropsyTag }}</td>
+                </tr>
+            {% endif %}
+            {% if observation.eseSeqno.hasNecropsyAttached %}
+                <tr>
+                    <td>Necropsied</td>
+                    <td>{% if observation.eseSeqno.necropsyCode != '' %}{{ observation.eseSeqno.necropsyCode }}
+                        {% else %}
+                            Necropsy done, no autopsy or lab reference{% endif %}</td>
+                </tr>
+            {% endif %}
+
+            </tbody>
+        </table>
     {% endif %}
-    <tr>
-        <td>Location</td>
-        <td>{{ observation.stnSeqno.description }}</td>
-    </tr>
-    {% if observation.pfmSeqno %}
-        <tr>
-            <td>Platform</td>
-            <td>{{ observation.pfmSeqno.name }}</td>
-        </tr>
-    {% endif %}
-    <tr>
-        <td>Decimal latitude</td>
-        <td>{% if observation.latDec %}{{ observation.latDec }}{% else %}No coordinate given{% endif %}
-            {% if observation.latDec %} <span
-                data-tooltip="{% if observation.precisionFlag == null %}imprecise coordinate{% else %}precise coordinate{% endif %}"
-                class="has-map-tooltip"></span>{% endif %}</td>
-    </tr>
-    <tr>
-        <td>Decimal longitude</td>
-        <td>{% if observation.lonDec %}{{ observation.lonDec }}{% else %}No coordinate given{% endif %}
-            {% if observation.lonDec %}<span
-                data-tooltip="{% if observation.precisionFlag == null %}imprecise coordinate{% else %}precise coordinate{% endif %}"
-                class="has-map-tooltip"></span>{% endif %}</td>
-    </tr>
-    {% if observation.singleSource %}
-        <tr>
-            <td>Source</td>
-            <td>{{ observation.singleSource.name }}</td>
-        </tr>
-    {% endif %}
-    </tbody>
-</table>
-<h3>Collection</h3>
-<table class="observation-collection-view observation-view table table-striped">
-    <thead>
-    <th>
-    <th>
-    </thead>
-    <tbody>
-    {% if observation.eseSeqno.spec2events.collection %}
-        <tr>
-            <td>Collection</td>
-            <td>{{ observation.eseSeqno.spec2events.collection.value }}</td>
-        </tr>
-    {% endif %}
-    {% if observation.eseSeqno.spec2events.scnSeqno.rbinsTag %}
-    <tr>
-        <td>RBINS tag</td>
-        <td>{{ observation.eseSeqno.spec2events.scnSeqno.rbinsTag }}</td>
-    </tr>
-    {% endif %}
-    {% if observation.eseSeqno.spec2events.scnSeqno.necropsyTag %}
-    <tr>
-        <td>Collection tag</td>
-        <td>{{ observation.eseSeqno.spec2events.scnSeqno.necropsyTag }}</td>
-    </tr>
-    {% endif %}
-    {% if observation.eseSeqno.hasNecropsyAttached %}
-        <tr>
-            <td>Necropsied</td>
-            <td>{% if observation.eseSeqno.necropsyCode != '' %}{{ observation.eseSeqno.necropsyCode }}
-                {% else %}
-                    Necropsy done, no autopsy or lab reference{% endif %}</td>
-        </tr>
+    {% if observation.webcommentsEn or observation.webcommentsNl or observation.webcommentsFr %}
+        <div class="observation-view-comments">
+            {% if observation.webcommentsEn %}
+                <blockquote>
+                    <h4>English comments</h4>
+                    {{ observation.webcommentsEn }}
+                </blockquote>
+            {% endif %}
+            {% if observation.webcommentsNl %}
+                <blockquote>
+                    <h4>Dutch comments</h4>
+                    {{ observation.webcommentsNl }}
+                </blockquote>
+            {% endif %}
+            {% if observation.webcommentsFr %}
+                <blockquote>
+                    <h4>French comments</h4>
+                    {{ observation.webcommentsFr }}
+                </blockquote>
+            {% endif %}
+        </div>
     {% endif %}
 
-    </tbody>
-</table>
-
-<div class="observation-view-comments">
-    {% if observation.webcommentsEn %}
-        <blockquote>
-            <h4>English comments</h4>
-            {{ observation.webcommentsEn }}
-        </blockquote>
-    {% endif %}
-    {% if observation.webcommentsNl %}
-        <blockquote>
-            <h4>Dutch comments</h4>
-            {{ observation.webcommentsNl }}
-        </blockquote>
-    {% endif %}
-    {% if observation.webcommentsFr %}
-        <blockquote>
-            <h4>French comments</h4>
-            {{ observation.webcommentsFr }}
-        </blockquote>
-    {% endif %}
-</div>

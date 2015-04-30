@@ -50,7 +50,7 @@ function instantiateRemoteSpecimen() {
                 $scnInfo.append('Number: ' + remoteSpecimen.scnNumber + '<br />');
                 $scnInfo.append('Sex: ' + remoteSpecimen.sex + '<br />');
                 $scnInfo.append('RBINS Tag: ' + remoteSpecimen.rbinsTag + '<br />');
-                $scnInfo.append('MUMM Tag: ' + remoteSpecimen.mummTag + '<br />');
+                $scnInfo.append('Collection tag (=old MUMM Tag): ' + remoteSpecimen.mummTag + '<br />');
             }
             else {
                 $scnInfo.html("");
@@ -145,14 +145,17 @@ $(document).ready(function () {
         }
     });
 
-    var dialogName = 'div#specimen-searcher-modal';
+    var $specimenModalDiv = $('div#specimen-searcher-modal');
 
-    $(dialogName).dialog({
+    var dialog = $specimenModalDiv.dialog({
         autoOpen: false,
         modal: true,
         draggable: false,
         open: function () {
-            $(this).load('/ajax/observed-specimens');
+            if($(this).html().length == 0){
+                $(this).load('/ajax/observed-specimens');
+                var a=5;
+            }
         },
         height: 800,
         width: 1400,
@@ -166,20 +169,22 @@ $(document).ready(function () {
      draggable: false
      });*/
 
-    $(dialogName).on('seqno_selected', function (e, seqno) {
+    /*$specimenModalDiv.on('seqno_selected', function (e, seqno) {
         alert('2nd alert in event handler: ' + seqno);
         var $seqnoField = $('input#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
 
         $seqnoField.val(seqno);
-    });
+    });*/
 
-    $('button#b_search_scn').click(function () {
+    $('button#b_search_scn').click(function (e) {
         /*$(dialogName).data('callback', function (seqno) {
          var $seqnoField = $('input#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
          $seqnoField.val(seqno);
          });*/
-        $(dialogName).dialog('open');
 
+        dialog.dialog('open');
+        e.preventDefault();
+        return false;
         /* var dialogName = 'div#specimenmodal';
          $.ajax({
          url: "/mgmt/observed-specimens",
@@ -211,7 +216,7 @@ $(document).ready(function () {
     existingSpecimenChoiceField.change(function () {
         instantiateRemoteSpecimen();
         hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
-        newSpecimenBox_requiredInputSelect.attr('required', 'required');
+        //newSpecimenBox_requiredInputSelect.attr('required', 'required');
         hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
     });
 
@@ -373,6 +378,7 @@ function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
         //newSpecimenBox_requiredInputSelect.attr('required', 'required');
         //$sexBox.attr('required', 'required');
         newSpecimenBox.show();
+        newSpecimenBox.children().show();
         $existingSpecimenFeedback.hide();
         $circumstantialParametersFeedback.hide();
         $scnInfo.html("");

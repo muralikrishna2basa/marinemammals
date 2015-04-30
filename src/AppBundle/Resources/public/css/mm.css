@@ -280,16 +280,51 @@ select#taxatype_taxonrank {
     }
 }
 
-a.initially-disabled{
+a.initially-disabled {
     pointer-events: none;
 }
 
-#specimen-searcher #observationstable tr{
+#specimen-searcher #observationstable tbody tr {
     cursor: pointer;
 }
 
-#specimen-searcher #observationstable tr[role="row"]:hover{
-    background-color:#31708f;
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #fafafa;
+}
+
+#specimen-searcher #observationstable tbody tr td:hover {
+    background-color: transparent;
+!important;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: transparent;
+!important;
+}
+
+#specimen-searcher #observationstable tbody tr:hover {
+    background-color: #31708f !important;
+}
+
+#specimen-searcher #observationstable tr.selected {
+    background-color: #31708f !important;
+}
+
+ul.observation-map{
+    margin: 0;
+    padding: 0;
+    float:right;
+    list-style-type: none;
+}
+
+#map-canvas {
+    height: 350px;
+    width: 500px;
+    margin: 0;
+    padding: 0;
+    float:right;
 }
 
 @font-face {
