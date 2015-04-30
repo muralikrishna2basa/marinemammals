@@ -108,6 +108,9 @@ $(document).ready(function () {
         return valid || goBack;
     });
     stationSelector.select2();
+    newSpecimenChoiceField.select2({
+        dropdownAutoWidth : true,
+        containerCss : {"display":"block"} });
     $('[data-tooltip!=""]').qtip({
         content: {
             attr: 'data-tooltip'
@@ -154,7 +157,6 @@ $(document).ready(function () {
         open: function () {
             if($(this).html().length == 0){
                 $(this).load('/ajax/observed-specimens');
-                var a=5;
             }
         },
         height: 800,
@@ -162,45 +164,10 @@ $(document).ready(function () {
         title: 'Search a specimen'
     });
 
-
-    /*$('div#specimenmodal').load('/mgmt/observed-specimens').dialog({
-     autoOpen: false,
-     modal: true,
-     draggable: false
-     });*/
-
-    /*$specimenModalDiv.on('seqno_selected', function (e, seqno) {
-        alert('2nd alert in event handler: ' + seqno);
-        var $seqnoField = $('input#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
-
-        $seqnoField.val(seqno);
-    });*/
-
     $('button#b_search_scn').click(function (e) {
-        /*$(dialogName).data('callback', function (seqno) {
-         var $seqnoField = $('input#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
-         $seqnoField.val(seqno);
-         });*/
-
         dialog.dialog('open');
         e.preventDefault();
         return false;
-        /* var dialogName = 'div#specimenmodal';
-         $.ajax({
-         url: "/mgmt/observed-specimens",
-         data: {},
-         success: function (data) {
-         $(dialogName).remove();
-         $(dialogName).html(data);
-         $(dialogName)
-         .dialog({
-         autoOpen: false,
-         modal: true,
-         draggable: false
-         });
-         $(dialogName).dialog('open');
-         }
-         });*/
     });
 
 

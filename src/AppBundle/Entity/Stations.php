@@ -458,15 +458,42 @@ class Stations
         }
     }
 
-    public function getPlaceNameDesc(){
+    /**
+     * Get fully Qualified description
+     *
+     * @return String
+     */
+    public function getTypeCountryDesc()
+    {
+        $code = $this->getCode();
+        $country = $this->getCountry();
+        $type = $this->getAreaType();
+        $desc = $this->getDescription();
+        $typeZilch = $type === '' || $type === null;
+        $descZilch = $desc === '' || $desc === null;
+
+        if (!$descZilch) {
+            if (!$typeZilch) {
+
+                return $type . " (" . $country . ") - " . $desc;
+
+            } else {
+                return " (" . $country . ") " . $desc;
+            }
+        } else {
+            return $this->getTypeNameCode();
+        }
+    }
+
+    public function getPlaceNameDesc()
+    {
         $name = $this->getPlaceName();
         $desc = $this->getDescription();
         $descZilch = $desc === '' || $desc === null;
         $nameZilch = $name === '' || $name === null;
-        if($descZilch){
+        if ($descZilch) {
             return $name;
-        }
-        else{
+        } else {
             return $desc;
             /*if($nameZilch){
                 return $desc;
