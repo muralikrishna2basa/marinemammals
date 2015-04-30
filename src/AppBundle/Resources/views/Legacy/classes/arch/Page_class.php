@@ -6,10 +6,11 @@
  *  Last Modified:23/12/2009
  *
  */
+
 $root=dirname($_SERVER['DOCUMENT_ROOT']);
 $vendor = $root . '/vendor';
-require_once($vendor . '/symfony/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php'); /* Make use of absolute path */
-
+require_once($vendor . '/symfony/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php');
+/*
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
@@ -25,7 +26,7 @@ Twig_Autoloader::register();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(-1);
-
+*/
 class Page
 {
     /**
@@ -115,10 +116,10 @@ class Page
 
         header("Content-Security-Policy: script-src 'self' 'unsafe-inline'");
 
-        $twig = new Twig_Environment(new Twig_Loader_String(), array(
+        /*$twig = new Twig_Environment(new Twig_Loader_String(), array(
             'autoescape' => false,
         ));
-        /*$root=dirname($_SERVER['DOCUMENT_ROOT']);
+        $root=dirname($_SERVER['DOCUMENT_ROOT']);
         $twigTemplate = $root."/src/AppBundle/Resources/views/nocol-layout.html.twig";
         $templateOutput='';
         if (file_exists($twigTemplate)) {

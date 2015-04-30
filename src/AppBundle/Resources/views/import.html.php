@@ -12,7 +12,6 @@ require_once(Classes . "arch/Biolibd_Layout_class.php");
 
 $Layout = new Biolibd_Layout("MM: Create/edit necropsy");
 
-
 $db = $Layout->getDatabase();
 //$auth = $Layout->getAuth();
 
