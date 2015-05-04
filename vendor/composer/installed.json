@@ -2515,164 +2515,6 @@
         ]
     },
     {
-        "name": "pear/pear_exception",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/pear/PEAR_Exception.git",
-            "reference": "8c18719fdae000b690e3912be401c76e406dd13b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/pear/PEAR_Exception/zipball/8c18719fdae000b690e3912be401c76e406dd13b",
-            "reference": "8c18719fdae000b690e3912be401c76e406dd13b",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=4.4.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "*"
-        },
-        "time": "2015-02-10 20:07:52",
-        "type": "class",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "PEAR": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "include-path": [
-            "."
-        ],
-        "license": [
-            "BSD-2-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Helgi Thormar",
-                "email": "dufuz@php.net"
-            },
-            {
-                "name": "Greg Beaver",
-                "email": "cellog@php.net"
-            }
-        ],
-        "description": "The PEAR Exception base class.",
-        "homepage": "https://github.com/pear/PEAR_Exception",
-        "keywords": [
-            "exception"
-        ]
-    },
-    {
-        "name": "pear/html_common2",
-        "version": "v2.1.1",
-        "version_normalized": "2.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/pear/HTML_Common2.git",
-            "reference": "3dd2e0364f564f0912c439aac4463585cd949faf"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/pear/HTML_Common2/zipball/3dd2e0364f564f0912c439aac4463585cd949faf",
-            "reference": "3dd2e0364f564f0912c439aac4463585cd949faf",
-            "shasum": ""
-        },
-        "require": {
-            "pear/pear_exception": "*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "*"
-        },
-        "time": "2014-06-18 15:06:53",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "HTML": "./"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "include-path": [
-            "./"
-        ],
-        "license": [
-            "BSD License"
-        ],
-        "authors": [
-            {
-                "name": "Alexey Borzov",
-                "email": "avb@php.net",
-                "role": "Lead"
-            },
-            {
-                "name": "Klaus Guenther",
-                "email": "thesaur@php.net",
-                "role": "Lead"
-            }
-        ],
-        "description": "More info available on: http://pear.php.net/package/HTML_Common2"
-    },
-    {
-        "name": "pear/html_quickform2",
-        "version": "dev-trunk",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/pear/HTML_QuickForm2.git",
-            "reference": "0b6a807807ec67bf04b5f12eab8c71f54c15ac0b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/pear/HTML_QuickForm2/zipball/0b6a807807ec67bf04b5f12eab8c71f54c15ac0b",
-            "reference": "0b6a807807ec67bf04b5f12eab8c71f54c15ac0b",
-            "shasum": ""
-        },
-        "require": {
-            "pear/html_common2": "*",
-            "pear/pear_exception": "*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "*"
-        },
-        "time": "2014-06-28 07:44:13",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "HTML": "./"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "include-path": [
-            "./"
-        ],
-        "license": [
-            "BSD"
-        ],
-        "authors": [
-            {
-                "name": "Alexey Borzov",
-                "email": "avb@php.net",
-                "role": "Lead"
-            },
-            {
-                "name": "Bertrand Mansion",
-                "email": "golgote@mamasam.com",
-                "role": "Lead"
-            }
-        ],
-        "description": "Provides methods to create, validate and render HTML forms in PHP."
-    },
-    {
         "name": "sebastian/version",
         "version": "1.0.5",
         "version_normalized": "1.0.5.0",
@@ -3230,5 +3072,163 @@
             "xls",
             "xlsx"
         ]
+    },
+    {
+        "name": "pear/pear_exception",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pear/PEAR_Exception.git",
+            "reference": "8c18719fdae000b690e3912be401c76e406dd13b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pear/PEAR_Exception/zipball/8c18719fdae000b690e3912be401c76e406dd13b",
+            "reference": "8c18719fdae000b690e3912be401c76e406dd13b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=4.4.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-02-10 20:07:52",
+        "type": "class",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PEAR": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "include-path": [
+            "."
+        ],
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Helgi Thormar",
+                "email": "dufuz@php.net"
+            },
+            {
+                "name": "Greg Beaver",
+                "email": "cellog@php.net"
+            }
+        ],
+        "description": "The PEAR Exception base class.",
+        "homepage": "https://github.com/pear/PEAR_Exception",
+        "keywords": [
+            "exception"
+        ]
+    },
+    {
+        "name": "pear/html_common2",
+        "version": "v2.1.1",
+        "version_normalized": "2.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pear/HTML_Common2.git",
+            "reference": "3dd2e0364f564f0912c439aac4463585cd949faf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pear/HTML_Common2/zipball/3dd2e0364f564f0912c439aac4463585cd949faf",
+            "reference": "3dd2e0364f564f0912c439aac4463585cd949faf",
+            "shasum": ""
+        },
+        "require": {
+            "pear/pear_exception": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2014-06-18 15:06:53",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTML": "./"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "include-path": [
+            "./"
+        ],
+        "license": [
+            "BSD License"
+        ],
+        "authors": [
+            {
+                "name": "Alexey Borzov",
+                "email": "avb@php.net",
+                "role": "Lead"
+            },
+            {
+                "name": "Klaus Guenther",
+                "email": "thesaur@php.net",
+                "role": "Lead"
+            }
+        ],
+        "description": "More info available on: http://pear.php.net/package/HTML_Common2"
+    },
+    {
+        "name": "pear/html_quickform2",
+        "version": "dev-trunk",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pear/HTML_QuickForm2.git",
+            "reference": "0b6a807807ec67bf04b5f12eab8c71f54c15ac0b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pear/HTML_QuickForm2/zipball/0b6a807807ec67bf04b5f12eab8c71f54c15ac0b",
+            "reference": "0b6a807807ec67bf04b5f12eab8c71f54c15ac0b",
+            "shasum": ""
+        },
+        "require": {
+            "pear/html_common2": "*",
+            "pear/pear_exception": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2014-06-28 07:44:13",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "HTML": "./"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "include-path": [
+            "./"
+        ],
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Alexey Borzov",
+                "email": "avb@php.net",
+                "role": "Lead"
+            },
+            {
+                "name": "Bertrand Mansion",
+                "email": "golgote@mamasam.com",
+                "role": "Lead"
+            }
+        ],
+        "description": "Provides methods to create, validate and render HTML forms in PHP."
     }
 ]

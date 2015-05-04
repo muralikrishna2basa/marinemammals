@@ -56,7 +56,7 @@ if ('@' . 'package_version@' == '@package_version@') {
     require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'HTML/Common2.php';
 } else {
     // If installed, use include_path
-    require_once 'QuickForm2/Common2.php';
+    require_once 'HTML/Common2.php';
 }
 
 
