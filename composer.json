@@ -37,6 +37,5 @@
     },
     "autoload": {
 	"psr-0": {"AppBundle": "src/"}
-    
-}
+	}
 }
