@@ -246,7 +246,8 @@ class Filter_Date extends BLP_Filter
 
         $date = $tbl1_alias . ".EVENT_DATETIME";
 
-        $this->query->addWhere(array("$date " . $token, array($item1)));
+        //$this->query->addWhere(array("$date " . $token, array($item1)));
+        $this->query->addWhere(array($tbl1_alias . ".EVENT_DATETIME " . $token." to_date('".$item1."','dd/mm/yyyy')"));
     }
 
 }

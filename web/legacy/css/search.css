@@ -115,7 +115,7 @@ div.Search_Box
 	float:left;
 	overflow:hidden;
 	width:400px;
-	height:45px;
+	height:50px;
 	border:1px solid #9F9F9F;
 	position:relative;
 	text-align:center; 
@@ -123,6 +123,11 @@ div.Search_Box
     background-color:#EFEFEF;
 	margin:0.1em;
 }
+
+div.Search_Box .hasDatepick{
+    height:2em;
+}
+
 div.Search_Box  div 
 {
 	float:left; 

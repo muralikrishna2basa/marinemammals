@@ -8,13 +8,17 @@
     {{ form_row(form.eseSeqno.eventDatetimeFlagRef, {'label':'Date flag'}) }}</div>
 <h3>Location</h3>
 <h4>Exact Coordinates</h4>
-<div class="form-inline">{{ form_row(form.latDec, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723','class':'refer-to_observationstype_lonDec'} }) }}
+<div class="form-inline">
+    {{ form_row(form.latDec, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723','class':'refer-to_observationstype_lonDec'} }) }}
     {{ form_row(form.lonDec, {'label':'Decimal longitude', 'attr': {'placeholder': 'eg. 2.9254719','class':'refer-to_observationstype_latDec'} }) }}
     {{ form_row(form.precisionFlag, {'label':'Location precision','attr': { 'class': 'observationstype_latDecFlag' }}) }}</div>
-<h4>Station</h4>
-<div class="form-inline">{{ form_row(form.stnSeqno, {'label':'Station'}) }}<a href="/mgmt/stations/add">Add new Station</a></div>
+<h4>Location</h4>
+<p class="text-info">Please always add a location, even if precise coordinates are known.</p>
+<div class="form-inline">{{ form_row(form.stnSeqno, {'label':'Location'}) }}<a href="/mgmt/stations/add">Add new
+        Location</a></div>
 <h4>Platform</h4>
-<div class="form-inline">{{ form_row(form.pfmSeqno, {'label':'Platform'}) }}<a href="/mgmt/platforms/add">Add new Platform</a></div>
+<div class="form-inline">{{ form_row(form.pfmSeqno, {'label':'Platform'}) }}<a href="/mgmt/platforms/add">Add new
+        Platform</a></div>
 
 <h4>Campaign</h4>
 <div class="form-inline">{{ form_row(form.cpnCode, {'label':'Campaign'}) }}</div>
