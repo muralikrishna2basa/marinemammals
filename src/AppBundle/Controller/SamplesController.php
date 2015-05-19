@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 
 class SamplesController extends Controller
 {
-    public function indexAction()
+    public function indexOldAction()
     {
 
 // legacy application configures session
@@ -28,5 +28,16 @@ class SamplesController extends Controller
         //return $this->forward()
         return $this->render('AppBundle::samples.html.php');
         //return new RedirectResponse('/legacy/Import.php',301);
+    }
+
+    private $repo;
+
+    public function indexAction()
+    {
+        $this->repo = $this->getDoctrine()->getEntityManager()->getRepository('AppBundle:Samples');
+        $samples =  $this->repo->getFastSamples();
+        return $this->render('AppBundle:Page:list-samples.html.twig', array(
+            'samples'=>$samples
+        ));
     }
 }

@@ -184,6 +184,12 @@ mm_necropsies_photo_upload:
     requirements:
         _method:  POST
 
+mm_samples_view_old:
+    pattern:  /samples/old
+    defaults: { _controller: AppBundle:Samples:indexOld }
+    requirements:
+        _method:  GET
+
 mm_samples_view:
     pattern:  /samples
     defaults: { _controller: AppBundle:Samples:index }

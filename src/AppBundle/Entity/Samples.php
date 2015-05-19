@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Samples
  *
  * @ORM\Table(name="SAMPLES", indexes={@ORM\Index(name="spe_cln_fk_i", columns={"CLN_SEQNO"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\SamplesRepository")
  */
 class Samples
 {

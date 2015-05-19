@@ -1,0 +1,25 @@
+    <h2>List of samples</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>species</th>
+            <th>organ</th>
+            <th>conservation mode</th>
+            <th>intended use</th>
+            <th>date necropsied</th>
+        </tr>
+        </thead>
+        {% for s in samples %}
+            <tr>
+                <td>{{s.txn_vernacularNameEn}} (<i>{{s.txn_canonicalName}}</i>)</td>
+                <td>{{s.ogn_name}}</td>
+                <td>{{s.s_conservationMode}}</td>
+                <td>{{s.s_analyzeDest}}</td>
+                <td>{{s.ese_eventDatetime|date("d/m/Y")}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>No samples found.</td>
+            </tr>
+        {% endfor %}
+    </table>
