@@ -17,6 +17,7 @@ class Factory
     {
         $this->phpExcelIO = $phpExcelIO;
     }
+
     /**
      * Creates an empty PHPExcel Object if the filename is empty, otherwise loads the file into the object.
      *
@@ -26,13 +27,24 @@ class Factory
      */
     public function createPHPExcelObject($filename =  null)
     {
-        if (null == $filename) {
+        if (null === $filename) {
             $phpExcelObject = new \PHPExcel();
 
             return $phpExcelObject;
         }
 
         return call_user_func(array($this->phpExcelIO, 'load'), $filename);
+    }
+
+    /**
+     * Create a worksheet drawing
+     * @return \PHPExcel_Worksheet_Drawing
+     */
+    public function createPHPExcelWorksheetDrawing()
+    {
+            $Object = new \PHPExcel_Worksheet_Drawing();
+
+            return $Object;
     }
 
     /**
@@ -68,5 +80,16 @@ class Factory
             $status,
             $headers
         );
+    }
+
+    /**
+     * Create a PHPExcel Helper HTML Object
+     *
+     * @return \PHPExcel_Helper_HTML
+     */
+    public function createHelperHTML()
+    {
+        $Object = new \PHPExcel_Helper_HTML();
+        return $Object;
     }
 }

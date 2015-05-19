@@ -1,6 +1,18 @@
 {# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig  #}
 {% extends 'AppBundle::col-layout.html.twig' %}
+{% block javascripts%}
+    <script type="text/javascript">
+        //on select change, you navigate to indexAction and send the parameter maxItemPerPage
+        $('#maxItemPerPage').change(function(){
+
+            var item = $('#maxItemPerPage').find(":selected").text();
+
+            window.location.href = url.replace('_itemNum',item );
+        })
+    </script>
+{% endblock %}
  {% block title %}Browse samples{% endblock %}
+
 {% block main_content %}
     {{ include('AppBundle:Bare:list-samples.html.twig') }}
 {% endblock %}

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "69ee0852d9e80ff00d94f55288c9737e",
+    "hash": "fefd2715536fcccb20262a499c8b5117",
     "packages": [
         {
             "name": "cbsi/doctrine2-nestedset",
@@ -760,12 +760,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "7bdbe66c90a27b2f8298230309ad8d0cfec1cb6e"
+                "reference": "92d5624f2a29e74d8fd9d2a94d7ed7998a8c2809"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/7bdbe66c90a27b2f8298230309ad8d0cfec1cb6e",
-                "reference": "7bdbe66c90a27b2f8298230309ad8d0cfec1cb6e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/92d5624f2a29e74d8fd9d2a94d7ed7998a8c2809",
+                "reference": "92d5624f2a29e74d8fd9d2a94d7ed7998a8c2809",
                 "shasum": ""
             },
             "require": {
@@ -819,7 +819,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2015-05-01 08:19:36"
+            "time": "2015-05-05 15:08:24"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1131,12 +1131,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikFormFilterBundle.git",
-                "reference": "1791eb9b8fa0b1ad712d34ced074c597067a8ff4"
+                "reference": "e5799b22523c978639ec5359f14e230781e81d56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikFormFilterBundle/zipball/1791eb9b8fa0b1ad712d34ced074c597067a8ff4",
-                "reference": "1791eb9b8fa0b1ad712d34ced074c597067a8ff4",
+                "url": "https://api.github.com/repos/lexik/LexikFormFilterBundle/zipball/e5799b22523c978639ec5359f14e230781e81d56",
+                "reference": "e5799b22523c978639ec5359f14e230781e81d56",
                 "shasum": ""
             },
             "require": {
@@ -1182,38 +1182,38 @@
                 "filter",
                 "form"
             ],
-            "time": "2015-04-24 12:01:00"
+            "time": "2015-05-18 15:32:16"
         },
         {
             "name": "liuggio/ExcelBundle",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "target-dir": "Liuggio/ExcelBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liuggio/ExcelBundle.git",
-                "reference": "dce33eb948ba01303c15b9c3bd17390afe37407c"
+                "reference": "33ce101e5fb76786ea05da350ab394b596d7ee52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liuggio/ExcelBundle/zipball/dce33eb948ba01303c15b9c3bd17390afe37407c",
-                "reference": "dce33eb948ba01303c15b9c3bd17390afe37407c",
+                "url": "https://api.github.com/repos/liuggio/ExcelBundle/zipball/33ce101e5fb76786ea05da350ab394b596d7ee52",
+                "reference": "33ce101e5fb76786ea05da350ab394b596d7ee52",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "phpoffice/phpexcel": "~1.8.0",
-                "symfony/framework-bundle": "~2.1"
+                "symfony/framework-bundle": "~2.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*",
-                "sensio/framework-extra-bundle": "~2.1",
-                "symfony/browser-kit": "~2.1",
-                "symfony/class-loader": "~2.1",
-                "symfony/finder": "~2.0",
-                "symfony/form": "~2.1",
-                "symfony/validator": "~2.1"
+                "phpunit/phpunit": "~4.6",
+                "sensio/framework-extra-bundle": "~2.3",
+                "symfony/browser-kit": "~2.6",
+                "symfony/class-loader": "~2.6",
+                "symfony/finder": "~2.6",
+                "symfony/form": "~2.6",
+                "symfony/validator": "~2.6"
             },
-            "type": "library",
+            "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.0.x-dev"
@@ -1246,7 +1246,7 @@
                 "excel",
                 "xls"
             ],
-            "time": "2014-06-11 13:07:44"
+            "time": "2015-05-15 09:50:11"
         },
         {
             "name": "monolog/monolog",
@@ -1319,6 +1319,73 @@
                 "psr-3"
             ],
             "time": "2014-09-30 13:30:58"
+        },
+        {
+            "name": "pagerfanta/pagerfanta",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whiteoctober/Pagerfanta.git",
+                "reference": "0eec60b48d38132333369a681db2e32c42ad117d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whiteoctober/Pagerfanta/zipball/0eec60b48d38132333369a681db2e32c42ad117d",
+                "reference": "0eec60b48d38132333369a681db2e32c42ad117d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.3",
+                "doctrine/phpcr-odm": "1.*",
+                "jackalope/jackalope-doctrine-dbal": "1.*",
+                "jmikola/geojson": "~1.0",
+                "mandango/mandango": "~1.0@dev",
+                "mandango/mondator": "~1.0@dev",
+                "phpunit/phpunit": "~4",
+                "propel/propel1": "~1.6",
+                "ruflin/elastica": "~1.3",
+                "solarium/solarium": "~3.1"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm": "To use the DoctrineODMMongoDBAdapter.",
+                "doctrine/orm": "To use the DoctrineORMAdapter.",
+                "doctrine/phpcr-odm": "To use the DoctrineODMPhpcrAdapter. >= 1.1.0",
+                "mandango/mandango": "To use the MandangoAdapter.",
+                "propel/propel1": "To use the PropelAdapter",
+                "solarium/solarium": "To use the SolariumAdapter."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pagerfanta\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com"
+                }
+            ],
+            "description": "Pagination for PHP 5.3",
+            "keywords": [
+                "page",
+                "pagination",
+                "paginator",
+                "paging"
+            ],
+            "time": "2014-11-21 09:25:05"
         },
         {
             "name": "pear/html_common2",
@@ -2224,6 +2291,59 @@
                 "templating"
             ],
             "time": "2014-10-17 12:53:44"
+        },
+        {
+            "name": "white-october/pagerfanta-bundle",
+            "version": "dev-master",
+            "target-dir": "WhiteOctober/PagerfantaBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git",
+                "reference": "6001a8101a71892c3ddbeb89cbe0d666a36dd383"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberPagerfantaBundle/zipball/6001a8101a71892c3ddbeb89cbe0d666a36dd383",
+                "reference": "6001a8101a71892c3ddbeb89cbe0d666a36dd383",
+                "shasum": ""
+            },
+            "require": {
+                "pagerfanta/pagerfanta": "1.0.*",
+                "symfony/framework-bundle": "~2.2",
+                "symfony/property-access": "~2.2",
+                "symfony/twig-bundle": "~2.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7",
+                "symfony/symfony": "~2.2"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "WhiteOctober\\PagerfantaBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com"
+                }
+            ],
+            "description": "Bundle to use Pagerfanta with Symfony2",
+            "keywords": [
+                "page",
+                "paging"
+            ],
+            "time": "2015-04-29 21:29:00"
         }
     ],
     "packages-dev": [
@@ -3139,6 +3259,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "cbsi/doctrine2-nestedset": 20,
+        "white-october/pagerfanta-bundle": 20,
+        "pagerfanta/pagerfanta": 20,
         "lexik/form-filter-bundle": 20,
         "friendsofsymfony/user-bundle": 20,
         "pear/html_quickform2": 20

@@ -1,25 +1,42 @@
-    <h2>List of samples</h2>
-    <table class="table table-striped">
-        <thead>
+<div id="map"></div>
+<h2>List of samples</h2>
+<p class="count">
+    The above criteria match NNNN observations.
+</p>
+<div class="pagination_head">
+    {% if samples.haveToPaginate %}
+        {{ pagerfanta(samples) }}
+    {% endif %}
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>species</th>
+        <th>organ</th>
+        <th>conservation mode</th>
+        <th>intended use</th>
+        <th>date found</th>
+        <th>date necropsied</th>
+    </tr>
+    </thead>
+    {% for s in samples.currentPageResults %}
         <tr>
-            <th>species</th>
-            <th>organ</th>
-            <th>conservation mode</th>
-            <th>intended use</th>
-            <th>date necropsied</th>
+            <td>{{ s.vernacularNameEn }} (<i>{{ s[0].txn_canonicalName }}</i>)</td>
+            <td>{{ s[0].olnLteSeqno.lteSeqno.ognCode.ognName }}</td>
+            <td>{{ s.s_conservationMode }}</td>
+            <td>{{ s.s_analyzeDest }}</td>
+            <td>{{ s.date_found|date("d/m/Y") }}</td>
+            <td>{{ s.ese_eventDatetime|date("d/m/Y") }}</td>
         </tr>
-        </thead>
-        {% for s in samples %}
-            <tr>
-                <td>{{s.txn_vernacularNameEn}} (<i>{{s.txn_canonicalName}}</i>)</td>
-                <td>{{s.ogn_name}}</td>
-                <td>{{s.s_conservationMode}}</td>
-                <td>{{s.s_analyzeDest}}</td>
-                <td>{{s.ese_eventDatetime|date("d/m/Y")}}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td>No samples found.</td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% else %}
+        <tr>
+            <td>No samples found.</td>
+        </tr>
+    {% endfor %}
+</table>
+<div class="pagination_foot">
+    {% if samples.haveToPaginate %}
+        {{ pagerfanta(samples) }}
+    {% endif %}
+</div>

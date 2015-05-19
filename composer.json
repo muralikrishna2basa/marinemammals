@@ -30,6 +30,8 @@
         "twig/extensions":"1.2.0",
         "twig/twig":"1.16.2",
         "knplabs/knp-paginator-bundle": "~2.4",
+	"white-october/pagerfanta-bundle": "1.0.*@dev",
+	"pagerfanta/pagerfanta": "1.0.*@dev",
 	"lexik/form-filter-bundle": "3.*@dev",
         "friendsofsymfony/user-bundle": "~2.0@dev",
 	"liuggio/excelbundle": "~2.0",

@@ -9,6 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SamplesController extends Controller
 {
@@ -32,12 +36,27 @@ class SamplesController extends Controller
 
     private $repo;
 
-    public function indexAction()
+    public function indexAction($page=null/*, $maxItemPerPage=20*/)
     {
         $this->repo = $this->getDoctrine()->getEntityManager()->getRepository('AppBundle:Samples');
-        $samples =  $this->repo->getFastSamples();
+        $samples =  $this->repo->getFastSamplesQb();
+        $adapter = new DoctrineORMAdapter($samples);
+        $pager =  new Pagerfanta($adapter);
+        $pager->setMaxPerPage(10);
+        if (!$page)    $page = 1;
+        try  {
+            $pager->setCurrentPage($page);
+        }
+        catch(NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException('Illegal page');
+        }
+        $data = $pager->getCurrentPageResults();
+        $arr=iterator_to_array($data);
+        \Doctrine\Common\Util\Debug::dump($arr);
         return $this->render('AppBundle:Page:list-samples.html.twig', array(
-            'samples'=>$samples
+            'samples'=>$pager
         ));
+
     }
+
 }

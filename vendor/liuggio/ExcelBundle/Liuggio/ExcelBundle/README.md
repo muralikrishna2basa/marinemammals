@@ -33,10 +33,8 @@ I encourage you to use the built-in function for csv: http://php.net/manual-look
 
 **1**  Add to composer.json to the `require` key
 
-``` yml
-    "require" : {
-        "liuggio/excelbundle": "~2.0",
-    }
+``` shell
+    $composer require liuggio/excelbundle
 ``` 
 
 **2** Register the bundle in ``app/AppKernel.php``
@@ -75,6 +73,24 @@ $writer->save('file.xls');
 $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
 $response = $this->get('phpexcel')->createStreamedResponse($writer);
 ```
+
+- Create a Excel file with an image:
+
+```php
+$writer = $this->get('phpexcel')->createPHPExcelObject();
+$writer->setActiveSheetIndex(0);
+$activesheet = $writer->getActiveSheet();
+
+$drawingobject = $this->get('phpexcel')->createPHPExcelWorksheetDrawing();
+$drawingobject->setName('Image name');
+$drawingobject->setDescription('Image description');
+$drawingobject->setPath('/path/to/image');
+$drawingobject->setHeight(60);
+$drawingobject->setOffsetY(20);
+$drawingobject->setCoordinates('A1');
+$drawingobject->setWorksheet($activesheet)
+```
+
 ## Not Only 'Excel5'
 
 The list of the types are:
@@ -104,6 +120,7 @@ You could find a lot of examples in the official PHPExcel repository https://git
 namespace YOURNAME\YOURBUNDLE\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DefaultController extends Controller
 {
@@ -132,8 +149,11 @@ class DefaultController extends Controller
         // create the response
         $response = $this->get('phpexcel')->createStreamedResponse($writer);
         // adding headers
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'stream-file.xls'
+        );
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-        $response->headers->set('Content-Disposition', 'attachment;filename=stream-file.xls');
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Cache-Control', 'maxage=1');
 
@@ -152,5 +172,3 @@ the [list of contributors](https://github.com/liuggio/ExcelBundle/graphs/contrib
 2. clone the repo
 3. get the coding standard fixer: `wget http://cs.sensiolabs.org/get/php-cs-fixer.phar`
 4. before the PullRequest you should run the coding standard fixer with `php php-cs-fixer.phar fix -v .`
-
-
