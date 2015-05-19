@@ -56,7 +56,7 @@ class SamplesController extends Controller
         return $this->render('AppBundle:Page:list-samples.html.twig', array(
             'samples'=>$pager
         ));
-
+        add test 
     }
 
 }
