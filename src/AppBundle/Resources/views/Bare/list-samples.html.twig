@@ -4,9 +4,7 @@
     The above criteria match NNNN observations.
 </p>
 <div class="pagination_head">
-    {% if samples.haveToPaginate %}
-        {{ pagerfanta(samples) }}
-    {% endif %}
+    {{ paginator|raw }}
 </div>
 
 <table class="table table-striped">
@@ -20,10 +18,10 @@
         <th>date necropsied</th>
     </tr>
     </thead>
-    {% for s in samples.currentPageResults %}
+    {% for s in samples %}
         <tr>
-            <td>{{ s.vernacularNameEn }} (<i>{{ s[0].txn_canonicalName }}</i>)</td>
-            <td>{{ s[0].olnLteSeqno.lteSeqno.ognCode.ognName }}</td>
+            <td>{{ s.txn_vernacularNameEn }} (<i>{{ s.txn_canonicalName }}</i>)</td>
+            <td>{{ s.ogn_name }}</td>
             <td>{{ s.s_conservationMode }}</td>
             <td>{{ s.s_analyzeDest }}</td>
             <td>{{ s.date_found|date("d/m/Y") }}</td>
@@ -36,7 +34,5 @@
     {% endfor %}
 </table>
 <div class="pagination_foot">
-    {% if samples.haveToPaginate %}
-        {{ pagerfanta(samples) }}
-    {% endif %}
+    {{ paginator|raw }}
 </div>
