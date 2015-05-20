@@ -101,6 +101,14 @@ class Users implements AdvancedUserInterface, \Serializable
      */
     private $roles;
 
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User2Requests", mappedBy="usrSeqno")
+     */
+    private $user2Requests;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
@@ -324,6 +332,26 @@ class Users implements AdvancedUserInterface, \Serializable
         $this->modUser = $modUser;
         return $this;
     }
+
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser2Requests()
+    {
+        return $this->user2Requests;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $user2Requests
+     * @return Persons
+     */
+    public function setUser2Requests($user2Requests)
+    {
+        $this->user2Requests = $user2Requests;
+        return $this;
+    }
+
 
     /**
      * @inheritDoc

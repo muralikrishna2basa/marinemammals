@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * RequestLoans
  *
  * @ORM\Table(name="REQUEST_LOANS")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\RequestLoansRepository")
  */
 class RequestLoans
 {
@@ -95,9 +95,9 @@ class RequestLoans
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Person2Requests", mappedBy="rlnSeqno")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User2Requests", mappedBy="rlnSeqno")
      */
-    private $person2Requests;
+    private $user2Requests;
 
     /**
      * Constructor
@@ -105,7 +105,7 @@ class RequestLoans
     public function __construct()
     {
         $this->speSeqno = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->person2Requests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->user2Requests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -362,18 +362,32 @@ class RequestLoans
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPerson2Requests()
+    public function getUser2Requests()
     {
-        return $this->person2Requests;
+        return $this->user2Requests;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $person2Requests
+     * @param \Doctrine\Common\Collections\Collection $user2Requests
      * @return RequestLoans
      */
-    public function setPerson2Requests($person2Requests)
+    public function setUser2Requests($user2Requests)
     {
-        $this->person2Requests = $person2Requests;
+        $this->user2Requests = $user2Requests;
         return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\User2Requests $user2Request
+     * @return RequestLoans
+     */
+    public function addUser2Requests($user2Request)
+    {
+        $this->user2Requests->add($user2Request);
+        return $this;
+    }
+
+    public function nbSamples(){
+        return $this->getSpeSeqno()->count();
     }
 }

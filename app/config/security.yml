@@ -50,8 +50,8 @@ security:
         - { path: ^$|^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mgmt/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mgmt, roles: ROLE_ADMIN }
-        - { path: ^/tissuebank, roles: ROLE_ADMIN }
-        - { path: ^/tissuebank, roles: ROLE_USER }
+        - { path: ^/samples/biobank, roles: ROLE_ADMIN }
+        - { path: ^/samples/biobank, roles: ROLE_USER }
         - { path: ^/mgmt/necropsies/add, roles: ROLE_AUTOPSY_MGR }
         - { path: ^/mgmt/observations/add, roles: ROLE_OBSERVATION_MGR }
         - { path: ^/mgmt/observations/import, roles: ROLE_OBSERVATION_MGR }

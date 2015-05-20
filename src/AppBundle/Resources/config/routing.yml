@@ -191,8 +191,26 @@ mm_samples_view_old:
         _method:  GET
 
 mm_samples_view:
-    pattern:  /samples
+    pattern:  /samples/biobank
     defaults: { _controller: AppBundle:Samples:index }
+    requirements:
+        _method:  GET
+
+mm_request_add_create:
+    pattern:  /samples/biobank/requests/add
+    defaults: { _controller: AppBundle:RequestLoans:create }
+    requirements:
+        _method:  POST
+
+mm_request_edit:
+    pattern:  /samples/biobank/requests/update/{id}
+    defaults: { _controller: AppBundle:RequestLoans:update }
+    requirements:
+        _method:  GET
+
+mm_request_view:
+    pattern:  /samples/biobank/requests/view/{id}
+    defaults: { _controller: AppBundle:RequestLoans:view }
     requirements:
         _method:  GET
 

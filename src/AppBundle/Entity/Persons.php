@@ -161,13 +161,6 @@ class Persons
     private $event2Persons;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Person2Requests", mappedBy="psnSeqno")
-     */
-    private $person2Requests;
-
-    /**
      * @var \AppBundle\Entity\Users
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Users", mappedBy="person")
      */
@@ -644,24 +637,6 @@ class Persons
     public function setEvent2Persons($event2Persons)
     {
         $this->event2Persons = $event2Persons;
-        return $this;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPerson2Requests()
-    {
-        return $this->person2Requests;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $person2Requests
-     * @return Persons
-     */
-    public function setPerson2Requests($person2Requests)
-    {
-        $this->person2Requests = $person2Requests;
         return $this;
     }
 

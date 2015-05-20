@@ -33,6 +33,10 @@ form textarea {
     margin-bottom: 1em;
 }
 
+.col-md-4 form textarea{
+    width: 22em !important;
+}
+
 form div.radio label {
     width: 120px;
     margin-right: 10px;
@@ -62,6 +66,13 @@ form .control-label {
     width: 120px;
     margin-right: 10px;
     text-align: right;
+}
+
+form .control-label label{
+display:inline !important;
+}
+
+form div.form-inline .control-label {
     float: left;
 }
 

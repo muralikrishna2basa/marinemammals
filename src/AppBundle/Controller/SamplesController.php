@@ -4,19 +4,13 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Symfony\Component\HttpFoundation\RedirectResponse;
-//use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\RequestLoansType;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
-/*
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\Pagerfanta;
-use Pagerfanta\Exception\NotValidCurrentPageException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-*/
+
 use AppBundle\ControllerHelper\Paginator;
+
 
 class SamplesController extends Controller
 {
@@ -38,49 +32,16 @@ class SamplesController extends Controller
         //return new RedirectResponse('/legacy/Import.php',301);
     }
 
-    private $repo;
+    private $sampleRepo;
 
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        //$currentPage=$request->query->get('page');
-        //$pageSize=$request->query->get('pagesize');
 
-        $this->repo = $this->getDoctrine()->getEntityManager()->getRepository('AppBundle:Samples');
-        //$samples =  $this->repo->getFastSamplesQb();
-        /*$adapter = new DoctrineORMAdapter($samples);
-        $pager =  new Pagerfanta($adapter);
-        $pager->setMaxPerPage(10);
-        if (!$page)    $page = 1;
-        try  {
-            $pager->setCurrentPage($page);
-        }
-        catch(NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException('Illegal page');
-        }
-        $data = $pager->getCurrentPageResults();
-        $arr=iterator_to_array($data);
-        \Doctrine\Common\Util\Debug::dump($arr);
-        return $this->render('AppBundle:Page:list-samples.html.twig', array(
-            'samples'=>$pager
-        ));*/
-        /*$paginator  = new \Doctrine\ORM\Tools\Pagination\Paginator($samples);
-
-        $totalItems = count($paginator);
-        $pagesCount = ceil($totalItems / $pageSize);
-
-// now get one page's items:
-        $paginator
-            ->getQuery()
-            ->setFirstResult($pageSize * ($currentPage-1)) // set the offset
-            ->setMaxResults($pageSize); // set the limit
-        return $this->render('AppBundle:Page:list-samples.html.twig', array(
-            'samples'=>$pager
-        ));*/
-
+        $this->sampleRepo = $this->getDoctrine()->getEntityManager()->getRepository('AppBundle:Samples');
         //order of items from database
         $order_by = array();
         //Using custom made database query function in LanguageRepository class
-        $samplesCount = $this->repo->getSamplesCount();
+        $samplesCount = $this->sampleRepo->getSamplesCount();
         //When creating new paginator object it takes care for pages and items
         //organization based on numbers of items from database and limit variable in $_GET
 
@@ -102,21 +63,21 @@ class SamplesController extends Controller
         }
         //To fill $languages for forwarding it to the template, we first call database function
         //with $offset and $limit to get items we wanted
-        $samples = $this->repo->getSamplesListWithPagination($order_by, $paginator->getOffset(), $paginator->getLimit());
+        $samples = $this->sampleRepo->getSamplesListWithPagination($order_by, $paginator->getOffset(), $paginator->getLimit());
         //Finally - return array to templating engine for displaying data.
         //return array('samples' => $samples, 'sort_dir' => $sort_direction, 'paginator' => $strPaginator);
 
+        $currentUser = $this->getUser();
+        $request = $this->get('requestloans_provider')->prepareNewRequestLoan($currentUser);
+
+        $sample=$this->sampleRepo->findBySeqno(19233);
+        $request->addSpeSeqno($sample);
+
+        $requests = $this->get('requestloans_provider')->loadUserRequests($currentUser);
+        $form = $this->createForm(new RequestLoansType($this->getDoctrine()), $request);
+
         return $this->render('AppBundle:Page:list-samples.html.twig', array(
-            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator' => $strPaginator
+            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator_html' => $strPaginator, 'paginator' => $paginator, 'previous_requests' => $requests, 'request' => $request, 'request_form' => $form->createView()
         ));
     }
-/*
-    protected function getDoctrinePaginator(QueryBuilder $qb, $limit=10)
-    {
-        $page = $this->getRequest()->query->get("page", 1) ;
-        $qb ->setFirstResult( ( $page-1 ) * $limit)->setMaxResults($limit) ;
-
-        return new Paginator($qb);
-    }*/
-
 }

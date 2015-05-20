@@ -1,0 +1,47 @@
+<h2>Previous requests</h2>
+{% for r in previous_requests %}
+    <ul>
+        <li>
+            <a href="{{  path('mm_request_view',{'id': r.seqno})}}">{{ r.dateRequest|date('d/m/Y') }} - number of samples: {{  r.nbSamples }} - status: {{ r.status }}</a>
+        </li>
+    </ul>
+{% endfor %}
+<h2>Samples in the current request</h2>
+{{ form_start(request_form, {'method': 'POST','action': path('mm_request_add_create'),'attr':{'id':'request_form', 'novalidate':'true'}}) }}
+<div class="well">
+    <table class="table table-striped" style="width:750px;">
+        <thead>
+        <tr>
+            <th>species</th>
+            <th>organ--cons. mode--use</th>
+            <th>date necropsied</th>
+        </tr>
+        </thead>
+        {#{% for s in request.speSeqno %}
+            <tr>
+                <td>{{ s.olnLteSeqno. }} (<i>{{ s.txn_canonicalName }}</i>)</td>
+                <td>{{ s.ogn_name }}--{{ s.s_conservationMode }}--{{ s.s_analyzeDest }}</td>
+                <td>{{ s.ese_eventDatetime|date("d/m/Y") }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>No samples found.</td>
+            </tr>
+        {% endfor %}#}
+    </table>
+    <h3>Add new sample</h3>
+    <ul class="samples" data-prototype="">
+    {% for s in request_form.speSeqno %}
+        <li class="form-inline">
+            {{ form_row(s, {'label':'Sample id','attr':{'placeholder':'A valid sample seqno'} }) }}
+        </li>
+    {% endfor %}
+    </ul>
+    <div>{{ form_row(request_form.studyDescription, {'label':'Study description'}) }}</div>
+    <div>{{ form_row(request_form.user2Requests.p2rType, {'label':'capacity'}) }}</div>
+
+    <p>
+        <input type="submit" value="Submit" class="btn btn-od">
+    </p>
+</div>
+{{ form_end(request_form) }}

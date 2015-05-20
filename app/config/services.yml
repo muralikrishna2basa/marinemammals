@@ -141,3 +141,7 @@ services:
     observations_provider:
         class: AppBundle\ControllerHelper\ObservationProvider
         arguments: [@doctrine.orm.entity_manager]
+
+    requestloans_provider:
+        class: AppBundle\ControllerHelper\RequestLoansProvider
+        arguments: [@doctrine.orm.entity_manager]

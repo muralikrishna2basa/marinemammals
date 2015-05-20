@@ -131,16 +131,21 @@ class Paginator
         }
         $html .= '>All</option>';
         $html .= '</select>';
-        $html .= '</form>';
 
-        $html .= '<ul>';
-
+        $html .= '<select name="page" onchange="javascript:document.forms.paginator.submit()">';
         //Generate links for pages
         for ($i = 1; $i < $this->numpages + 1; $i++) {
-
-            $html .= '<li><a href="' . $_SERVER['PHP_SELF'] . '?limit=' . $this->limit . '&amp;page=' . $i . '">' . $i . '</a></li>';
+            $html .= '<option value="'.$i.'"';
+            if ($this->currentpage==$i){
+                $html .= ' selected';
+            }
+            $html .= '>'.$i.'</option>';
+            //$html .= '<li><a href="' . $_SERVER['PHP_SELF'] . '?limit=' . $this->limit . '&amp;page=' . $i . '">' . $i . '</a></li>';
         }
-        $html .= '</ul>';
+        //$html .= '</ul>';
+        //$html .= '</div>';
+        $html .= '</select>';
+        $html .= '</form>';
         $html .= '</div>';
 
         return $html;
@@ -153,9 +158,14 @@ class Paginator
     }
 
     //For using from controller
+    public function getItemscount()
+    {
+        return $this->itemscount;
+    }
+
+    //For using from controller
     public function getOffset()
     {
         return $this->offset;
     }
-
 }

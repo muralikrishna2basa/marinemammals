@@ -1,13 +1,12 @@
-<div id="map"></div>
 <h2>List of samples</h2>
 <p class="count">
-    The above criteria match NNNN observations.
+    The above criteria match  {{ paginator.getItemscount}} observations.
 </p>
 <div class="pagination_head">
-    {{ paginator|raw }}
+    {{ paginator_html|raw }}
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped" style="width:750px;">
     <thead>
     <tr>
         <th>species</th>
@@ -16,6 +15,7 @@
         <th>intended use</th>
         <th>date found</th>
         <th>date necropsied</th>
+        <th>select</th>
     </tr>
     </thead>
     {% for s in samples %}
@@ -26,6 +26,7 @@
             <td>{{ s.s_analyzeDest }}</td>
             <td>{{ s.date_found|date("d/m/Y") }}</td>
             <td>{{ s.ese_eventDatetime|date("d/m/Y") }}</td>
+            <td><label for=select_{{ s.s_seqno }}"></label><input type="checkbox" data-seqno="{{ s.s_seqno }}" id="select_{{ s.s_seqno }}" name="select_{{ s.s_seqno }}" class="select-sample"></td>
         </tr>
     {% else %}
         <tr>
@@ -34,5 +35,5 @@
     {% endfor %}
 </table>
 <div class="pagination_foot">
-    {{ paginator|raw }}
+    {{ paginator_html|raw }}
 </div>

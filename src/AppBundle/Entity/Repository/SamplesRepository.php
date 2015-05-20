@@ -3,10 +3,22 @@
 namespace AppBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Query;
 
 class SamplesRepository extends EntityRepository
 {
+
+    public function findBySeqno($seqno)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.seqno = :seqno')
+            ->setParameter('seqno', $seqno);
+
+        $res = $qb->getQuery()
+            ->getSingleResult(Query::HYDRATE_OBJECT);
+        return $res;
+    }
 
     public function getCompleteSamples()
     {
@@ -46,10 +58,11 @@ class SamplesRepository extends EntityRepository
             ->leftJoin('ncy.eseSeqno', 'ese')
             ->leftJoin('ese.spec2events', 's2e')
             ->leftJoin('s2e.scnSeqno', 'scn')
-            ->leftJoin('scn.txnSeqno', 'txn');
+            ->leftJoin('scn.txnSeqno', 'txn')
+            ->join('s.rlnSeqno', 'rln');
     }
 
-    public function getSamplesListWithPagination($order_by = array(), $offset = 0, $limit = 0, $scalar=true)
+    public function getSamplesListWithPagination($order_by = array(), $offset = 0, $limit = 0, $scalar = true)
     {
         //Create query builder for languages table
         $qb = $this->getPartialSamplesQb();
@@ -69,10 +82,9 @@ class SamplesRepository extends EntityRepository
         //Get our query
         $q = $qb->getQuery();
         //Return result
-        if($scalar){
+        if ($scalar) {
             return $q->getScalarResult();
-        }
-        else{
+        } else {
             return $q->getResult();
         }
 

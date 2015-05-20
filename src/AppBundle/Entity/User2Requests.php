@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Person2Requests
+ * User2Requests
  *
- * @ORM\Table(name="PERSON2REQUESTS", indexes={@ORM\Index(name="P2R_PK", columns={"RLN_SEQNO", "PSN_SEQNO"}), @ORM\Index(name="P2R_PSN_FK_I", columns={"PSN_SEQNO"})})
+ * @ORM\Table(name="USER2REQUESTS", indexes={@ORM\Index(name="U2R_PK", columns={"RLN_SEQNO", "USR_SEQNO"})})
  * @ORM\Entity
  */
-class Person2Requests
+class User2Requests
 {
     /**
      * @var \DateTime
@@ -48,23 +48,23 @@ class Person2Requests
     private $p2rType;
 
     /**
-     * @var \AppBundle\Entity\Persons
+     * @var \AppBundle\Entity\Users
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Persons", inversedBy="person2Requests")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Users", inversedBy="user2Requests")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="PSN_SEQNO", referencedColumnName="SEQNO", nullable=false)
+     *   @ORM\JoinColumn(name="USR_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
      */
-    private $psnSeqno;
+    private $usrSeqno;
 
     /**
      * @var \AppBundle\Entity\RequestLoans
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RequestLoans", inversedBy="person2Requests")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RequestLoans", inversedBy="user2Requests")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="RLN_SEQNO", referencedColumnName="SEQNO", nullable=false)
      * })
@@ -76,7 +76,7 @@ class Person2Requests
      * Set creDat
      *
      * @param \DateTime $creDat
-     * @return Person2Requests
+     * @return User2Requests
      */
     public function setCreDat($creDat)
     {
@@ -99,7 +99,7 @@ class Person2Requests
      * Set creUser
      *
      * @param string $creUser
-     * @return Person2Requests
+     * @return User2Requests
      */
     public function setCreUser($creUser)
     {
@@ -122,7 +122,7 @@ class Person2Requests
      * Set modDat
      *
      * @param \DateTime $modDat
-     * @return Person2Requests
+     * @return User2Requests
      */
     public function setModDat($modDat)
     {
@@ -145,7 +145,7 @@ class Person2Requests
      * Set modUser
      *
      * @param string $modUser
-     * @return Person2Requests
+     * @return User2Requests
      */
     public function setModUser($modUser)
     {
@@ -168,7 +168,7 @@ class Person2Requests
      * Set p2rType
      *
      * @param string $p2rType
-     * @return Person2Requests
+     * @return User2Requests
      */
     public function setP2rType($p2rType)
     {
@@ -188,26 +188,26 @@ class Person2Requests
     }
 
     /**
-     * Set psnSeqno
+     * Set usrSeqno
      *
-     * @param \AppBundle\Entity\Persons $psnSeqno
-     * @return Person2Requests
+     * @param \AppBundle\Entity\Users $usrSeqno
+     * @return User2Requests
      */
-    public function setPsnSeqno(\AppBundle\Entity\Persons $psnSeqno)
+    public function setUsrSeqno(\AppBundle\Entity\Users $usrSeqno)
     {
-        $this->psnSeqno = $psnSeqno;
+        $this->usrSeqno = $usrSeqno;
     
         return $this;
     }
 
     /**
-     * Get psnSeqno
+     * Get usrSeqno
      *
-     * @return \AppBundle\Entity\Persons 
+     * @return \AppBundle\Entity\Users 
      */
-    public function getPsnSeqno()
+    public function getUsrSeqno()
     {
-        return $this->psnSeqno;
+        return $this->usrSeqno;
     }
 
     /**
@@ -221,7 +221,7 @@ class Person2Requests
 
     /**
      * @param RequestLoans $rlnSeqno
-     * @return Person2Requests
+     * @return User2Requests
      */
     public function setRlnSeqno($rlnSeqno)
     {
