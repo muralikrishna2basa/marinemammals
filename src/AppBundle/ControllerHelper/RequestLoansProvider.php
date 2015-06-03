@@ -40,7 +40,7 @@ class RequestLoansProvider
         $request = new RequestLoans();
         $user2request = new User2Requests();
         $user2request->setUsrSeqno($user); //add the p2r type later, important, make this choosable
-        $user2request->getP2rType();
+        //$user2request->getP2rType();
         $request->addUser2Requests($user2request);
 
         return $request;

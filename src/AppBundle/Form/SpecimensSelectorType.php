@@ -20,6 +20,7 @@ class SpecimensSelectorType extends AbstractType
     {
         $transformer = new SeqnoToSpecimenTransformer($this->doctrine);
         $builder->addModelTransformer($transformer);
+
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

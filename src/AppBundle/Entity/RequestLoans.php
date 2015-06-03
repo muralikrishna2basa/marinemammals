@@ -335,7 +335,18 @@ class RequestLoans
     public function addSpeSeqno(\AppBundle\Entity\Samples $speSeqno)
     {
         $this->speSeqno[] = $speSeqno;
-    
+        return $this;
+    }
+
+    /**
+     * Add speSeqno
+     *
+     * @param array $speSeqno
+     * @return RequestLoans
+     */
+    public function addSpeSeqnoArray($speSeqno)
+    {
+        $this->speSeqno[] = $speSeqno;
         return $this;
     }
 

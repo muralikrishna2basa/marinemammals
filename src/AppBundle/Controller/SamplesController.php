@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 
 use AppBundle\ControllerHelper\Paginator;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class SamplesController extends Controller
 {
@@ -34,9 +36,8 @@ class SamplesController extends Controller
 
     private $sampleRepo;
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-
         $this->sampleRepo = $this->getDoctrine()->getEntityManager()->getRepository('AppBundle:Samples');
         //order of items from database
         $order_by = array();
@@ -68,16 +69,18 @@ class SamplesController extends Controller
         //return array('samples' => $samples, 'sort_dir' => $sort_direction, 'paginator' => $strPaginator);
 
         $currentUser = $this->getUser();
-        $request = $this->get('requestloans_provider')->prepareNewRequestLoan($currentUser);
+        $sampleRequest = $this->get('requestloans_provider')->prepareNewRequestLoan($currentUser);
 
-        $sample=$this->sampleRepo->findBySeqno(19233);
-        $request->addSpeSeqno($sample);
+        $request->cookies->get('current-samples');
+
+        /*$sample=$this->sampleRepo->findBySeqno(19233);
+        $request->addSpeSeqno($sample);*/
 
         $requests = $this->get('requestloans_provider')->loadUserRequests($currentUser);
-        $form = $this->createForm(new RequestLoansType($this->getDoctrine()), $request);
+        $form = $this->createForm(new RequestLoansType($this->getDoctrine()), $sampleRequest);
 
-        return $this->render('AppBundle:Page:list-samples.html.twig', array(
-            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator_html' => $strPaginator, 'paginator' => $paginator, 'previous_requests' => $requests, 'request' => $request, 'request_form' => $form->createView()
+        return $this->render('AppBundle:Page:list-samples-add-requests.html.twig', array(
+            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator_html' => $strPaginator, 'paginator' => $paginator, 'previous_requests' => $requests, 'request' => $sampleRequest, 'request_form' => $form->createView()
         ));
     }
 }
