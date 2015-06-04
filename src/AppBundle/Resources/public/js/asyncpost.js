@@ -5,10 +5,11 @@ var AsyncPostNClick =  {
     //var $clickedRow;
     //var $modal;
 
-
+    myselfIdentifier:'', //the identifier of myself (e.g. a div surrounding me)
     formIdentifier:'', //the identifier of the form that is stored inside the element that should behave asynchronous
     linkIdentifier:'', //the identifier of all the links stored inside the element that should behave asynchronous
     additionalFunction:[function(){}], //array of functions
+    formSubmitSuccessCallback:function(){},
 
     postForm: function($form, callback) {
         var values = {};
@@ -60,19 +61,21 @@ var AsyncPostNClick =  {
         }
     },
 
-    allowAsyncSubmit: function ($myself, $form, callback) {
+    allowAsyncSubmit: function () {
+        var $myself=$(this.myselfIdentifier);
+        var $form=$(this.formIdentifier);
         this.initAsyncLayout($form);
         var that=this;
         $form.submit(function (e) {
             e.preventDefault();
             that.postForm($(this), function (response) {
                 $myself.html(response);
-                //callback();
-                var $form = $('form#observationfilterform');
-                that.allowAsyncSubmit($myself, $form, callback);
+                that.formSubmitSuccessCallback();
+                that.allowAsyncSubmit();
+                that.allowAsyncLinks();
+                //$form=$(that.formIdentifier);
                 //$as = $('ul.pagination a');
                 //allowAsyncLinks($myself, $as);
-                that.allowAsyncLinks($myself);
             });
             return false;
         });
@@ -89,16 +92,18 @@ var AsyncPostNClick =  {
                 evalScripts: true,
                 success: function (response) {
                     $myself.html(response);
+                    that.allowAsyncSubmit();
+                    that.allowAsyncLinks();
                     //$as = $('ul.pagination a');
-                    var $as = $(that.linkIdentifier);
-                    that.allowAsyncLinks($myself, $as);
+                    //var $as = $(that.linkIdentifier);
                 }
             });
             return false;
         });
     },
 
-    allowAsyncLinks: function ($myself) {
+    allowAsyncLinks: function () {
+        var $myself=$(this.myselfIdentifier);
         var $as = $(this.linkIdentifier);
         var that=this;
         $as.each(function (i, e) {

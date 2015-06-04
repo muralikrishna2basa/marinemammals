@@ -166,6 +166,7 @@ $(document).ready(function () {
                     var ap = Object.create(AsyncPostNClick);
                     ap.formIdentifier='form#observationfilterform';
                     ap.linkIdentifier='ul.pagination a';
+                    ap.myselfIdentifier='div#specimen-searcher';
                     ap.additionalFunction.push(function () {
                         $("#specimen-searcher #observationstable tbody tr").click(function () {
                             if (typeof($clickedRow) !== 'undefined') {
@@ -179,8 +180,8 @@ $(document).ready(function () {
                             $seqnoField.val(seqno).trigger('change');
                         });
                     });
-                    ap.allowAsyncSubmit($specimenModalContent, $observationfilterform);
-                    ap.allowAsyncLinks($specimenModalContent);
+                    ap.allowAsyncSubmit();
+                    ap.allowAsyncLinks();
                 });
             }
 
