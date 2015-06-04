@@ -3,7 +3,7 @@
 {% set baseparent='no-assets.html.twig' %}
  {% block title %}Browse observations{% endblock %}
 {% block container %}
-    <div id="specimen-searcher">
+    <div id="specimen-searcher" class="modal-content">
         {% include'AppBundle:Bare:mgmt-list-observed-specimens.html.twig' with {popup: true} %}
     </div>
 {% endblock %}

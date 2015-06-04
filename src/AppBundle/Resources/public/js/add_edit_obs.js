@@ -92,8 +92,8 @@ $(document).ready(function () {
         animate: false,
         tabActiveClass: "active"
     }).bind('easytabs:before', function (evt, destTab, destPanel, data) {
-        var $currentTab = $(this).find('li.active');
-        var $currentPanel = $(this).find('fieldset.active');
+        $currentTab = $(this).find('li.active');
+        $currentPanel = $(this).find('fieldset.active');
         var goBack = destTab.parent().isBefore($currentTab); //destTab is actually the anchor
         var $clientSideErrors = $('#formerror_clientside');
         var valid = validateContainer($currentPanel, validator, $clientSideErrors);
@@ -109,8 +109,9 @@ $(document).ready(function () {
     });
     stationSelector.select2();
     newSpecimenChoiceField.select2({
-        dropdownAutoWidth : true,
-        containerCss : {"display":"block"} });
+        dropdownAutoWidth: true,
+        containerCss: {"display": "block"}
+    });
     $('[data-tooltip!=""]').qtip({
         content: {
             attr: 'data-tooltip'
@@ -155,9 +156,34 @@ $(document).ready(function () {
         modal: true,
         draggable: false,
         open: function () {
-            if($(this).html().length == 0){
-                $(this).load('/ajax/observed-specimens');
+            if ($(this).html().length == 0) {
+                $(this).load('/ajax/observed-specimens', function () {
+                    //var $specimenSearcher = $('div#specimen-searcher');
+                    var $specimenModalContent = $specimenModalDiv.find('.modal-content');
+                    var $observationfilterform = $('form#observationfilterform');
+                    //var $as = $('ul.pagination a');
+                    //var aIdent='ul.pagination a';
+                    var ap = Object.create(AsyncPostNClick);
+                    ap.formIdentifier='form#observationfilterform';
+                    ap.linkIdentifier='ul.pagination a';
+                    ap.additionalFunction.push(function () {
+                        $("#specimen-searcher #observationstable tbody tr").click(function () {
+                            if (typeof($clickedRow) !== 'undefined') {
+                                $clickedRow.removeClass('selected');
+                            }
+                            $clickedRow = $(this);
+                            $(this).addClass('selected');
+                            var seqno = $(this).find('td.seqno').html();
+                            var $seqnoField = $('input#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
+                            //('div#specimen-searcher-modal').trigger('seqno_selected',seqno); //doesn't work unfortunately
+                            $seqnoField.val(seqno).trigger('change');
+                        });
+                    });
+                    ap.allowAsyncSubmit($specimenModalContent, $observationfilterform);
+                    ap.allowAsyncLinks($specimenModalContent);
+                });
             }
+
         },
         height: 800,
         width: 1400,
