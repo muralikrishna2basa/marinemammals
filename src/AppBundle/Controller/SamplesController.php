@@ -71,16 +71,25 @@ class SamplesController extends Controller
         $currentUser = $this->getUser();
         $sampleRequest = $this->get('requestloans_provider')->prepareNewRequestLoan($currentUser);
 
-        $request->cookies->get('current-samples');
+        $currentRequest = json_decode($request->cookies->get('current-samples-request'));
 
-        /*$sample=$this->sampleRepo->findBySeqno(19233);
-        $request->addSpeSeqno($sample);*/
+        /*foreach($currentRequest->samples as $seqno=>$samplestats){
+            $sample=$this->sampleRepo->findBySeqno($seqno);
+            $sampleRequest->addSpeSeqno($sample);
+        }*/
+
+        if (isset($currentRequest->studyDescription)) {
+            $sampleRequest->studyDescription = $currentRequest->studyDescription;
+        }
+        if (isset($currentRequest->p2rType)) {
+            $sampleRequest->p2rType = $currentRequest->p2rType;
+        }
 
         $requests = $this->get('requestloans_provider')->loadUserRequests($currentUser);
         $form = $this->createForm(new RequestLoansType($this->getDoctrine()), $sampleRequest);
 
-        return $this->render('AppBundle:Page:list-samples-add-requests.html.twig', array(
-            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator_html' => $strPaginator, 'paginator' => $paginator, 'previous_requests' => $requests, 'request' => $sampleRequest, 'request_form' => $form->createView()
+        return $this->render('AppBundle:Page:list-samples.html.twig', array(
+            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator_html' => $strPaginator, 'paginator' => $paginator, 'previous_requests' => $requests, 'request' => $sampleRequest, 'currentRequest' => $currentRequest, 'request_form' => $form->createView()
         ));
     }
 }
