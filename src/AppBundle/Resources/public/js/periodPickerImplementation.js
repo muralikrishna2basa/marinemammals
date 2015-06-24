@@ -1,10 +1,12 @@
 ﻿
 (function ($) {
     //Call this method on the wrapper of a $firstDateTextbox and a $lastDateTextbox 
-    $.fn.initPeriodPicker = function (minYear) {
+    $.fn.initPeriodPicker = function (minYear,yearRange) {
         return this.each(function () {
             var $this = $(this);
-            var minDateVar = new Date(minYear, 1 - 1, 1);
+            var thisYear=new Date().getFullYear();
+            var minDateVar = new Date(minYear, 0, 1);
+            var maxDateVar = new Date(thisYear, 11,1);
             //var $firstDateTextbox = $('#' + $this.attr('id') + ' .$firstDateTextbox');
             var $firstDateTextbox = $this.find("input:first-of-type");
             var $lastDateTextbox = $this.find("input:last-of-type");
@@ -23,7 +25,7 @@
             $lastDateTextbox.removeClass('hasDatepicker');
 
             var options = {
-                dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar
+                dateFormat: 'dd/mm/yy', showButtonPanel: true, changeMonth: true, changeYear: true, minDate: minDateVar, maxDate: maxDateVar,yearRange:yearRange[0]+":"+yearRange[1]
             };
             $firstDateTextbox.datepicker(options);
             $lastDateTextbox.datepicker(options);

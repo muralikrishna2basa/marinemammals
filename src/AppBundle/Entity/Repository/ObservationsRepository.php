@@ -5,6 +5,7 @@ namespace AppBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class ObservationsRepository extends EntityRepository
 {
@@ -24,6 +25,18 @@ class ObservationsRepository extends EntityRepository
         $res = $this->getCompleteObservationsQb()->getQuery()->getResult(Query::HYDRATE_OBJECT);
         return ($res);
 
+    }
+
+    public function getMinMaxObsDate()
+    {
+        $rsm = new ResultSetMapping();
+        /*$rsm->addEntityResult('AppBundle:Places', 'p');
+        $rsm->addFieldResult('p', 'SEQNO', 'seqno');
+        $rsm->addJoinedEntityResult('AppBundle\Entity\Places', 'p1', 'p', 'pceSeqno');
+        $rsm->addFieldResult('p', 'NAME', 'name');*/
+        $query = $this->getEntityManager()->createNativeQuery("select min(EVENT_DATETIME),max(EVENT_DATETIME) from event_states e left join observations o on e.seqno=o.ese_seqno where o.ese_seqno is not null", $rsm);
+
+        return $query->getResult(Query::HYDRATE_SCALAR);
     }
 
     public function getCompleteObservationsExcludeConfidential()

@@ -29,6 +29,8 @@
         var $containingDiv = $('#periodpicker');
         var $table = $("#observationstable");
         var $form = $("#observationfilterform");
+
+
         $(document).ready(function () {
             $stationSelector.select2();
             $speciesSelector.select2();
@@ -45,7 +47,20 @@
                     $.each(errorList, createError);
                 }
             });
-            $containingDiv.initPeriodPicker(1950);
+            $.ajax({
+                type: "GET",
+                url: "/ajax/obsminmaxdate",
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    $a = 5;
+                    $containingDiv.initPeriodPicker(1950, response);
+                },
+                error:function () {
+                    $a = 5;
+                    $containingDiv.initPeriodPicker(1950, [1990,2015]);
+                }
+            });
             $table.DataTable(
                     {
                         "defaultContent": "",

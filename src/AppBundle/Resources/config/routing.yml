@@ -232,6 +232,12 @@ mm_observations_update:
     requirements:
         _method:  POST
 
+mm_ajax_minMaxObsDate:
+    pattern:  /ajax/obsminmaxdate
+    defaults: { _controller: AppBundle:Ajax:minMaxObsDate }
+    requirements:
+        _method:  GET
+
 mm_ajax_scnNumber:
     pattern:  /ajax/scnnumber/{id}
     defaults: { _controller: AppBundle:Ajax:scnNumber }

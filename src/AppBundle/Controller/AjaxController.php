@@ -27,6 +27,15 @@ class AjaxController extends Controller
         return $this->repo->find(intval($id));
     }
 
+    private function getMinMaxObsDate()
+    {
+
+        if ($this->repo === null) {
+            $this->repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Observations');
+        }
+        return $this->repo->getMinMaxObsDate();
+    }
+
 
     public function scnNumberAction(Request $request, $id)
     {
@@ -67,6 +76,13 @@ class AjaxController extends Controller
             }
         }
         return new Response('This is not ajax!', 400);
+    }
 
+    public function minMaxObsDateAction(Request $request)
+    {
+        //if ($request->isXMLHttpRequest()) {
+            return new JsonResponse($this->getMinMaxObsDate());
+        //}
+        //return new Response('This is not ajax!', 400);
     }
 }
