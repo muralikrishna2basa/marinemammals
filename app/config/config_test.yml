@@ -1,10 +1,12 @@
 imports:
     - { resource: config_dev.yml }
-
+    - { resource: parameters_dev.yml }
 framework:
     test: ~
+    templating:
+        engines: ['twig', 'php']
     session:
-        storage_id: session.storage.mock_file
+        gc_probability: 0
     profiler:
         collect: false
 
@@ -14,3 +16,22 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+    #-------------------------------------------
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        console:
+            type:  console
+assetic:
+    use_controller: true
+twig:
+    form:
+        resources:
+            - LexikFormFilterBundle:Form:form_div_layout.html.twig
