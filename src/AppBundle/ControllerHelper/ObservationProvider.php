@@ -89,16 +89,15 @@ class ObservationProvider
         return $observation;
     }
 
-    public function loadObservationsByFilter($filter,$fast)
+    public function loadObservationsByFilter($filter, $fast)
     {
-        if($fast){
+        if ($fast) {
             $filterBuilder = $this->repo->getFastObservationsQb();
-        }
-        else{
+        } else {
             $filterBuilder = $this->repo->getCompleteObservationsQb();
         }
 
-        $excludeConfidential=null;
+        $excludeConfidential = null;
         $country = null;
         $topNLatest = null;
         $eventDatetimeStart = null;
@@ -128,16 +127,20 @@ class ObservationProvider
             $generalPlace = $filter['generalPlace'];
         }
         if (array_key_exists('place', $filter)) {
-            $generalPlace = null; //if a more specified place exists, us that one instead of the generalPlace
+            if ($filter['place'] != null) {
+                $generalPlace = null; //if a more specified place exists, us that one instead of the generalPlace}
+            }
             $place = $filter['place'];
+        }
+        if (array_key_exists('stnSeqno', $filter)) {
+            if ($filter['stnSeqno'] != null) {
+                $generalPlace = null; //if a station exists, us that instead of the generalPlace
+                $place = null; //if a station exists, us that one instead of the place
+            }
+            $stn = $filter['stnSeqno'];
         }
         if (array_key_exists('stationstype', $filter)) {
             $stationstype = $filter['stationstype'];
-        }
-        if (array_key_exists('stnSeqno', $filter)) {
-            $generalPlace = null; //if a station exists, us that instead of the generalPlace
-            $place = null; //if a station exists, us that one instead of the place
-            $stn = $filter['stnSeqno'];
         }
         if (array_key_exists('txnSeqno', $filter)) {
             $txn = $filter['txnSeqno'];
@@ -183,29 +186,27 @@ class ObservationProvider
                 ->getAllStationsBelongingToPlaceDeepQb($generalPlace)->getQuery()->getResult();
             $this->filterByStation($stations, $filterBuilder);
         }
-        if ($stationstype) {
-            $filterBuilder->andWhere('st.areaType=:areaType');
-            $filterBuilder->setParameter('areaType', $stationstype);
-        }
         if ($stn) {
             $filterBuilder->andWhere('o.stnSeqno=:stnSeqno');
             $filterBuilder->setParameter('stnSeqno', $stn);
         }
-
-        if($fast){
-            return $filterBuilder->getQuery()->getScalarResult();
+        if ($stationstype) {
+            $filterBuilder->andWhere('st.areaType=:areaType');
+            $filterBuilder->setParameter('areaType', $stationstype);
         }
-        else{
+        if ($fast) {
+            return $filterBuilder->getQuery()->getScalarResult();
+        } else {
             return $filterBuilder->getQuery()->getResult();
         }
     }
 
-    public function loadObservations($excludeConfidential, $excludeNonBelgian,$fast)
+    public
+    function loadObservations($excludeConfidential, $excludeNonBelgian, $fast)
     {
-        if($fast){
+        if ($fast) {
             $qb = $this->repo->getFastObservationsQb();
-        }
-        else{
+        } else {
             $qb = $this->repo->getCompleteObservationsQb();
         }
         if ($excludeConfidential) {
@@ -214,15 +215,15 @@ class ObservationProvider
         if ($excludeNonBelgian) {
             $qb = $qb->andWhere("p1.name='BE' or p2.name='BE' or p3.name='BE' or p4.name='BE'");
         }
-        if($fast){
+        if ($fast) {
             return $qb->getQuery()->getScalarResult();
-        }
-        else{
+        } else {
             return $qb->getQuery()->getResult();
         }
     }
 
-    private function filterByStation($stations, $filterBuilder)
+    private
+    function filterByStation($stations, $filterBuilder)
     {
         if (null !== $stations and count($stations) > 0) {
             $filterBuilder->andWhere('o.stnSeqno IN (:stations)');
