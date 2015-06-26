@@ -4,6 +4,11 @@
 # start page (path "/") because otherwise Apache will apply the rewriting rules
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
 DirectoryIndex app.php
+AddType application/vnd.ms-fontobject  eot
+AddType font/truetype                  ttf
+AddType font/opentype                  otf
+AddType application/x-font-woff              woff
+
 
 <IfModule mod_rewrite.c>
     RewriteEngine On

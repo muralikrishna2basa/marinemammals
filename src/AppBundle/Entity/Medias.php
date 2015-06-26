@@ -43,13 +43,6 @@ class Medias
     /**
      * @var string
      *
-     * @ORM\Column(name="DISPLAY", type="string", length=1, nullable=true)
-     */
-    private $display;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="LOCATION", type="string", length=200, nullable=false)
      */
     private $location;

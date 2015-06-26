@@ -27,7 +27,7 @@
     </thead>
     {% for e in entities %}
         <tr>
-            <td>{% if e.isconfidential %}<span class="confidential-observation" title="confidential"></span>{% endif %}</td>
+            <td>{% if e.isconfidential %}<span class="has-confidentiality" title="confidential"></span>{% endif %}</td>
             <td>{% if e.stnSeqno is defined and e.stnSeqno is not null %}{{ e.stnSeqno.country }}{% endif %}</td>
             <td>{% if e.stnSeqno is defined and e.stnSeqno is not null %}{{ e.stnSeqno.areaType }} {% endif %}</td>
             <td>{% if e.stnSeqno is defined and e.stnSeqno is not null %}{{ e.stnSeqno.placeName }} {% endif %}</td>
