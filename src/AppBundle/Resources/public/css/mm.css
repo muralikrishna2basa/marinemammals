@@ -149,24 +149,21 @@ span.has-confidentiality:before {
     color: #C9405B;
 }
 
+ul.observation-remark span.has-warning:before {
+    content: "\f12a";
+    color: #C9405B;
+}
+
+ul.observation-remark span.has-warning {
+    color: #C9405B;
+}
+
 .top-links {
     margin-bottom: 3px;
 }
 
 ul.observation-remark {
     list-style-type: none;
-}
-
-ul.observation-remark span.warning {
-    color: #C9405B;
-}
-
-ul.observation-remark span.warning:before {
-    content: "\e107";  /*was content: "\f12a";*/
-    font-size: 110%;
-    color: #C9405B;
-    display: inline-block;
-    margin-right: 5px;
 }
 
 table.observation-view {

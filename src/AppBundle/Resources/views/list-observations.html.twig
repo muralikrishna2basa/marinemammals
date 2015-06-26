@@ -54,11 +54,11 @@
                 async: false,
                 success: function (response) {
                     $a = 5;
-                    $containingDiv.initPeriodPicker(1950, response);
+                    $containingDiv.initPeriodPicker(response);
                 },
                 error:function () {
                     $a = 5;
-                    $containingDiv.initPeriodPicker(1950, [1990,2015]);
+                    $containingDiv.initPeriodPicker([1945,2020]);
                 }
             });
             $table.DataTable(

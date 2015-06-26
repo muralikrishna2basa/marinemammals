@@ -1,11 +1,11 @@
     <ul class="observation-remark">{% if observation.isconfidential %}
-            <li><span class="warning">Confidential observation</span></li>{% endif %}
+            <li><span class="has-warning">Confidential observation</span></li>{% endif %}
         {% if observation.samplingeffortRef %}
             <li><span>{{ observation.samplingeffortRef.rvMeaning }}</span></li>{% endif %}
         {% if observation.cpnCode %}
             <li><span>Campaign: {{ observation.cpnCode }}</span></li>{% endif %}
         {% if observation.eseSeqno.spec2events.scnSeqno.identificationCertainty is null %}
-            <li><span class="warning">Identification is uncertain</span></li>
+            <li><span class="has-warning">Identification is uncertain</span></li>
         {% endif %}
     </ul>
 

@@ -80,9 +80,9 @@ class AjaxController extends Controller
 
     public function minMaxObsDateAction(Request $request)
     {
-        //if ($request->isXMLHttpRequest()) {
+        if ($request->isXMLHttpRequest()) {
             return new JsonResponse($this->getMinMaxObsDate());
-        //}
-        //return new Response('This is not ajax!', 400);
+        }
+        return new Response('This is not ajax!', 400);
     }
 }
