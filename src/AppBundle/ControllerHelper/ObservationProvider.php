@@ -128,12 +128,15 @@ class ObservationProvider
             $generalPlace = $filter['generalPlace'];
         }
         if (array_key_exists('place', $filter)) {
+            $generalPlace = null; //if a more specified place exists, us that one instead of the generalPlace
             $place = $filter['place'];
         }
         if (array_key_exists('stationstype', $filter)) {
             $stationstype = $filter['stationstype'];
         }
         if (array_key_exists('stnSeqno', $filter)) {
+            $generalPlace = null; //if a station exists, us that instead of the generalPlace
+            $place = null; //if a station exists, us that one instead of the place
             $stn = $filter['stnSeqno'];
         }
         if (array_key_exists('txnSeqno', $filter)) {
