@@ -167,12 +167,11 @@ function validLonDec(lonDec) {
 ﻿
 (function ($) {
     //Call this method on the wrapper of a $firstDateTextbox and a $lastDateTextbox 
-    $.fn.initPeriodPicker = function (minYear,yearRange) {
+    $.fn.initPeriodPicker = function (yearRange) {
         return this.each(function () {
             var $this = $(this);
-            var thisYear=new Date().getFullYear();
-            var minDateVar = new Date(minYear, 0, 1);
-            var maxDateVar = new Date(thisYear, 11,1);
+            var minDateVar = new Date(yearRange[0], 0, 1);
+            var maxDateVar = new Date(yearRange[1], 11,1);
             //var $firstDateTextbox = $('#' + $this.attr('id') + ' .$firstDateTextbox');
             var $firstDateTextbox = $this.find("input:first-of-type");
             var $lastDateTextbox = $this.find("input:last-of-type");

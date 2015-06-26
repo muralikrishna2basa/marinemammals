@@ -267,7 +267,7 @@ $body
             <div class="row">
                 <div class="col-md-6">
                     <strong>Marine Mammals &mdash; <span>RBINS-OD Nature/ULg-Faculty of Veterinary medicine</span></strong><br/> <span class="titles">Contributor(s):
-						</span> <br/> <a href="mailto:j.haelters@naturalsciences.be">j.haelters@naturalsciences.be</a>
+						</span> <br/> <a href="mailto:jhaelters@naturalsciences.be">jhaelters@naturalsciences.be</a>
                     <br/> <a href="mailto:t.jauniaux@ulg.ac.be">t.jauniaux@ulg.ac.be</a>
                     <br/> <span class="titles">Designed and developed by: </span><br/>
                     <a href="http://www.odnature.be/bmdc">Belgian Marine Data Center</a><br/>
