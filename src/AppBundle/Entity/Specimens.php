@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -570,6 +571,14 @@ class Specimens
     public function isAliveAtMoment(\DateTime $m)
     {
         return $this->getSpec2eventAtTime($m)->associatedSpecimenAlive();
+    }
+
+    public function getEvents(){
+        $events=new ArrayCollection();
+        $events->add($this->getSpec2Events()->map(function($s2e){
+            return $s2e->$eseSeqno;
+        }));
+        return $events;
     }
 
     /**

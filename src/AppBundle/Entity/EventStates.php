@@ -705,6 +705,12 @@ class EventStates
             return $this->getNecropsy()->getRef();
         }
     }
+    /**
+     * @return Specimens
+     */
+    public function getSpecimen(){
+        return $this->getSpec2Events()->getScnSeqno();
+    }
 
 //
 //    /**

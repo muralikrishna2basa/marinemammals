@@ -1,4 +1,4 @@
-{% include 'AppBundle:Bare:mgmt-filter-observations.html.twig' with {'include_path': 'mm_observed_specimens_mgmtfilter', 'method': 'GET','popup':false} %}
+{% include 'AppBundle:Bare:mgmt-filter-observations.html.twig' with {'include_path': 'mm_observations_mgmtfilter', 'method': 'GET','popup':false} %}
 <div id="map"></div>
 <h2>List of observations</h2>
 <p class="count">
@@ -20,9 +20,8 @@
         <th>Date</th>
         <th>Observation type</th>
         <th>Species</th>
-        <th>id</th>
-        <th>Specimen id</th>
-        <th>Edit</th>
+        <th>Edit observation</th>
+        <th>Edit specimen</th>
     </tr>
     </thead>
     {% for e in entities %}
@@ -37,14 +36,14 @@
             <td>{{ e.eseSeqno.eventDatetime|date("d/m/Y") }}</td>
             <td>{{ e.osnTypeRef.rvMeaning }}</td>
             <td>{% if e.eseSeqno.spec2events is defined and e.eseSeqno.spec2events is not null and e.eseSeqno.spec2events.scnSeqno is defined and e.eseSeqno.spec2events.scnSeqno is not null and e.eseSeqno.spec2events.scnSeqno.txnSeqno is defined and e.eseSeqno.spec2events.scnSeqno.txnSeqno is not null%}<i>{{ e.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName}}</i> ({{e.eseSeqno.spec2events.scnSeqno.txnSeqno.vernacularNameEn }}){% endif %}</td>
-            <td>{{ e.eseSeqno.seqno }}</td>
-            <td>{% if e.eseSeqno.spec2events is defined and e.eseSeqno.spec2events is not null and e.eseSeqno.spec2events.scnSeqno is defined and e.eseSeqno.spec2events.scnSeqno is not null%}{{ e.eseSeqno.spec2events.scnSeqno.seqno }}{% endif %}</td>
-            <td><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT OBSERVATION</a></td>
+
+            <td class="smaller"><a href="{{ path('mm_observations_edit', {'id': e.eseSeqno.seqno}) }}">EDIT OBSERV. {{ e.eseSeqno.seqno }}</a></td>
+            <td class="smaller">{% if e.eseSeqno.spec2events is defined and e.eseSeqno.spec2events is not null and e.eseSeqno.spec2events.scnSeqno is defined and e.eseSeqno.spec2events.scnSeqno is not null%}
+                <a href="{{ path('mm_specimens_edit', {'id': e.eseSeqno.spec2events.scnSeqno.seqno}) }}">EDIT SPEC. {{e.eseSeqno.spec2events.scnSeqno.seqno}}</a>{% endif %}</td>
         </tr>
     {% else %}
         <tr>
             <td>No observations found.</td>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>

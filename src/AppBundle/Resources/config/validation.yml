@@ -556,7 +556,7 @@ AppBundle\Entity\Spec2Events:
 AppBundle\Entity\Specimens:
     getters:
         scnNumberLegal:
-            - "True": { message: "It is not possible to provide any values (eg. sex, collection tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details." }
+            - "True": { message: "It is not possible to provide any values (eg. sex, collection tag, rbins tag or any special values) for specimens that have been observed in group. Separate the group in several observations of one animal if you wish to provide these details. It is also impossible when editing the specimen itself and increasing the number beyond 1 (multiple specimens cannot have a sex or a necropsy label recorded, nor have specimen values)." }
         sexLegal:
             - "True": { message: "This value should not be null." }
 #        txnSeqnoNewSpecimenLegal:
@@ -568,8 +568,8 @@ AppBundle\Entity\Specimens:
                 - NotBlank: ~
                 - NotNull: ~
         scnNumber:
-                - NotBlank: { groups: [ObservationCreation] }
-                - NotNull: { groups: [ObservationCreation] }
+                - NotBlank: { groups: [ObservationCreation,SpecimenUpdate] }
+                - NotNull: { groups: [ObservationCreation,SpecimenUpdate] }
                 - Type:
                      type: integer
                      message: The value {{ value }} is not a valid {{ type }}.

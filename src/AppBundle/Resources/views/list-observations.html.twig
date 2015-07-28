@@ -11,13 +11,15 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
+    '@AppBundle/Resources/public/js/objectKeys.js'
     '@AppBundle/Resources/public/js/moment.min.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
     '@AppBundle/Resources/public/js/validationImplementation.js'
     '@AppBundle/Resources/public/js/periodPickerImplementation.js'
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js'
-    'http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js' %}
+    'http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js'
+    '@AppBundle/Resources/public/js/dataTableMoment.js'%}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script>
@@ -61,6 +63,7 @@
                     $containingDiv.initPeriodPicker([1945,2020]);
                 }
             });
+            $.fn.dataTable.moment( 'DD/MM/YYYY' );
             $table.DataTable(
                     {
                         "defaultContent": "",

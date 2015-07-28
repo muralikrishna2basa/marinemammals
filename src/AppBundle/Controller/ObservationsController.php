@@ -23,7 +23,7 @@ class ObservationsController extends Controller
     /**
      * Deletes a Observations entity.
      *
-     * @Route("/delete/{id}", name="mm_observations_delete")
+     * @Route("observations/delete/{id}", name="mm_observations_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -71,15 +71,16 @@ class ObservationsController extends Controller
      * Creates a form to delete a Observations entity by id.
      *
      * @param mixed $id The entity id
+     * @param mixed $scnId The specimen id
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm($id,$scnId)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('mm_observations_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('keepSpecimen', 'checkbox', array('required' => false))
+            ->add('keepSpecimen', 'checkbox', array('required' => false,'label'=>'Keep attached specimen with seqno '.$scnId ))
             ->getForm();
     }
 
@@ -190,7 +191,8 @@ class ObservationsController extends Controller
     public function editAction($id)
     {
         $observation = $this->get('observations_provider')->loadAndSupplementObservation($id);
-        $deleteForm = $this->createDeleteForm($id);
+        $scnId=$observation->getEseSeqno()->getSpecimen()->getSeqno();
+        $deleteForm = $this->createDeleteForm($id,$scnId);
         $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationModification'))), $observation);
         return $this->render('AppBundle:Page:edit-observations-specimens.html.twig', array(
             'form' => $form->createView(),
@@ -209,8 +211,8 @@ class ObservationsController extends Controller
         $event = $observation->getEseSeqno();
         $s2e = $event->getSpec2Events();
         $specimen = $s2e->getScnSeqno();
-
-        $deleteForm = $this->createDeleteForm($id);
+        $scnId=$specimen->getSeqno();
+        $deleteForm = $this->createDeleteForm($id,$scnId);
         $form = $this->createForm(new ObservationsType($this->getDoctrine(), array('validation_groups' => array('ObservationModification'))), $observation);
         $form->handleRequest($request);
         if ($form->isValid()) {

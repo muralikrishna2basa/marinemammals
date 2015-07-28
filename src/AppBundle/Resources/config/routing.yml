@@ -220,6 +220,18 @@ mm_request_view_current:
     requirements:
         _method:  GET
 
+mm_specimens_edit:
+    pattern:  /mgmt/specimens/update/{id}
+    defaults: { _controller: AppBundle:Specimens:edit }
+    requirements:
+        _method:  GET
+
+mm_specimens_update:
+    pattern:  /mgmt/specimens/update/{id}
+    defaults: { _controller: AppBundle:Specimens:update }
+    requirements:
+        _method:  POST
+
 mm_observations_edit:
     pattern:  /mgmt/observations/update/{id}
     defaults: { _controller: AppBundle:Observations:edit }
