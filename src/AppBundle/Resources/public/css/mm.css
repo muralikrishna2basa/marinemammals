@@ -343,4 +343,7 @@ select#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno + span.select2
 table#observationstable td.smaller a{
     font-size: smaller;
 }
+.has-error p {
+    color: #a94442;
+}
 

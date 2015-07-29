@@ -318,7 +318,7 @@ $(document).ready(function () {
             "observationstype[eseSeqno][eventDatetime][date]": {dateBELogical: true, required: true},
             "observationstype[eseSeqno][description]": {
                 minlength: 0,
-                maxlength: 4000
+                maxlength: 1300
             },
             "observationstype[webcommentsEn]": {
                 minlength: 0,
@@ -353,15 +353,68 @@ $(document).ready(function () {
                 maxlength: 50
             }
         },
+        messages: {
+            "observationstype[eseSeqno][description]": {
+                maxlength: maxlengthMsg
+            },
+            "observationstype[webcommentsEn]": {
+                maxlength: maxlengthMsg
+            },
+            "observationstype[webcommentsFr]": {
+                maxlength: maxlengthMsg
+            },
+            "observationstype[webcommentsNl]": {
+                maxlength: maxlengthMsg
+            }
+        },
         showErrors: function (errorMap, errorList) {
             $.each(this.validElements(), cleanError);
             $.each(errorList, createError);
         }
     });
-
     wholeForm.find('a.initially-disabled').removeClass('initially-disabled');
-})
-;
+
+    initCharCountLimit($('#observationstype_eseSeqno_description'));
+    initCharCountLimit($('#observationstype_webcommentsEn'));
+    initCharCountLimit($('#observationstype_webcommentsFr'));
+    initCharCountLimit($('#observationstype_webcommentsNl'));
+});
+
+var initCharCountLimit =function($element){
+    var maxLength= $element.rules().maxlength;
+    var charCountClass=$element.attr('id')+"-charcount";
+    $element.after("<p class='"+charCountClass+"'></p>");
+
+    countChar($element.get(0),maxLength, '.'+charCountClass); //show inital value on page load
+    $element.keyup(function() {
+        countChar(this, maxLength, '.'+charCountClass); //set up on keyup event function
+    });
+};
+
+function countChar(inobj, maxl, outobj) {
+    var len = inobj.value.length;
+    var msg = '/'+maxl;
+    if (len >= maxl) {
+        //inobj.value = inobj.value.substring(0, maxl);
+        //$(outobj).text(0 + msg);
+        $(outobj).text(maxl - len + msg);
+        $(outobj).addClass('has-error');
+    } else {
+        $(outobj).text(maxl - len + msg);
+        $(outobj).removeClass('has-error');
+    }
+}
+
+var maxlengthMsg = function(maxlength, input){
+    return [
+        'Please enter no more than ',
+        maxlength,
+        ' characters.',
+        ' You have typed ',
+        $(input).val().length,
+        ' characters.'
+    ].join('');
+};
 
 (function ($) {
     $.fn.isAfter = function (sel) {

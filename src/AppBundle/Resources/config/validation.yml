@@ -72,7 +72,7 @@ AppBundle\Entity\EventStates:
         description:
                 - Length:
                      min: 0
-                     max: 4000
+                     max: 1300
         spec2events:
                 - Valid: ~
 AppBundle\Entity\Event2Persons:
