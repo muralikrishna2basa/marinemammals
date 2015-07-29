@@ -343,7 +343,7 @@ class Spec2Events implements ValueAssignable
         array_push($pathologyPms, 'Fresh external lesions::Stabbing wound');
         array_push($pathologyPms, 'Fresh external lesions::Parallel cuts');
         array_push($pathologyPms, 'Fresh external lesions::Broken bones');
-        array_push($pathologyPms, 'Fresh external lesions::Hypothema');
+        array_push($pathologyPms, 'Fresh external lesions::Hyphema');
         array_push($pathologyPms, 'Fresh external lesions::Fin amputation');
         array_push($pathologyPms, 'Fresh external lesions::Encircling lesion');
         array_push($pathologyPms, 'Fresh external lesions::Line/net impressions or cuts::Tail');

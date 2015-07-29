@@ -5,6 +5,7 @@
     {% stylesheets
     '@AppBundle/Resources/public/css/jquery-ui.css'
     '@AppBundle/Resources/public/css/font-awesome.css'
+    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css'
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -26,7 +27,8 @@
                     {{ form_row(form.txnSeqno, {'label':'Species' }) }}
                 </div>
                 <div class="form-inline">
-                    {{ form_row(form.identificationCertainty, {'label':'Identification is certain?' }) }}
+                    {{ form_row(form.identificationCertainty, {'label':'Identification is certain?'}) }}
+                    <span data-tooltip="The certainty of the determination." class="has-tooltip"></span>
                 </div>
                 <div class="form-inline">
                     {{ form_row(form.scnNumber, {'label':'Number' }) }}
@@ -35,10 +37,21 @@
                     {{ form_row(form.sex, {'label':'Sex' }) }}
                 </div>
                 <div class="form-inline no-multi">
+                    {{ form_row(form.name, {'label':'Name' }) }}
+                    <span data-tooltip="The name humans have given to this specimen." class="has-tooltip"></span>
+                </div>
+                <div class="form-inline no-multi">
                     {{ form_row(form.rbinsTag, {'label':'RBINS tag' }) }}
                 </div>
                 <div class="form-inline no-multi">
-                    {{ form_row(form.necropsyTag, {'label':'Collection tag (MUMM tag)','attr':{'title':'Corresponds to the MUMM tag. Completed as <COUNTRYCODE>_<YEAR>_<TAG NUMBER>, eg. BE_2003_498'} }) }}
+                    {{ form_row(form.necropsyTag, {'label':'Collection tag' }) }}
+                    <span data-tooltip="Corresponds to the MUMM tag. Completed as <COUNTRYCODE>_<YEAR>_<TAG NUMBER>, eg. BE_2003_498."
+                          class="has-tooltip"></span>
+                </div>
+                <div class="form-inline no-multi">
+                    {{ form_row(form.otherTag, {'label':'Other tag'}) }}
+                    <span data-tooltip="Any tag the specimen has other than the MUMM collection tag or the RBINS tag."
+                          class="has-tooltip"></span>
                 </div>
             </fieldset>
             <p>
@@ -55,6 +68,7 @@
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
     '@AppBundle/Resources/public/js/validationImplementation.js'
+    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js'
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -62,6 +76,11 @@
         $(document).ready(function () {
             var $taxonBox = $('#specimenstype_txnSeqno');
             var $specimenform = $('#specimenform');
+            $('[data-tooltip!=""]').qtip({
+                content: {
+                    attr: 'data-tooltip'
+                }
+            });
             $taxonBox.select2({
                 dropdownAutoWidth: true,
                 containerCss: {"display": "block"}
@@ -78,7 +97,15 @@
                         minlength: 0,
                         maxlength: 20
                     },
-                    "specimenstype[necropsyTag]": 'validNecropsyTag'
+                    "specimenstype[necropsyTag]": 'validNecropsyTag',
+                    "observationstype[eseSeqno][spec2events][scnSeqnoNew][name]": {
+                        minlength: 0,
+                        maxlength: 50
+                    },
+                    "observationstype[eseSeqno][spec2events][scnSeqnoNew][otherTag]": {
+                        minlength: 0,
+                        maxlength: 40
+                    },
                 },
                 showErrors: function (errorMap, errorList) {
                     $.each(this.validElements(), cleanError);

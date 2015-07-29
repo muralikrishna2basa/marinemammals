@@ -2,7 +2,7 @@
 <div class="well">
     <input type="submit" value="Delete this observation" id="delete" class="btn btn-od">
     <div class="form-inline">{{ form_row(delete_form.keepSpecimen) }}
-    <span data-tooltip="Select this to delete the observation but keep the specimen that was attached to it. Note that if the specimen has been observed before, the specimen will never be deleted (but the current observation will). NOTE the SEQNO of the specimen because there is no way to retrieve it anymore by date!! Only keep the specimen if you intend to reuse it!!" class="has-tooltip"></span></div>
+    <span data-tooltip="Select this to delete the observation but keep the specimen that was attached to it. Note that if the specimen has been observed before, the specimen will never be deleted (but the current observation will). NOTE the SEQNO of the specimen because there is no way to retrieve it anymore by date!! Only keep the specimen if you intend to reattach it to another observation!!" class="has-tooltip"></span></div>
 </div>
 {{ form_end(delete_form) }}
 

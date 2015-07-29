@@ -72,6 +72,20 @@ class Specimens
     /**
      * @var string
      *
+     * @ORM\Column(name="OTHER_TAG", type="string", length=40, nullable=true)
+     */
+    private $otherTag;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="RBINS_TAG", type="string", length=20, nullable=true)
      */
     private $rbinsTag;
@@ -426,12 +440,51 @@ class Specimens
 
     /**
      * @param \Doctrine\Common\Collections\Collection $spec2events
+     *
      * @return Specimens
      */
     public function setSpec2Events($spec2events)
     {
         $this->spec2events = $spec2events;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return Specimens
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOtherTag()
+    {
+        return $this->otherTag;
+    }
+
+    /**
+     * @param string $otherTag
+     *
+     * @return Specimens
+     */
+    public function setOtherTag($otherTag)
+    {
+        $this->otherTag = $otherTag;
         return $this;
     }
 

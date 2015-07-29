@@ -26,7 +26,7 @@ class EntityValuesCollectionAtObservationUpdate extends EntityValuesCollectionCo
         $this->instantiateSpecimenValues('Fresh external lesions::Stabbing wound', false, false);
         $this->instantiateSpecimenValues('Fresh external lesions::Parallel cuts', false, false);
         $this->instantiateSpecimenValues('Fresh external lesions::Broken bones', false, false);
-        $this->instantiateSpecimenValues('Fresh external lesions::Hypothema', false, false);
+        $this->instantiateSpecimenValues('Fresh external lesions::Hyphema', false, false);
         $this->instantiateSpecimenValues('Fresh external lesions::Fin amputation', false, false);
         $this->instantiateSpecimenValues('Fresh external lesions::Encircling lesion', false, false);
         $this->instantiateSpecimenValues('Fresh external lesions::Other fresh external lesions', false, false);

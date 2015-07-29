@@ -8,6 +8,7 @@ var $previousPanel;
 var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
 var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi');
 var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required="required"]');
+var $identificationCertaintyBox=$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_identificationCertainty');
 var stationSelector = $('#observationstype_stnSeqno');
 var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
 var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
@@ -80,6 +81,7 @@ function initDefaults() {
     if (newSpecimenNumberField.val() === '') {
         newSpecimenNumberField.val(1);
     }
+    $identificationCertaintyBox.prop('checked',true);
     var output = "";
     if (window.localStorage) {
         if (localStorage.length) {
@@ -348,6 +350,14 @@ $(document).ready(function () {
                 maxlength: 20
             },
             "observationstype[eseSeqno][spec2events][scnSeqnoNew][necropsyTag]": 'validNecropsyTag',
+            "observationstype[eseSeqno][spec2events][scnSeqnoNew][name]": {
+                minlength: 0,
+                maxlength: 50
+            },
+            "observationstype[eseSeqno][spec2events][scnSeqnoNew][otherTag]": {
+                minlength: 0,
+                maxlength: 40
+            },
             "observationstype[eseSeqno][spec2events][pathologyValues][38][value]": {
                 minlength: 0,
                 maxlength: 50

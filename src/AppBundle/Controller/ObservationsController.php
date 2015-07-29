@@ -28,7 +28,10 @@ class ObservationsController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
+        $observation = $this->get('observations_provider')->loadAndSupplementObservation($id);
+        $scnId=$observation->getEseSeqno()->getSpecimen()->getSeqno();
+
+        $form = $this->createDeleteForm($id,$scnId);
         $form->handleRequest($request);
         $keepSpecimen = $form->get('keepSpecimen')->getData();
 

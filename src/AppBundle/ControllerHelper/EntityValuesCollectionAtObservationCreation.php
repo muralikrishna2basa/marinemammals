@@ -17,7 +17,7 @@ class EntityValuesCollectionAtObservationCreation extends EntityValuesCollection
         $this->instantiateSpecimenValues('Decomposition Code', true, true);
 
         $this->instantiateSpecimenValues('Body length', true, false);
-//        $this->instantiateSpecimenValues('Body weight', true, false);
+        $this->instantiateSpecimenValues('Body weight', true, false);
         $this->instantiateSpecimenValues('Age', true, false);
         $this->instantiateSpecimenValues('Nutritional Status', true, false);
 
@@ -26,7 +26,7 @@ class EntityValuesCollectionAtObservationCreation extends EntityValuesCollection
         $this->instantiateSpecimenValues('Fresh external lesions::Stabbing wound', false, true);
         $this->instantiateSpecimenValues('Fresh external lesions::Parallel cuts', false, true);
         $this->instantiateSpecimenValues('Fresh external lesions::Broken bones', false, true);
-        $this->instantiateSpecimenValues('Fresh external lesions::Hypothema', false, true);
+        $this->instantiateSpecimenValues('Fresh external lesions::Hyphema', false, true);
         $this->instantiateSpecimenValues('Fresh external lesions::Fin amputation', false, true);
         $this->instantiateSpecimenValues('Fresh external lesions::Encircling lesion', false, true);
         $this->instantiateSpecimenValues('Fresh external lesions::Other fresh external lesions', false, true);

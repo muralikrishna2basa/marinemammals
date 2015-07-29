@@ -581,6 +581,14 @@ AppBundle\Entity\Specimens:
                      min: 0
                      max: 50
                 - AppBundle\Validator\Constraints\LegalSex: ~
+        name:
+                - Length:
+                     min: 0
+                     max: 50
+        otherTag:
+                - Length:
+                     min: 0
+                     max: 40
         rbinsTag:
                 - Length:
                      min: 0
