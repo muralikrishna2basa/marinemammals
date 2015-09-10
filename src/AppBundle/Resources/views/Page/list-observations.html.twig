@@ -3,7 +3,7 @@
 {% set baseparent='AppBundle::nocol-layout.html.twig' %}
  {% block title %}Browse observations{% endblock %}
 {% block main_content %}
-    {% include 'AppBundle:Bare:filter-observations.html.twig' with {'include_path': 'mm_observations_filter', 'method': 'GET'} %}
+    {% include 'AppBundle:Bare:filter-observations.html.twig' with {'include_path': 'mm_observations_filter', 'method': 'GET','popup': false} %}
     {{ include('AppBundle:Bare:list-observations.html.twig') }}
 {% endblock %}
 
