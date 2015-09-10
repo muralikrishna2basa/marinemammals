@@ -40,6 +40,18 @@ mm_samples_about:
     requirements:
         _method:  GET
 
+mm_taxa_view:
+    pattern:  /species/view/{id}
+    defaults: { _controller: AppBundle:Taxa:view }
+    requirements:
+        _method:  GET
+
+mm_taxa_mgmtview:
+    pattern:  mgmt/species/view/{id}
+    defaults: { _controller: AppBundle:Taxa:mgmtView }
+    requirements:
+        _method:  GET
+
 mm_observations_index:
     pattern:  /observations
     defaults: { _controller: AppBundle:ObservationsRetrieval:index }
@@ -193,6 +205,12 @@ mm_samples_view_old:
 mm_samples_view:
     pattern:  /samples/biobank
     defaults: { _controller: AppBundle:Samples:index }
+    requirements:
+        _method:  GET
+
+mm_samples_filter:
+    pattern:  /samples/biobank/filtered
+    defaults: { _controller: AppBundle:Samples:filter }
     requirements:
         _method:  GET
 

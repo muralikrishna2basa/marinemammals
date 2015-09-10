@@ -27,7 +27,7 @@ class PlatformsController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()
-                ->getEntityManager();
+                ->getManager();
             $em->persist($platform);
             $em->flush();
 

@@ -1,7 +1,7 @@
 {% include 'AppBundle:Bare:mgmt-filter-observations.html.twig' with {'include_path': 'mm_observed_specimens_mgmtfilter', 'method': 'GET'} %}
 <div id="map"></div>
 <p class="count">
-    The above criteria match {{ entities.getTotalItemCount }} observations.
+    {{ entities.getTotalItemCount }} observations found.
 </p>
 <div class="pagination_head">
 {{ knp_pagination_render(entities) }}

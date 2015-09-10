@@ -37,7 +37,7 @@ class NecropsyController extends Controller
     private function persistOrRemoveEntityValue(EntityValues $ev, ValueAssignable $va)
     {
         $em = $this->getDoctrine()
-            ->getEntityManager();
+            ->getManager();
         if ($ev->getValue() === null) { //empty values are allowed
             $va->removeValue($ev);
             $em->remove($ev);
@@ -49,7 +49,7 @@ class NecropsyController extends Controller
     private function persistOrRemoveEvent2Persons(Event2Persons $e2p, EventStates $e)
     {
         $em = $this->getDoctrine()
-            ->getEntityManager();
+            ->getManager();
         if ($e2p->getPsnSeqno() === null) {
             $e->removeEvent2Persons($e2p);
             $em->remove($e2p);

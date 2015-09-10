@@ -1,5 +1,9 @@
 {% extends 'AppBundle::view-observations-specimens.html.twig' %}
 {% block mainbar %}
+        <h2><a href="{{ path('mm_taxa_view',{'id': observation.eseSeqno.spec2events.scnSeqno.txnSeqno.seqno}) }}"
+               title="Information and observations of this species">{{ observation.eseSeqno.spec2events.scnSeqno.txnSeqno.vernacularNameEn|capitalize }}
+                -
+                <i>{{ observation.eseSeqno.spec2events.scnSeqno.txnSeqno.canonicalName }}</i></a></h2>
     {{ include('AppBundle:Bare:view-observations-specimens.html.twig') }}
 {% endblock %}
 

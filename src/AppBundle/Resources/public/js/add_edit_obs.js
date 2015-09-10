@@ -8,7 +8,7 @@ var $previousPanel;
 var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
 var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi');
 var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required="required"]');
-var $identificationCertaintyBox=$('#observationstype_eseSeqno_spec2events_scnSeqnoNew_identificationCertainty');
+var $identificationCertaintyBox = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_identificationCertainty');
 var stationSelector = $('#observationstype_stnSeqno');
 var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
 var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
@@ -29,9 +29,9 @@ var $pathologyValues = $("select[id*='pathologyValues']");
 var $allInputSelect = $(":input, textarea");
 var remoteSpecimen;
 var allValues = {};
-var $submitButton=$("input[type='submit']");
+var $submitButton = $("input[type='submit']");
 var localStorageDataKey = "current-observation-entry";
-var multipleSpecimens=false;
+var multipleSpecimens = false;
 var getRemoteScn = function (scnId) {
     $.ajax({
         type: "GET",
@@ -81,7 +81,7 @@ function initDefaults() {
     if (newSpecimenNumberField.val() === '') {
         newSpecimenNumberField.val(1);
     }
-    $identificationCertaintyBox.prop('checked',true);
+    $identificationCertaintyBox.prop('checked', true);
     var output = "";
     if (window.localStorage) {
         if (localStorage.length) {
@@ -188,18 +188,18 @@ $(document).ready(function () {
         }
     });
 
-    $submitButton.click(function(){
+    $submitButton.click(function () {
         localStorage.clear();
     });
 
     $allInputSelect.change(function () {
         if ($(this).attr('type') == 'checkbox') {
-           var val =  $(this).prop("checked");
+            var val = $(this).prop("checked");
         }
-        else{
-            val=$(this).val();
+        else {
+            val = $(this).val();
         }
-        allValues[$(this).attr('id')] =val;
+        allValues[$(this).attr('id')] = val;
         localStorage.setItem(localStorageDataKey, JSON.stringify(allValues));
     });
 
@@ -313,7 +313,6 @@ $(document).ready(function () {
     var sfp2 = new SymfonyPrototype($('ul.e2p_examiner'), $('<a href="#" id="add_examiner">Add an examiner</a>'), '__examiners_name__');
     sfp2.addAddLink();
 
-
     var validator = wholeForm.validate({
         ignore: "",
         rules: {
@@ -390,20 +389,20 @@ $(document).ready(function () {
     initCharCountLimit($('#observationstype_webcommentsNl'));
 });
 
-var initCharCountLimit =function($element){
-    var maxLength= $element.rules().maxlength;
-    var charCountClass=$element.attr('id')+"-charcount";
-    $element.after("<p class='"+charCountClass+"'></p>");
+var initCharCountLimit = function ($element) {
+    var maxLength = $element.rules().maxlength;
+    var charCountClass = $element.attr('id') + "-charcount";
+    $element.after("<p class='" + charCountClass + "'></p>");
 
-    countChar($element.get(0),maxLength, '.'+charCountClass); //show inital value on page load
-    $element.keyup(function() {
-        countChar(this, maxLength, '.'+charCountClass); //set up on keyup event function
+    countChar($element.get(0), maxLength, '.' + charCountClass); //show inital value on page load
+    $element.keyup(function () {
+        countChar(this, maxLength, '.' + charCountClass); //set up on keyup event function
     });
 };
 
 function countChar(inobj, maxl, outobj) {
     var len = inobj.value.length;
-    var msg = '/'+maxl;
+    var msg = '/' + maxl;
     if (len >= maxl) {
         //inobj.value = inobj.value.substring(0, maxl);
         //$(outobj).text(0 + msg);
@@ -415,7 +414,7 @@ function countChar(inobj, maxl, outobj) {
     }
 }
 
-var maxlengthMsg = function(maxlength, input){
+var maxlengthMsg = function (maxlength, input) {
     return [
         'Please enter no more than ',
         maxlength,
@@ -437,15 +436,17 @@ var maxlengthMsg = function(maxlength, input){
 })(jQuery);
 
 function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
-    var scnNumber = newSpecimenNumberField.val();
     var remoteScnNumber = null;
-    if (typeof remoteSpecimen !== 'undefined') {
-        if (remoteSpecimen.found) {
-            remoteScnNumber = remoteSpecimen.scnNumber;
+    if (remoteSpecimen !== null) {
+        if (typeof remoteSpecimen !== 'undefined') {
+            if (remoteSpecimen.found) {
+                remoteScnNumber = remoteSpecimen.scnNumber;
+            }
         }
     }
-    if (scnNumber > 1 || remoteScnNumber > 1) {
-        multipleSpecimens=true;
+    if (isMultipleSpecimens()) {
+
+        multipleSpecimens = true;
         fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input').val('');
         fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('select').prop('selectedIndex', 0);
         fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input[checked]').removeAttr('checked');
@@ -455,7 +456,7 @@ function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
         $multipleSpecimensFeedback.show();
         return false;
     }
-    if (scnNumber < 2) {
+    if (!isMultipleSpecimens()) {
         if (remoteScnNumber === null) {
             fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
             $sexBox.attr('required', 'required');
@@ -467,11 +468,29 @@ function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
     }
 }
 
+function isMultipleSpecimens() {
+    var scnNumber = parseInt(newSpecimenNumberField.val());
+    var remoteScnNumber = null;
+    if (remoteSpecimen !== null) {
+        if (typeof remoteSpecimen !== 'undefined') {
+            if (remoteSpecimen.found) {
+                remoteScnNumber = remoteSpecimen.scnNumber;
+            }
+        }
+    }
+    if (scnNumber > 1 || remoteScnNumber > 1) {
+        return true;
+    }
+    else if (scnNumber < 2) {
+        return false;
+    }
+}
+
 function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
     var scnId = existingSpecimenChoiceField.val();
     var newSpecimenBox_allInput = newSpecimenBox.find('input');
     var newSpecimenBox_allSelect = newSpecimenBox.find('select');
-
+    var childs = newSpecimenBox.children();
     if (/^[0-9]+$/.test(scnId)) {
         $(this).attr('required', 'required');
         newSpecimenBox_requiredInputSelect.removeAttr('required');
@@ -486,15 +505,16 @@ function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
         return false;
     }
     if (scnId === '') {
+        remoteSpecimen = null;
         //newSpecimenBox_requiredInputSelect.attr('required', 'required');
         //$sexBox.attr('required', 'required');
         newSpecimenBox.show();
-        var childs=newSpecimenBox.children();
-        if(multipleSpecimens===false){
+        childs.show();
+        if (isMultipleSpecimens() === false) {
             childs.show();
             newSpecimenBox_requiredInputSelect.attr('required', 'required');
         }
-        else{
+        else {
             childs.not('.no-multi').show();
             //newSpecimenBox_requiredInputSelect.not('.no-multi').attr('required', 'required');
         }

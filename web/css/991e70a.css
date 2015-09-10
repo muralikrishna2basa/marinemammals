@@ -10011,6 +10011,8 @@ span.has-map-tooltip:before {
     color: #3c763d;
 }
 
+
+
 span.has-confidentiality:before {
     content: "\f05e";
     color: #C9405B;
@@ -10203,5 +10205,12 @@ ul.observation-map {
 
 select#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno + span.select2 {
     width: 250px !important;
+}
+
+table#observationstable td.smaller a{
+    font-size: smaller;
+}
+.has-error p {
+    color: #a94442;
 }
 

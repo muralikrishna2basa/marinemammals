@@ -139,9 +139,13 @@ services:
 #        tags:
 #            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException}
     observations_provider:
-        class: AppBundle\ControllerHelper\ObservationProvider
-        arguments: [@doctrine.orm.entity_manager]
+        class: AppBundle\ControllerHelper\ObservationsProvider
+        arguments: [@doctrine.orm.entity_manager,@knp_paginator,@request_stack]
 
     requestloans_provider:
         class: AppBundle\ControllerHelper\RequestLoansProvider
+        arguments: [@doctrine.orm.entity_manager]
+
+    samples_provider:
+        class: AppBundle\ControllerHelper\SamplesProvider
         arguments: [@doctrine.orm.entity_manager]

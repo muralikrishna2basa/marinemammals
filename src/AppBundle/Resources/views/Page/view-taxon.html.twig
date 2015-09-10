@@ -1,0 +1,54 @@
+{# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig  #}
+{% extends 'AppBundle::nocol-layout.html.twig' %}
+{% block stylesheets %}
+    {% stylesheets
+    'http://cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    'http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js'
+    '@AppBundle/Resources/public/js/dataTableMoment.js'%}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var $table = $("#observationstable");
+        $(document).ready(function () {
+            $table.DataTable(
+                    {
+                        "defaultContent": "",
+                        "paging": false,
+                        "ordering": true,
+                        "info": true,
+                        "order": [[5, "desc"]]
+                    }
+            );
+            //$table.tablesorter({sortList: [[4, 1], [5, 0]], locale: 'de', widgets: ['zebra'], useUI: true});
+
+        });
+    </script>
+{% endblock %}
+ {% block title %}View species{% endblock %}
+{% block main_content %}
+    <h1><i>{{ taxon.canonicalName }}</i>
+        <small>{{ taxon.scientificNameAuthorship }}</small>
+    </h1>
+    <h2>Common names</h2>
+    <ul class="observation-remark">
+        <li>English: {{ taxon.vernacularNameEn }}</li>
+        <li>French: {{ taxon.vernacularNameFr }}</li>
+        <li>Dutch: {{ taxon.vernacularNameNl }}</li>
+    </ul>
+{% for m in taxon.medias %}
+    <img class="main-species-img"  src="{{ m.location }}" />
+{% endfor %}
+    {% if app.user and is_granted('ROLE_ADMIN') %}
+        {{ include('AppBundle:Bare:mgmt-list-observations.html.twig') }}
+    {% else %}
+        {{ include('AppBundle:Bare:list-observations.html.twig') }}
+    {% endif %}
+
+{% endblock %}
+

@@ -1,21 +1,42 @@
 {% extends
-'AppBundle::nocol-layout.html.twig' %} {%block title %}Marine mammal observations and strandings{%
-endblock %}
+'AppBundle::col-layout.html.twig' %} {% block title %}observations and strandings{% endblock %}
 
-{% block main_content %}
-<div class="col-lg-6">
-    <h2> Marine mammals in Belgium</h2>
+{% block mainbar %}
+    <h1> Marine mammals in Belgium</h1>
 
-    <p>In contrast to common belief, the southern North Sea is home to a number of marine mammals, such as harbour porpoises, white-beaked dolphins, and common and grey seals. Also species occurring in the adjacent Atlantic Ocean and the northern North Sea may frequent our waters, or wander into them. As such in historical times strandings and/or observations occurred at the Belgian coast of 19 cetacean and 5 pinniped species.</p>
+    <p>The <a href='http://www.naturalsciences.be'>Royal Belgian Institute of Natural Sciences (RBINS)</a> is famous for its museum, and the extensive collection of
+        whale skeletons. Its <a
+                href='http://www.naturalsciences.be/en/science/do/98'>Operational Directorate Natural Environment (OD Nature)</a>, with scientists working in Brussels and Ostend, collects all stranding and sighting records in one database. This website is the interface for this database. Marinemammals.be contains information frm many
+        different sources:
+        <ul>
+        <li>data supplied by the public</li>
+        <li>data collected by the RBINS</li>
+        <li>data collected via necropsies at the ULg</li>
+        <li>and data recorded in literature and historic documents</li>
+        </ul> We are working to complete the database with strandings and remarkable sightings before the year 2000.</p>
 
-    <p>The Royal Belgian Institute of Natural Sciences (RBINS) is famous for its museum, and the extensive collection of whale skeletons. Its Operational Directorate Nature (OD Nature), with scientists working in Brussels and Ostend, collects all stranding and sighting records in a database.  This database contains information form many different sources, including data supplied by the public, data collected by the RBINS itself, and data recorded in literature and historic documents. Part of the database can be consulted online: all strandings since 2000, and the most remarkable sightings</p>
 
-    <p>The RBINS coordinates an intervention network dealing with the scientific research of stranded and bycaught marine mammals. This research focuses on the problems encountered by these animals, such as pollution and overfishing, but can also put more light on ecology and life history aspects of the populations. Next to this, MUMM investigates effects on marine mammals of human activities at sea, such as the construction of offshore windfarms.</p>
+<blockquote class="belgica"><p>In contrast to common belief, the southern North Sea is home to a number of marine mammals, such as harbour
+        porpoises, white-beaked dolphins, and common and grey seals. Also species occurring in the nearby Atlantic
+        Ocean and the northern North Sea may frequent our waters, or wander into them. As such in historical times
+        strandings and/or observations occurred at the Belgian coast of 19 cetacean and 5 pinniped species.</p></blockquote>
 
-    <p>RBINS is the competent authority in the national legislation specifically protecting certain marine mammal species (Royal Decree of 21 December 2001). Protecting these magnificent creatures is a commitment, and even an obligation of the Belgian authorities in the framework of different international conventions and treaties, such as the European Habitats Directive, ASCOBANS and the OSPAR Convention.  As protected animals, marine mammals cannot be disturbed on purpose, and may not be caught or killed. Stranded or bycaught animals need to be notified to the authorities.</p>
+        <h2>Conservation and protection</h2>
+    <p>The RBINS is part of an intervention network dealing with the scientific research of stranded and bycaught
+        marine mammals. This research focuses on the problems encountered by these animals, such as pollution and
+        overfishing, but can also put more light on ecology and life history aspects of the populations. Next to this,
+        MUMM investigates effects on marine mammals of human activities at sea, such as the construction of offshore
+        windfarms.</p>
 
-    <p>In case you observe a seal or a dolphin, or a group of them, you can notify this to the RBINS
-        by email to <a href="mailto:dolphin@mumm.ac.be">dolphin@mumm.ac.be</a>. In case of strandings, you can contact a local authority (police or fire brigade). Live stranded seals - in difficulty - are being dealt with by SeaLife Blankenberge.  For transporting live stranded cetaceans (porpoises and small dolphins), the OD Nature has special equipment standby at Ostend.</p>
 
-</div>
+    <p>The Institute is the competent authority in the national legislation specifically protecting certain marine mammal
+        species (Royal Decree of 21 December 2001). Protecting these magnificent creatures is a commitment, and even an
+        obligation of the Belgian authorities in the framework of different international conventions and treaties, such
+        as the European Habitats Directive, ASCOBANS and the OSPAR Convention. As protected animals, marine mammals
+        cannot be disturbed on purpose, and may not be caught or killed. Stranded or bycaught animals need to be
+        notified to the authorities.</p>
+{{ include('AppBundle:Bare:index-stranding-help.html.twig') }}
 {% endblock %}
+{% block sidebar %}
+    {{ include('AppBundle:Bare:list-ns-species.html.twig') }}
+{% endblock sidebar %}

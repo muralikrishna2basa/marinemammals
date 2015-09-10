@@ -99,7 +99,7 @@ class SpecimensController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()
-                ->getEntityManager();
+                ->getManager();
             $em->persist($specimen);
             $em->flush();
             return $this->redirect($this->generateUrl('mm_observations_mgmtindex'));

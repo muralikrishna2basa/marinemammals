@@ -1,8 +1,7 @@
-{% include 'AppBundle:Bare:filter-observations.html.twig' with {'include_path': 'mm_observations_filter', 'method': 'GET'} %}
 <div id="map"></div>
-<h2>List of Belgian strandings and observations</h2>
+<h2>Observations (direct observations and strandings)</h2>
 <p class="count">
-    The above criteria match {{ entities.getTotalItemCount }} observations.
+    {{ entities.getTotalItemCount }} observations found.
 </p>
 <div class="pagination_head">
 {{ knp_pagination_render(entities) }}
@@ -31,7 +30,18 @@
             <td>{{ e.e_eventDatetime|date("d/m/Y") }}</td>
             <td>{{ e.cg1_rvMeaning }}</td>
             <td>{% if e.t_seqno is not null %}
-                    <i>{{ e.t_canonicalName }}</i> ({{ e.t_vernacularNameEn }}){% endif %}
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('mm_taxa_mgmtview',{'id': e.t_seqno}) }}"
+                           title="Information and observations of this species">{{ e.t_vernacularNameEn|capitalize }}
+                            -
+                            <i>{{ e.t_canonicalName }}</i></a>
+                    {% else %}
+                        <a href="{{ path('mm_taxa_view',{'id': e.t_seqno}) }}"
+                           title="Information and observations of this species">{{ e.t_vernacularNameEn|capitalize }}
+                            -
+                            <i>{{ e.t_canonicalName }}</i></a>
+                    {% endif %}
+                {% endif %}
             </td>
             <td>
                 <a href="

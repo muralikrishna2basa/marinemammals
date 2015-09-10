@@ -2,7 +2,8 @@
 {% for r in previous_requests %}
     <ul>
         <li>
-            <a href="{{  path('mm_request_view',{'id': r.seqno})}}">{{ r.dateRequest|date('d/m/Y') }} - number of samples: {{  r.nbSamples }} - status: {{ r.status }}</a>
+            <a href="{{ path('mm_request_view',{'id': r.seqno}) }}">{{ r.dateRequest|date('d/m/Y') }} - number of
+                samples: {{ r.nbSamples }} - status: {{ r.status }}</a>
         </li>
     </ul>
 {% endfor %}
@@ -17,26 +18,28 @@
             <th>date necropsied</th>
         </tr>
         </thead>
-        {% for sample in currentRequest.samples %}
-            <tr>
-                <td>{{ sample.vernacularName }}</td>
-                <td>{{ sample.organ }}--{{ sample.conservation_mode }}--{{ sample.intended_use }}</td>
-                <td>{{ sample.date_necropsied }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td>No samples found.</td>
-            </tr>
-        {% endfor %}
+        {% if currentRequest is not null %}
+            {% for sample in currentRequest.samples %}
+                <tr>
+                    <td>{{ sample.vernacularName }}</td>
+                    <td>{{ sample.organ }}--{{ sample.conservation_mode }}--{{ sample.intended_use }}</td>
+                    <td>{{ sample.date_necropsied }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>No samples found.</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
     </table>
     <h3>Add new samples request</h3>
-{#    <ul class="samples" data-prototype="">
-    {% for s in request_form.speSeqno %}
-        <li class="form-inline">
-            {{ form_row(s, {'label':'Sample id','attr':{'placeholder':'A valid sample seqno'} }) }}
-        </li>
-    {% endfor %}
-    </ul>#}
+    {#    <ul class="samples" data-prototype="">
+        {% for s in request_form.speSeqno %}
+            <li class="form-inline">
+                {{ form_row(s, {'label':'Sample id','attr':{'placeholder':'A valid sample seqno'} }) }}
+            </li>
+        {% endfor %}
+        </ul>#}
     <div>{{ form_row(request_form.studyDescription, {'label':'Study description'}) }}</div>
     <div>{{ form_row(request_form.user2Requests.p2rType, {'label':'capacity'}) }}</div>
 

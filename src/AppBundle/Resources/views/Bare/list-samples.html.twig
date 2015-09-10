@@ -1,6 +1,6 @@
 <h2>List of samples</h2>
 <p class="count">
-    The above criteria match  {{ paginator.getItemscount}} samples.
+    {{ paginator.getItemscount}} samples found.
 </p>
 <div class="pagination_head">
     {{ paginator_html|raw }}
@@ -24,7 +24,7 @@
             <td>{{ s.ogn_name }}</td>
             <td>{{ s.s_conservationMode }}</td>
             <td>{{ s.s_analyzeDest }}</td>
-            <td>{{ s.date_found|date("d/m/Y") }}</td>
+            {#<td>{{ s.date_found|date("d/m/Y") }}</td>#}
             <td>{{ s.ese_eventDatetime|date("d/m/Y") }}</td>
             <td><label for=select_{{ s.s_seqno }}"></label><input type="checkbox" data-seqno="{{ s.s_seqno }}" id="select_{{ s.s_seqno }}" name="select_{{ s.s_seqno }}" class="select-sample"></td>
         </tr>

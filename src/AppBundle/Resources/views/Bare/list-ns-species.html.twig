@@ -1,0 +1,36 @@
+<h3>Species</h3>
+<ul>
+    {% for s in species %}
+    <li>
+        {% if app.user and is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('mm_taxa_mgmtview',{'id': s.seqno}) }}"
+           title="Information and observations of this species">{{ s.vernacularNameEn|capitalize }}
+            -
+            <i>{{ s.canonicalName }}</i></a>
+        {% else %}
+            <a href="{{ path('mm_taxa_view',{'id': s.seqno}) }}"
+               title="Information and observations of this species">{{ s.vernacularNameEn|capitalize }}
+                -
+                <i>{{ s.canonicalName }}</i></a>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+<h3>Collective species</h3>
+<ul>
+    {% for s in collectiveSpecies %}
+        <li>
+            {% if app.user and is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('mm_taxa_mgmtview',{'id': s.seqno}) }}"
+                   title="Information and observations of this species">{{ s.vernacularNameEn|capitalize }}
+                    -
+                    <i>{{ s.canonicalName }}</i></a>
+            {% else %}
+                <a href="{{ path('mm_taxa_view',{'id': s.seqno}) }}"
+                   title="Information and observations of this species">{{ s.vernacularNameEn|capitalize }}
+                    -
+                    <i>{{ s.canonicalName }}</i></a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

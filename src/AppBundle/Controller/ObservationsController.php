@@ -9,7 +9,7 @@ use AppBundle\Entity\Spec2Events;
 use AppBundle\Entity\EntityValues;
 use AppBundle\Entity\ValueAssignable;
 use AppBundle\Form\ObservationsType;
-use AppBundle\ControllerHelper\ObservationProvider;
+use AppBundle\ControllerHelper\ObservationsProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
@@ -108,7 +108,7 @@ class ObservationsController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()
-                ->getEntityManager();
+                ->getManager();
             $em->persist($event);
             $em->persist($observation);
             $em->persist($s2e);
@@ -170,7 +170,7 @@ class ObservationsController extends Controller
     private function persistOrRemoveEntityValue(EntityValues $ev, ValueAssignable $va)
     {
         $em = $this->getDoctrine()
-            ->getEntityManager();
+            ->getManager();
         if ($ev->getValue() === null) { //empty values are allowed
             $va->removeValue($ev);
             $em->remove($ev);
@@ -182,7 +182,7 @@ class ObservationsController extends Controller
     private function persistOrRemoveEvent2Persons(Event2Persons $e2p, EventStates $e)
     {
         $em = $this->getDoctrine()
-            ->getEntityManager();
+            ->getManager();
         if ($e2p->getPsnSeqno() === null) {
             $e->removeEvent2Persons($e2p);
             $em->remove($e2p);
@@ -209,7 +209,7 @@ class ObservationsController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()
-            ->getEntityManager();
+            ->getManager();
         $observation = $this->get('observations_provider')->loadAndSupplementObservation($id);
         $event = $observation->getEseSeqno();
         $s2e = $event->getSpec2Events();
@@ -220,7 +220,7 @@ class ObservationsController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()
-                ->getEntityManager();
+                ->getManager();
             $em->persist($event);
             $em->persist($observation);
             $em->persist($s2e);

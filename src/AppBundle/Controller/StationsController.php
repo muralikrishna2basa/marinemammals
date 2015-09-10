@@ -33,7 +33,7 @@ class StationsController extends Controller
             if ($sform->isValid()) {
 
                 $em = $this->getDoctrine()
-                    ->getEntityManager();
+                    ->getManager();
                 $em->persist($station);
                 $em->flush();
                 return $cp->createEntitiesAndRenderForm('true', 'na');
@@ -48,7 +48,7 @@ class StationsController extends Controller
             if ($pform->isValid()) {
 
                 $em = $this->getDoctrine()
-                    ->getEntityManager();
+                    ->getManager();
                 $em->persist($place);
                 $em->flush();
                 return $cp->createEntitiesAndRenderForm('na', 'true');

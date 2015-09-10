@@ -39,13 +39,13 @@ class SamplesRepository extends EntityRepository
 
     public function getPartialSamplesQb()
     {
-        return $this->buildSampleQuery()->select('partial s.{seqno,conservationMode, analyzeDest,speType}, partial oln.{seqno}, partial lte.{seqno}, partial ogn.{code,name}, partial ncy.{eseSeqno}, partial ese.{seqno,eventDatetime}, partial s2e.{eseSeqno,scnSeqno}, partial scn.{seqno}, partial txn.{seqno,canonicalName,vernacularNameEn}')
-            ->addSelect('(SELECT MAX(ese2.eventDatetime) AS event_datetime
-            FROM AppBundle:EventStates ese2
-            JOIN ese2.observation o
-            JOIN ese2.spec2events s2e2
-            WHERE ese.seqno = ese2.seqno GROUP BY s2e2.scnSeqno) as date_found'
-            );
+        return $this->buildSampleQuery()->select('partial s.{seqno,conservationMode, analyzeDest,speType}, partial oln.{seqno}, partial lte.{seqno,processus}, partial ogn.{code,name}, partial ncy.{eseSeqno,refAut,refLabo}, partial ese.{seqno,eventDatetime}, partial s2e.{eseSeqno,scnSeqno}, partial scn.{seqno}, partial txn.{seqno,canonicalName,vernacularNameEn}');
+        /*->addSelect('(SELECT MAX(ese2.eventDatetime) AS event_datetime
+        FROM AppBundle:EventStates ese2
+        JOIN ese2.observation o
+        JOIN ese2.spec2events s2e2
+        WHERE ese.seqno = ese2.seqno GROUP BY s2e2.scnSeqno) as date_found'
+        );*/
     }
 
     private function buildSampleQuery()
@@ -59,12 +59,22 @@ class SamplesRepository extends EntityRepository
             ->leftJoin('ese.spec2events', 's2e')
             ->leftJoin('s2e.scnSeqno', 'scn')
             ->leftJoin('scn.txnSeqno', 'txn')
-            ->join('s.rlnSeqno', 'rln');
+            ->leftJoin('s.rlnSeqno', 'rln');
     }
 
-    public function getSamplesListWithPagination($order_by = array(), $offset = 0, $limit = 0, $scalar = true)
+    public function getSamplesWithPagination($order_by = array(), $offset = 0, $limit = 0, $scalar = true)
     {
-        //Create query builder for languages table
+        $q = $this->getSamplesWithPaginationQb($order_by, $offset, $limit);
+        if ($scalar) {
+            return $q->getScalarResult();
+        } else {
+            return $q->getResult();
+        }
+    }
+
+
+    public function getSamplesWithPaginationQb($order_by = array(), $offset = 0, $limit = 0)
+    {
         $qb = $this->getPartialSamplesQb();
 
         //Show all if offset and limit not set, also show all when limit is 0
@@ -79,21 +89,25 @@ class SamplesRepository extends EntityRepository
         foreach ($order_by as $key => $value) {
             $qb->add('orderBy', 's.' . $key . ' ' . $value);
         }
-        //Get our query
-        $q = $qb->getQuery();
-        //Return result
-        if ($scalar) {
-            return $q->getScalarResult();
-        } else {
-            return $q->getResult();
-        }
-
+        return $qb;
     }
 
     public function getSamplesCount()
     {
         //Create query builder for languages table
         $qb = $this->createQueryBuilder('s');
+        //Add Count expression to query
+        $qb->add('select', $qb->expr()->count('s'));
+        //Get our query
+        $q = $qb->getQuery();
+        //Return number of items
+        return $q->getSingleScalarResult();
+    }
+
+    public function getSamplesCountByQb($qb)
+    {
+        //Create query builder for languages table
+
         //Add Count expression to query
         $qb->add('select', $qb->expr()->count('s'));
         //Get our query

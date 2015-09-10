@@ -14,7 +14,7 @@ class ControllerFormSuccessPlugin
 
     public function __construct($controller, $type1, $type2 = null, $formtype1, $formtype2 = null, $typeRepo1, $typeRepo2 = null, $pageToRender)
     {
-        $this->doctrine = $controller->getDoctrine()->getEntityManager();
+        $this->doctrine = $controller->getDoctrine()->getManager();
         $this->type1 = $type1;
         $this->type2 = $type2;
         $this->formtype1 = $formtype1;

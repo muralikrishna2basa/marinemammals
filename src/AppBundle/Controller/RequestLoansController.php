@@ -58,7 +58,7 @@ class RequestLoansController extends Controller
 
     public function createAction()
     {
-        $currentUser = $this->getUser();
+        /*$currentUser = $this->getUser();
         $request = $this->get('requestloans_provider')->prepareNewRequestLoan($currentUser);
         $requests = $this->get('requestloans_provider')->loadUserRequests($currentUser);
 
@@ -66,7 +66,7 @@ class RequestLoansController extends Controller
         //$sample=$sampleRepo->findBySeqno(19233);
         //$request->addSpeSeqno($sample);
         return $this->render('AppBundle:Page:add-edit-requests.html.twig', array(
-            'previous_requests' => $requests, 'request' => $request));
+            'previous_requests' => $requests, 'request' => $request));*/
     }
 
 }

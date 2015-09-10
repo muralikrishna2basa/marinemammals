@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Organs
  *
  * @ORM\Table(name="ORGANS", indexes={@ORM\Index(name="ogn_ogn_fk_i", columns={"OGN_CODE"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\OrgansRepository")
  */
 class Organs
 {

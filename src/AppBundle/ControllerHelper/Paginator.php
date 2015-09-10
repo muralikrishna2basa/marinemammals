@@ -86,15 +86,16 @@ class Paginator
     }
 
     //Returns HTML string with paginator elements - will be used from Controller
-    public function RenderPaginator()
+    public function RenderPaginator($form)
     {
         $html = '';
         //Insert all in one div tag
         $html .= '<div>';
         //We need this form for sumbitting limit into URL via GET call
-        $html .= '<form id= "paginator" name="paginator" method="get" action="#" >';
+        //$html .= '<form id= "paginator" name="paginator" method="get" action="'.$form.'" >';
         //When limit is changed - just submit form
-        $html .= '<select name="limit" onchange="javascript:document.forms.paginator.submit()">';
+        //$html .= '<select name="limit" onchange="javascript:document.forms.'.$form.'.submit()">';
+        $html .= '<select  id="limit" name="limit">';
         $html .= '<option value="10" ';
         if ($this->limit == 10) {
             $html .= 'selected';
@@ -132,7 +133,8 @@ class Paginator
         $html .= '>All</option>';
         $html .= '</select>';
 
-        $html .= '<select name="page" onchange="javascript:document.forms.paginator.submit()">';
+        //$html .= '<select name="page" onchange="javascript:document.forms.'.$form.'.submit()">';
+        $html .= '<select id="limit" name="page">';
         //Generate links for pages
         for ($i = 1; $i < $this->numpages + 1; $i++) {
             $html .= '<option value="'.$i.'"';
@@ -145,7 +147,7 @@ class Paginator
         //$html .= '</ul>';
         //$html .= '</div>';
         $html .= '</select>';
-        $html .= '</form>';
+        //$html .= '</form>';
         $html .= '</div>';
 
         return $html;

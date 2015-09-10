@@ -53,7 +53,7 @@ class PersonsController extends Controller
             if ($pform->isValid()) {
 
                 $em = $this->getDoctrine()
-                    ->getEntityManager();
+                    ->getManager();
                 $em->persist($person);
                 $em->flush();
 
@@ -68,7 +68,7 @@ class PersonsController extends Controller
             if ($iform->isValid()) {
 
                 $em = $this->getDoctrine()
-                    ->getEntityManager();
+                    ->getManager();
                 $em->persist($institute);
                 $em->flush();
 

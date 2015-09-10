@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PageController extends Controller
 {
+
     public function indexAction()
     {
         $filter['excludeConfidential']=true;
@@ -21,7 +22,25 @@ class PageController extends Controller
 
     public function aboutObservationsAction()
     {
-    	return $this->render('AppBundle:Page:about-observations.html.twig');
+        $taxaRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Taxa');
+
+        $species = $taxaRepo->getAllNSTaxaWOCollectiveSpeciesQb()->getQuery()->getResult();
+
+        usort($species, function($a, $b){
+            return strCmp($a->getVernacularNameEn(), $b->getVernacularNameEn());
+        });
+
+
+        $collectiveSpecies = $taxaRepo->getAllNSTaxaOnlyCollectiveSpeciesQb()->getQuery()->getResult();
+
+        usort($collectiveSpecies, function($a, $b){
+            return strCmp($a->getVernacularNameEn(), $b->getVernacularNameEn());
+        });
+
+    	return $this->render('AppBundle:Page:about-observations.html.twig', array(
+            'species'=>$species,
+            'collectiveSpecies'=>$collectiveSpecies
+        ));
     }
 
     public function aboutNecropsiesAction()

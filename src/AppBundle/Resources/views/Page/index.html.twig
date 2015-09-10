@@ -29,59 +29,45 @@
         </tbody>
     </table>
 {% endblock %} {% block mainbar %}
-    <h2>The Belgian marine mammal database</h2>
-
-    <div class="col-lg-10">
+    <h1>Marinemammals.be <small><i>A resource for marine mammal observations</i></small></h1>
         <p>
-            This website contains information about marine mammals in Belgium: from sightings to strandings and the
-            results of scientific research.
-            It includes data about dolphins, whales and seals from Belgian waters, but also some data from neighbouring
-            countries (France, the Netherlands) is included. </p>
-
+            This website is the home of all Belgian marine mammal observations and strandings. It contains data ranging from sightings & strandings and the
+            results of scientific research. It includes data about dolphins, whales and seals from Belgian waters. We also maintain some data from neighbouring
+            countries (Northern France, the Netherlands). Until some decades ago, only few data was collected from stranded animals. Nowadays, full necropsies are
+            performed, and tissue samples are collected for research purposes. Registered users can request tissue samples.</p>
         <p>
-            The marinemammals.be database was set up as a joint venture between the Royal Belgian Institute of Natural
-            Sciences (RBINS), Directorate Natural Environment, and the department
-            of Veterinary Pathology (VP) of the University of Liège.
+            This website was set up as a joint venture between the <a href='http://www.naturalsciences.be'>Royal Belgian Institute of Natural Sciences (RBINS)</a>, <a
+                    href='http://www.naturalsciences.be/en/science/do/98'>Operational Directorate Natural Environment (OD Nature)</a>, and the department
+            of <a
+                    href='http://www.fmv.ulg.ac.be/cms/c_267191/en/department-of-morphology-and-pathology-dmp'>Department of Morphology and Pathology</a> of the University of Liège.
         </p>
 
-        <p>
+        <blockquote class="belgica"> <p>
             Collecting data on strandings and sightings of marine mammals is important as such data can can provide us
             with a lot of information about marine mammals, their population trends, problems they face, and eventually
             on the condition of the marine environment in general.
-            Until some decades ago, only few data were collected from stranded animals. Nowadays, full necropsies are
-            performed, and tissue samples are collected for research purposes.
-        </p>
+        </p></blockquote>
 
-        <p>
-            Two access levels exist in this website:
-        </p>
-        <ul>
-            <li>An open access level, with contains the data on strandings and observations, meant for the general
-                public.
-            </li>
-            <li>A restricted access level, that leads to the tissue collection. The data available here will mostly be
-                of interest to researchers. From these pages, the different tissue samples and the way to obtain these
-                can be browsed.
-            </li>
-        </ul>
-
-        <p>The main contents of the different web pages are:</p>
+        <p>The site has two main parts:</p>
 
         <ul>
             <li>(Open access): Observations and strandings of marine mammals in Belgium; queries can be made of species,
                 year, circumstances, etc. Pictures and video images are available in some cases.
             </li>
             <li>
-                (Open access): A description of the methodology for the post-mortem investigation of stranded and
-                bycaught animals.
-            </li>
-            <li>
                 (Restricted access): The tissue bank page provides for access to more than 25.000 (mostly) tissue
                 samples taken from marine mammals. Queries can be performed for species, type of tissue, method of
-                storage, etc. In order to access this page, you need to be a registered user.
+                storage, etc, and tissues can be requested. In order to access this page, you need to be a registered user.
             </li>
         </ul>
-    </div>
+
+
+        <img class="span-img" src="/static-img/strandings/dendermonde.jpg"
+             alt="The Dendermonde stranding of 7 juli 1777"/>
+    <h1>Marinemammals.be <small><i>RBINS' responsibility on the conservation of sea mammals</i></small></h1>
+    <p>The Institute is the competent authority in the national legislation that protects certain marine mammal
+        species. Via this website we want to raise awareness on marine mammal strandings.</p>
+    {{ include('AppBundle:Bare:index-stranding-help.html.twig') }}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

@@ -13,10 +13,24 @@
     'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script>
+        $(document).ready(function () {
+            $('#limit, #page' ).change(
+                    function(){
+                        //$(this).closest('form').trigger('submit');
+                        /* or:
+                         $('#formElementId').trigger('submit');
+                         or:
+                         $('#formElementId').submit();
+                         */
+                    });
+        });
+
+    </script>
 {% endblock %}
  {% block title %}Browse samples{% endblock %}
 {% block mainbar %}
-    {{ include('AppBundle:Bare:list-samples.html.twig') }}
+    {{ include('AppBundle:Bare:filter-samples.html.twig') }}
 {% endblock %}
 {% block sidebar %}
 <div id="edit-requests">

@@ -27,7 +27,7 @@ class SourcesController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()
-                ->getEntityManager();
+                ->getManager();
             $em->persist($source);
             $em->flush();
 

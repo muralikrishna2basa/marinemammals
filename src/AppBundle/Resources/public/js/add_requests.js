@@ -2,44 +2,69 @@ var $selectSample = $('.select-sample');
 var $requests = $('#requestloanstype_speSeqno');
 
 var $sampleTable = $('.table-samples');
-var requestLoan = {samples:[]};
+var requestLoan = {};
 var $requestsArray = $.parseJSON($requests.val());
-var $studyDescription=$('requestloanstype_studyDescription');
-var $p2rType=$('requestloanstype_user2Requests_p2rType');
+var $studyDescription = $('requestloanstype_studyDescription');
+var $p2rType = $('requestloanstype_user2Requests_p2rType');
 var ck = Object.create(Cookies);
 
-var refreshRequests=function(){
+var $submitButton = $("input[type='submit']");
+var localStorageDataKey = 'current-samples-request';
+
+var refreshRequests = function () {
     $('#edit-requests').empty();
     $('#edit-requests').load('/samples/biobank/requests/viewcurrent');
 };
 
 $(document).ready(function () {
-
+    requestLoan = JSON.parse(ck.getItem(localStorageDataKey));
+    if (requestLoan === null) {
+        requestLoan = {samples: []};
+    }
+    //var seqnos={};
+    if (requestLoan !== null) {
+        for (i= 0; i < requestLoan.samples.length; ++i) {
+            //console.log(a[index]);
+            var sample = requestLoan.samples[i];
+            var seqno = sample.seqno;
+            //seqnos.push(requestLoan.samples[i].seqno);
+            $selectSample.each(function () {
+                if ($(this).attr('id').indexOf(seqno) > -1)
+                    $(this).prop('checked', true);
+            });
+        }
+    }
     /*$sampleTable.on("mouseenter", "li", function(){
 
      $(this).text("Click me!");
 
      });*/
 
+
+    $submitButton.click(function () {
+        ck.removeItem(localStorageDataKey);
+    });
+
     $studyDescription.on("change", function () {
-        var studyDescription=$(this).val();
-        if(studyDescription !== requestLoan.studyDescription){
-            requestLoan.studyDescription=studyDescription;
+        var studyDescription = $(this).val();
+        if (studyDescription !== requestLoan.studyDescription) {
+            requestLoan.studyDescription = studyDescription;
         }
-        ck.setItem('current-samples-request', JSON.stringify(requestLoan));
+        ck.setItem(localStorageDataKey, JSON.stringify(requestLoan));
+
         refreshRequests();
     });
 
     $p2rType.on("change", function () {
-        var p2rType=$(this).val();
-        if(p2rType !== requestLoan.p2rType){
-            requestLoan.p2rType=p2rType;
+        var p2rType = $(this).val();
+        if (p2rType !== requestLoan.p2rType) {
+            requestLoan.p2rType = p2rType;
         }
-        ck.setItem('current-samples-request', JSON.stringify(requestLoan));
+        ck.setItem(localStorageDataKey, JSON.stringify(requestLoan));
         refreshRequests();
     });
 
-    $sampleTable.on("click", ".select-sample", function () {
+    $sampleTable.unbind('click').on("click", ".select-sample", function () {
         var seqno = Number($(this).attr('data-seqno'));
         var headRow = $(this).parents('tbody').siblings('thead').find('tr')[0];
         var row = $(this).parents('tr')[0];
@@ -49,19 +74,20 @@ $(document).ready(function () {
 
             var sample = {};
             for (var j = 0, col; col = row.cells[j]; j++) {
-                sample[headRow.cells[j].innerHTML.replace(' ','_')] = col.innerHTML;
+                sample[headRow.cells[j].innerHTML.replace(' ', '_')] = col.innerHTML;
             }
-            var fullSpeciesName=sample.species;//bay porpoise (<i>Phocoena phocoena</i>)
+            var fullSpeciesName = sample.species;//bay porpoise (<i>Phocoena phocoena</i>)
             //var ii=fullSpeciesName.indexOf('<');
             //var scientificName=fullSpeciesName.substr(ii-1,fullSpeciesName.length);
 
-            var scr=new RegExp('<i>(.*|\n)?<\/i>');
-            var ver=new RegExp('(^.*) [(]');
+            var scr = new RegExp('<i>(.*|\n)?<\/i>');
+            var ver = new RegExp('(^.*) [(]');
             sample.scientificName = scr.exec(fullSpeciesName)[1];
             sample.vernacularName = ver.exec(fullSpeciesName)[1];
             sample.timestampAdded = Date.now();
 
-            delete sample.select; //delete the property select which is just the select button html
+            sample.seqno = seqno
+            //var select=sample.select; //delete the property select which is just the select button html
 
             //requestLoan.samples[seqno]=sample;
             requestLoan.samples.push(sample);
@@ -76,8 +102,8 @@ $(document).ready(function () {
         }
         //$requests.val(JSON.stringify($requestsArray));
         //ck.setItem('current-samples', JSON.stringify($requestsArray))
-        var json=JSON.stringify(requestLoan);
-        ck.setItem('current-samples-request', json);
+        var json = JSON.stringify(requestLoan);
+        ck.setItem(localStorageDataKey, json);
         refreshRequests();
         //document.location.reload(true);
     });

@@ -454,6 +454,7 @@ var $previousPanel;
 var newSpecimenNumberField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_scnNumber');
 var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens = $('.no-multi');
 var fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect = fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('[required="required"]');
+var $identificationCertaintyBox = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_identificationCertainty');
 var stationSelector = $('#observationstype_stnSeqno');
 var existingSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoExisting');
 var newSpecimenChoiceField = $('#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno');
@@ -471,7 +472,12 @@ var $dateBox = $('#observationstype_eseSeqno_eventDatetime_date');
 var $eventDatetime = $('#observationstype_eseSeqno_eventDatetime_time');
 var $eventDatetimeFlag = $('#observationstype_eseSeqno_eventDatetimeFlagRef');
 var $pathologyValues = $("select[id*='pathologyValues']");
+var $allInputSelect = $(":input, textarea");
 var remoteSpecimen;
+var allValues = {};
+var $submitButton = $("input[type='submit']");
+var localStorageDataKey = "current-observation-entry";
+var multipleSpecimens = false;
 var getRemoteScn = function (scnId) {
     $.ajax({
         type: "GET",
@@ -521,17 +527,50 @@ function initDefaults() {
     if (newSpecimenNumberField.val() === '') {
         newSpecimenNumberField.val(1);
     }
+    $identificationCertaintyBox.prop('checked', true);
+    var output = "";
+    if (window.localStorage) {
+        if (localStorage.length) {
+            for (var i = 0; i < localStorage.length; i++) {
+                output += localStorage.key(i) + ': ' + localStorage.getItem(localStorage.key(i)) + '\n';
+                if (localStorage.key(i) == localStorageDataKey) {
+                    allValues = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                }
+            }
+        } else {
+            output += 'There is no data stored for this domain.';
+        }
+    } else {
+        output += 'Your browser does not support local storage.'
+    }
+    console.log("localStorage: " + output);
+
+    for (var prop in allValues) {
+        var id = "#" + prop;
+        if (allValues.hasOwnProperty(prop)) {
+            if (document.getElementById("" + prop)) {
+                var val = allValues[prop];
+                if ($(id).attr('type') == 'checkbox') {
+                    $(id).prop("checked", val)
+                }
+                else {
+                    $(id).val(val);
+                }
+            }
+        }
+    }
 }
 
 $(document).ready(function () {
     $('.help-block').closest('div').not('.has-error').attr('class', 'has-error');
     $tabs.not($currentTab).not($previousTab).addClass('disabled');
     //$('#formsuccess').delay(200000).hide();
+    initDefaults();
     instantiateRemoteSpecimen();
     hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
     hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen();
     hideFieldsAndBoxesThatAreIllegalOnAliveSpecimens();
-    initDefaults();
+
 
     $("#observationform").easytabs({
         tabs: ".nav-tabs li",
@@ -588,11 +627,26 @@ $(document).ready(function () {
         $tabs.children('a:eq(' + i + ')').click();
     });
 
-    $(":input, textarea").keypress(function (evt) {
+    $allInputSelect.keypress(function (evt) {
         var keycode = evt.charCode || evt.keyCode;
         if (keycode == 13) { //Enter key's keycode
             return false;
         }
+    });
+
+    $submitButton.click(function () {
+        localStorage.clear();
+    });
+
+    $allInputSelect.change(function () {
+        if ($(this).attr('type') == 'checkbox') {
+            var val = $(this).prop("checked");
+        }
+        else {
+            val = $(this).val();
+        }
+        allValues[$(this).attr('id')] = val;
+        localStorage.setItem(localStorageDataKey, JSON.stringify(allValues));
     });
 
     var $specimenModalDiv = $('div#specimen-searcher-modal');
@@ -610,9 +664,9 @@ $(document).ready(function () {
                     //var $as = $('ul.pagination a');
                     //var aIdent='ul.pagination a';
                     var ap = Object.create(AsyncPostNClick);
-                    ap.formIdentifier='form#observationfilterform';
-                    ap.linkIdentifier='ul.pagination a';
-                    ap.myselfIdentifier='div#specimen-searcher';
+                    ap.formIdentifier = 'form#observationfilterform';
+                    ap.linkIdentifier = 'ul.pagination a';
+                    ap.myselfIdentifier = 'div#specimen-searcher';
                     ap.additionalFunction.push(function () {
                         $("#specimen-searcher #observationstable tbody tr").click(function () {
                             if (typeof($clickedRow) !== 'undefined') {
@@ -692,6 +746,7 @@ $(document).ready(function () {
         var flagVal = $('#observationstype_eseSeqno_eventDatetimeFlagRef :selected').text();
         if (flagVal === "time unknown") {
             $eventDatetime.val('12:00');
+            $eventDatetime.change();
         }
     });
 
@@ -704,14 +759,13 @@ $(document).ready(function () {
     var sfp2 = new SymfonyPrototype($('ul.e2p_examiner'), $('<a href="#" id="add_examiner">Add an examiner</a>'), '__examiners_name__');
     sfp2.addAddLink();
 
-
     var validator = wholeForm.validate({
         ignore: "",
         rules: {
             "observationstype[eseSeqno][eventDatetime][date]": {dateBELogical: true, required: true},
             "observationstype[eseSeqno][description]": {
                 minlength: 0,
-                maxlength: 4000
+                maxlength: 1300
             },
             "observationstype[webcommentsEn]": {
                 minlength: 0,
@@ -741,9 +795,31 @@ $(document).ready(function () {
                 maxlength: 20
             },
             "observationstype[eseSeqno][spec2events][scnSeqnoNew][necropsyTag]": 'validNecropsyTag',
+            "observationstype[eseSeqno][spec2events][scnSeqnoNew][name]": {
+                minlength: 0,
+                maxlength: 50
+            },
+            "observationstype[eseSeqno][spec2events][scnSeqnoNew][otherTag]": {
+                minlength: 0,
+                maxlength: 40
+            },
             "observationstype[eseSeqno][spec2events][pathologyValues][38][value]": {
                 minlength: 0,
                 maxlength: 50
+            }
+        },
+        messages: {
+            "observationstype[eseSeqno][description]": {
+                maxlength: maxlengthMsg
+            },
+            "observationstype[webcommentsEn]": {
+                maxlength: maxlengthMsg
+            },
+            "observationstype[webcommentsFr]": {
+                maxlength: maxlengthMsg
+            },
+            "observationstype[webcommentsNl]": {
+                maxlength: maxlengthMsg
             }
         },
         showErrors: function (errorMap, errorList) {
@@ -751,10 +827,49 @@ $(document).ready(function () {
             $.each(errorList, createError);
         }
     });
-
     wholeForm.find('a.initially-disabled').removeClass('initially-disabled');
-})
-;
+
+    initCharCountLimit($('#observationstype_eseSeqno_description'));
+    initCharCountLimit($('#observationstype_webcommentsEn'));
+    initCharCountLimit($('#observationstype_webcommentsFr'));
+    initCharCountLimit($('#observationstype_webcommentsNl'));
+});
+
+var initCharCountLimit = function ($element) {
+    var maxLength = $element.rules().maxlength;
+    var charCountClass = $element.attr('id') + "-charcount";
+    $element.after("<p class='" + charCountClass + "'></p>");
+
+    countChar($element.get(0), maxLength, '.' + charCountClass); //show inital value on page load
+    $element.keyup(function () {
+        countChar(this, maxLength, '.' + charCountClass); //set up on keyup event function
+    });
+};
+
+function countChar(inobj, maxl, outobj) {
+    var len = inobj.value.length;
+    var msg = '/' + maxl;
+    if (len >= maxl) {
+        //inobj.value = inobj.value.substring(0, maxl);
+        //$(outobj).text(0 + msg);
+        $(outobj).text(maxl - len + msg);
+        $(outobj).addClass('has-error');
+    } else {
+        $(outobj).text(maxl - len + msg);
+        $(outobj).removeClass('has-error');
+    }
+}
+
+var maxlengthMsg = function (maxlength, input) {
+    return [
+        'Please enter no more than ',
+        maxlength,
+        ' characters.',
+        ' You have typed ',
+        $(input).val().length,
+        ' characters.'
+    ].join('');
+};
 
 (function ($) {
     $.fn.isAfter = function (sel) {
@@ -767,14 +882,17 @@ $(document).ready(function () {
 })(jQuery);
 
 function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
-    var scnNumber = newSpecimenNumberField.val();
     var remoteScnNumber = null;
-    if (typeof remoteSpecimen !== 'undefined') {
-        if (remoteSpecimen.found) {
-            remoteScnNumber = remoteSpecimen.scnNumber;
+    if (remoteSpecimen !== null) {
+        if (typeof remoteSpecimen !== 'undefined') {
+            if (remoteSpecimen.found) {
+                remoteScnNumber = remoteSpecimen.scnNumber;
+            }
         }
     }
-    if (scnNumber > 1 || remoteScnNumber > 1) {
+    if (isMultipleSpecimens()) {
+
+        multipleSpecimens = true;
         fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input').val('');
         fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('select').prop('selectedIndex', 0);
         fieldsAndBoxesThatAreIllegalOnMultipleSpecimens.find('input[checked]').removeAttr('checked');
@@ -784,7 +902,7 @@ function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
         $multipleSpecimensFeedback.show();
         return false;
     }
-    if (scnNumber < 2) {
+    if (!isMultipleSpecimens()) {
         if (remoteScnNumber === null) {
             fieldsAndBoxesThatAreIllegalOnMultipleSpecimens_requiredInputSelect.attr('required', 'required');
             $sexBox.attr('required', 'required');
@@ -796,11 +914,29 @@ function hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens() {
     }
 }
 
+function isMultipleSpecimens() {
+    var scnNumber = parseInt(newSpecimenNumberField.val());
+    var remoteScnNumber = null;
+    if (remoteSpecimen !== null) {
+        if (typeof remoteSpecimen !== 'undefined') {
+            if (remoteSpecimen.found) {
+                remoteScnNumber = remoteSpecimen.scnNumber;
+            }
+        }
+    }
+    if (scnNumber > 1 || remoteScnNumber > 1) {
+        return true;
+    }
+    else if (scnNumber < 2) {
+        return false;
+    }
+}
+
 function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
     var scnId = existingSpecimenChoiceField.val();
     var newSpecimenBox_allInput = newSpecimenBox.find('input');
     var newSpecimenBox_allSelect = newSpecimenBox.find('select');
-
+    var childs = newSpecimenBox.children();
     if (/^[0-9]+$/.test(scnId)) {
         $(this).attr('required', 'required');
         newSpecimenBox_requiredInputSelect.removeAttr('required');
@@ -815,10 +951,19 @@ function hideFieldsAndBoxesThatAreIllegalOnExistingSpecimen() {
         return false;
     }
     if (scnId === '') {
+        remoteSpecimen = null;
         //newSpecimenBox_requiredInputSelect.attr('required', 'required');
         //$sexBox.attr('required', 'required');
         newSpecimenBox.show();
-        newSpecimenBox.children().show();
+        childs.show();
+        if (isMultipleSpecimens() === false) {
+            childs.show();
+            newSpecimenBox_requiredInputSelect.attr('required', 'required');
+        }
+        else {
+            childs.not('.no-multi').show();
+            //newSpecimenBox_requiredInputSelect.not('.no-multi').attr('required', 'required');
+        }
         $existingSpecimenFeedback.hide();
         $circumstantialParametersFeedback.hide();
         $scnInfo.html("");

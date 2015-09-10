@@ -48,11 +48,31 @@ class Taxa
     private $vernacularNameEn;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="VERNACULAR_NAME_NL", type="string", length=50, nullable=true)
+     */
+    private $vernacularNameNl;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="VERNACULAR_NAME_FR", type="string", length=50, nullable=true)
+     */
+    private $vernacularNameFr;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="PRESENT_IN_EUROPE", type="boolean", nullable=true)
      */
     private $presentInEurope;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="PRESENT_IN_NORTH_SEA", type="boolean", nullable=true)
+     */
+    private $presentInNorthSea;
 
     /**
      * @var integer
@@ -65,6 +85,86 @@ class Taxa
     private $seqno;
 
     /**
+     * @return string
+     */
+    public function getVernacularNameNl()
+    {
+        return $this->vernacularNameNl;
+    }
+
+    /**
+     * @param string $vernacularNameNl
+     * @return Taxa
+     */
+    public function setVernacularNameNl($vernacularNameNl)
+    {
+        $this->vernacularNameNl = $vernacularNameNl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVernacularNameFr()
+    {
+        return $this->vernacularNameFr;
+    }
+
+    /**
+     * @param string $vernacularNameFr
+     * @return Taxa
+     */
+    public function setVernacularNameFr($vernacularNameFr)
+    {
+        $this->vernacularNameFr = $vernacularNameFr;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPresentInNorthSea()
+    {
+        return $this->presentInNorthSea;
+    }
+
+    /**
+     * @param boolean $presentInNorthSea
+     * @return Taxa
+     */
+    public function setPresentInNorthSea($presentInNorthSea)
+    {
+        $this->presentInNorthSea = $presentInNorthSea;
+        return $this;
+    }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Medias", mappedBy="txnSeqno")
+     */
+    private $medias;
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $medias
+     * @return Taxa
+     */
+    public function setMedias($medias)
+    {
+        $this->medias = $medias;
+        return $this;
+    }
+
+
+    /**
      * Set canonicalName
      *
      * @param string $canonicalName
@@ -73,7 +173,6 @@ class Taxa
     public function setCanonicalName($canonicalName)
     {
         $this->canonicalName = $canonicalName;
-    
         return $this;
     }
 
@@ -96,7 +195,6 @@ class Taxa
     public function setIdodId($idodId)
     {
         $this->idodId = $idodId;
-    
         return $this;
     }
 
@@ -142,7 +240,6 @@ class Taxa
     public function setTaxonrank($taxonrank)
     {
         $this->taxonrank = $taxonrank;
-    
         return $this;
     }
 

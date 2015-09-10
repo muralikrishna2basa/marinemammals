@@ -108,7 +108,37 @@ class Medias
      */
     private $eseSeqno;
 
+    /**
+     * @var \AppBundle\Entity\Taxa
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Taxa", inversedBy="medias")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="TXN_SEQNO", referencedColumnName="SEQNO")
+     * })
+     */
+    private $txnSeqno;
 
+    /**
+     * @return Taxa
+     */
+    public function getTxnSeqno()
+    {
+        return $this->txnSeqno;
+    }
+
+
+    /**
+     * Set confidentiality
+     *
+     * @param Taxa $txnSeqno
+     * @return Medias
+     */
+    public function setTxnSeqno($txnSeqno)
+    {
+        $this->txnSeqno = $txnSeqno;
+
+        return $this;
+    }
 
     /**
      * Set confidentiality

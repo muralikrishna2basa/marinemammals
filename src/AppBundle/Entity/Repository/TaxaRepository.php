@@ -10,7 +10,7 @@ class TaxaRepository extends EntityRepository
     public function getAll()
     {
         return $this->getAllTaxaQb()->getQuery()
-                  ->getResult();
+            ->getResult();
     }
 
     public function getAllTaxaQb()
@@ -28,6 +28,24 @@ class TaxaRepository extends EntityRepository
             ->addOrderBy('t.taxonrank', 'ASC')
             ->addOrderBy('t.canonicalName', 'ASC')
             ->where('t.presentInEurope = true');
+    }
+
+    public function getAllNSTaxaOnlyCollectiveSpeciesQb()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->addOrderBy('t.taxonrank', 'ASC')
+            ->where('t.presentInNorthSea= true')
+            ->andWhere("t.taxonrank != 'species'");
+    }
+
+    public function getAllNSTaxaWOCollectiveSpeciesQb()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.presentInNorthSea= true')
+            ->andWhere("t.taxonrank = 'species'");
+
     }
 
     public function getAllTaxonranks()

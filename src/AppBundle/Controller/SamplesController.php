@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Form\RequestLoansType;
+use AppBundle\Form\Filter\SamplesFilterType;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
@@ -36,9 +37,9 @@ class SamplesController extends Controller
 
     private $sampleRepo;
 
-    public function indexAction(Request $request)
-    {
-        $this->sampleRepo = $this->getDoctrine()->getEntityManager()->getRepository('AppBundle:Samples');
+
+    private function generalIndexAction(Request $request, $filter){
+        $this->sampleRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Samples');
         //order of items from database
         $order_by = array();
         //Using custom made database query function in LanguageRepository class
@@ -49,7 +50,6 @@ class SamplesController extends Controller
         $paginator = new Paginator($samplesCount);
         //get returned HTML string from Paginator to render paginator HTML
         //elements in the template
-        $strPaginator = $paginator->RenderPaginator();
 
         //If we have POST variable defined, than it is defined order of items
         //from inside form (clicking on sorting column for example)
@@ -64,7 +64,10 @@ class SamplesController extends Controller
         }
         //To fill $languages for forwarding it to the template, we first call database function
         //with $offset and $limit to get items we wanted
-        $samples = $this->sampleRepo->getSamplesListWithPagination($order_by, $paginator->getOffset(), $paginator->getLimit());
+
+        $samples = $this->get('samples_provider')->loadSamplesByPaginationFilterQb($order_by, $paginator->getOffset(), $paginator->getLimit(),$filter);
+
+        $this->get('samples_provider')->getSamplesCountByQb($qb);
         //Finally - return array to templating engine for displaying data.
         //return array('samples' => $samples, 'sort_dir' => $sort_direction, 'paginator' => $strPaginator);
 
@@ -86,10 +89,38 @@ class SamplesController extends Controller
         }
 
         $requests = $this->get('requestloans_provider')->loadUserRequests($currentUser);
-        $form = $this->createForm(new RequestLoansType($this->getDoctrine()), $sampleRequest);
+        $requestForm = $this->createForm(new RequestLoansType($this->getDoctrine()), $sampleRequest);
+        $filterForm = $this->createForm(new SamplesFilterType($this->getDoctrine()));
+
+        $strPaginator = $paginator->RenderPaginator('samplefilterform');
 
         return $this->render('AppBundle:Page:list-samples.html.twig', array(
-            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator_html' => $strPaginator, 'paginator' => $paginator, 'previous_requests' => $requests, 'request' => $sampleRequest, 'currentRequest' => $currentRequest, 'request_form' => $form->createView()
+            'samples' => $samples, 'sort_dir' => $sort_direction, 'paginator_html' => $strPaginator, 'paginator' => $paginator, 'previous_requests' => $requests, 'request' => $sampleRequest, 'currentRequest' => $currentRequest, 'request_form' => $requestForm->createView(), 'filter_form' => $filterForm->createView()
         ));
     }
+
+    public function indexAction(Request $request)
+    {
+        $filter=null;
+        return $this->generalIndexAction($request,$filter);
+    }
+
+    public function filterAction(Request $request)
+    {
+        $form = $this->createForm(new SamplesFilterType($this->getDoctrine()));
+        if ($request->query->has($form->getName())) {
+            $form->submit($request->query->get($form->getName()));
+            $filter = $form->getData();
+            return $this->generalIndexAction($request,$filter);
+        }
+        else{
+            return $this->generalIndexAction($request,null);
+        }
+    }
+
+
+
+    /*--------------------------------------*/
+
+
 }
