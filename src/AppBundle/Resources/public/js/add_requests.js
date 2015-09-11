@@ -1,9 +1,9 @@
 var $selectSample = $('.select-sample');
-var $requests = $('#requestloanstype_speSeqno');
-
+//var $requests = $('#requestloanstype_speSeqno');
+var $form = $('form');
 var $sampleTable = $('.table-samples');
 var requestLoan = {};
-var $requestsArray = $.parseJSON($requests.val());
+//var $requestsArray = $.parseJSON($requests.val());
 var $studyDescription = $('requestloanstype_studyDescription');
 var $p2rType = $('requestloanstype_user2Requests_p2rType');
 var ck = Object.create(Cookies);
@@ -17,13 +17,27 @@ var refreshRequests = function () {
 };
 
 $(document).ready(function () {
+    var $sticky = $('.sticky');
+    if ($sticky.length > 0) {
+        var stickyTop = $sticky.offset().top;
+        $(window).scroll(function () {
+            var windowTop = $(window).scrollTop(); // returns number
+            if (stickyTop < windowTop) {
+                $sticky.css({position: 'fixed', top: 0, width: 340});
+            }
+            else {
+                $sticky.css('position', 'static');
+            }
+        });
+    }
+
     requestLoan = JSON.parse(ck.getItem(localStorageDataKey));
     if (requestLoan === null) {
         requestLoan = {samples: []};
     }
     //var seqnos={};
     if (requestLoan !== null) {
-        for (i= 0; i < requestLoan.samples.length; ++i) {
+        for (i = 0; i < requestLoan.samples.length; ++i) {
             //console.log(a[index]);
             var sample = requestLoan.samples[i];
             var seqno = sample.seqno;
@@ -42,7 +56,7 @@ $(document).ready(function () {
 
 
     $submitButton.click(function () {
-        ck.removeItem(localStorageDataKey);
+        //ck.removeItem(localStorageDataKey);
     });
 
     $studyDescription.on("change", function () {
@@ -94,10 +108,10 @@ $(document).ready(function () {
         }
         else {
             // do what you need here
-            var index = $requestsArray.indexOf(seqno); //seqnos are unique in the array
+            /*var index = $requestsArray.indexOf(seqno); //seqnos are unique in the array
             if (index > -1) {
                 $requestsArray.splice(index, 1);
-            }
+            }*/
             delete requestLoan.samples[seqno];
         }
         //$requests.val(JSON.stringify($requestsArray));
@@ -107,6 +121,17 @@ $(document).ready(function () {
         refreshRequests();
         //document.location.reload(true);
     });
+
+    $form.unbind('change').on("change", "#limit, #page",
+        function () {
+            if ($(this).attr('id') === 'limit') {
+                $('.limit').val($(this).val());
+            }
+            else {
+                $('.page').val($(this).val());
+            }
+            $(this).closest('form').trigger('submit');
+        });
 });
 
 

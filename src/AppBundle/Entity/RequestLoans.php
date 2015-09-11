@@ -397,6 +397,21 @@ class RequestLoans
         $this->user2Requests->add($user2Request);
         return $this;
     }
+    /**
+     * To simplify things, RequestLoans are understood to have just one User2Requests, and consequently one user.
+     * @return User2Requests
+     */
+    public function getSingleUser2Requests(){
+        return $this->user2Requests->first();
+    }
+
+    /**
+     * To simplify things, RequestLoans are understood to have just one User2Requests, and cnsequently one user.
+     * @return Users
+     */
+    public function getSingleUser(){
+        return $this->user2Requests->first()->getUsrSeqno();
+    }
 
     public function nbSamples(){
         return $this->getSpeSeqno()->count();

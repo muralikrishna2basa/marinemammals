@@ -76,7 +76,11 @@ class SamplesRepository extends EntityRepository
     public function getSamplesWithPaginationQb($order_by = array(), $offset = 0, $limit = 0)
     {
         $qb = $this->getPartialSamplesQb();
+        return $this->getSamplesWithPaginationQbbyQb($qb, $order_by, $offset, $limit);
+    }
 
+    public function getSamplesWithPaginationQbbyQb($qb, $order_by = array(), $offset = 0, $limit = 0)
+    {
         //Show all if offset and limit not set, also show all when limit is 0
         if ((isset($offset)) && (isset($limit))) {
             if ($limit > 0) {
@@ -106,13 +110,7 @@ class SamplesRepository extends EntityRepository
 
     public function getSamplesCountByQb($qb)
     {
-        //Create query builder for languages table
-
-        //Add Count expression to query
         $qb->add('select', $qb->expr()->count('s'));
-        //Get our query
-        $q = $qb->getQuery();
-        //Return number of items
-        return $q->getSingleScalarResult();
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

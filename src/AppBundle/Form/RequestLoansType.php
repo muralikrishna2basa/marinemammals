@@ -44,9 +44,9 @@ class RequestLoansType extends AbstractType
             'prototype_name' => '__samples_name__'
         ));*/
 
-        $transformer = new SeqnoJSONArrayToSampleArrayTransformer($this->doctrine);
-        $builder->add($builder->create('speSeqno', 'hidden', array())->addViewTransformer($transformer)
-        );
+        //$transformer = new SeqnoJSONArrayToSampleArrayTransformer($this->doctrine);
+        /*$builder->add($builder->create('speSeqno', 'hidden', array())->addViewTransformer($transformer)
+        );*/
 
         /*$builder->add('seqnoString', 'hidden', array(
         ));

@@ -37,10 +37,9 @@ class SamplesProvider// implements ContainerAwareInterface
         return $observation;
     }
 
-    public function loadSamplesByPaginationFilterQb($order_by = array(), $offset = 0, $limit = 0, $filter)
-    {
-        $filterBuilder = $this->repo->getSamplesWithPaginationQb($order_by, $offset, $limit);
+    public function extendQbByFilter($qb, $filter){
 
+        $filterBuilder=$qb;
         if ($filter !== null) {
             $eventDatetimeStart = null;
             $eventDatetimeStop = null;
@@ -130,25 +129,11 @@ class SamplesProvider// implements ContainerAwareInterface
         return $filterBuilder;//->getQuery()->getScalarResult();
     }
 
-
-    public
-    function loadObservations($excludeConfidential, $excludeNonBelgian, $fast)
+    public function extendQbByPagination($qb, $order_by = array(), $offset = 0, $limit = 0)
     {
-        if ($fast) {
-            $qb = $this->repo->getFastObservationsQb();
-        } else {
-            $qb = $this->repo->getCompleteObservationsQb();
-        }
-        if ($excludeConfidential) {
-            $qb = $qb->andWhere('o.isconfidential is null');
-        }
-        if ($excludeNonBelgian) {
-            $qb = $qb->andWhere("p1.name='BE' or p2.name='BE' or p3.name='BE' or p4.name='BE'");
-        }
-        if ($fast) {
-            return $qb->getQuery()->getScalarResult();
-        } else {
-            return $qb->getQuery()->getResult();
-        }
+        return $this->repo->getSamplesWithPaginationQbbyQb($qb, $order_by, $offset, $limit);
+        //return $this->loadSamplesByFilterQb($filter, $filterBuilder);
+        //getSamplesWithPaginationQbbyQb($qb, $order_by = array(), $offset = 0, $limit = 0)
     }
+
 }

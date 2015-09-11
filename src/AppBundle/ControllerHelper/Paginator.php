@@ -21,6 +21,8 @@ class Paginator
     //starting item number to be shown on page
     protected $offset;
 
+    private static $count;
+
     function __construct($itemscount)
     {
         //set total items count from controller
@@ -44,8 +46,9 @@ class Paginator
         }
         //If limit is defined in URL
         if (isset($_GET['limit'])) {
-            $this->limit = $_GET['limit'];
-        } else {   //else set default limit to 20
+            $this->limit = $_GET['limit'];//the paginator might be added multiple times on a page.
+
+        } else {   //else set default limit to 10
             $this->limit = 10;
         }
         //If currentpage is set to null or is set to 0 or less
@@ -86,7 +89,7 @@ class Paginator
     }
 
     //Returns HTML string with paginator elements - will be used from Controller
-    public function RenderPaginator($form)
+    public function RenderPaginator()
     {
         $html = '';
         //Insert all in one div tag
@@ -95,7 +98,7 @@ class Paginator
         //$html .= '<form id= "paginator" name="paginator" method="get" action="'.$form.'" >';
         //When limit is changed - just submit form
         //$html .= '<select name="limit" onchange="javascript:document.forms.'.$form.'.submit()">';
-        $html .= '<select  id="limit" name="limit">';
+        $html .= '<select  id="limit" name="limit" class="limit">';
         $html .= '<option value="10" ';
         if ($this->limit == 10) {
             $html .= 'selected';
@@ -134,7 +137,7 @@ class Paginator
         $html .= '</select>';
 
         //$html .= '<select name="page" onchange="javascript:document.forms.'.$form.'.submit()">';
-        $html .= '<select id="limit" name="page">';
+        $html .= '<select id="page" name="page" class="page">';
         //Generate links for pages
         for ($i = 1; $i < $this->numpages + 1; $i++) {
             $html .= '<option value="'.$i.'"';

@@ -481,7 +481,7 @@ AppBundle\Entity\RequestLoans:
                 - NotNull: ~
                 - AppBundle\Validator\Constraints\DateRange:
                      min: "1900-01-01"
-                     max: "today"
+                     max: "now"
         status:
                 - NotBlank: ~
                 - NotNull: ~

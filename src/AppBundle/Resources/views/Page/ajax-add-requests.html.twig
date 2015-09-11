@@ -1,19 +1,7 @@
 {# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig  #}
 {% extends 'AppBundle::list-samples-add-requests.html.twig' %}
 {% set baseparent='no-assets.html.twig' %}
-{% block javascripts%}
-    {{ parent() }}
-    {% javascripts
-    '@AppBundle/Resources/public/js/cookies.js'
-    '@AppBundle/Resources/public/js/add_requests.js'
-    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
-    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
-    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js'
-    '@AppBundle/Resources/public/js/validationImplementation.js'
-    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
-    <script type="application/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock %}
+
 {% block sidebar %}
 <div id="edit-requests" class="ajax-content">
     {{ include('AppBundle:Bare:add-edit-requests.html.twig') }}

@@ -1,40 +1,14 @@
 {# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig  #}
 {% extends 'AppBundle::list-samples-add-requests.html.twig' %}
 {% set baseparent='AppBundle::col-layout.html.twig' %}
-{% block javascripts%}
-    {{ parent() }}
-    {% javascripts
-    '@AppBundle/Resources/public/js/cookies.js'
-    '@AppBundle/Resources/public/js/add_requests.js'
-    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
-    'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
-    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js'
-    '@AppBundle/Resources/public/js/validationImplementation.js'
-    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
-    <script type="application/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    <script>
-        $(document).ready(function () {
-            $('#limit, #page' ).change(
-                    function(){
-                        //$(this).closest('form').trigger('submit');
-                        /* or:
-                         $('#formElementId').trigger('submit');
-                         or:
-                         $('#formElementId').submit();
-                         */
-                    });
-        });
 
-    </script>
-{% endblock %}
  {% block title %}Browse samples{% endblock %}
-{% block mainbar %}
-    {{ include('AppBundle:Bare:filter-samples.html.twig') }}
-{% endblock %}
 {% block sidebar %}
 <div id="edit-requests">
     {{ include('AppBundle:Bare:add-edit-requests.html.twig') }}
 </div>
+{% endblock %}
+{% block mainbar %}
+    {{ include('AppBundle:Bare:filter-samples.html.twig') }}
 {% endblock %}
 
