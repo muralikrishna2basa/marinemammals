@@ -46,6 +46,7 @@ class ObservationsType extends AbstractType
             'required' => false,
             'class' => 'AppBundle:Stations',
             'property' => 'typeCountryDesc',
+            'attr' => array('data-lon' => 'myValue'),
             'query_builder' => function (StationsRepository $er) {
                 return $er->getAllStationsPlaceQb();
             }

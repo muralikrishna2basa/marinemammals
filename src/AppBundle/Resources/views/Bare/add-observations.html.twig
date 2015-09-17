@@ -8,6 +8,8 @@
     {{ form_row(form.eseSeqno.eventDatetimeFlagRef, {'label':'Date flag'}) }}</div>
 <h3>Location</h3>
 <h4>Exact Coordinates</h4>
+<div id="map-canvas" data-lat="51.224723"
+     data-lon="2.9254719" data-type="rect" style="width:480px; height:480px;"></div>
 <div class="form-inline">
     {{ form_row(form.latDec, {'label':'Decimal latitude', 'attr': {'placeholder': 'eg. 51.224723','class':'refer-to_observationstype_lonDec'} }) }}
     {{ form_row(form.lonDec, {'label':'Decimal longitude', 'attr': {'placeholder': 'eg. 2.9254719','class':'refer-to_observationstype_latDec'} }) }}

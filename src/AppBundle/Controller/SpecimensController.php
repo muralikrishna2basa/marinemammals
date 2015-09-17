@@ -2,21 +2,12 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Specimens;
-use AppBundle\Entity\EventStates;
-use AppBundle\Entity\Event2Persons;
-use AppBundle\Entity\Spec2Events;
-use AppBundle\Entity\EntityValues;
-use AppBundle\Entity\ValueAssignable;
+
 use AppBundle\Form\SpecimensType;
 use AppBundle\ControllerHelper\SpecimenProvider;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormError;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SpecimensController extends Controller
 {
@@ -70,7 +61,7 @@ class SpecimensController extends Controller
     {
         $specimen = $this->specimenRepo->find($id);
         if (!$specimen) {
-            throw $this->createNotFoundException(sprintf('The specimen with seqno %s does not exist.', $id));
+            throw new NotFoundHttpException(sprintf('The specimen with seqno %s does not exist.', $id));
         }
         return $specimen;
     }

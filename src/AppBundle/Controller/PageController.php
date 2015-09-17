@@ -52,4 +52,9 @@ class PageController extends Controller
         return $this->render('AppBundle:Page:about-biobank.html.twig');
     }
 
+    public function disclaimerAction()
+    {
+        return $this->render('AppBundle:Page:disclaimer.html.twig');
+    }
+
 }

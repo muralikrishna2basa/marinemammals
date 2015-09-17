@@ -40,6 +40,12 @@ mm_samples_about:
     requirements:
         _method:  GET
 
+mm_disclaimer:
+    pattern:  /disclaimer
+    defaults: { _controller: AppBundle:Page:disclaimer }
+    requirements:
+        _method:  GET
+
 mm_taxa_view:
     pattern:  /species/view/{id}
     defaults: { _controller: AppBundle:Taxa:view }

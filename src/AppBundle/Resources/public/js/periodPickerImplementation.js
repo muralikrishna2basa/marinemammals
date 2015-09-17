@@ -5,7 +5,7 @@
         return this.each(function () {
             var $this = $(this);
             var minDateVar = new Date(yearRange[0], 0, 1);
-            var maxDateVar = new Date(yearRange[1], 11,1);
+            var maxDateVar = new Date(yearRange[1], 11,31);
             //var $firstDateTextbox = $('#' + $this.attr('id') + ' .$firstDateTextbox');
             var $firstDateTextbox = $this.find("input:first-of-type");
             var $lastDateTextbox = $this.find("input:last-of-type");

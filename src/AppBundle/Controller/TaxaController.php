@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaxaController extends Controller
 {
@@ -45,7 +46,7 @@ class TaxaController extends Controller
         $this->repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Taxa');
         $taxon = $this->repo->find($id);
         if (!$taxon) {
-            throw $this->createNotFoundException(sprintf('The taxon with seqno %s does not exist.', $id));
+            throw new NotFoundHttpException(sprintf('The taxon with seqno %s does not exist.', $id));
         }
 
         $filter = array(
@@ -73,7 +74,7 @@ class TaxaController extends Controller
         $this->repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Taxa');
         $taxon = $this->repo->find($id);
         if (!$taxon) {
-            throw $this->createNotFoundException(sprintf('The taxon with seqno %s does not exist.', $id));
+            throw new NotFoundHttpException(sprintf('The taxon with seqno %s does not exist.', $id));
         }
 
         $filter = array(

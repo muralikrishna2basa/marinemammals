@@ -7,6 +7,7 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
 
+use \PDO;
 class ObservationsRepository extends EntityRepository
 {
 
@@ -39,6 +40,15 @@ class ObservationsRepository extends EntityRepository
             return substr($value,0,4);
         };
         return array_map($func,$res);
+    }
+
+    public function getYearsObserved()
+    {
+        $query="select distinct to_char(EVENT_DATETIME,'yyyy') as year from event_states e left join observations o on e.seqno=o.ese_seqno where o.ese_seqno is not null ORDER BY year";
+        $stmt = $this->getEntityManager()->getConnection()->prepare($query);
+        $stmt->execute();
+        $res= $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $res;
     }
 
     public function getCompleteObservationsExcludeConfidential()

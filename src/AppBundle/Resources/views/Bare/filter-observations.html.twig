@@ -19,9 +19,12 @@
     <p>
         <input type="submit" value="Search" id="submit" name="submit" class="btn btn-od">
     </p>
-    <p>
-        <input type="submit" value="Download result" id="export" name="export" class="btn btn-od">
-    </p>
+    {% if app.user and is_granted('ROLE_USER') %}
+        <p>
+            <input type="submit" value="Download result" id="export" name="export" class="btn btn-od">
+        </p>
+    {% endif %}
+
 </div>
 {{ form_end(form) }}
 

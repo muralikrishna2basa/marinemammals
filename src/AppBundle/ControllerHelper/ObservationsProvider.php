@@ -13,6 +13,7 @@ use AppBundle\Entity\EventStates;
 use AppBundle\Entity\Event2Persons;
 use AppBundle\Entity\Spec2Events;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ObservationsProvider// implements ContainerAwareInterface
 {
@@ -53,7 +54,7 @@ class ObservationsProvider// implements ContainerAwareInterface
     {
         $observation = $this->repo->find($id);
         if (!$observation) {
-            throw $this->createNotFoundException(sprintf('The observation with seqno %s does not exist.', $id));
+            throw new NotFoundHttpException(sprintf('The observation with seqno %s does not exist.', $id));
         }
         //$this->supplementCgDescriptionSingle($observation);
         return $observation;

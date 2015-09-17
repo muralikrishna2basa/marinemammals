@@ -328,7 +328,7 @@ class Places
             return $this->getName();
         }
         if ($type === 'ROOT') {
-            return 'THE_VOID_BETWEEN_THE_STARS';
+            return 'WORLD';
         } elseif (in_array($type, array('LTY', 'RVR', 'OTR', 'SEA', 'EST'))) {
             $parentPlace = $this->getPceSeqno();
             if ($parentPlace !== null) {
