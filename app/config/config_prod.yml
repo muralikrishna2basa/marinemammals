@@ -31,8 +31,3 @@ twig:
     form:
         resources:
             - LexikFormFilterBundle:Form:form_div_layout.html.twig
-app.exception_listener:
-    class: AppBundle\Listener\ExceptionListener
-        arguments: [@templating]
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException}
