@@ -43,7 +43,17 @@ class SamplesController extends Controller
         $currentUser = $this->getUser();
         $sampleRequest = $this->get('requestloans_provider')->prepareNewRequestLoan($currentUser);
         $currentRequest = json_decode($request->cookies->get('current-samples-request'));
-
+        if ($currentRequest != null) {
+            if (!array_key_exists('samples', $currentRequest)) {
+                $i = 0;
+                $currentRequest['samples'] = null;
+                foreach ($currentRequest as $sample) {
+                    $currentRequest['samples'][$i] = $sample;
+                    unset($currentRequest[$i]);
+                    $i++;
+                }
+            }
+        }
         $requests = $this->get('requestloans_provider')->loadUserRequests($currentUser);
         $requestForm = $this->createForm(new RequestLoansType($this->getDoctrine()), $sampleRequest);
 
@@ -55,7 +65,7 @@ class SamplesController extends Controller
         $qb = $this->get('samples_provider')->extendQbByFilter($qb, $filter);
 
         $samplesCount = $this->sampleRepo->getSamplesCountByQb($qb);
-        $paginator = new Paginator($samplesCount,1);
+        $paginator = new Paginator($samplesCount, 1);
 
         $qb = $this->sampleRepo->getPartialSamplesQb();
         $qb = $this->get('samples_provider')->extendQbByFilter($qb, $filter);

@@ -63,6 +63,7 @@ class AjaxController extends Controller
             }
         }
         return new Response('Not ajax! Specimen is found with seqno:' . $s->getSeqno());
+
     }
 
     public function scnExistsAction(Request $request, $id)

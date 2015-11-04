@@ -42,14 +42,14 @@ class ObservationsRetrievalController extends Controller
     {
         $ps = new MgmtObservationIndexPropertiesSet();
         $request->query->add(array('json' => true));
-        return new JsonResponse($this->generalFilterAction($request, null, false, false, $ps, false), Response::HTTP_OK, array('Content-Type' => 'application/json'));
+        return new Response($this->generalFilterAction($request, null, false, false, $ps, false), Response::HTTP_OK, array('Content-Type' => 'application/json'));
     }
 
     public function jsonExportAction(Request $request)
     {
         $ps = new ObservationIndexPropertiesSet();
         $request->query->add(array('json' => true));
-        return new JsonResponse($this->generalFilterAction($request, null, true, true, $ps, false), Response::HTTP_OK, array('Content-Type' => 'application/json'));
+        return new Response($this->generalFilterAction($request, null, true, true, $ps, false), Response::HTTP_OK, array('Content-Type' => 'application/json'));
     }
 
     private function generalIndexAction($page, $form, $observations)

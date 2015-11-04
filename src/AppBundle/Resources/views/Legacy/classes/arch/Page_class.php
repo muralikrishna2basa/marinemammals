@@ -131,7 +131,7 @@ class Page
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Marine Mammals">
     <meta name="author" content="Thomas Vandenberghe">
@@ -142,9 +142,7 @@ class Page
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-        <link rel="stylesheet" href="/css/0600193.css"/>
-
-        <link rel="stylesheet" href="/css/e8685cd.css"/>
+        <link rel="stylesheet" href="/css/991e70a.css"/>
         $heads
     </head>
 <body>

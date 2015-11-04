@@ -149,3 +149,4 @@ services:
     samples_provider:
         class: AppBundle\ControllerHelper\SamplesProvider
         arguments: [@doctrine.orm.entity_manager]
+

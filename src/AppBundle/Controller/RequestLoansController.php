@@ -28,7 +28,17 @@ public $sampleRepo;
         $currentUser = $this->getUser();
         $sampleRequest = $this->get('requestloans_provider')->prepareNewRequestLoan($currentUser);
         $currentRequest = json_decode($request->cookies->get($this->localStorageDataKey));
-
+        if ($currentRequest != null) {
+            if (!array_key_exists('samples', $currentRequest)) {
+                $i = 0;
+                $currentRequest['samples'] = null;
+                foreach ($currentRequest as $sample) {
+                    $currentRequest['samples'][$i] = $sample;
+                    unset($currentRequest[$i]);
+                    $i++;
+                }
+            }
+        }
         /*foreach($currentRequest->samples as $seqno=>$samplestats){
             $sample=$this->sampleRepo->findBySeqno($seqno);
             $sampleRequest->addSpeSeqno($sample);

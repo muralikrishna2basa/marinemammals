@@ -19,14 +19,16 @@
                 <th>species</th>
                 <th>organ--cons. mode--use</th>
                 <th>date necropsied</th>
+                <th></th>
             </tr>
             </thead>
             {% if currentRequest is not null %}
-                {% for sample in currentRequest.samples %}
+                {% for sample in currentRequest.samples  if sample is not null%}{# {% for sample in currentRequest.samples %}#}
                     <tr>
                         <td>{{ sample.vernacularName }}</td>
                         <td>{{ sample.organ }}--{{ sample.conservation_mode }}--{{ sample.intended_use }}</td>
                         <td>{{ sample.date_necropsied }}</td>
+                        <td><a class="fa fa-close anchor-action anchor-action-delete" data-seqno="{{ sample.seqno }}"></a></td>
                     </tr>
                 {% else %}
                     <tr>

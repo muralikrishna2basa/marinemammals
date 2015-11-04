@@ -61,7 +61,8 @@ class Biolibd_Layout extends Twocolfixedfluid
         // Database connection
 
         $cred = parse_ini_file(Ini . "db_credentials.ini", true);
-        $user = 'biolib_owner';
+        //$user = 'biolib_owner';
+        $user = 'biolib_test';
         $usr_cred = $cred[$user];
 
         $db = new ORACLE ($usr_cred['login'], $usr_cred['pass'], $usr_cred['alias'], $offline);

@@ -33,6 +33,11 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
+    public function getCharset()
+    {
+        return 'UTF-8';
+    }
+
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
