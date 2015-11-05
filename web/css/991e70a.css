@@ -10278,5 +10278,10 @@ img.span-img{
 
 img.main-species-img{
     width:250px;
+}
 
+a.anchor-action{
+    font-size: 20px;
+    text-decoration: none;
+    cursor: pointer;
 }

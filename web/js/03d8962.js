@@ -37,10 +37,11 @@ var Cookies = {
         return aKeys;
     }
 };
-var $selectSample = $('.select-sample');
+var $selectSample = $('input.select-sample');
 //var $requests = $('#requestloanstype_speSeqno');
 var $form = $('form');
 var $sampleTable = $('.table-samples');
+var $requestsTable = $('.table-requests');
 var requestLoan = {};
 //var $requestsArray = $.parseJSON($requests.val());
 var $studyDescription = $('requestloanstype_studyDescription');
@@ -53,6 +54,7 @@ var localStorageDataKey = 'current-samples-request';
 var refreshRequests = function () {
     $('#edit-requests').empty();
     $('#edit-requests').load('/samples/biobank/requests/viewcurrent');
+    $requestsTable.unbind('click').on("click", ".anchor-action-delete",functionalizeDeleteButton);
 };
 
 $(document).ready(function () {
@@ -71,7 +73,7 @@ $(document).ready(function () {
     }
 
     requestLoan = JSON.parse(ck.getItem(localStorageDataKey));
-    if (requestLoan === null) {
+    if (requestLoan === null || typeof requestLoan.samples === 'undefined') {
         requestLoan = {samples: []};
     }
     //var seqnos={};
@@ -95,7 +97,7 @@ $(document).ready(function () {
 
 
     $submitButton.click(function () {
-        //ck.removeItem(localStorageDataKey);
+        ck.removeItem(localStorageDataKey);
     });
 
     $studyDescription.on("change", function () {
@@ -117,10 +119,16 @@ $(document).ready(function () {
         refreshRequests();
     });
 
+    $requestsTable.unbind('click').on("click", ".anchor-action-delete",functionalizeDeleteButton);
+
     $sampleTable.unbind('click').on("click", ".select-sample", function () {
         var seqno = Number($(this).attr('data-seqno'));
         var headRow = $(this).parents('tbody').siblings('thead').find('tr')[0];
         var row = $(this).parents('tr')[0];
+
+        var result = $.grep(requestLoan.samples, function (sample) {
+            return sample.seqno == seqno;
+        });
 
         if ($(this).prop('checked')) {
             //$requestsArray.push($seqno);
@@ -133,30 +141,44 @@ $(document).ready(function () {
             //var ii=fullSpeciesName.indexOf('<');
             //var scientificName=fullSpeciesName.substr(ii-1,fullSpeciesName.length);
 
-            var scr = new RegExp('<i>(.*|\n)?<\/i>');
-            var ver = new RegExp('(^.*) [(]');
-            sample.scientificName = scr.exec(fullSpeciesName)[1];
-            sample.vernacularName = ver.exec(fullSpeciesName)[1];
-            sample.timestampAdded = Date.now();
 
-            sample.seqno = seqno
-            //var select=sample.select; //delete the property select which is just the select button html
+            if (result.length == 0) {
+                var scr = new RegExp('<i>(.*|\n)?<\/i>');
+                var ver = new RegExp('(^.*) [(]');
+                sample.scientificName = scr.exec(fullSpeciesName)[1];
+                sample.vernacularName = ver.exec(fullSpeciesName)[1];
+                sample.timestampAdded = Date.now();
 
-            //requestLoan.samples[seqno]=sample;
-            requestLoan.samples.push(sample);
+                sample.seqno = seqno;
+                delete sample.select;
+                //var select=sample.select; //delete the property select which is just the select button html
+
+                //requestLoan.samples[seqno]=sample;
+                requestLoan.samples.push(sample);
+            } else if (result.length == 1) {
+                // access the foo property using result[0].foo
+            } else {
+                // multiple items found
+            }
+            var a = 5;
         }
         else {
             // do what you need here
             /*var index = $requestsArray.indexOf(seqno); //seqnos are unique in the array
-            if (index > -1) {
-                $requestsArray.splice(index, 1);
-            }*/
-            delete requestLoan.samples[seqno];
+             if (index > -1) {
+             $requestsArray.splice(index, 1);
+             }*/
+            requestLoan.samples = requestLoan.samples.filter(function (sample) {
+                return sample.seqno != seqno;
+            });
+            var a = 5;
+            //delete requestLoan.samples[result];
         }
         //$requests.val(JSON.stringify($requestsArray));
         //ck.setItem('current-samples', JSON.stringify($requestsArray))
         var json = JSON.stringify(requestLoan);
         ck.setItem(localStorageDataKey, json);
+        console.log(json);
         refreshRequests();
         //document.location.reload(true);
     });
@@ -172,6 +194,17 @@ $(document).ready(function () {
             $(this).closest('form').trigger('submit');
         });
 });
+
+
+function functionalizeDeleteButton() {
+    var seqno = Number($(this).attr('data-seqno'));
+    requestLoan.samples = requestLoan.samples.filter(function (sample) {
+        return sample.seqno != seqno;
+    });
+    var json = JSON.stringify(requestLoan);
+    ck.setItem(localStorageDataKey, json);
+    refreshRequests();
+}
 
 
 
