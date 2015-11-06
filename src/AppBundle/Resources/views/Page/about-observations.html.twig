@@ -1,9 +1,59 @@
 {% extends
 'AppBundle::col-layout.html.twig' %} {% block title %}observations and strandings{% endblock %}
-
-{% block mainbar %}
+{% block stylesheets %}
+    {% stylesheets
+    '@AppBundle/Resources/public/css/jquery.bxslider.css'
+    '@AppBundle/Resources/public/css/jquery.colorbox.css'%}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@AppBundle/Resources/public/js/jquery.bxslider.min.js'
+    '@AppBundle/Resources/public/js/jquery.colorbox-min.js'%}
+    <script type="application/javascript" src="{{ asset_url }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.slider').bxSlider(
+                    {
+                        infiniteLoop: true,
+                        auto: true,
+                        autoControls: true,
+                        speed: 1000,
+                        randomStart: true
+                    }
+            );
+            $(".slider").on("click", "a.colorbox", function (event) {
+                event.preventDefault();
+                $.colorbox({rel: 'gallery', href: $(this).attr("href"), opacity: 0.6});
+            });
+        });
+    </script>
+    {% endjavascripts %}
+{% endblock %}
+{% block topbar %}
     <h1> Marine mammals in Belgium</h1>
-
+{% endblock %}
+{% block mainbar %}
+    <ul class="slider">
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/04apr2010.jpg'><img src='/static-img/strandings/04apr2010.jpg' alt='marine mammals image 1'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/083_0427.jpg'><img src='/static-img/strandings/083_0427.jpg' alt='marine mammals image 2'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/09022002.jpg'><img src='/static-img/strandings/09022002.jpg' alt='marine mammals image 3'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/17okt08.jpg'><img src='/static-img/strandings/17okt08.jpg' alt='marine mammals image 4'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/19_06_2005_5_b.jpg'><img src='/static-img/strandings/19_06_2005_5_b.jpg' alt='marine mammals image 5'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/1mar2006.jpg'><img src='/static-img/strandings/1mar2006.jpg' alt='marine mammals image 7'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/2008mar14.jpg'><img src='/static-img/strandings/2008mar14.jpg' alt='marine mammals image 8'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/21mar2010.jpg'><img src='/static-img/strandings/21mar2010.jpg' alt='marine mammals image 9'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/28mar2008.jpg'><img src='/static-img/strandings/28mar2008.jpg' alt='marine mammals image 10'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/2low.jpg'><img src='/static-img/strandings/2low.jpg' alt='marine mammals image 11'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/30jan09.jpg'><img src='/static-img/strandings/30jan09.jpg' alt='marine mammals image 12'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/30mar2010.jpg'><img src='/static-img/strandings/30mar2010.jpg' alt='marine mammals image 13'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/4jan08.jpg'><img src='/static-img/strandings/4jan08.jpg' alt='marine mammals image 14'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/beaked.jpg'><img src='/static-img/strandings/beaked.jpg' alt='marine mammals image 16'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/dermo_2000.jpg'><img src='/static-img/strandings/dermo_2000.jpg' alt='marine mammals image 17'/></a></li>
+<li> <a class='colorbox' rel='gallery' href='/static-img/strandings/sten04032001.jpg'><img src='/static-img/strandings/sten04032001.jpg' alt='marine mammals image 19'/></a></li>
+    </ul>
     <p>The <a href='http://www.naturalsciences.be'>Royal Belgian Institute of Natural Sciences (RBINS)</a> is famous for its museum, and the extensive collection of
         whale skeletons. Its <a
                 href='http://www.naturalsciences.be/en/science/do/98'>Operational Directorate Natural Environment (OD Nature)</a>, with scientists working in Brussels and Ostend, collects all stranding and sighting records in one database. This website is the interface for this database. Marinemammals.be contains information frm many

@@ -418,3 +418,10 @@ a.anchor-action{
     text-decoration: none;
     cursor: pointer;
 }
+
+.bx-wrapper, .bx-viewport, .bx-wrapper img {max-width:700px !important;max-height:500px !important;}
+
+
+.bx-wrapper {
+float:left;
+}
