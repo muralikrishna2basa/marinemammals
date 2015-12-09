@@ -76,7 +76,7 @@ table.tab_output th a.sort:hover
 }
 div.Search 
 {
-	height:149px;
+	height:auto;
 	overflow-y:auto;
 	position:relative;
 }
@@ -165,7 +165,7 @@ div.Search_Box div.tokens select { width:50px;}
 
 div.clearleft { clear:left;}
 
-div.search_tool { height:35px;overflow:hidden;background-color:white;padding-bottom:10px;}
+/*div.search_tool { height:35px;overflow:hidden;background-color:white;padding-bottom:10px;}*/
 div.search_tool a { float :right;}
 div.search_tool span.add {
 background-image:url('/legacy/img/Layout/filters.png');

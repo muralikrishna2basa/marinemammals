@@ -396,7 +396,7 @@ class Filter_Specimen_Collection_Tag extends BLP_Filter
 
     public function initName()
     {
-        $this->name = 'ODN Collection tag';
+        $this->name = 'Filter_Specimen_Collection_Tag';
 
     }
 
@@ -436,7 +436,7 @@ class Filter_Specimen_Collection_Tag extends BLP_Filter
 
         $collectionTag= $tbl2_alias.".NECROPSY_TAG";
         $this->query->addWhere(array("$collectionTag " . $token, array($item1)));
-
+        $a=5;
     }
 
 }
@@ -510,7 +510,6 @@ class Filter_Specimen_Sex extends BLP_Filter
 
 
     }
-
 }
 
 class Filter_Specimen_Number extends BLP_Filter
@@ -552,6 +551,7 @@ class Filter_Specimen_Number extends BLP_Filter
     }
 
 }
+
 
 // FILTERS ORGAN LESIONS 
 

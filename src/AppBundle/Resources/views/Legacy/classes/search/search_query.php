@@ -209,28 +209,44 @@ class BLP_Query
      * @return void
      */
 
-    public function addWhere($where)
+    public function addWhere($where, $token = null, $value = null)
     {
-        // convert html encoded elements into sql interpretable elements
-        $where = $this->htmlDecode($where);
+        if (is_array($where)) {
+            // convert html encoded elements into sql interpretable elements
+            $where = $this->htmlDecode($where);
+            $newwhere = "";
 
-        $newwhere = "";
-
-        foreach ($where as $elem) {
-            if (is_array($elem)) {
-                $bind_value = $elem[0];
-                $tmp = count($this->bindings);
-                $bind_el = chr(($tmp) % 26 + 97) . chr(floor($tmp / 26) + 97);
-                $bind_name = ':' . $bind_el . '_' . count($this->wheres);
-                $this->bindings[$bind_name] = fixEncoding($bind_value);
-                $newwhere .= $bind_name;
-            } else {
-                $newwhere .= ' ' . $elem . ' ';
+            foreach ($where as $elem) {
+                if (is_array($elem)) {
+                    $bind_value = $elem[0];
+                    $tmp = count($this->bindings);
+                    $bind_el = chr(($tmp) % 26 + 97) . chr(floor($tmp / 26) + 97);
+                    $bind_name = ':' . $bind_el . '_' . count($this->wheres);
+                    $this->bindings[$bind_name] = fixEncoding($bind_value);
+                    $newwhere .= $bind_name;
+                } else {
+                    $newwhere .= ' ' . $elem . ' ';
+                }
             }
-        }
+            $this->wheres[] = $newwhere;
+        } /*else {
+            $where = $this->htmlDecode($where);
+            if (is_array($value)) {
+                if($token==='='){
+                    $token= 'IN';
+                    $where=$where.' '.$token.' ('.join(", ",$value).')';
+                }
+                elseif($token==='<>'){
+                    $token= 'NOT IN';
+                    $where=$where.' '.$token.' ('.join(", ",$value).')';
+                }
+                elseif($token==='LIKE'){
+                    $token= 'LIKE';
+                    $where=$where.' '.$token.' ('.join(" AND ",$value);
+                }
+            }
 
-        $this->wheres[] = $newwhere;
-
+        }*/
     }
 
 

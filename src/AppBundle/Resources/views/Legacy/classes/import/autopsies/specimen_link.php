@@ -29,18 +29,27 @@ $necropsy_seqno = $this->getThread();
 if (!$necropsy_seqno) {
     $val->setError('globalerror', $this->FLOW_WARNING);
 } else {
-    $sql = "select scn_seqno from spec2events where ese_seqno = $necropsy_seqno";
+    $sql = "select s2e.scn_seqno, s.necropsy_tag from spec2events s2e left join specimens s on s.seqno=s2e.scn_seqno where s2e.ese_seqno = $necropsy_seqno";
     $res = $db->query($sql);
     if ($res->isError()) {
         $val->setError('globalerror', $res->errormessage());
     }
     $row = $res->fetch();
     $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
+    $specimenTaglink = $row == false ? '' : $row['NECROPSY_TAG'];
 
 
     if ($val->getStatus() == false) {
         $specimen_link = $val->getValue('specimenlink');
+        $specimen_tag_link = $val->getValue('specimenTaglink');
+        $sql = "select s.seqno from specimens s where s.necropsy_tag = '$specimen_tag_link'";
 
+        $res = $db->query($sql);
+        if ($res->isError()) {
+            $val->setError('globalerror', $res->errormessage());
+        }
+        $row = $res->fetch();
+        $specimenlink = $row == false ? 'no_such_tag' : $row['SEQNO'];
         if ($specimen_link == '') {
             $val->setStatus(false);
         } elseif ($specimen_link == 'init') // in case a navigate request has been issued, but no animals has been set up
@@ -90,21 +99,16 @@ if (!$necropsy_seqno) {
 }
 ?>
 <form class='well <?php echo $this->flowname . '_form'; ?> default_form'>
-    <fieldset class="specimen_investigated">
-        <legend>Specimen under investigation</legend>
-        <div class='specimen_card'>
-            <?php
-            $var = $specimenlink; // variable declared in the include file
-            include(WebFunctions . 'autopsy_specimen_link.php');
-            ?>
-        </div>
-    </fieldset>
 
     <input class='specimenlink' name='specimenlink' value=<?php echo $specimenlink; ?> style='display:none;'/>
+
     <fieldset id="autopsy_specimen_fs">
-        <legend>Link to a Previously Observed specimen</legend>
+        <legend>Link to a previously observed specimen</legend>
+        <label for="specimenTaglink">By collection tag: </label><input class='specimenTaglink' name='specimenTaglink' value='<?php echo $specimenTaglink; ?>'/>
+        <p>By searching a specimen:</p>
         <div id="autopsy_search_specimens">
-            <div class="observations_results"><?php include(WebFunctions . '/spec2events_search_autopsies.php'); ?></div>
+            <div class="observations_results"><?php include(WebFunctions . '/spec2events_search_autopsies.php'); ?>
+            </div>
             <div class="Search_search_tool" style="display:none;">
                 <div class="Search">
 		<span>
@@ -132,6 +136,15 @@ if (!$necropsy_seqno) {
                 <!-- end search tool-->
             </div>
             <!-- end Search_search tool-->
+        </div>
+    </fieldset>
+    <fieldset id="specimen_investigated">
+        <legend>Selected specimen</legend>
+        <div class='specimen_card'>
+            <?php
+            $var = $specimenlink; // variable declared in the include file
+            include(WebFunctions . 'autopsy_specimen_link.php');
+            ?>
         </div>
     </fieldset>
     <div class='errormessage'><?php echo $val->getError('globalerror'); ?></div>

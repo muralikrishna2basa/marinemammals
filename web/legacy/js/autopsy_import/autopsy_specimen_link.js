@@ -55,4 +55,18 @@ $(document).ready(function () {
     };
 
     $("#autopsy_search_specimens").search(options_specimen_link);
+
+    $(".specimenTaglink").change(function(){
+        var datatosend = {};
+        datatosend['specimenTagLink'] = $(this).val();
+        $.ajax({
+            url: '/legacy/functions/specimens_search_by_tag.php',
+            type: 'POST',
+            datatype: 'json',
+            data: datatosend,
+            success: function (data) {
+                $('#autopsy_importation_tool div.specimen_card').html(data);
+            }
+        });
+    });
 });

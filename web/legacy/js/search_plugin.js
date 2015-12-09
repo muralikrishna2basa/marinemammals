@@ -287,8 +287,6 @@
                     if (filtername && operatorname && fieldname) {
 
                         data += '"filter' + index + '":{"filter":"' + filtername + '","operator":"' + operatorname + '","field":"' + fieldname + '"},';
-
-
                     }
                     ;
                     // create json data's containing all the object to be passed to the search tool, but only if the input fields or

@@ -1,11 +1,12 @@
 @import "../Record.css";
 
-#autopsy_specimen_fs
+fieldset#autopsy_specimen_fs
 {
 	padding:20px;
 }
 
-fieldset.specimen_investigated
+fieldset#specimen_investigated
 {
+    padding:20px;
  	min-height:200px;
 }

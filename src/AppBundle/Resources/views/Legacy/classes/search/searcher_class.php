@@ -328,6 +328,26 @@ class BLP_Search
         return $this->renderer->table;
     }
 
+    public function getIdentifiers($binds)
+    {
+        $this->query->build();
+        $sql=$this->query->sqlquery;
+        $binds=$this->query->bindings;
+        $res = $this->db->query($sql,$binds);
+        if ($res->isError()) {
+            return "error";
+        }
+        $row = $res->fetch();
+        foreach($row as $column=>$value){
+            foreach($this->pk as $pk){
+                if($column==$pk){
+                    return $value;
+                }
+            }
+        }
+        return false;
+    }
+
 }
 
 /**
@@ -394,7 +414,7 @@ class Search_Specimen extends BLP_Search
     public function Search_Specimen($db, $grouplevel = false)
     {
 
-        $this->columns = array('ID', 'Number', 'Sex', 'Rbins tag', 'Species flag', 'Species', 'Mumm Tag', 'Mumm Tag Serie');
+        $this->columns = array('ID', 'Number', 'Sex', 'Identification certainty', 'Species', 'Collection tag');
 
         $this->cssclass = 'tab_output';
 
@@ -402,23 +422,20 @@ class Search_Specimen extends BLP_Search
 
         $this->BLP_Search($db, $grouplevel);
 
-        $this->query->cgrefcodes = array('Sex' => 'SPECIMENS.SEX',
-            'Species flag' => 'SPECIMENS.SPECIE_FLAG');
+        $this->query->cgrefcodes = array('Sex' => 'SPECIMENS.SEX');
 
         $aliastable = $this->query->setTable("Specimens");
-        $aliastable1 = $this->query->setTable("Taxas");
-        $aliastable2 = $this->query->setTable("Cg_ref_codes");
+        $aliastable1 = $this->query->setTable("Taxa");
+        //$aliastable2 = $this->query->setTable("Cg_ref_codes");
 
-        $this->query->addJoin('(' . $aliastable . '.SPECIE_FLAG =' . $aliastable2 . '.RV_LOW_VALUE' . " and $aliastable2.RV_DOMAIN = 'VALUE_FLAG' " . ')');
+        //$this->query->addJoin('(' . $aliastable . '.SPECIE_FLAG =' . $aliastable2 . '.RV_LOW_VALUE' . " and $aliastable2.RV_DOMAIN = 'VALUE_FLAG' " . ')');
         $this->query->addJoin($aliastable1 . '.IDOD_ID = ' . $aliastable . '.TXN_SEQNO');
         $basecolumns = array('ID' => $aliastable . '.SEQNO',
+            'Identification certainty' => $aliastable . '.IDENTIFICATION_CERTAINTY',
             'Number' => $aliastable . '.SCN_NUMBER',
-            'Mumm Tag' => $aliastable . '.MUMMTAG',
-            'Mumm Tag Serie' => $aliastable . '.MUMMTAGSERIE',
             'Sex' => $aliastable . '.SEX',
-            'Rbins tag' => $aliastable . '.RBINS_TAG',
-            'Species flag' => $aliastable2 . '.RV_MEANING',
-            'Species' => $aliastable1 . '.TAXA');
+            'Collection tag' => $aliastable . '.NECROPSY_TAG',
+            'Species' => $aliastable1 . '.CANONICAL_NAME');
 
         foreach ($basecolumns as $column => $alias) {
             $this->query->addColumn($column, $alias);
@@ -428,6 +445,7 @@ class Search_Specimen extends BLP_Search
             'Filter_Specimen_Number',
             'Filter_Specimen_Date',
             'Filter_Specimen_Aut_Ref',
+            'Filter_Specimen_Collection_Tag',
             'Filter_Specimen_Taxa');
 
         $this->addFilter($filter);
@@ -676,7 +694,7 @@ class Search_Spec2events_autopsies extends BLP_Search
         $this->query->addJoin($alias2 . '.OSN_TYPE_REF = ' . $alias5 . '.SEQNO');
         $this->query->addJoin($alias6 . '.SEQNO = ' . $alias0 . '.SCN_SEQNO');
         $this->query->addJoin($alias7 . '.SEQNO = ' . $alias6 . '.TXN_SEQNO');
-        $filter = array('Filter_Specimen_Date','Filter_Specimen_Taxa','Filter_Specimen_Collection_Tag');
+        $filter = array('Filter_Specimen_Date', 'Filter_Specimen_Taxa', 'Filter_Specimen_Collection_Tag');
         $this->addFilter($filter);
     }
 }

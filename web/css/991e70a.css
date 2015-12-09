@@ -10344,8 +10344,11 @@ span.img_popup:focus{
     text-decoration: underline;
 }
 
-.qtip{
-max-width: 800px !important;}
+
+.ui-tooltip, #ui-tooltip-0, .qtip{
+    max-width: 700px !important; /* Change this? */
+}
+
 
 .crop {
     width: 100%;
