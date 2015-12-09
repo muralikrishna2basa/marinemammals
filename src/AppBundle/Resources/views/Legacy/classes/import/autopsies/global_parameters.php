@@ -40,7 +40,7 @@ $basicParamsStr = "'" . implode("','", $basicParams) . "'";
 $externalPathParams = array('LEBITE', 'LEBROB', 'LECUTS', 'LEENLE', 'LEFINA', 'LEHBIT', 'LEHCUT', 'LEHNET', 'LEHOPW', 'LEHPOX', 'LEHYPO', 'LENETM', 'LENETP', 'LENETS', 'LENETT', 'LEOPEN', 'LEOTH', 'LESCBI', 'LESCPI', 'LESTAB', 'OTHEXT', 'OTHFIS', 'OTHFRO', 'OTHOIL', 'OTHPRE', 'OTHREM', 'REMA');
 
 $allParams = array_merge($basicParams, $externalPathParams);
-$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else 'External examination' end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name,b.code";
+$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else 'External examination' end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name";
 
 $res = $db->query($sql);
 
@@ -58,9 +58,56 @@ foreach ($results['CODE'] as $key => $resname) {
 $flipped = array_flip($allParams); //turn values into keys and vice versa
 $res_mod_code = array_merge($flipped, $res_mod_code); // merge together. Keys are equally named, so that flipped values are replaced with res_mod_code values.
 $res_mod_code = array_slice($res_mod_code, 0, count($allParams)); //delete the surplus that wasn't in allParamas and which is unneeded now
-// end get all parameters 
 
-// get Specimen ID 
+foreach ($res_mod_code as $parameter_code => $parameter_value) {
+    $i = 0;
+    foreach ($parameter_value as $parameter_value_el) {
+        $match = explode('::', $parameter_value[$i]["NAME"]);
+        //preg_match('/^(.*?)(::.*?)(::.*)?/', $parameter_value[$i]["NAME"], $match_a);
+
+        if (strpos($parameter_value[$i]["NAME"], '::') == false) {
+            $res_mod_code[$parameter_code][$i]["PARAMETER"] = $match[0];
+            $res_mod_code[$parameter_code][$i]["CATEGORY"] = '';
+            $res_mod_code[$parameter_code][$i]["SUBCATEGORY"] = '';
+        } else {
+            $res_mod_code[$parameter_code][$i]["CATEGORY"] = $match[0];
+            $res_mod_code[$parameter_code][$i]["SUBCATEGORY"] = isset($match[2]) && $match[2] !== '' ? $match[1] : null;
+            $res_mod_code[$parameter_code][$i]["PARAMETER"] = isset($match[2]) && $match[2] !== '' ? $match[2] : (isset($match[1]) && $match[1] !== '' ? $match[1] : null);
+        }
+    }
+    uasort($res_mod_code[$parameter_code], function ($a, $b) {
+        $codea=isset($a["DOMCODE"])?$a["DOMCODE"]:'';
+        $codeb=isset($b["DOMCODE"])?$b["DOMCODE"]:'';
+        return strcmp($codea, $codeb);
+    });
+    $i++;
+}
+
+move_item($res_mod_code, 'LEHYPO', 'down', 'LEFINA');
+move_item($res_mod_code, 'LEOPEN', 'down', 'LEHYPO');
+move_item($res_mod_code, 'LEOTH', 'down', 'LEOPEN');
+move_item($res_mod_code, 'LESTAB', 'down', 'LEOPEN');
+move_item($res_mod_code, 'LENETM', 'down', 'LEOTH');
+move_item($res_mod_code, 'LENETP', 'down', 'LENETM');
+move_item($res_mod_code, 'LENETS', 'down', 'LENETP');
+move_item($res_mod_code, 'LENETS', 'down', 'LENETP');
+move_item($res_mod_code, 'LENETT', 'down', 'LENETS');
+move_item($res_mod_code, 'LESCBI', 'down', 'LENETT');
+move_item($res_mod_code, 'LESCPI', 'down', 'LENETT');
+/*usort($res_mod_code, function ($a, $b) {
+    $cata=isset($a[0]["CATEGORY"])?$a[0]["CATEGORY"]:'';
+    $catb=isset($b[0]["CATEGORY"])?$b[0]["CATEGORY"]:'';
+    $subcata=isset($a[0]["SUBCATEGORY"])?$a[0]["SUBCATEGORY"]:'';
+    $subcatb=isset($b[0]["SUBCATEGORY"])?$b[0]["SUBCATEGORY"]:'';
+    return strcmp($a[0]["TYPE"] . $cata . $subcata. $a[0]["PARAMETER"], $b[0]["TYPE"] . $catb .$subcatb. $b[0]["PARAMETER"]);
+});*/
+
+
+
+// end get all parameters
+
+// get Specimen ID
+
 $sql = "select scn_seqno from spec2events where ese_seqno = $necropsy_seqno";
 $res = $db->query($sql);
 if ($res->isError()) {
@@ -71,7 +118,7 @@ $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
 // end get Specimen ID
 
 
-// at page load.. nothing has been submitted yet 
+// at page load.. nothing has been submitted yet
 if (!$this->isSubmitted()) {
 // get Specimen Parameter(s)
 
@@ -102,7 +149,7 @@ if (!$this->isSubmitted()) {
     foreach ($res_mod_code as $parameter_code => $parameter) {
 
 //        $parameter_value = $_POST[str_replace(' ', '_', $parameter_code) . '_flow'];
-        $parameter_value =$_POST[$parameter_code];
+        $parameter_value = $_POST[$parameter_code];
         if (!isset($parameter_value)) {
             continue;
         }
@@ -188,6 +235,48 @@ and b.code = :parameter_code group by a.pmd_seqno";
     }
 }
 
+function move_item(&$ref_arr, $key1, $move, $key2 = null)
+{
+    $arr = $ref_arr;
+    if ($key2 == null) $key2 = $key1;
+    if (!isset($arr[$key1]) || !isset($arr[$key2])) return false;
+
+    $i = 0;
+    foreach ($arr as &$val) $val = array('sort' => (++$i * 10), 'val' => $val);
+
+    if (is_numeric($move)) {
+        if ($move == 0 && $key1 == $key2) return true;
+        elseif ($move == 0) {
+            $tmp = $arr[$key1]['sort'];
+            $arr[$key1]['sort'] = $arr[$key2]['sort'];
+            $arr[$key2]['sort'] = $tmp;
+        } else $arr[$key1]['sort'] = $arr[$key2]['sort'] + ($move * 10 + ($key1 == $key2 ? ($move < 0 ? -5 : 5) : 0));
+    } else {
+        switch ($move) {
+            case 'up':
+                $arr[$key1]['sort'] = $arr[$key2]['sort'] - ($key1 == $key2 ? 15 : 5);
+                break;
+            case 'down':
+                $arr[$key1]['sort'] = $arr[$key2]['sort'] + ($key1 == $key2 ? 15 : 5);
+                break;
+            case 'top':
+                $arr[$key1]['sort'] = 5;
+                break;
+            case 'bottom':
+                $arr[$key1]['sort'] = $i * 10 + 5;
+                break;
+            default:
+                return false;
+        }
+    }
+    uasort($arr, function ($a, $b) {
+        return $a['sort'] > $b['sort'];
+    });
+    foreach ($arr as &$val) $val = $val['val'];
+    $ref_arr = $arr;
+    return true;
+}
+
 $var = $specimenlink; // variable declared in the include file
 include(WebFunctions . 'autopsy_specimen_link.php');
 ?>
@@ -202,39 +291,57 @@ include(WebFunctions . 'autopsy_specimen_link.php');
 
         ?>
 
-        <?php $type='';
-        $printType=true;
+        <?php $type = '';
 
+        $printType = true;
+        $category = '';
+        $subcategory = '';
+        $matches = array();
         foreach ($res_mod_code as $parameter_code => $parameter) :// iterates over all parameters listed in the database
             $parameter_name = $parameter[0]['NAME'];
-            if($type!==$parameter[0]['TYPE']){
-                echo "<div class='qfrow'><h2>".$parameter[0]['TYPE']."</h2></div>";
+            if ($type !== $parameter[0]['TYPE']) {
+                echo "<h2>" . $parameter[0]['TYPE'] . "</h2>";
             }
-            $type=$parameter[0]['TYPE'];
+            $type = $parameter[0]['TYPE'];
             ?>
 
-            <div class="qfrow">
-                <div class="qfelement">
-                    <label class="control-label"><?php echo $parameter_name . ": "; ?></label>
-                    <?php
-                    $parameter_name = $parameter_name . "_flow";
-                    if (count($parameter) == 1) {
-                        echo "<input type='text' class='specimen_attribute' name='$parameter_code' value='" . $val->getValue($parameter_name) . "'/>  <span class='unit'>" . $parameter[0]['UNIT'] . "</span>";
-                    } else {
-                        echo "<select class='specimen_attribute' name ='" . $parameter_code . "'>";
-                        echo "<option></option>";
-                        foreach ($parameter as $option) {
-                            if ($option['DOMCODE'] == $val->getValue($parameter_name)) {
-                                echo "<option selected='selected'>" . $option['DOMCODE'] . "</option>";
-                                continue;
-                            }
+            <?php
+            if ($type === 'External examination') {
 
-                            echo "<option>" . $option['DOMCODE'] . "</option>";
+                if ($category !== $parameter[0]['CATEGORY']) {
+                    $category = $parameter[0]['CATEGORY'];
+                    echo "<h4>" . $category . "</h4>";
+                }
+                if ($subcategory !== $parameter[0]['SUBCATEGORY']) {
+                    $subcategory = $parameter[0]['SUBCATEGORY'];
+                    echo "<h5>" . $subcategory . "</h5>";
+                }
+                if ($parameter[0]['PARAMETER'] !== '') {
+                    $parameter_name = $parameter[0]['PARAMETER'];
+                }
+            }
+            ?>
+            <div class="form-group" style="display: inline-block;">
+                <label class="control-label" style="width: 120px;margin-right: 10px;
+text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?></label>
+                <?php
+                $parameter_name = $parameter_name . "_flow";
+                if (count($parameter) == 1) {
+                    echo "<input type='text' class='specimen_attribute' name='$parameter_code' value='" . $val->getValue($parameter_name) . "'/>  <span class='unit'>" . $parameter[0]['UNIT'] . "</span>";
+                } else {
+                    echo "<select class='specimen_attribute' name ='" . $parameter_code . "'>";
+                    echo "<option></option>";
+                    foreach ($parameter as $option) {
+                        if ($option['DOMCODE'] == $val->getValue($parameter_name)) {
+                            echo "<option selected='selected'>" . $option['DOMCODE'] . "</option>";
+                            continue;
                         }
-                        echo "</select>";
+
+                        echo "<option>" . $option['DOMCODE'] . "</option>";
                     }
-                    ?>
-                </div>
+                    echo "</select>";
+                }
+                ?>
             </div>
         <?php endforeach; ?>
         <div class='errormessage'><?php echo $val->getError('globalerror'); ?></div>

@@ -146,7 +146,7 @@ class Flow
                 $elem = $this->statebar[$i % count($this->statebar)];
 
                 if ($this->thread != false && $this->current() != 0 && $i > 0) {
-                    $elem = "<a href='$i' class='screen'>$elem</a>";
+                    $elem = "<a href='$i' class='btn-info'>$elem</a>";
                 }
 
                 //	if(isset($_SESSION[$this->flowname]) && $i > 0 ){ $elem = "<a href='#'>$elem</a>";}

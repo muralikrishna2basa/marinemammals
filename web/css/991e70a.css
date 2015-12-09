@@ -6868,7 +6868,8 @@ fieldset[disabled] .btn-get-started.active {
   background-color: #7d2a35;
   border-color: #6a242d;
 }
-.btn-register {
+.btn-register,
+.btn-takeaction {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -6898,27 +6899,37 @@ fieldset[disabled] .btn-get-started.active {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 .btn-register:focus,
+.btn-takeaction:focus,
 .btn-register:active:focus,
-.btn-register.active:focus {
+.btn-takeaction:active:focus,
+.btn-register.active:focus,
+.btn-takeaction.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 .btn-register:hover,
-.btn-register:focus {
+.btn-takeaction:hover,
+.btn-register:focus,
+.btn-takeaction:focus {
   color: #333333;
   text-decoration: none;
 }
 .btn-register:active,
-.btn-register.active {
+.btn-takeaction:active,
+.btn-register.active,
+.btn-takeaction.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 .btn-register.disabled,
+.btn-takeaction.disabled,
 .btn-register[disabled],
-fieldset[disabled] .btn-register {
+.btn-takeaction[disabled],
+fieldset[disabled] .btn-register,
+fieldset[disabled] .btn-takeaction {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -6927,9 +6938,13 @@ fieldset[disabled] .btn-register {
   box-shadow: none;
 }
 .btn-register:hover,
+.btn-takeaction:hover,
 .btn-register:focus,
+.btn-takeaction:focus,
 .btn-register:active,
-.btn-register.active {
+.btn-takeaction:active,
+.btn-register.active,
+.btn-takeaction.active {
   background-image: -webkit-linear-gradient(top, #307360 0%, #214f42 100%);
   background-image: linear-gradient(to bottom, #307360 0%, #214f42 100%);
   background-repeat: repeat-x;
@@ -6938,20 +6953,35 @@ fieldset[disabled] .btn-register {
   color: #ffffff;
 }
 .btn-register.disabled,
+.btn-takeaction.disabled,
 .btn-register[disabled],
+.btn-takeaction[disabled],
 fieldset[disabled] .btn-register,
+fieldset[disabled] .btn-takeaction,
 .btn-register.disabled:hover,
+.btn-takeaction.disabled:hover,
 .btn-register[disabled]:hover,
+.btn-takeaction[disabled]:hover,
 fieldset[disabled] .btn-register:hover,
+fieldset[disabled] .btn-takeaction:hover,
 .btn-register.disabled:focus,
+.btn-takeaction.disabled:focus,
 .btn-register[disabled]:focus,
+.btn-takeaction[disabled]:focus,
 fieldset[disabled] .btn-register:focus,
+fieldset[disabled] .btn-takeaction:focus,
 .btn-register.disabled:active,
+.btn-takeaction.disabled:active,
 .btn-register[disabled]:active,
+.btn-takeaction[disabled]:active,
 fieldset[disabled] .btn-register:active,
+fieldset[disabled] .btn-takeaction:active,
 .btn-register.disabled.active,
+.btn-takeaction.disabled.active,
 .btn-register[disabled].active,
-fieldset[disabled] .btn-register.active {
+.btn-takeaction[disabled].active,
+fieldset[disabled] .btn-register.active,
+fieldset[disabled] .btn-takeaction.active {
   background-color: #307360;
   border-color: #286151;
 }
@@ -7041,6 +7071,93 @@ fieldset[disabled] .btn-info-g:active,
 fieldset[disabled] .btn-info-g.active {
   background-color: #5bc0de;
   border-color: #46b8da;
+}
+.btn-restricted {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #333333;
+  background-image: -webkit-linear-gradient(top, #ffe5a8 0%, #ffd574 100%);
+  background-image: linear-gradient(to bottom, #ffe5a8 0%, #ffd574 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffe5a8', endColorstr='#ffffd574', GradientType=0);
+  border-color: #ffce5b;
+  border-bottom-color: #ffbe28;
+  text-shadow: none;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.btn-restricted:focus,
+.btn-restricted:active:focus,
+.btn-restricted.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn-restricted:hover,
+.btn-restricted:focus {
+  color: #333333;
+  text-decoration: none;
+}
+.btn-restricted:active,
+.btn-restricted.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn-restricted.disabled,
+.btn-restricted[disabled],
+fieldset[disabled] .btn-restricted {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.btn-restricted:hover,
+.btn-restricted:focus,
+.btn-restricted:active,
+.btn-restricted.active {
+  background-image: -webkit-linear-gradient(top, #ffdd8e 0%, #ffce5b 100%);
+  background-image: linear-gradient(to bottom, #ffdd8e 0%, #ffce5b 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffdd8e', endColorstr='#ffffce5b', GradientType=0);
+  border-color: #ffbe28;
+  color: #333333;
+}
+.btn-restricted.disabled,
+.btn-restricted[disabled],
+fieldset[disabled] .btn-restricted,
+.btn-restricted.disabled:hover,
+.btn-restricted[disabled]:hover,
+fieldset[disabled] .btn-restricted:hover,
+.btn-restricted.disabled:focus,
+.btn-restricted[disabled]:focus,
+fieldset[disabled] .btn-restricted:focus,
+.btn-restricted.disabled:active,
+.btn-restricted[disabled]:active,
+fieldset[disabled] .btn-restricted:active,
+.btn-restricted.disabled.active,
+.btn-restricted[disabled].active,
+fieldset[disabled] .btn-restricted.active {
+  background-color: #ffdd8e;
+  border-color: #ffd574;
 }
 /* Custom panel */
 .panel-od {
@@ -10284,4 +10401,11 @@ a.anchor-action{
     font-size: 20px;
     text-decoration: none;
     cursor: pointer;
+}
+
+.bx-wrapper, .bx-viewport, .bx-wrapper img {max-width:700px !important;max-height:500px !important;}
+
+
+.bx-wrapper {
+float:left;
 }

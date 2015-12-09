@@ -3,7 +3,7 @@
 {% block stylesheets %}
     {% stylesheets
     '@AppBundle/Resources/public/css/jquery.bxslider.css'
-    '@AppBundle/Resources/public/css/jquery.colorbox.css'%}
+    '@AppBundle/Resources/public/css/jquery.colorbox.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
@@ -11,7 +11,7 @@
     {{ parent() }}
     {% javascripts
     '@AppBundle/Resources/public/js/jquery.bxslider.min.js'
-    '@AppBundle/Resources/public/js/jquery.colorbox-min.js'%}
+    '@AppBundle/Resources/public/js/jquery.colorbox-min.js' %}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     <script>
         $(document).ready(function () {

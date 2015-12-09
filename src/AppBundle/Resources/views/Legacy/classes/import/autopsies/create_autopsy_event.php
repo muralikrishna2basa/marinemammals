@@ -25,29 +25,29 @@ $months = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 
 // VALIDATION RULES
 $val = $this->validation;
 
-$year_date=null;
-$month_date=null;
-$day_date=null;
-$date_flag_ref=null;
-$autopsy_reference=null;
+$year_date = null;
+$month_date = null;
+$day_date = null;
+$date_flag_ref = null;
+$autopsy_reference = null;
 
-if(array_key_exists('year_date',$_POST)){
-    $year_date=array($_POST['year_date']);
+if (array_key_exists('year_date', $_POST)) {
+    $year_date = array($_POST['year_date']);
 }
-if(array_key_exists('month_date',$_POST)){
-    $month_date=array($_POST['month_date']);
+if (array_key_exists('month_date', $_POST)) {
+    $month_date = array($_POST['month_date']);
 }
-if(array_key_exists('day_date',$_POST)){
-    $day_date=array($_POST['day_date']);
+if (array_key_exists('day_date', $_POST)) {
+    $day_date = array($_POST['day_date']);
 }
-if(array_key_exists('date_flag_ref',$_POST)){
-    $date_flag_ref=array($_POST['date_flag_ref']);
+if (array_key_exists('date_flag_ref', $_POST)) {
+    $date_flag_ref = array($_POST['date_flag_ref']);
 }
-if(array_key_exists('Autopsy_reference',$_POST)){
-    $autopsy_reference=array($_POST['Autopsy_reference']);
+if (array_key_exists('Autopsy_reference', $_POST)) {
+    $autopsy_reference = array($_POST['Autopsy_reference']);
 }
 //public function set($elname,$elvalue,$methodname,$message = false)
-$val->set('date_test', array($year_date[0], $month_date[0],  $day_date[0]), 'checkdate');
+$val->set('date_test', array($year_date[0], $month_date[0], $day_date[0]), 'checkdate');
 $val->set('date_flag_ref', $date_flag_ref, 'notChoose', 'Required');
 $val->set('Autopsy_reference', $autopsy_reference, 'required', 'Required');
 
@@ -60,7 +60,7 @@ if ($val->getStatus()) {
 
     $date = date('d-M-Y', strtotime($val->getValue('day_date') . ' ' . $val->getValue('month_date') . ' ' . $val->getValue('year_date')));
 
-    $date_flag_ref = $val->getValue('date_flag_ref') ==='Choose'? null : $val->getValue('date_flag_ref');
+    $date_flag_ref = $val->getValue('date_flag_ref') === 'Choose' ? null : $val->getValue('date_flag_ref');
 
     $time_event = isset($_POST['time_flow']) ? $_POST['time_flow'] : '12:00';
 
@@ -110,7 +110,7 @@ if ($val->getStatus()) {
         $new_event = $row['NEW_EVENT'];*/
 
 
-        $new_event_seqno=$db->query("select event_states_seq.currval from dual")->fetch();
+        $new_event_seqno = $db->query("select event_states_seq.currval from dual")->fetch();
         $this->thread = $new_event_seqno['CURRVAL'];
 
         // INSERT CORRESPONDING OBSERVATION
@@ -246,6 +246,12 @@ if (!$r->isError()) {
 <form class='well <?php echo $this->flowname . '_form'; ?> default_form event_state'>
     <fieldset>
         <legend>Autopsy Details</legend>
+        <p>Please note that the following step (Link specimen) requires you to have entered the beached specimen
+            observation before.
+        </p>
+
+        <p><strong>If not yet the case, please first <a href="/mgmt/observations/add">create the specimen observation</a>.</strong></p>
+
         <div class="qfrow">
             <div class="qfelement">
                 <label class="control-label" for="Autopsy_reference-0"><span class="required">*</span>Autopsy
@@ -295,7 +301,8 @@ if (!$r->isError()) {
         <div class="qfrow">
             <div class="qfelement twodiv">
                 <label for="autopsy_time_flow" class="control-label">Time:</label>
-                <input class="form-control" id="autopsy_time_flow" name="time_flow" value="<?php echo $val->getValue('time_flow'); ?>"/>
+                <input class="form-control" id="autopsy_time_flow" name="time_flow"
+                       value="<?php echo $val->getValue('time_flow'); ?>"/>
             </div>
             <div class="qfelement twodiv" style='visibility:hidden;'>
                 <label for="autopsy_Time_flag-0" class="control-label">Time flag:</label>

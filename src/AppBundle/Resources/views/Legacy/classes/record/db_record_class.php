@@ -285,9 +285,9 @@ class Specimen_record extends Db_record
 		$sql = <<<EOD
 SELECT 
 g.SEQNO "Specimen ID",
-nvl(h.VERNACULAR_NAME_EN,' ') "Specie",
+nvl(h.VERNACULAR_NAME_EN,' ') "Species",
 g.SCN_NUMBER "Number",
-nvl(g.RBINS_TAG,' ') "Rbins_Tag",
+nvl(g.NECROPSY_TAG,' ') "RBINS Collection tag",
 nvl(g.SEX,' ') "Sex" 
 FROM 
 (Specimens) g, 
@@ -305,9 +305,9 @@ EOD;
 		$this->elements =  $res->fetch();
 
 		$this->eltypes = array('Specimen ID'=>'text',
-								'Specie'=>'text',
+								'Species'=>'text',
 							    'Number'=>'text',
-							    'Rbins Tag'=>'text',
+							    'RBINS Collection tag'=>'text',
 							    'Sex'=>'text'
 							   );
 		$this->eltypes[] = "picture";					   

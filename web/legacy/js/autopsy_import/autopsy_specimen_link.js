@@ -48,8 +48,8 @@ $(document).ready(function () {
     }
 
     options_specimen_link = {
-        search_object: "Search_Spec2events",
-        perform_search: "/legacy/functions/spec2events_search.php",
+        search_object: "Search_Spec2events_autopsies",
+        perform_search: "/legacy/functions/spec2events_search_autopsies.php",
         search_results: "observations_results",
         callback_results: callbackspecimenlink
     };

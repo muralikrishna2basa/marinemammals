@@ -114,7 +114,7 @@ div.Search_Box
 { 
 	float:left;
 	overflow:hidden;
-	width:400px;
+	width:450px;
 	height:50px;
 	border:1px solid #9F9F9F;
 	position:relative;
@@ -142,7 +142,9 @@ div.Search_Box  div.tokens
 { 
 	width:60px;
 }
-div.Search_Box  div.fields{ width:150px;}
+div.Search_Box  div.fields{ width:200px; }
+
+div.Search_Box input {}
 
 #Layout_content div.Search_Box div p
 { 
@@ -154,11 +156,11 @@ text-align: center;
 margin-top:0px;
 }
 
-div.Search_Box  select,div.Search_Box input 
+div.Search_Box  select,div.Search_Box input
 { max-width:115px;
-width:expression(document.body.clientWidth > (500/12) *parseInt(document.body.currentStyle.fontSize)?"115px":"auto" ); 
+width:expression(document.body.clientWidth > (500/12) *parseInt(document.body.currentStyle.fontSize)?"115px":"auto" );
 }
-div.Search_Box input { height:15px;}
+
 div.Search_Box div.tokens select { width:50px;}
 
 div.clearleft { clear:left;}

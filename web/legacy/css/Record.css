@@ -1,21 +1,18 @@
 div.record_item 
 {
 	overflow:hidden;
-	background-color:white;
 	margin:10px;
 	padding:5px 20px;
-	border:1px solid #EFFCFF;
-	border-bottom:1px solid black;
 	min-width:540px;
 }
 div.record_item div.list
 {
-	float:right;
+	float:left;
 	width:600px;
 }
 div.record_item div.picture
 {
-	float:left;
+	float:right;
 	margin:0 0 0 30px;
 }
 div.record_item div.list li.record
@@ -37,12 +34,12 @@ div.record_item div.list li.record ul li
 	margin:0 20px 0 0;
 	padding:3px 10px 0;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
-	font-size:76%;
+	font-size:100%;
 	line-height:2;
 }
 div.record_item div.list li.record ul li.name
 {
-	width:100px;
+	width:200px;
 	font-weight:bold;
 
 }

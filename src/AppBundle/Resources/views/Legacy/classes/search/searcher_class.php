@@ -394,7 +394,7 @@ class Search_Specimen extends BLP_Search
     public function Search_Specimen($db, $grouplevel = false)
     {
 
-        $this->columns = array('ID', 'Number', 'Sex', 'Rbins tag', 'Specie flag', 'Specie', 'Mumm Tag', 'Mumm Tag Serie');
+        $this->columns = array('ID', 'Number', 'Sex', 'Rbins tag', 'Species flag', 'Species', 'Mumm Tag', 'Mumm Tag Serie');
 
         $this->cssclass = 'tab_output';
 
@@ -403,7 +403,7 @@ class Search_Specimen extends BLP_Search
         $this->BLP_Search($db, $grouplevel);
 
         $this->query->cgrefcodes = array('Sex' => 'SPECIMENS.SEX',
-            'Specie flag' => 'SPECIMENS.SPECIE_FLAG');
+            'Species flag' => 'SPECIMENS.SPECIE_FLAG');
 
         $aliastable = $this->query->setTable("Specimens");
         $aliastable1 = $this->query->setTable("Taxas");
@@ -417,8 +417,8 @@ class Search_Specimen extends BLP_Search
             'Mumm Tag Serie' => $aliastable . '.MUMMTAGSERIE',
             'Sex' => $aliastable . '.SEX',
             'Rbins tag' => $aliastable . '.RBINS_TAG',
-            'Specie flag' => $aliastable2 . '.RV_MEANING',
-            'Specie' => $aliastable1 . '.TAXA');
+            'Species flag' => $aliastable2 . '.RV_MEANING',
+            'Species' => $aliastable1 . '.TAXA');
 
         foreach ($basecolumns as $column => $alias) {
             $this->query->addColumn($column, $alias);
@@ -637,68 +637,7 @@ class Search_Spec2events_autopsies extends BLP_Search
 {
     public function __construct($db, $grouplevel = false)
     {
-        $this->columns = array('Date', 'Place', 'Obs. Type', 'Specie', 'Sex', 'Number', 'Picture');
-
-        $this->cssclass = 'tab_output';
-
-        $this->pk = 'Picture';
-
-        $this->BLP_Search($db, $grouplevel);
-
-        $alias0 = $this->query->setTable("Spec2Events");
-        $alias1 = $this->query->setTable("Event_States");
-        $alias2 = $this->query->setTable("Observations");
-        $alias3 = $this->query->setTable("Stations");
-        $alias4 = $this->query->setTable("Places");
-        $alias5 = $this->query->setTable("Cg_ref_codes"); // osn_type
-        $alias6 = $this->query->setTable("Specimens");
-        $alias7 = $this->query->setTable("Taxas");
-
-        // station type temporarely hidden
-
-        $basecolumns = array('Obs. Type' => $alias5 . '.RV_MEANING',
-            'Date' => $alias1 . '.EVENT_DATETIME', //REF: db changes
-            'Place' => $alias4 . '.NAME',
-            'Specie' => $alias7 . '.TRIVIAL_NAME',
-            'Number' => $alias6 . '.SCN_NUMBER',
-            'Sex' => $alias6 . '.SEX',
-            'Picture' => $alias6 . '.SEQNO');
-
-
-        foreach ($basecolumns as $column => $alias) {
-            $this->query->addColumn($column, $alias);
-        }
-        $this->query->addJoin($alias0 . '.ESE_SEQNO = ' . $alias1 . '.SEQNO');
-        $this->query->addJoin($alias1 . '.SEQNO = ' . $alias2 . '.ESE_SEQNO');
-        $this->query->addJoin($alias2 . '.STN_SEQNO =' . $alias3 . '.SEQNO');
-        $this->query->addJoin($alias3 . '.PCE_SEQNO = ' . $alias4 . '.SEQNO (+)');
-        $this->query->addJoin($alias5 . '.RV_DOMAIN = \'OSN_TYPE\'');
-        $this->query->addJoin($alias2 . '.OSN_TYPE = ' . $alias5 . '.RV_LOW_VALUE');
-        $this->query->addJoin($alias6 . '.SEQNO = ' . $alias0 . '.SCN_SEQNO');
-        $this->query->addJoin($alias7 . '.IDOD_ID = ' . $alias6 . '.TXN_SEQNO');
-        $filter = array('Filter_Date');
-        $this->addFilter($filter);
-    }
-}
-
-/**
- *  Search Specimens to Events
- *
- *  Cross product between Observations & Specimens
- *
- *  Ob1 => Mam1, Ob1 => Mam2
- *  Ob1 => Mam1, Ob2 => Mam1
- *
- *  VERSION:1.0.0
- *  AUTHOR: De Winter Johan
- *  LAST MODIFIED USER:De Winter Johan
- *  LAST MODIFIED DATE:19/04/2010
- */
-class Search_Spec2events extends BLP_Search
-{
-    public function __construct($db, $grouplevel = false)
-    {
-        $this->columns = array('Specimen ID', 'Date', 'Place', 'Obs. Type', 'Specie', 'Sex', 'Number', 'Picture');
+        $this->columns = array('Date', 'Place', 'Obs. Type', 'Species', 'Sex', 'Number', 'Specimen ID', 'ODN Collection tag');
 
         $this->cssclass = 'tab_output';
 
@@ -720,10 +659,71 @@ class Search_Spec2events extends BLP_Search
         $basecolumns = array('Obs. Type' => $alias5 . '.RV_MEANING',
             'Date' => $alias1 . '.EVENT_DATETIME',//REF: db changes
             'Place' => $alias4 . '.NAME',
-            'Specie' => $alias7 . '.VERNACULAR_NAME_EN',
+            'Species' => $alias7 . '.VERNACULAR_NAME_EN',
             'Number' => $alias6 . '.SCN_NUMBER',
             'Sex' => $alias6 . '.SEX',
-            'Picture' => $alias1 . '.SEQNO',
+            'ODN Collection tag' => $alias6 . '.NECROPSY_TAG',
+            'Specimen ID' => $alias6 . '.SEQNO');
+
+        foreach ($basecolumns as $column => $alias) {
+            $this->query->addColumn($column, $alias);
+        }
+        $this->query->addJoin($alias0 . '.ESE_SEQNO = ' . $alias1 . '.SEQNO');
+        $this->query->addJoin($alias1 . '.SEQNO = ' . $alias2 . '.ESE_SEQNO');
+        $this->query->addJoin($alias2 . '.STN_SEQNO =' . $alias3 . '.SEQNO');
+        $this->query->addJoin($alias3 . '.PCE_SEQNO = ' . $alias4 . '.SEQNO (+)');
+        //$this->query->addJoin($alias5 . '.RV_DOMAIN = \'OSN_TYPE\'');
+        $this->query->addJoin($alias2 . '.OSN_TYPE_REF = ' . $alias5 . '.SEQNO');
+        $this->query->addJoin($alias6 . '.SEQNO = ' . $alias0 . '.SCN_SEQNO');
+        $this->query->addJoin($alias7 . '.SEQNO = ' . $alias6 . '.TXN_SEQNO');
+        $filter = array('Filter_Specimen_Date','Filter_Specimen_Taxa','Filter_Specimen_Collection_Tag');
+        $this->addFilter($filter);
+    }
+}
+
+/**
+ *  Search Specimens to Events
+ *
+ *  Cross product between Observations & Specimens
+ *
+ *  Ob1 => Mam1, Ob1 => Mam2
+ *  Ob1 => Mam1, Ob2 => Mam1
+ *
+ *  VERSION:1.0.0
+ *  AUTHOR: De Winter Johan
+ *  LAST MODIFIED USER:De Winter Johan
+ *  LAST MODIFIED DATE:19/04/2010
+ */
+class Search_Spec2events extends BLP_Search
+{
+    public function __construct($db, $grouplevel = false)
+    {
+        $this->columns = array('Date', 'Place', 'Obs. Type', 'Species', 'Sex', 'Number', 'Specimen ID', 'ODN Collection tag');
+
+        $this->cssclass = 'tab_output';
+
+        $this->pk = array('Picture', 'Specimen ID');
+
+        $this->BLP_Search($db, $grouplevel);
+
+        $alias0 = $this->query->setTable("Spec2Events");
+        $alias1 = $this->query->setTable("Event_States");
+        $alias2 = $this->query->setTable("Observations");
+        $alias3 = $this->query->setTable("Stations");
+        $alias4 = $this->query->setTable("Places");
+        $alias5 = $this->query->setTable("Cg_ref_codes"); // osn_type
+        $alias6 = $this->query->setTable("Specimens");
+        $alias7 = $this->query->setTable("Taxa");
+
+        // station type temporarely hidden
+
+        $basecolumns = array('Obs. Type' => $alias5 . '.RV_MEANING',
+            'Date' => $alias1 . '.EVENT_DATETIME',//REF: db changes
+            'Place' => $alias4 . '.NAME',
+            'Species' => $alias7 . '.VERNACULAR_NAME_EN',
+            'Number' => $alias6 . '.SCN_NUMBER',
+            'Sex' => $alias6 . '.SEX',
+            'Collection tag' => $alias6 . '.NECROPSY_TAG',
             'Specimen ID' => $alias6 . '.SEQNO');
 
         foreach ($basecolumns as $column => $alias) {

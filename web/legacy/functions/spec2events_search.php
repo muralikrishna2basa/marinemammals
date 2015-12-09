@@ -3,7 +3,7 @@
  *  When ajax loading, => the relative path start on the ajax called directory
  */
 if (!isset($db) || !isset($auth)) {
-    require_once(dirname($_SERVER['DOCUMENT_ROOT']).'/directory.inc');
+    require_once(dirname($_SERVER['DOCUMENT_ROOT']) . '/directory.inc');
 
     //include_once(Functions . 'getAuthDb.php');
 

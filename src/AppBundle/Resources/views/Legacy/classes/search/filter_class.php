@@ -229,8 +229,6 @@ class Filter_Date extends BLP_Filter
      */
     public function process($token, $item1 = false, $item2 = null)
     {
-
-
         // Add the table join
         $tbl1_alias = $this->query->setTable('Event_states');
 
@@ -292,7 +290,6 @@ class Filter_Date_Necropsy extends BLP_Filter
 
 
     }
-
 }
 
 
@@ -302,8 +299,7 @@ class Filter_Specimen_Taxa extends BLP_Filter
 {
     public function initName()
     {
-        $this->name = 'taxa';
-
+        $this->name = 'species';
     }
 
     public function initTokens()
@@ -311,9 +307,16 @@ class Filter_Specimen_Taxa extends BLP_Filter
         $this->addTokens(array('like', '=', '&ne;'));
     }
 
+    public function initDomain()
+    {
+        $list_items = 'VERNACULAR_NAME';
+        $sql = "select VERNACULAR_NAME_EN as $list_items from taxa";
+        $this->AddDomain($sql, $list_items);
+    }
+
     public function process($token = false, $item = false)
     {
-        $alias2 = $this->query->setTable('Taxas');
+        $alias2 = $this->query->setTable('Taxa');
 
         if (!in_array($token, $this->tokens)) {
             $token = $this->tokens[0];
@@ -328,10 +331,10 @@ class Filter_Specimen_Taxa extends BLP_Filter
         }
         switch ($token) {
             case "like";
-                $this->query->addWhere(array('lower(' . $alias2 . '.trivial_name) ' . $token . ' lower(', array("%$item%"), ')'));
+                $this->query->addWhere(array('lower(' . $alias2 . '.vernacular_name_en) ' . $token . ' lower(', array("%$item%"), ')'));
                 break;
             default:
-                $this->query->addWhere(array($alias2 . '.trivial_name ' . $token, array($item)));
+                $this->query->addWhere(array($alias2 . '.vernacular_name_en ' . $token, array($item)));
                 break;
         }
     }
@@ -388,6 +391,56 @@ class Filter_Specimen_Date extends BLP_Filter
 
 }
 
+class Filter_Specimen_Collection_Tag extends BLP_Filter
+{
+
+    public function initName()
+    {
+        $this->name = 'ODN Collection tag';
+
+    }
+
+    public function initTokens()
+    {
+        $this->addTokens(array('=', 'LIKE','&ne;'));
+    }
+
+    /**
+     *
+     *
+     * @param token ( search operator), $item1,$item2 operator values
+     */
+    public function process($token, $item1 = false, $item2 = null)
+    {
+
+
+        // Add the table join
+        $tbl1_alias = $this->query->setTable('Event_states');
+        $tbl2_alias = $this->query->setTable('Specimens');
+        $tbl3_alias = $this->query->setTable('Spec2events');
+
+        if (!in_array($token, $this->tokens)) {
+            $token = $this->tokens[0];
+        }  // if the operator is unknown, then choose the first one
+
+
+        $this->query->addJoin($tbl3_alias . '.SCN_SEQNO = ' . $tbl2_alias . '.SEQNO');
+        $this->query->addJoin($tbl1_alias . '.SEQNO = ' . $tbl3_alias . '.ESE_SEQNO');
+
+        if (!$item1) {
+            return;
+        }
+
+
+        $date = $tbl1_alias . ".EVENT_DATETIME";
+
+        $collectionTag= $tbl2_alias.".NECROPSY_TAG";
+        $this->query->addWhere(array("$collectionTag " . $token, array($item1)));
+
+    }
+
+}
+
 class Filter_Specimen_Aut_Ref extends BLP_Filter
 {
     public function initName()
@@ -411,7 +464,6 @@ class Filter_Specimen_Aut_Ref extends BLP_Filter
         if (!in_array($token, $this->tokens)) {
             $token = $this->tokens[0];
         }  // if the operator is unknown, then choose the first one
-
 
         $this->query->addJoin($tbl3_alias . '.SCN_SEQNO = ' . $tbl2_alias . '.SEQNO');
         $this->query->addJoin($tbl1_alias . '.SEQNO = ' . $tbl3_alias . '.ESE_SEQNO');
