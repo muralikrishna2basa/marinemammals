@@ -42,14 +42,16 @@ if (!$necropsy_seqno) {
     if ($val->getStatus() == false) {
         $specimen_link = $val->getValue('specimenlink');
         $specimen_tag_link = $val->getValue('specimenTaglink');
-        $sql = "select s.seqno from specimens s where s.necropsy_tag = '$specimen_tag_link'";
+        if (isset($specimen_tag_link) && $specimen_tag_link!='') {
+            $sql = "select s.seqno from specimens s where s.necropsy_tag = '$specimen_tag_link'";
 
-        $res = $db->query($sql);
-        if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage());
+            $res = $db->query($sql);
+            if ($res->isError()) {
+                $val->setError('globalerror', $res->errormessage());
+            }
+            $row = $res->fetch();
+            $specimenlink = $row == false ? 'no_such_tag' : $row['SEQNO'];
         }
-        $row = $res->fetch();
-        $specimenlink = $row == false ? 'no_such_tag' : $row['SEQNO'];
         if ($specimen_link == '') {
             $val->setStatus(false);
         } elseif ($specimen_link == 'init') // in case a navigate request has been issued, but no animals has been set up
@@ -104,8 +106,11 @@ if (!$necropsy_seqno) {
 
     <fieldset id="autopsy_specimen_fs">
         <legend>Link to a previously observed specimen</legend>
-        <label for="specimenTaglink">By collection tag: </label><input class='specimenTaglink' name='specimenTaglink' value='<?php echo $specimenTaglink; ?>'/>
+        <label for="specimenTaglink">By collection tag: </label><input class='specimenTaglink' name='specimenTaglink'
+                                                                       value='<?php echo $specimenTaglink; ?>'/>
+
         <p>By searching a specimen:</p>
+
         <div id="autopsy_search_specimens">
             <div class="observations_results"><?php include(WebFunctions . '/spec2events_search_autopsies.php'); ?>
             </div>

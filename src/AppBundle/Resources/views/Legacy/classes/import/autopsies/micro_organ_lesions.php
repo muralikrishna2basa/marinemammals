@@ -359,8 +359,8 @@ if ($this->isSubmitted() && $val->getStatus()) // something has been submitted a
 
             $pmd_seqno = current(array_keys($parameter_methods, $parameter));
 
-            $sql = "insert into lesion_values ( oln_seqno,pmd_seqno,value,value_flag)
-							values ($oln_seqno,$pmd_seqno,:value,1)";
+            $sql = "insert into lesion_values ( oln_seqno,pmd_seqno,value,value_flag_ref)
+							values ($oln_seqno,$pmd_seqno,:value,(select seqno from cg_ref_codes where rv_domain='VALUE_FLAG' and rv_low_value='1'))";
             $bind = array(':value' => $value);
             $res = $db->query($sql, $bind);
             if ($res->isError()) {
