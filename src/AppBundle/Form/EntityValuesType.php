@@ -74,8 +74,11 @@ class EntityValuesType extends AbstractType
                     'desc'=>$descList));
                 $form->add('value', 'choice', $options2);
             }
-            if($ev->getValue() === null){
-                $ev->setValue($options['default_value']);
+            if($ev->getValue() === null && isset($options['default_value'])){
+                $codes=array_map(function($pdel){return $pdel->getCode();},$pd);
+                if(in_array($options['default_value'],$codes)){
+                    $ev->setValue($options['default_value']);
+                }
             }
         } else {
             $form->add('value', 'textarea', array(

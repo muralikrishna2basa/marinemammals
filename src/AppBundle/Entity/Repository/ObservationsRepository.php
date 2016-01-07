@@ -70,7 +70,7 @@ class ObservationsRepository extends EntityRepository
     private function buildObservationQuery()
     {
         return $this->createQueryBuilder('o')
-            ->join('o.stnSeqno', 'st')
+            ->leftJoin('o.stnSeqno', 'st')
             ->leftJoin('o.osnTypeRef', 'cg1')
             ->leftJoin('o.samplingeffortRef', 'cg2')
             ->leftJoin('st.pceSeqno', 'p1')
