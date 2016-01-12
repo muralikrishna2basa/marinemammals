@@ -43,7 +43,7 @@ class Spec2EventsType extends AbstractType
             'delete_empty' => true
         ));
         $builder->add('causeOfDeathValues', 'collection', array('type' => new EntityValuesType($this->doctrine),
-            'options' => array('radio' => false, 'default_value' => 'unknown', 'data_class' => 'AppBundle\Entity\SpecimenValues'),
+            'options' => array('radio' => false, 'data_class' => 'AppBundle\Entity\SpecimenValues'),
             'allow_delete' => true,
             'delete_empty' => true
         ));

@@ -34,13 +34,16 @@ $necropsy_seqno = $this->getThread();
 
 $basicParams = array('DECO', 'AGE', 'LENG', 'WEIG', 'NUTS', 'BLUD', 'BLUM', 'BLUV');
 
-
 $basicParamsStr = "'" . implode("','", $basicParams) . "'";
+
+$codParams = array('CODP','CODC','CODR');
+
+$codParamsStr = "'" . implode("','", $codParams) . "'";
 
 $externalPathParams = array('LEBITE', 'LEBROB', 'LECUTS', 'LEENLE', 'LEFINA', 'LEHBIT', 'LEHCUT', 'LEHNET', 'LEHOPW', 'LEHPOX', 'LEHYPO', 'LENETM', 'LENETP', 'LENETS', 'LENETT', 'LEOPEN', 'LEOTH', 'LESCBI', 'LESCPI', 'LESTAB', 'OTHEXT', 'OTHFIS', 'OTHFRO', 'OTHOIL', 'OTHPRE', 'OTHREM', 'REMA');
 
-$allParams = array_merge($basicParams, $externalPathParams);
-$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else 'External examination' end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name";
+$allParams = array_merge($basicParams, $externalPathParams,$codParams);
+$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else case when a.code in (" . $codParamsStr . ") then 'Cause of Death' else 'External examination' end end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name";
 
 $res = $db->query($sql);
 
@@ -327,7 +330,13 @@ text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?><
                 <?php
                 $parameter_name = $parameter_name . "_flow";
                 if (count($parameter) == 1) {
-                    echo "<input type='text' class='specimen_attribute' name='$parameter_code' value='" . $val->getValue($parameter_name) . "'/>  <span class='unit'>" . $parameter[0]['UNIT'] . "</span>";
+                    if($parameter[0]['UNIT'] != 'NA'){
+                        echo "<input type='text' class='specimen_attribute' name='$parameter_code' value='" . $val->getValue($parameter_name) . "'/>  <span class='unit'>" . $parameter[0]['UNIT'] . "</span>";
+                    }
+                    else{
+                        echo "<textarea name='$parameter_code' class='specimen_attribute'  value='" . $val->getValue($parameter_name) . "' rows='10' cols='50'></textarea>";
+                    }
+
                 } else {
                     echo "<select class='specimen_attribute' name ='" . $parameter_code . "'>";
                     echo "<option></option>";

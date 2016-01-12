@@ -228,10 +228,11 @@ class ObservationsProvider// implements ContainerAwareInterface
             $qb = $qb->andWhere('o.isconfidential is null');
         }
         if ($excludeNonBelgian) {
-            $qb = $qb->andWhere("p1.name='BE' or p2.name='BE' or p3.name='BE' or p4.name='BE'");
+            $qb = $qb->andWhere("st is null or p1.name='BE' or p2.name='BE' or p3.name='BE' or p4.name='BE'");
         }
         if ($fast) {
-            return $qb->getQuery()->getScalarResult();
+            $r=$qb->getQuery()->getScalarResult();
+            return $r;
         } else {
             return $qb->getQuery()->getResult();
         }

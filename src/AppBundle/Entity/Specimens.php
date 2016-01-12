@@ -586,12 +586,12 @@ class Specimens
     public function isLazarus($report, \AppBundle\Entity\Spec2Events $myS2e){
         $myDate=$myS2e->getEventDatetime()->format ('Y-m-d H:i:s');
         $myStatus=$report[$myDate];
-        if($myStatus===1){
+        if($myStatus===1){ //ALIVE
             foreach($report as $date=>$status){
                 if($myDate===$date){
                     break;
                 }
-                if($status===0){
+                if($status===0){ //DEAD
                     return true;
                 }
             }

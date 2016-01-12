@@ -35,7 +35,7 @@ var marker;
 var $submitButton = $("input[type='submit']");
 var multipleSpecimens = false;
 var map;
-var id=function() {
+var id = function () {
     var url = window.location.href;
     var idr = new RegExp('observations\/update\/(\\d*)');
     return idr.exec(url)[1];
@@ -448,8 +448,10 @@ function initialize() {
                 map.setCenter(marker.getPosition());
             });
             latDecField.val(lat);
+            //makeAssociatedFlagRequired(latDecField, validator);
             latDecField.trigger("change");
             lonDecField.val(lng);
+            //makeAssociatedFlagRequired(lonDecField, validator);
             lonDecField.trigger("change");
         });
 
@@ -459,6 +461,10 @@ function initialize() {
 
 function round(value, decimals) {
     return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+
+function coordDiff(coord1, coord2) {
+    return coord1.lat != coord2.lat || coord1.lon != coord2.lon;
 }
 
 $(document).ready(function () {
@@ -630,12 +636,63 @@ $(document).ready(function () {
         hideFieldsAndBoxesThatAreIllegalOnMultipleSpecimens();
     });
 
+
     latDecField.change(function () {
+            /*var latField = $(this).val();
+            var lngField = lonDecField.val();
+            if (latField != null && lngField != null) {
+                var posField = {lat: latField, lng: lngField};
+            }
+            if (marker != null) {
+                var posMap = marker.position;
+                marker.setMap(null);
+                marker = null;
+            }
+            if (posField != null && (marker === null || coordDiff(posField, posMap))) {
+                if (marker != null) {
+                    marker.setMap(null);
+                    marker = null;
+                }
+                marker = new google.maps.Marker({
+                    position: posField,
+                    map: map,
+                    title: 'x=' + posField.lng + '; y=' + posField.lat
+                });
+                marker.addListener('click', function () {
+                    map.setZoom(14);
+                    map.setCenter(marker.getPosition());
+                });
+            }*/
             makeAssociatedFlagRequired($(this), validator);
         }
     );
 
     lonDecField.change(function () {
+            /*var lngField = $(this).val();
+            var latField = latDecField.val();
+            if (latField != null && lngField != null) {
+                var posField = {lat: latField, lng: lngField};
+            }
+            if (marker != null) {
+                var posMap = marker.position;
+                marker.setMap(null);
+                marker = null;
+            }
+            if (posField != null && (marker === null || coordDiff(posField, posMap))) {
+                if (marker != null) {
+                    marker.setMap(null);
+                    marker = null;
+                }
+                marker = new google.maps.Marker({
+                    position: posField,
+                    map: map,
+                    title: 'x=' + posField.lng + '; y=' + posField.lat
+                });
+                marker.addListener('click', function () {
+                    map.setZoom(14);
+                    map.setCenter(marker.getPosition());
+                });
+            }*/
             makeAssociatedFlagRequired($(this), validator);
         }
     );

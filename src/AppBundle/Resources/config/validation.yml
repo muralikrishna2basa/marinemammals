@@ -530,7 +530,7 @@ AppBundle\Entity\Spec2Events:
         causeOfDeathLegal2:
             - "True": { message: "You did not report Cause of Death values, but this specimen is actually dead (as gathered by either observation type, events during observation or decomposition code) at the moment you report. Please correct either." }
         lazarusLegal:
-            - "True": { message: "The attached specimen was already reported dead (chronologically). Dead specimens can't be observed again, in whatever state." }
+            - "True": { message: "The attached specimen was already reported dead (chronologically). Dead specimens can't be observed again alive." }
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
                 fields: eseSeqno

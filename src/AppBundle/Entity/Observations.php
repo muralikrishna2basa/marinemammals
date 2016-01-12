@@ -118,6 +118,20 @@ class Observations implements ValueAssignable
     private $webcommentsNl;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="AUTOPSY_REF", type="string", length=30, nullable=true)
+     */
+    private $autopsyRef;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="AUTOPSY_INDICATOR", type="boolean", nullable=true)
+     */
+    private $autopsyIndicator;
+
+    /**
      * @var \AppBundle\Entity\EventStates
      *
      * @ORM\Id
@@ -185,7 +199,6 @@ class Observations implements ValueAssignable
      */
     private $samplingeffortRef;
 
-
     /**
      * Constructor
      */
@@ -194,6 +207,42 @@ class Observations implements ValueAssignable
         $this->isconfidential=false;
         $this->sreSeqno = new \Doctrine\Common\Collections\ArrayCollection();
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getAutopsyRef()
+    {
+        return $this->autopsyRef;
+    }
+
+    /**
+     * @param string $autopsyRef
+     * @return Observations
+     */
+    public function setAutopsyRef($autopsyRef)
+    {
+        $this->autopsyRef = $autopsyRef;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getAutopsyIndicator()
+    {
+        return $this->autopsyIndicator;
+    }
+
+    /**
+     * @param boolean $autopsyIndicator
+     *  @return Observations
+     */
+    public function setAutopsyIndicator($autopsyIndicator)
+    {
+        $this->autopsyIndicator = $autopsyIndicator;
+        return $this;
     }
 
 

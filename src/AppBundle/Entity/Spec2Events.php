@@ -280,6 +280,7 @@ class Spec2Events implements ValueAssignable
         array_push($circumstantialPms, 'During intervention');
         array_push($circumstantialPms, 'Collection');
         array_push($circumstantialPms, 'Decomposition Code');
+        array_push($circumstantialPms, 'Decomposition details');
 
         return $this->getValues()->filter(
             function ($entry) use ($circumstantialPms) {
@@ -311,6 +312,7 @@ class Spec2Events implements ValueAssignable
         array_push($measurementPms, 'Body weight');
         array_push($measurementPms, 'Age');
         array_push($measurementPms, 'Nutritional Status');
+        array_push($measurementPms, 'Blubber thickness');
 
         return $this->getValues()->filter(
             function ($entry) use ($measurementPms) {
@@ -640,7 +642,10 @@ class Spec2Events implements ValueAssignable
     public function isLazarusLegal()
     {
         $report = $this->getScnSeqno()->getAliveStatusReport($this);
-        if (!$this->getScnSeqno()->isAliveBeforeMoment($report, $this)) {
+        /*if (!$this->getScnSeqno()->isAliveBeforeMoment($report, $this)) {
+            return false;
+        }*/
+        if ($this->getScnSeqno()->isLazarus($report, $this)) {
             return false;
         }
     }

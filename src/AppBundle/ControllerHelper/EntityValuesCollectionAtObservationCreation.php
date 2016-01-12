@@ -15,11 +15,13 @@ class EntityValuesCollectionAtObservationCreation extends EntityValuesCollection
         $this->instantiateSpecimenValues('During intervention', true, true);
         $this->instantiateSpecimenValues('Collection', true, true);
         $this->instantiateSpecimenValues('Decomposition Code', true, true);
+        $this->instantiateSpecimenValues('Decomposition details', false, false);
 
         $this->instantiateSpecimenValues('Body length', true, false);
         $this->instantiateSpecimenValues('Body weight', true, false);
         $this->instantiateSpecimenValues('Age', true, false);
         $this->instantiateSpecimenValues('Nutritional Status', true, false);
+        $this->instantiateSpecimenValues('Blubber thickness', true, false);
 
         $this->instantiateSpecimenValues('Fresh external lesions::Fresh bite marks', false, true);
         $this->instantiateSpecimenValues('Fresh external lesions::Opened abdomen', false, true);

@@ -55,7 +55,9 @@
     {% for sv in form.eseSeqno.spec2events.circumstantialValues %}
         <h5>{{ sv.vars.value.pmdName }}</h5>
         <div class="form-inline">{{ form_row(sv.value, {'label':'Value'}) }}
-            {{ form_row(sv.valueFlagRef, {'label':'Value flag'}) }}</div>
+            {% if sv.valueFlagRef is defined and sv.valueFlagRef is not null %}
+                {{ form_row(sv.valueFlagRef, {'label':'Value flag'}) }}
+            {% endif %}</div>
     {% endfor %}
 </fieldset>
 <fieldset id="measurement_values" class="no-multi">

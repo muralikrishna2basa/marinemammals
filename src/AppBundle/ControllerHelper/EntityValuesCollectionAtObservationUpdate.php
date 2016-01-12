@@ -15,11 +15,13 @@ class EntityValuesCollectionAtObservationUpdate extends EntityValuesCollectionCo
         $this->instantiateSpecimenValues('During intervention', true, false);
         $this->instantiateSpecimenValues('Collection', true, false);
         $this->instantiateSpecimenValues('Decomposition Code', true, false);
+        $this->instantiateSpecimenValues('Decomposition details', false, false);
 
         $this->instantiateSpecimenValues('Body length', true, false);
-//        $this->instantiateSpecimenValues('Body weight', true, false);
+        $this->instantiateSpecimenValues('Body weight', true, false);
         $this->instantiateSpecimenValues('Age', true, false);
         $this->instantiateSpecimenValues('Nutritional Status', true, false);
+        $this->instantiateSpecimenValues('Blubber thickness', true, false);
 
         $this->instantiateSpecimenValues('Fresh external lesions::Fresh bite marks', false, false);
         $this->instantiateSpecimenValues('Fresh external lesions::Opened abdomen', false, false);
@@ -69,5 +71,4 @@ class EntityValuesCollectionAtObservationUpdate extends EntityValuesCollectionCo
         $this->instantiateObservationValues('Wind speed', true, false);
         $this->instantiateObservationValues('Seastate', true, false);
     }
-
 }

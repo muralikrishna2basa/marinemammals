@@ -13,16 +13,32 @@ Class MgmtObservationIndexPropertiesSet extends GettablePropertiesSet
                 return $observation->getIsconfidential();
             },
             'location type' => function ($observation) {
-                return $observation->getStnSeqno()->getAreaType();
+                if ($observation->getStnSeqno() != null) {
+                    return $observation->getStnSeqno()->getAreaType();
+                } else {
+                    return '';
+                }
             },
             'country' => function ($observation) {
-                return $observation->getStnSeqno()->getCountry();
+                if ($observation->getStnSeqno() != null) {
+                    return $observation->getStnSeqno()->getCountry();
+                } else {
+                    return '';
+                }
             },
             'place' => function ($observation) {
-                return $observation->getStnSeqno()->getPlaceName();
+                if ($observation->getStnSeqno() != null) {
+                    return $observation->getStnSeqno()->getPlaceName();
+                } else {
+                    return '';
+                }
             },
             'location' => function ($observation) {
-                return $observation->getStnSeqno()->getDescription();
+                if ($observation->getStnSeqno() != null) {
+                    return $observation->getStnSeqno()->getDescription();
+                } else {
+                    return '';
+                }
             },
             'decimalLatitude' => function ($observation) {
                 return $observation->getLatDec();

@@ -63,6 +63,13 @@ class ObservationsType extends AbstractType
         $builder->add('isconfidential', 'checkbox', array(
             'required' => false
         ));
+        $builder->add('autopsyRef', 'text', array(
+            'required' => false,
+            'attr' => array('maxlength' => 30)
+        ));
+        $builder->add('autopsyIndicator', 'checkbox', array(
+            'required' => false,
+        ));
         $builder->add('osnTypeRef', 'entity', array(
             'empty_value' => 'Select...',
             'required' => true,

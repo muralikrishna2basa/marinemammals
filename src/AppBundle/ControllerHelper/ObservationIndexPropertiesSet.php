@@ -15,13 +15,25 @@ Class ObservationIndexPropertiesSet extends GettablePropertiesSet
     {
         $this->functions = array(
             'location type' => function ($observation) {
-                return $observation->getStnSeqno()->getAreaType();
+                if ($observation->getStnSeqno() != null) {
+                    return $observation->getStnSeqno()->getAreaType();
+                } else {
+                    return '';
+                }
             },
             'place' => function ($observation) {
-                return $observation->getStnSeqno()->getPlaceName();
+                if ($observation->getStnSeqno() != null) {
+                    return $observation->getStnSeqno()->getPlaceName();
+                } else {
+                    return '';
+                }
             },
             'location' => function ($observation) {
-                return $observation->getStnSeqno()->getDescription();
+                if ($observation->getStnSeqno() != null) {
+                    return $observation->getStnSeqno()->getDescription();
+                } else {
+                    return '';
+                }
             },
             'decimalLatitude' => function ($observation) {
                 return $observation->getLatDec();
