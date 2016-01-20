@@ -39,7 +39,7 @@ Class CgRefCodesPropertiesSet extends SettablePropertiesSet
             },
             'areaType' => function (Observations $o) {
                 $stn = $o->getStnSeqno();
-                if ($stn !== null) {
+                if (isset($stn)) {
                     $stn->setAreaType($this->getCgRefCodeMeaning('STN_AREA_TYPE', $stn->getAreaType()));
                 }
             },

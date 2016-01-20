@@ -6,8 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/phpunit/php-text-template',
-    $vendorDir . '/phpunit/php-timer',
     $vendorDir . '/pear/pear_exception',
     $vendorDir . '/pear/html_common2',
     $vendorDir . '/pear/html_quickform2',

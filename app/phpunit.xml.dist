@@ -15,11 +15,11 @@
         </testsuite>
     </testsuites>
 
-    <!--
+
     <php>
-        <server name="KERNEL_DIR" value="/path/to/your/app/" />
+        <ini name="display_errors" value="On" />
+        <ini name="display_startup_errors" value="On" />
     </php>
-    -->
 
     <filter>
         <whitelist>

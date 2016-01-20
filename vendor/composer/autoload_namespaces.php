@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
-    'WhiteOctober\\PagerfantaBundle' => array($vendorDir . '/white-october/pagerfanta-bundle'),
     'Twig_Extensions_' => array($vendorDir . '/twig/extensions/lib'),
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Symfony\\' => array($vendorDir . '/symfony/symfony/src'),
@@ -20,14 +19,11 @@ return array(
     'Pagerfanta\\' => array($vendorDir . '/pagerfanta/pagerfanta/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'PEAR' => array($vendorDir . '/pear/pear_exception'),
-    'Liuggio\\ExcelBundle' => array($vendorDir . '/liuggio/ExcelBundle'),
     'Lexik\\Bundle\\FormFilterBundle' => array($vendorDir . '/lexik/form-filter-bundle'),
     'Knp\\Component' => array($vendorDir . '/knplabs/knp-components/src'),
-    'Knp\\Bundle\\PaginatorBundle' => array($vendorDir . '/knplabs/knp-paginator-bundle'),
     'Incenteev\\ParameterHandler' => array($vendorDir . '/incenteev/composer-parameter-handler'),
     'HTML' => array($vendorDir . '/pear/html_common2', $vendorDir . '/pear/html_quickform2'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib'),
-    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
