@@ -32,7 +32,7 @@ $necropsy_seqno = $this->getThread();
 
 // get all parameters from the database and transform the results into a suitable array ( res_mod)
 
-$basicParams = array('DECO', 'AGE', 'LENG', 'WEIG', 'NUTS', 'BLUD', 'BLUM', 'BLUV');
+$basicParams = array('DECO', 'AGE', 'LENG', 'WEIG', 'NUTS', 'BLUD', 'BLUM', 'BLUV','STOM');
 
 $basicParamsStr = "'" . implode("','", $basicParams) . "'";
 
@@ -121,8 +121,9 @@ $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
 // end get Specimen ID
 
 
-// at page load.. nothing has been submitted yet
-if (!$this->isSubmitted()) {
+// at page load  (nothing has been submitted yet) or when page is reloaded
+//if (!$this->isSubmitted()) {
+//if($this->getThread() != false){
 // get Specimen Parameter(s)
 
     $sql = "select a.value, b.name, b.unit from specimen_values a, parameter_methods b
@@ -143,7 +144,8 @@ if (!$this->isSubmitted()) {
     }
 
     // end get Specimen Parameter(s)
-} else // when something has been submitted
+//} else // when something has been submitted
+if ($this->isSubmitted())
 {
     // by default the status is set to true
 
@@ -283,7 +285,7 @@ function move_item(&$ref_arr, $key1, $move, $key2 = null)
 $var = $specimenlink; // variable declared in the include file
 include(WebFunctions . 'autopsy_specimen_link.php');
 ?>
-<form class='well <?php echo $this->flowname . '_form'; ?> default_form'>
+<form name="<?php echo $this->flowname; ?>" class='well <?php echo $this->flowname . '_form'; ?> default_form'>
     <fieldset id="global_parameter_fs">
         <?php
         // write all static parameters out of the specimen table
@@ -334,19 +336,20 @@ text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?><
                         echo "<input type='text' class='specimen_attribute' name='$parameter_code' value='" . $val->getValue($parameter_name) . "'/>  <span class='unit'>" . $parameter[0]['UNIT'] . "</span>";
                     }
                     else{
-                        echo "<textarea name='$parameter_code' class='specimen_attribute'  value='" . $val->getValue($parameter_name) . "' rows='10' cols='50'></textarea>";
+                        echo "<textarea name='$parameter_code' class='specimen_attribute'  value='" . $val->getValue($parameter_name) . "' rows='10' cols='50'>" . $val->getValue($parameter_name) . "</textarea>";
                     }
 
                 } else {
                     echo "<select class='specimen_attribute' name ='" . $parameter_code . "'>";
                     echo "<option></option>";
                     foreach ($parameter as $option) {
-                        if ($option['DOMCODE'] == $val->getValue($parameter_name)) {
-                            echo "<option selected='selected'>" . $option['DOMCODE'] . "</option>";
+                        $value=$val->getValue($parameter_name);
+                        if ($option['DOMCODE'] == $value) {
+                            echo "<option value='" . $option['DOMCODE'] . "' selected>" . $option['DOMCODE'] . "</option>";
                             continue;
                         }
 
-                        echo "<option>" . $option['DOMCODE'] . "</option>";
+                        echo "<option value='" . $option['DOMCODE'] . "'>" . $option['DOMCODE'] . "</option>";
                     }
                     echo "</select>";
                 }
@@ -355,6 +358,7 @@ text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?><
         <?php endforeach; ?>
         <div class='errormessage'><?php echo $val->getError('globalerror'); ?></div>
     </fieldset>
-    <?php echo $this->getButtons(); ?>
+    <?php echo $this->getButtons();?>
+
 </form>
 

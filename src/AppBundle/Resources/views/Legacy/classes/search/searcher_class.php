@@ -328,6 +328,16 @@ class BLP_Search
         return $this->renderer->table;
     }
 
+
+    /**
+     *    Build the complete html result table
+     *
+     */
+    public function getResultsTable()
+    {
+        return $this->__toString();
+    }
+
     public function getIdentifiers($binds)
     {
         $this->query->build();

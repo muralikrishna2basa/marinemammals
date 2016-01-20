@@ -11,11 +11,11 @@ if(!isset($db) || !isset($auth))
 	include_once(Classes."search/searcher_class.php");
 	include_once(Functions."Fixcoding.php");
 
-	$cred = parse_ini_file(Ini."db_credentials.ini",true); 
-
-	$user = 'biolib_owner';
-	$usr_cred = $cred[$user];
-	$db = new ORACLE ($usr_cred['login'],$usr_cred['pass'],$usr_cred['alias']);
+//	$cred = parse_ini_file(Ini."db_credentials.ini",true);
+//	$user = 'biolib_test';
+//	$usr_cred = $cred[$user];
+//	$db = new ORACLE ($usr_cred['login'],$usr_cred['pass'],$usr_cred['alias']);
+    include_once(Functions.'getAuthDb.php');
 
 	// WEBPAGE SECURED 
 	//$auth = new Auth($db,'../Home.php','ohoho');
@@ -50,7 +50,7 @@ foreach($searchitems as $searchitem)
 {
 	if($searchitem != 'dum')
 	{
-			$operator = htmlentities($searchitem->operator, ENT_QUOTES, 'UTF-8');
+		$operator = htmlentities($searchitem->operator, ENT_QUOTES, 'UTF-8');
 		$samples->FilterbyName($searchitem->filter,$operator,fixDecoding($searchitem->field));
 	}
 }
@@ -65,8 +65,11 @@ if(isset($_GET['search_sort']) && isset($_GET['sort_type']))
 
 $samples->renderer->setCurrentPage($search_page);
 
+
+
+
 echo $samples;
 
-
-
+$res=$samples->renderer->res;
+$a =5;
 ?>

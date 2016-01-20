@@ -240,9 +240,21 @@ class Validation
 		$this->status = false;
 		$this->elements[$errorname][] = $errormessage;
 	}
+
 	public function getValue($elname)
 	{
-		return isset($_POST[str_replace(' ','_',$elname)])?$_POST[str_replace(' ','_',$elname)]:'';
+        $allowed=array();
+        array_push($allowed,str_replace(' ','_',$elname));
+        $filtered = array_filter(
+            $_POST,
+            function ($key) use ($allowed) {
+                return (strpos($key,$allowed[0]) !== false);
+                 //in_array($key, $allowed);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+
+		return !empty($filtered)?reset($filtered):'';
 	}
 }
 

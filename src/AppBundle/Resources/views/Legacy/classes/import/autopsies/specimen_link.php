@@ -42,7 +42,7 @@ if (!$necropsy_seqno) {
     if ($val->getStatus() == false) {
         $specimen_link = $val->getValue('specimenlink');
         $specimen_tag_link = $val->getValue('specimenTaglink');
-        if (isset($specimen_tag_link) && $specimen_tag_link!='') {
+        if (isset($specimen_tag_link) && $specimen_tag_link != '') {
             $sql = "select s.seqno from specimens s where s.necropsy_tag = '$specimen_tag_link'";
 
             $res = $db->query($sql);

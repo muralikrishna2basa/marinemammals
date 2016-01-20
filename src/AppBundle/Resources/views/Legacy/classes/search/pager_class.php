@@ -9,8 +9,8 @@
  * ---------
  *
  *               oracle.php, search_query.php
- *           for a specific query, the pager returns the paged results ( i.e the number of results
- *           belonging to a specific page, the results are part of the oracleresults ressource )
+ *           for a specific query, the pager returns the paged pagedResults ( i.e the number of pagedResults
+ *           belonging to a specific page, the pagedResults are part of the oraclepagedResults ressource )
  *
  */
 
@@ -32,6 +32,8 @@ class BLP_Pager
      * @var object
      */
     public $query;
+
+    public $pagedResults;
 
 
     public $num_pages = false;
@@ -188,10 +190,12 @@ class BLP_Pager
 
         $binds = $this->query->bindings;
         if (count($binds) > 0) {
-            return $this->db->query($sql, $binds);
+            $this->pagedResults=$this->db->query($sql, $binds);
+
         } else {
-            return $this->db->query($sql);
+            $this->pagedResults=$this->db->query($sql);
         }
+        return $this->pagedResults;
     }
 
 

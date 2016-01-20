@@ -50,6 +50,8 @@ class BLP_Renderer
      * @var array
      */
     public $res = array();
+
+    public $results = array();
     /**
      * Array of column class names keyed with their respective column name
      *
@@ -396,6 +398,8 @@ class Table_Renderer extends BLP_Renderer
             }
             $this->body .= "</tr>\n";
         }
+
+
 
     }
 

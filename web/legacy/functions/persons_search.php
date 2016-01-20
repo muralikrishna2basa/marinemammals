@@ -12,10 +12,11 @@ if(!isset($db) || !isset($auth))
 
 	require_once(Functions."Fixcoding.php");
 
-	$cred = parse_ini_file(Ini."db_credentials.ini",true); 
-	$user = 'biolib_owner';
-	$usr_cred = $cred[$user];
-	$db = new ORACLE ($usr_cred['login'],$usr_cred['pass'],$usr_cred['alias']);
+//	$cred = parse_ini_file(Ini."db_credentials.ini",true);
+//	$user = 'biolib_test';
+//	$usr_cred = $cred[$user];
+//	$db = new ORACLE ($usr_cred['login'],$usr_cred['pass'],$usr_cred['alias']);
+    include_once(Functions.'getAuthDb.php');
 }	
 // GET THE DATA FROM THE AJAX CALL 
 

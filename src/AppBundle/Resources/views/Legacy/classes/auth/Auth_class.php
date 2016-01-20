@@ -9,7 +9,6 @@
 
 require_once(Classes . 'auth/Session_class.php');
 
-
 class Auth
 {
     protected $db;

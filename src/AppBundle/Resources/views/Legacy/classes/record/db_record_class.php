@@ -207,12 +207,14 @@ class Db_record
 	public function __toString()
 	{
 		if(!is_array($this->elements)) { return "";}
-		
+
+        $record = $this->db_record->addRecord();
+        $record->addElement('text',array('text'=>$this->id,'class'=>'data-id','name'=>'Specimen ID'));
 		foreach($this->elements as $key => $element)
 		{
 			$record = $this->db_record->addRecord();
 			
-			if(current($this->eltypes) == 'text')
+			if(current($this->eltypes) == 'text' && $key !== 'Specimen ID')
 			{
 				$record->addElement('text',array('text'=>$element,'class'=>'textelement','name'=>key($this->eltypes)));
 			}
@@ -226,7 +228,6 @@ class Db_record
 			}	
 			next($this->eltypes);
 		}
-		
 			return $this->db_record->__toString();
 	}	
 }
@@ -296,8 +297,8 @@ WHERE
 h.SEQNO = g.TXN_SEQNO
 and g.SEQNO = :id 
 EOD;
-		
-		
+
+
 		$bind = array(':id'=>$id);
 		
 		$res = $this->db->query($sql,$bind);

@@ -287,8 +287,6 @@ class Filter_Date_Necropsy extends BLP_Filter
                 $this->query->addWhere(array(' lower(' . $tbl1_alias . '.EVENT_DATETIME) ' . $token, ' to_date(', array($item1), ',\'dd/mm/yyyy\')'));
                 break;
         }
-
-
     }
 }
 

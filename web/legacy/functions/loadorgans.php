@@ -10,7 +10,7 @@ if (!function_exists('loadchildrens')) {
             $parentcode = 'ROOT';
 
         } else {
-            $sql = 'select name from organs where code =  :code';
+            $sql = 'select name from organs where code =  :code order by name';
             $bind = array(':code' => $parent);
             $res = $db->query($sql, $bind);
             if ($res->isError()) {
@@ -23,7 +23,7 @@ if (!function_exists('loadchildrens')) {
             $parentcode = $parent;
         }
 
-        $sql = "select * from organs where ogn_code = '$parentcode'";
+        $sql = "select * from organs where ogn_code = '$parentcode' order by name";
 
         $res = $db->query($sql);
 
@@ -77,7 +77,7 @@ else {
         }
 
         // Get Parent
-        $sql = "select code,name from organs where code = (select ogn_code from organs where code = :actualorgan)";
+        $sql = "select code,name from organs where code = (select ogn_code from organs where code = :actualorgan) order by name";
         $bind = array('actualorgan' => $actualorgan);
 
         $res = $db->query($sql, $bind);
