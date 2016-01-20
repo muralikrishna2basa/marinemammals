@@ -60,7 +60,7 @@ class EntityValuesCollectionAtObservationUpdate extends EntityValuesCollectionCo
         $this->instantiateSpecimenValues('Cause of death::Ship strike', false, false);
         $this->instantiateSpecimenValues('Cause of death::Predation', false, false);
         $this->instantiateSpecimenValues('Cause of death::Other', false, false);
-        $this->instantiateSpecimenValues('Cause of death::Unknown', false, false);
+        //$this->instantiateSpecimenValues('Cause of death::Unknown', false, false);
 
         $this->instantiateSpecimenValues('Bycatch activity::Professional gear', false, false);
         $this->instantiateSpecimenValues('Bycatch activity::Recreational gear', false, false);
@@ -70,5 +70,6 @@ class EntityValuesCollectionAtObservationUpdate extends EntityValuesCollectionCo
         $this->instantiateObservationValues('Wind direction', true, false);
         $this->instantiateObservationValues('Wind speed', true, false);
         $this->instantiateObservationValues('Seastate', true, false);
+        $this->instantiateObservationValues('Weather', true, false);
     }
 }

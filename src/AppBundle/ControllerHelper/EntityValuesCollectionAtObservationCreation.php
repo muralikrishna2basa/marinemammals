@@ -60,7 +60,7 @@ class EntityValuesCollectionAtObservationCreation extends EntityValuesCollection
         $this->instantiateSpecimenValues('Cause of death::Ship strike', false, true);
         $this->instantiateSpecimenValues('Cause of death::Predation', false, true);
         $this->instantiateSpecimenValues('Cause of death::Other', false, true);
-        $this->instantiateSpecimenValues('Cause of death::Unknown', false, true);
+        //$this->instantiateSpecimenValues('Cause of death::Unknown', false, true);
 
         $this->instantiateSpecimenValues('Bycatch activity::Professional gear', false, false);
         $this->instantiateSpecimenValues('Bycatch activity::Recreational gear', false, false);
