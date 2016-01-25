@@ -23,6 +23,7 @@
     </div>
     <div class="form-inline">
         {{ form_row(form.eseSeqno.spec2events.scnSeqnoNew.scnNumber, {'label':'Number' }) }}
+        <span data-tooltip="A whole number. Use '-1' if the number of animals is unknown." class="has-tooltip"></span>
     </div>
     <div class="form-inline no-multi">
         {{ form_row(form.eseSeqno.spec2events.scnSeqnoNew.sex, {'label':'Sex' }) }}
@@ -33,7 +34,7 @@
     </div>
     <div class="form-inline no-multi">
         {{ form_row(form.eseSeqno.spec2events.scnSeqnoNew.rbinsTag, {'label':'RBINS tag' }) }}
-        <span data-tooltip="The tag given to animals taken to the Museum of Natural Sciences collection." class="has-tooltip"></span>
+        <span data-tooltip="The tag given to animals taken to SeaLife." class="has-tooltip"></span>
     </div>
     <div class="form-inline no-multi">
         {{ form_row(form.eseSeqno.spec2events.scnSeqnoNew.necropsyTag, {'label':'Collection tag' }) }}

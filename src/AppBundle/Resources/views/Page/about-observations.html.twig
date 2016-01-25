@@ -3,7 +3,7 @@
 {% block stylesheets %}
     {% stylesheets
     '@AppBundle/Resources/public/css/jquery.bxslider.css'
-    '@AppBundle/Resources/public/css/jquery.colorbox.css' %}
+    '@AppBundle/Resources/public/css/colorbox.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
@@ -26,7 +26,7 @@
             );
             $(".slider").on("click", "a.colorbox", function (event) {
                 event.preventDefault();
-                $.colorbox({rel: 'gallery', href: $(this).attr("href"), opacity: 0.6});
+                $.colorbox({rel: 'gallery', href: $(this).attr("href"), opacity: 0.6,arrowKey: 	true });
             });
         });
     </script>

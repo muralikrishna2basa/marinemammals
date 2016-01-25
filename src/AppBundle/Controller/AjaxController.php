@@ -55,9 +55,9 @@ class AjaxController extends Controller
                 $scnNumber = $s->getScnNumber();
                 $sex = $s->getSex();
                 $rbinsTag = $s->getRbinsTag();
-                $mummTag = $s->getMummTag();
+                $collectionTag = $s->getNecropsyTag();
                 $species = $s->getTxnSeqno()->getFullyQualifiedName(); //txn_seqno cannot be null
-                return new JsonResponse(array('found' => true, 'seqno' => $seqno, 'scnNumber' => $scnNumber, 'sex' => $sex, 'rbinsTag' => $rbinsTag, 'mummTag' => $mummTag, 'species' => $species));
+                return new JsonResponse(array('found' => true, 'seqno' => $seqno, 'scnNumber' => $scnNumber, 'sex' => $sex, 'rbinsTag' => $rbinsTag, 'collectionTag' => $collectionTag, 'species' => $species));
             } else {
                 return new JsonResponse(array('found' => false));
             }

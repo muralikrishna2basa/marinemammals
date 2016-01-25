@@ -95,8 +95,8 @@ var validator = wholeForm.validate({
             min: 0
         },
         "observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]": {
-            digits: true,
-            min: 0,
+            number: true,
+            min: -1,
             max: 9999
         },
         "observationstype[eseSeqno][spec2events][scnSeqnoNew][rbinsTag]": {
@@ -161,7 +161,7 @@ function instantiateRemoteSpecimen() {
                 $scnInfo.append('Number: ' + remoteSpecimen.scnNumber + '<br />');
                 $scnInfo.append('Sex: ' + remoteSpecimen.sex + '<br />');
                 $scnInfo.append('RBINS Tag: ' + remoteSpecimen.rbinsTag + '<br />');
-                $scnInfo.append('Collection tag (=old MUMM Tag): ' + remoteSpecimen.mummTag + '<br />');
+                $scnInfo.append('Collection tag (=old MUMM Tag): ' + remoteSpecimen.collectionTag + '<br />');
             }
             else {
                 $scnInfo.html("");

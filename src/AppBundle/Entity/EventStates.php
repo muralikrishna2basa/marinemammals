@@ -89,6 +89,13 @@ class EventStates
     private $clnSeqno;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Medias", mappedBy="eseSeqno")
+     */
+    private $mdaSeqno;
+
+    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Spec2Events", mappedBy="eseSeqno")
      **/
     private $spec2events;
@@ -125,6 +132,25 @@ class EventStates
     {
         $this->event2Persons = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMdaSeqno()
+    {
+        return $this->mdaSeqno;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $mdaSeqno
+     * @return EventStates
+     */
+    public function setMdaSeqno($mdaSeqno)
+    {
+        $this->mdaSeqno = $mdaSeqno;
+        return $this;
+    }
+
 
     /**
      * Set creDat

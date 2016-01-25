@@ -773,7 +773,7 @@ function instantiateRemoteSpecimen() {
                 $scnInfo.append('Number: ' + remoteSpecimen.scnNumber + '<br />');
                 $scnInfo.append('Sex: ' + remoteSpecimen.sex + '<br />');
                 $scnInfo.append('RBINS Tag: ' + remoteSpecimen.rbinsTag + '<br />');
-                $scnInfo.append('Collection tag (=old MUMM Tag): ' + remoteSpecimen.mummTag + '<br />');
+                $scnInfo.append('Collection tag (=old MUMM Tag): ' + remoteSpecimen.collectionTag + '<br />');
             }
             else {
                 $scnInfo.html("");

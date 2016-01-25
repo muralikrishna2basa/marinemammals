@@ -10312,11 +10312,11 @@ ul.observation-map {
     list-style-type: none;
 }
 
-#map-canvas {
+#map-canvas, a.img-canvas img {
     height: 350px;
     width: 500px;
     margin: 0;
-    padding: 0;
+    padding: 10px 0 0 0;
     float: right;
 }
 

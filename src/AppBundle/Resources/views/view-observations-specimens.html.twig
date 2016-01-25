@@ -4,14 +4,16 @@
     {{ parent() }}
     {% stylesheets
     '@AppBundle/Resources/public/css/font-awesome.css'
-    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css' %}
+    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css'
+    '@AppBundle/Resources/public/css/colorbox.css'%}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
-    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js' %}
+    'http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js'
+    '@AppBundle/Resources/public/js/jquery.colorbox-min.js'%}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
     {% endjavascripts %}
@@ -21,6 +23,10 @@
                 content: {
                     attr: 'data-tooltip'
                 }
+            });
+            $(".observation-photos").on("click", "a.img-canvas", function (event) {
+                event.preventDefault();
+                $.colorbox({rel: 'gallery', href: $(this).attr("href"), opacity: 0.6});
             });
         });
         function initialize() {
@@ -64,7 +70,8 @@
     <ul class="observation-map">
         <li>
             <span><strong>Location:</strong></span>
-            <span>{{ observation.stnSeqno.description }}</span>
+
+            <span>{% if observation.stnSeqno is defined and observation.stnSeqno is not null %}{{ observation.stnSeqno.description }}{% endif %}</span>
         </li>
         {% if observation.pfmSeqno %}
             <li>
@@ -100,5 +107,11 @@
             Neither the location given for this observation nor the observation itself has a coordinate.
         {% endif %}
     </ul>
+<ul class="observation-photos">
+    {% for f in observation.eseSeqno.mdaSeqno %}
+       <li> <a class="img-canvas" rel='gallery' href="/static-img/strandings/{{f.location}}"><img src="/static-img/strandings/{{f.location}}"></a></li>
+    {% endfor %}
+
+</ul>
 {% endblock sidebar %}
 

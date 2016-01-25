@@ -574,7 +574,7 @@ AppBundle\Entity\Specimens:
                      type: integer
                      message: The value {{ value }} is not a valid {{ type }}.
                 - Range:
-                     min: 0
+                     min: -1
                      max: 9999
         sex:
                 - Length:

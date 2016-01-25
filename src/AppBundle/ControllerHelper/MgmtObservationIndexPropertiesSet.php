@@ -72,22 +72,22 @@ Class MgmtObservationIndexPropertiesSet extends GettablePropertiesSet
             'scnNumber' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getScnNumber();
             },
-            '$sex' => function ($observation) {
+            'sex' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getSex();
             },
-            '$mummtag' => function ($observation) {
+            'mummtag' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getMummTag();
             },
-            '$necropsyTag' => function ($observation) {
+            'collectionTag' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getNecropsyTag();
             },
-            '$rbinsTag' => function ($observation) {
+            'rbinsTag' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getRbinsTag();
             },
-            '$otherTag' => function ($observation) {
+            'otherTag' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getOtherTag();
             },
-            '$name' => function ($observation) {
+            'name' => function ($observation) {
                 return $observation->getEseSeqno()->getSpec2Events()->getScnSeqno()->getName();
             },
 

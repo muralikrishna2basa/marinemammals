@@ -101,7 +101,7 @@ class Medias
     /**
      * @var \AppBundle\Entity\EventStates
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EventStates")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EventStates", inversedBy="mdaSeqno")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ESE_SEQNO", referencedColumnName="SEQNO")
      * })
