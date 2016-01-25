@@ -222,8 +222,23 @@ class BLP_Query
                     $tmp = count($this->bindings);
                     $bind_el = chr(($tmp) % 26 + 97) . chr(floor($tmp / 26) + 97);
                     $bind_name = ':' . $bind_el . '_' . count($this->wheres);
-                    $this->bindings[$bind_name] = fixEncoding($bind_value);
-                    $newwhere .= $bind_name;
+
+                    if (preg_match('/^to_date/i', $bind_value)) {
+                        if (preg_match("/(\"|')(.*?)(\"|'), ?(\"|')(.*?)(\"|')/", $bind_value, $matches)) {
+                            $dateApostrophe= $matches[1];
+                            $date = $matches[2];
+                            $pattern = $matches[5];
+
+                            $this->bindings[$bind_name] = fixEncoding($date);
+                            $newwhere .= str_replace($dateApostrophe.$date.$dateApostrophe,$bind_name,$bind_value);
+                            $a = 5;
+                        }
+                    } else {
+                        $this->bindings[$bind_name] = fixEncoding($bind_value);
+                        $newwhere .= $bind_name;
+                    }
+
+
                 } else {
                     $newwhere .= ' ' . $elem . ' ';
                 }
@@ -256,7 +271,8 @@ class BLP_Query
      * @param array or string $in
      * @return array
      */
-    protected function htmlDecode($in)
+    protected
+    function htmlDecode($in)
     {
         // array to be expanded
         $html_to_decode = array('&ne;' => '!=', '&gt;' => '>', '&lt;' => '<');
@@ -282,7 +298,8 @@ class BLP_Query
      *
      * @return string containing the sql statement
      */
-    public function build()
+    public
+    function build()
     {
 
         $columns = array();
@@ -338,7 +355,8 @@ class BLP_Query
      * return columns array in format ( table.column => alias )
      * instead of ( (table alias).column => alias)
      */
-    public function mapattributes()
+    public
+    function mapattributes()
     {
         $columns = $this->columns;
 

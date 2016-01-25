@@ -15,8 +15,13 @@ class PageController extends Controller
         $filter['topNLatest']=10;
 
         $observations = $this->get('observations_provider')->loadObservationsByFilter($filter,true);
+
+        $mediaRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Medias');
+        $medias = $mediaRepo->getMostRecentPhotos(4);
+
         return $this->render('AppBundle:Page:index.html.twig', array(
-            'observations'=>$observations
+            'observations'=>$observations,
+            'photos'=>$medias
         ));
     }
 
@@ -46,6 +51,11 @@ class PageController extends Controller
     public function aboutNecropsiesAction()
     {
         return $this->render('AppBundle:Page:about-necropsies.html.twig');
+    }
+
+    public function aboutNecropsiesDetailAction()
+    {
+        return $this->render('AppBundle:Page:about-necropsies-detail.html.twig');
     }
 
     public function aboutBiobankAction(){

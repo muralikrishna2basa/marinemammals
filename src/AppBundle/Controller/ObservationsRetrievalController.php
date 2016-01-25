@@ -142,8 +142,8 @@ class ObservationsRetrievalController extends Controller
         $todayString = $today->format('Y-m-d');
 
         $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
-        $phpExcelObject->getProperties()->setCreator("Belgian Marine Data Center")
-            ->setLastModifiedBy("Belgian Marine Data Center")
+        $phpExcelObject->getProperties()->setCreator("Belgian Marine Data Centre")
+            ->setLastModifiedBy("Belgian Marine Data Centre")
             ->setTitle("Marine Mammals export " . $todayString)
             ->setSubject("Occurence data of Belgian marine mammals")
             ->setDescription("An export of the Belgian marine mammals database, located at www.marinemammals.be");

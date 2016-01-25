@@ -35,6 +35,7 @@ $searchitems = json_decode(stripcslashes($search_json));
 //$samples = new Search_Spec2events_autopsies($db,$grouplevel);
 $samples = new Search_Spec2events_autopsies($db);
 
+
 if (isset($_GET['search_ppr']) && $_GET['search_ppr'] != 'undefined') {
     $samples->renderer->pager->rows_per_page = $_GET['search_ppr'];
 } else {
@@ -81,6 +82,6 @@ $samples->renderer->setCurrentPage($search_page);
 
 echo $samples;
 
-
-
+$res= $samples->renderer->results;
+$a =5;
 ?>

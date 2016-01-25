@@ -308,7 +308,7 @@ class Filter_Specimen_Taxa extends BLP_Filter
     public function initDomain()
     {
         $list_items = 'VERNACULAR_NAME';
-        $sql = "select VERNACULAR_NAME_EN as $list_items from taxa";
+        $sql = "select VERNACULAR_NAME_EN as $list_items from taxa order by VERNACULAR_NAME_EN";
         $this->AddDomain($sql, $list_items);
     }
 
@@ -383,7 +383,7 @@ class Filter_Specimen_Date extends BLP_Filter
 
         $date = $tbl1_alias . ".EVENT_DATETIME";
 
-        $this->query->addWhere(array("$date " . $token, array($item1)));
+        $this->query->addWhere(array("$date " . $token, array("to_date('$item1', 'DD/MM/YYYY')")));
 
     }
 

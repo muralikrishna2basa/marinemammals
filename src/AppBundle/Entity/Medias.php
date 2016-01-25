@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Medias
  *
  * @ORM\Table(name="MEDIAS", indexes={@ORM\Index(name="mda_psn_fk_i", columns={"PSN_SEQNO"}), @ORM\Index(name="mda_ese_fk_i", columns={"ESE_SEQNO"}), @ORM\Index(name="idx_mda_oln_seqno", columns={"OLN_SEQNO"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\MediasRepository")
  */
 class Medias
 {
@@ -424,5 +424,14 @@ class Medias
     public function getEseSeqno()
     {
         return $this->eseSeqno;
+    }
+
+    public function getAuthorName(){
+        if ($this->psnSeqno != null) {
+            return $this->psnSeqno->getFullyQualifiedName();
+        }
+        else {
+            return 'RBINS';
+        }
     }
 }

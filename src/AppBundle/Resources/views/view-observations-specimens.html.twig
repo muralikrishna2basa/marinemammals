@@ -100,8 +100,6 @@
                     <div id="map-canvas" data-lat="{{ observation.stnSeqno.latDec }}"
                          data-lon="{{ observation.stnSeqno.lonDec }}" data-type="rect"></div>
                 </li>
-
-
             {% endif %}
         {% else %}
             Neither the location given for this observation nor the observation itself has a coordinate.
@@ -109,7 +107,7 @@
     </ul>
 <ul class="observation-photos">
     {% for f in observation.eseSeqno.mdaSeqno %}
-       <li> <a class="img-canvas" rel='gallery' href="/static-img/strandings/{{f.location}}"><img src="/static-img/strandings/{{f.location}}"></a></li>
+       <li> <a class="img-canvas" rel='gallery' href="/static-img/strandings/{{f.location}}"><img src="/static-img/strandings/{{f.location}}" title='{{f.description}} - © {{f.authorName}}' alt='{{f.description}} - © {{f.authorName}}' ></a></li>
     {% endfor %}
 
 </ul>

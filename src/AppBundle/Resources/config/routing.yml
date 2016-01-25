@@ -34,6 +34,12 @@ mm_necropsies_about:
     requirements:
         _method:  GET
 
+mm_necropsies_about_detail:
+    pattern:  /necropsies/about/detail
+    defaults: { _controller: AppBundle:Page:aboutNecropsiesDetail }
+    requirements:
+        _method:  GET
+
 mm_samples_about:
     pattern:  /samples/about
     defaults: { _controller: AppBundle:Page:aboutBiobank }

@@ -1,4 +1,5 @@
-{% extends 'AppBundle::col-layout.html.twig' %} {% block title %}Welcome{% endblock %} {% block sidebar %}
+{% extends 'AppBundle::col-layout.html.twig' %} {% block title %}Welcome{% endblock %}
+{% block sidebar %}
     <h2>Recent observations</h2>
     <table class="table table-striped simple-observationstable">
         <tbody>
@@ -28,53 +29,85 @@
         {% endfor %}
         </tbody>
     </table>
-{% endblock %} {% block mainbar %}
-    <h1>Marinemammals.be <small><i>A resource for marine mammal observations</i></small></h1>
-        <p>
-            This website is the home of all Belgian marine mammal observations and strandings. It contains data ranging from sightings & strandings and the
-            results of scientific research. It includes data about dolphins, whales and seals from Belgian waters. We also maintain some data from neighbouring
-            countries (Northern France, the Netherlands). Until some decades ago, only few data was collected from stranded animals. Nowadays, full necropsies are
-            performed, and tissue samples are collected for research purposes. Registered users can request tissue samples.</p>
-        <p>
-            This website was set up as a joint venture between the <a href='http://www.naturalsciences.be'>Royal Belgian Institute of Natural Sciences (RBINS)</a>, <a
-                    href='http://www.naturalsciences.be/en/science/do/98'>Operational Directorate Natural Environment (OD Nature)</a>, and the department
-            of <a
-                    href='http://www.fmv.ulg.ac.be/cms/c_267191/en/department-of-morphology-and-pathology-dmp'>Department of Morphology and Pathology</a> of the University of Liège.
-        </p>
+    <h2>Recent images</h2>
+    <ul id="recent-images">
+        {% for f in photos %}
+               <li>
+                   {% if app.user and is_granted('ROLE_ADMIN') %}
+                   <a rel='gallery' href="{{ path('mm_observations_mgmtview', {'id': f.eseSeqno.seqno}) }}">
+                       <img class='col-md-4-img' title='{{f.description}} - © {{f.authorName}}' alt='{{f.description}} - © {{f.authorName}}' src='/static-img/strandings/{{f.location}}' /></a>
+                   {% else %}
+                       <a rel='gallery' href="{{ path('mm_observations_view', {'id': f.eseSeqno.seqno}) }}">
+                           <img class='col-md-4-img' title='{{f.description}} - © {{f.authorName}}' alt='{{f.description}} - © {{f.authorName}}' src='/static-img/strandings/{{f.location}}' /></a>
+                   {% endif %}
+               </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block mainbar %}
+    <h1>Marinemammals.be
+        <small><i>A resource for marine mammal observations</i></small>
+    </h1>
+    <p>
+        Marinemammals.be is the repository of all Belgian marine mammal observations and strandings gathered by the Royal Belgian Institute of Royal Sciences. It contains data ranging from
+        sightings and strandings and the
+        results of scientific research. It includes data about dolphins, whales and seals from Belgian waters. We also
+        maintain some data from neighbouring
+        countries (Northern France, the Netherlands). Until some decades ago, only few data were collected from stranded
+        animals. Nowadays, full necropsies are
+        performed and tissue samples are collected for research purposes. Registered users can request tissue
+        samples.</p>
+    <p>
+        This website was set up as a joint venture between the <a href='http://www.naturalsciences.be'>Royal Belgian
+            Institute of Natural Sciences (RBINS)</a>, <a
+                href='http://www.naturalsciences.be/en/science/do/98'>Operational Directorate Natural Environment (OD
+            Nature)</a>, and the
+        of <a
+                href='http://www.fmv.ulg.ac.be/cms/c_267191/en/department-of-morphology-and-pathology-dmp'>Department of
+            Morphology and Pathology</a> of the University of Liège.
+    </p>
 
-        <blockquote class="belgica"> <p>
+    <blockquote class="belgica"><p>
             Collecting data on strandings and sightings of marine mammals is important as such data can provide us
             with a lot of information about marine mammals, their population trends, problems they face, and eventually
             on the condition of the marine environment in general.
         </p></blockquote>
 
-        <p>The site has two main parts:</p>
+    <p>The site has two main parts:</p>
 
-        <ul>
-            <li>(Open access): Observations and strandings of marine mammals in Belgium; queries can be made of species,
-                year, circumstances, etc. Pictures and video images are available in some cases.
-            </li>
-            <li>
-                (Restricted access): The tissue bank page provides for access to more than 25.000 (mostly) tissue
-                samples taken from marine mammals. Queries can be performed for species, type of tissue, method of
-                storage, etc, and tissues can be requested. In order to access this page, you need to be a registered user.
-            </li>
-        </ul>
-    <p><em><strong>Please note that the site does not yet report current observations and that the last reported observation dates from 2010. All strandings from 2015 will be added in the begining of 2016. The observations between 2010 and 2014 will be imported as well. For the time being you can look at recent observations <a href="http://www.mumm.ac.be/EN/Management/Nature/search_strandings.php">on our old site</a>.</strong></em></p>
+    <ul>
+        <li>(Open access): Observations and strandings of marine mammals in Belgium; queries can be made of species,
+            year, circumstances, etc. Pictures and video images are available in some cases.
+        </li>
+        <li>
+            (Restricted access): The tissue bank page provides access to more than 25.000 (mostly) tissue
+            samples taken from marine mammals. Queries can be performed for species, type of tissue, method of
+            storage, etc, and tissues can be requested. In order to access this page, you need to be a registered user.
+        </li>
+    </ul>
+    <p><em><strong>Please note that the site does not yet report current observations and that the last reported
+                observation dates from 2010. All strandings from 2015 will be added in the begining of 2016. The
+                observations between 2010 and 2014 will be imported as well. For the time being you can look at recent
+                observations <a href="http://www.mumm.ac.be/EN/Management/Nature/search_strandings.php">on our old
+                    site</a>.</strong></em></p>
 
-        {#<img class="span-img" src="/static-img/strandings/dendermonde.jpg"
-             alt="The Dendermonde stranding of 7 juli 1777"/>#}
-    <h1>Marinemammals.be <small><i>RBINS' responsibility on the conservation of sea mammals</i></small></h1>
-    <p>The Institute is the competent authority in the national legislation that protects certain marine mammal
+    {#<img class="span-img" src="/static-img/strandings/dendermonde.jpg"
+         alt="The Dendermonde stranding of 7 juli 1777"/>#}
+    <h1>Marinemammals.be
+        <small><i>RBINS' responsibility on the conservation of marine mammals</i></small>
+    </h1>
+    <p>The Institute is the competent authority in the national legislation that protects all Belgian marine mammal
         species. Via this website we want to raise awareness on marine mammal strandings.</p>
     {{ include('AppBundle:Bare:index-stranding-help.html.twig') }}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-<script type="application/javascript">
-    $(document).ready(function () {
-        $("table.simple-observationstable tr").click(function () {
-            window.location = $("a:first", this).attr("href");
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $("table.simple-observationstable tr").click(function () {
+                window.location = $("a:first", this).attr("href");
+            });
         });
-    });</script>
-{% endblock%}
+
+    </script>
+{% endblock %}

@@ -268,7 +268,7 @@ $body
 						</span> <br/> <a href="mailto:jhaelters@naturalsciences.be">jhaelters@naturalsciences.be</a>
                     <br/> <a href="mailto:t.jauniaux@ulg.ac.be">t.jauniaux@ulg.ac.be</a>
                     <br/> <span class="titles">Designed and developed by: </span><br/>
-                    <a href="http://www.odnature.be/bmdc">Belgian Marine Data Center</a><br/>
+                    <a href="http://www.odnature.be/bmdc">Belgian Marine Data Centre</a><br/>
                 </div>
                 <div class="col-md-2">
                     <span class="titles">Social media: </span><br> <span class="subtitles">Follow <strong>RBINS</strong> on:</span><br>

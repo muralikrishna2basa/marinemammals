@@ -707,8 +707,8 @@ var validator = wholeForm.validate({
             min: 0
         },
         "observationstype[eseSeqno][spec2events][scnSeqnoNew][scnNumber]": {
-            digits: true,
-            min: 0,
+            number: true,
+            min: -1,
             max: 9999
         },
         "observationstype[eseSeqno][spec2events][scnSeqnoNew][rbinsTag]": {

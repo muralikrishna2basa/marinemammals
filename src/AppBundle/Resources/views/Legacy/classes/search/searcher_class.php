@@ -655,6 +655,8 @@ class Search_Taxas extends BLP_Search
         $this->query->addColumn("Taxa", $alias1 . ".TAXA");
         $this->query->addColumn("Trivial Name", $alias1 . ".TRIVIAL_NAME");
 
+        $this->query->addOrder("canonical_name");
+
         $filter = array('Filter_Taxa_Taxa', 'Filter_Taxa_Idod_Id', 'Filter_Taxa_Trivial_Name');
 
         $this->addFilter($filter);
