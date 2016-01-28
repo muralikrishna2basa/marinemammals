@@ -21,6 +21,7 @@ $prodSrv = array(
 
 $dbParameters = array();
 echo (sfMain);
+echo ($_SERVER['REMOTE_ADDR']);
 try {
     if (in_array($_SERVER['REMOTE_ADDR'], $localhostSrv)) {
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
