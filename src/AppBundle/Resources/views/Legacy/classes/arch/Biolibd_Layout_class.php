@@ -15,7 +15,6 @@ require_once(Classes . 'arch/Accordion_class.php');
 
 class Biolibd_Layout extends Twocolfixedfluid
 {
-    private $dbase;
 
     protected $db;
 

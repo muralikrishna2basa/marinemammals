@@ -22,16 +22,17 @@ $prodSrv = array(
 $dbParameters = array();
 try {
     if (in_array($_SERVER['REMOTE_ADDR'], $localhostSrv)) {
-        $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
         echo (sfMain);
+
+        $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
         print_r($dbParameters);
     } elseif (in_array($_SERVER['REMOTE_ADDR'], $devSrv)) {
-        $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
         echo (sfMain);
+        $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
         print_r($dbParameters);
     } elseif (in_array($_SERVER['REMOTE_ADDR'], $prodSrv)) {
-        $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_prod.yml");
         echo (sfMain);
+        $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_prod.yml");
         print_r($dbParameters);
     }
 } catch (Exception $e) {
