@@ -20,23 +20,19 @@ $prodSrv = array(
 );
 
 $dbParameters = array();
+echo (sfMain);
 try {
     if (in_array($_SERVER['REMOTE_ADDR'], $localhostSrv)) {
-        echo (sfMain);
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
-        print_r($dbParameters);
     } elseif (in_array($_SERVER['REMOTE_ADDR'], $devSrv)) {
-        echo (sfMain);
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
-        print_r($dbParameters);
     } elseif (in_array($_SERVER['REMOTE_ADDR'], $prodSrv)) {
-        echo (sfMain);
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_prod.yml");
-        print_r($dbParameters);
     }
 } catch (Exception $e) {
     printf("Unable to parse the YAML string: %s", $e->getMessage());
 }
+print_r($dbParameters);
 
 $user=$dbParameters['parameters']['database_user'];
 $pass=$dbParameters['parameters']['database_password'];
