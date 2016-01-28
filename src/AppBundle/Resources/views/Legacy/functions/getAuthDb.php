@@ -25,9 +25,9 @@ echo ($_SERVER['REMOTE_ADDR']);
 try {
     if (in_array($_SERVER['REMOTE_ADDR'], $localhostSrv)) {
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
-    } elseif (in_array($_SERVER['REMOTE_ADDR'], $devSrv)) {
+    } elseif (in_array($_SERVER['SERVER_NAME'], $devSrv)) {
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_dev.yml");
-    } elseif (in_array($_SERVER['REMOTE_ADDR'], $prodSrv)) {
+    } elseif (in_array($_SERVER['SERVER_NAME'], $prodSrv)) {
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_prod.yml");
     }
     else{
