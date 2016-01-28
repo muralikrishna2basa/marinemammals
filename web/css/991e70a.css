@@ -10313,12 +10313,16 @@ ul.observation-map {
 }
 
 #map-canvas, a.img-canvas img {
-    height: 350px;
     width: 500px;
     margin: 0;
     padding: 10px 0 0 0;
     float: right;
 }
+
+#map-canvas{
+    height: 350px;
+}
+
 
 select#observationstype_eseSeqno_spec2events_scnSeqnoNew_txnSeqno + span.select2 {
     width: 250px !important;
@@ -10354,6 +10358,7 @@ span.img_popup:focus{
     width: 100%;
     height: 50%;
     overflow: hidden;
+    margin-bottom:10px;
 }
 
 .crop img {
@@ -10396,8 +10401,14 @@ img.span-img{
     width:100%;
 }
 
-img.main-species-img{
+
+.sidebar ul{
+    list-style-type: none;
+}
+
+.sidebar img{
     width:250px;
+    margin-top:10px;
 }
 
 a.anchor-action{

@@ -231,14 +231,11 @@ class BLP_Query
 
                             $this->bindings[$bind_name] = fixEncoding($date);
                             $newwhere .= str_replace($dateApostrophe.$date.$dateApostrophe,$bind_name,$bind_value);
-                            $a = 5;
                         }
                     } else {
                         $this->bindings[$bind_name] = fixEncoding($bind_value);
                         $newwhere .= $bind_name;
                     }
-
-
                 } else {
                     $newwhere .= ' ' . $elem . ' ';
                 }

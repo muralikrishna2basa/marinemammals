@@ -10,10 +10,13 @@ require_once(Classes . 'db/Oracle_class.php');
 require_once(Classes . 'arch/SigninRenderer_class.php');
 require_once(Classes . 'arch/Menu_class.php');
 //require_once(Classes . 'auth/Auth_class.php');
+include_once(Functions.'getAuthDb.php');
 require_once(Classes . 'arch/Accordion_class.php');
 
 class Biolibd_Layout extends Twocolfixedfluid
 {
+    private $dbase;
+
     protected $db;
 
     protected $log;
@@ -60,13 +63,16 @@ class Biolibd_Layout extends Twocolfixedfluid
 
         // Database connection
 
-        $cred = parse_ini_file(Ini . "db_credentials.ini", true);
+        /*$cred = parse_ini_file(Ini . "db_credentials.ini", true);
         //$user = 'biolib_owner';
         $user = 'biolib_test';
         $usr_cred = $cred[$user];
 
-        $db = new ORACLE ($usr_cred['login'], $usr_cred['pass'], $usr_cred['alias'], $offline);
+        $db = new ORACLE ($usr_cred['login'], $usr_cred['pass'], $usr_cred['alias'], $offline);*/
 
+        //global $dbase;
+        //require_once(Functions.'getAuthDb.php');
+        require(Functions.'getAuthDb.php');
         $this->db = $db;
 
         if ($db->iserror == true) {
