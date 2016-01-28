@@ -72,6 +72,7 @@ class Biolibd_Layout extends Twocolfixedfluid
         //global $dbase;
         //require_once(Functions.'getAuthDb.php');
         require(Functions.'getAuthDb.php');
+        echo $db;
         $this->db = $db;
 
         if ($db->iserror == true) {
