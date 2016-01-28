@@ -29,8 +29,10 @@ try {
     } elseif (in_array($_SERVER['REMOTE_ADDR'], $prodSrv)) {
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_prod.yml");
     }
+    else{
+        echo("else");
+    }
 } catch (Exception $e) {
-    echo ("exceptiobn");
     printf("Unable to parse the YAML string: %s", $e->getMessage());
 }
 print_r($dbParameters);
