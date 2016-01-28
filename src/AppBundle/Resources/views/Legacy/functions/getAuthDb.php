@@ -30,6 +30,7 @@ try {
         $dbParameters =  yaml_parse_file(sfMain."app/config/parameters_prod.yml");
     }
 } catch (Exception $e) {
+    echo ("exceptiobn");
     printf("Unable to parse the YAML string: %s", $e->getMessage());
 }
 print_r($dbParameters);
