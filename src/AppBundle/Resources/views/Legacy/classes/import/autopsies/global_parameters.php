@@ -32,17 +32,17 @@ $necropsy_seqno = $this->getThread();
 
 // get all parameters from the database and transform the results into a suitable array ( res_mod)
 
-$basicParams = array('DECO', 'AGE', 'LENG', 'WEIG', 'NUTS', 'BLUD', 'BLUM', 'BLUV','STOM');
+$basicParams = array('DECO', 'AGE', 'LENG', 'WEIG', 'NUTS', 'BLUD', 'BLUM', 'BLUV', 'STOM');
 
 $basicParamsStr = "'" . implode("','", $basicParams) . "'";
 
-$codParams = array('CODP','CODC','CODR');
+$codParams = array('CODP');
 
 $codParamsStr = "'" . implode("','", $codParams) . "'";
 
 $externalPathParams = array('LEBITE', 'LEBROB', 'LECUTS', 'LEENLE', 'LEFINA', 'LEHBIT', 'LEHCUT', 'LEHNET', 'LEHOPW', 'LEHPOX', 'LEHYPO', 'LENETM', 'LENETP', 'LENETS', 'LENETT', 'LEOPEN', 'LEOTH', 'LESCBI', 'LESCPI', 'LESTAB', 'OTHEXT', 'OTHFIS', 'OTHFRO', 'OTHOIL', 'OTHPRE', 'OTHREM', 'REMA');
 
-$allParams = array_merge($basicParams, $externalPathParams,$codParams);
+$allParams = array_merge($basicParams, $externalPathParams, $codParams);
 $sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else case when a.code in (" . $codParamsStr . ") then 'Cause of Death' else 'External examination' end end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name";
 
 $res = $db->query($sql);
@@ -79,8 +79,8 @@ foreach ($res_mod_code as $parameter_code => $parameter_value) {
         }
     }
     uasort($res_mod_code[$parameter_code], function ($a, $b) {
-        $codea=isset($a["DOMCODE"])?$a["DOMCODE"]:'';
-        $codeb=isset($b["DOMCODE"])?$b["DOMCODE"]:'';
+        $codea = isset($a["DOMCODE"]) ? $a["DOMCODE"] : '';
+        $codeb = isset($b["DOMCODE"]) ? $b["DOMCODE"] : '';
         return strcmp($codea, $codeb);
     });
     $i++;
@@ -106,7 +106,6 @@ move_item($res_mod_code, 'LESCPI', 'down', 'LENETT');
 });*/
 
 
-
 // end get all parameters
 
 // get Specimen ID
@@ -126,27 +125,30 @@ $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
 //if($this->getThread() != false){
 // get Specimen Parameter(s)
 
-    $sql = "select a.value, b.name, b.unit from specimen_values a, parameter_methods b
-		where a.pmd_seqno = b.seqno and a.s2e_ese_seqno = :necropsy_seqno and a.s2e_scn_seqno = :scn_seqno";
+$sql = "select a.value, b.name, b.unit, b.code, c.rv_low_value as flag from specimen_values a, parameter_methods b, cg_ref_codes c
+		where a.pmd_seqno = b.seqno and a.s2e_ese_seqno = :necropsy_seqno and a.s2e_scn_seqno = :scn_seqno and c.seqno=a.value_flag_ref";
 
-    $binds = array(':necropsy_seqno' => $necropsy_seqno, ':scn_seqno' => $specimenlink);
+$binds = array(':necropsy_seqno' => $necropsy_seqno, ':scn_seqno' => $specimenlink);
 
-    $res = $db->query($sql, $binds);
+$res = $db->query($sql, $binds);
 
-    if ($res->isError()) {
-        $val->setError('globalerror', $res->errormessage());
-    }
+if ($res->isError()) {
+    $val->setError('globalerror', $res->errormessage());
+}
 
-    while ($row = $res->fetch()) {
-        $key = str_replace(' ', '_', $row['NAME'] . '_flow');
-        $_POST[$key] = $row['VALUE'];
-        $this->addPost($key);
-    }
+while ($row = $res->fetch()) {
+    $key = str_replace(' ', '_', $row['NAME'] . '_flow');
+    $_POST[$key] = $row['VALUE'];
+    $this->addPost($key);
 
-    // end get Specimen Parameter(s)
+    $flag_key = str_replace(' ', '_', $row['CODE'] . '_flag');
+    $_POST[$flag_key] = $row['FLAG'];
+    $this->addPost($flag_key);
+}
+
+// end get Specimen Parameter(s)
 //} else // when something has been submitted
-if ($this->isSubmitted())
-{
+if ($this->isSubmitted()) {
     // by default the status is set to true
 
     $val->setStatus(true);
@@ -155,6 +157,7 @@ if ($this->isSubmitted())
 
 //        $parameter_value = $_POST[str_replace(' ', '_', $parameter_code) . '_flow'];
         $parameter_value = $_POST[$parameter_code];
+        $parameter_value_flag = $_POST[$parameter_code . '_flag'];
         if (!isset($parameter_value)) {
             continue;
         }
@@ -203,7 +206,7 @@ and b.code = :parameter_code group by a.pmd_seqno";
                     }
                     continue;
                 }
-                // update corresponding parameter
+                // update corresponding parameter value
                 $sql = "update specimen_values set value = :value where pmd_seqno = :pmd_seqno and s2e_ese_seqno = :ese_seqno and
 				       s2e_scn_seqno = :scn_seqno";
 
@@ -214,14 +217,28 @@ and b.code = :parameter_code group by a.pmd_seqno";
                 if ($res->isError()) {
                     $val->setError('globalerror', $res->errormessage());
                 }
-            } elseif ($row['NUM_VAL'] == 0 && strlen($parameter_value) > 0) {
+                // update corresponding parameter value flag
+                $sql = "update specimen_values set VALUE_FLAG_REF = (select seqno from cg_ref_codes where rv_domain='VALUE_FLAG' and rv_low_value=:value_flag) where pmd_seqno = :pmd_seqno and s2e_ese_seqno = :ese_seqno and
+				       s2e_scn_seqno = :scn_seqno";
+
+                $binds = array(':ese_seqno' => $necropsy_seqno, ':scn_seqno' => $specimenlink, ':pmd_seqno' => $pmd_seqno, ':value_flag' => $parameter_value_flag);
+
+                $res = $db->query($sql, $binds);
+
+                if ($res->isError()) {
+                    $val->setError('globalerror', $res->errormessage());
+                }
+            } elseif (strlen($parameter_value) > 0) {
+                if (!isset($parameter_value_flag) || $parameter_value_flag === '') {
+                    $parameter_value_flag = 1;// it is assumed in first instance that the value is good
+                }
                 // insert corresponding parameter
                 $sql = "insert into specimen_values(pmd_seqno,s2e_ese_seqno,s2e_scn_seqno,value,value_flag_ref) values (:pmd_seqno,
-				:ese_seqno,:scn_seqno,:value,(select seqno from cg_ref_codes where rv_domain='VALUE_FLAG' and rv_low_value='1'))"; // it is assumed in first instance that the value is good
+				:ese_seqno,:scn_seqno,:value,(select seqno from cg_ref_codes where rv_domain='VALUE_FLAG' and rv_low_value=:value_flag))";
 
 
                 $binds = array(':ese_seqno' => $necropsy_seqno, ':scn_seqno' => $specimenlink, ':pmd_seqno' => $pmd_seqno,
-                    ':value' => $parameter_value);
+                    ':value' => $parameter_value, ':value_flag' => $parameter_value_flag);
 
                 $res = $db->query($sql, $binds);
 
@@ -332,10 +349,9 @@ text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?><
                 <?php
                 $parameter_name = $parameter_name . "_flow";
                 if (count($parameter) == 1) {
-                    if($parameter[0]['UNIT'] != 'NA'){
+                    if ($parameter[0]['UNIT'] != 'NA') {
                         echo "<input type='text' class='specimen_attribute' name='$parameter_code' value='" . $val->getValue($parameter_name) . "'/>  <span class='unit'>" . $parameter[0]['UNIT'] . "</span>";
-                    }
-                    else{
+                    } else {
                         echo "<textarea name='$parameter_code' class='specimen_attribute'  value='" . $val->getValue($parameter_name) . "' rows='10' cols='50'>" . $val->getValue($parameter_name) . "</textarea>";
                     }
 
@@ -343,7 +359,8 @@ text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?><
                     echo "<select class='specimen_attribute' name ='" . $parameter_code . "'>";
                     echo "<option></option>";
                     foreach ($parameter as $option) {
-                        $value=$val->getValue($parameter_name);
+                        $value = $val->getValue($parameter_name);
+
                         if ($option['DOMCODE'] == $value) {
                             echo "<option value='" . $option['DOMCODE'] . "' selected>" . $option['DOMCODE'] . "</option>";
                             continue;
@@ -353,12 +370,31 @@ text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?><
                     }
                     echo "</select>";
                 }
+                $value_flag = $val->getValue($parameter_code . '_flag');
+                if ($parameter_code === 'CODP') {
+
+                    echo "<select class='specimen_attribute' name ='" . $parameter_code . "_flag'>";
+                    echo "<option value=''>Select...</option>";
+                    echo "<option value='0' " . (('0' === $value_flag) ? 'selected' : '') . ">No quality control</option>";
+                    echo "<option value='1' " . (('1' === $value_flag) ? 'selected' : '') . ">good value</option>";
+                    echo "<option value='2' " . (('2' === $value_flag) ? 'selected' : '') . ">Probably good</option>";
+                    echo "<option value='3' " . (('3' === $value_flag) ? 'selected' : '') . ">Probably bad value</option>";
+                    echo "<option value='4' " . (('4' === $value_flag) ? 'selected' : '') . ">Bad value</option>";
+                    echo "<option value='5' " . (('5' === $value_flag) ? 'selected' : ''). ">Changed value</option>";
+                    echo "<option value='6' " . (('6' === $value_flag) ? 'selected' : '') . ">value below detection</option>";
+                    echo "<option value='7' " . (('7' === $value_flag) ? 'selected' : '') . ">Value in excess</option>";
+                    echo "<option value='8' " . (('8' === $value_flag) ? 'selected' : '') . ">Interpolated value</option>";
+                    echo " <option value='9' " . (('9' === $value_flag) ? 'selected' : '') . ">Missing value</option>";
+                    echo " <option value='A' " . (('A' === $value_flag) ? 'selected' : '') . ">Value phenomenon uncertain</option>";
+
+                    echo "</select>";
+                }
                 ?>
             </div>
         <?php endforeach; ?>
         <div class='errormessage'><?php echo $val->getError('globalerror'); ?></div>
     </fieldset>
-    <?php echo $this->getButtons();?>
+    <?php echo $this->getButtons(); ?>
 
 </form>
 
