@@ -32,7 +32,7 @@ $necropsy_seqno = $this->getThread();
 
 // get all parameters from the database and transform the results into a suitable array ( res_mod)
 
-$basicParams = array('DECO', 'AGE', 'LENG', 'WEIG', 'NUTS', 'BLUD', 'BLUM', 'BLUV', 'STOM');
+$basicParams = array('DECO', 'FROZ', 'AGE', 'LENG', 'WEIG', 'NUTS', 'BLUD', 'BLUM', 'BLUV', 'STOM');
 
 $basicParamsStr = "'" . implode("','", $basicParams) . "'";
 
@@ -352,7 +352,7 @@ text-align: right;display: inline-block;"><?php echo $parameter_name . ": "; ?><
                     if ($parameter[0]['UNIT'] != 'NA') {
                         echo "<input type='text' class='specimen_attribute' name='$parameter_code' value='" . $val->getValue($parameter_name) . "'/>  <span class='unit'>" . $parameter[0]['UNIT'] . "</span>";
                     } else {
-                        echo "<textarea name='$parameter_code' class='specimen_attribute'  value='" . $val->getValue($parameter_name) . "' rows='10' cols='50'>" . $val->getValue($parameter_name) . "</textarea>";
+                        echo "<textarea name='$parameter_code' class='specimen_attribute' maxlength='150' value='" . $val->getValue($parameter_name) . "' rows='10' cols='50'>" . $val->getValue($parameter_name) . "</textarea><span class='text-danger''>150 characters</span>";
                     }
 
                 } else {

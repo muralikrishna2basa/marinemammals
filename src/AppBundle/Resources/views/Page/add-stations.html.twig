@@ -2,7 +2,8 @@
 {% block title %}Create stations and places{% endblock %}
 {% block stylesheets %}
     {% stylesheets
-    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css' %}
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/css/select2.min.css'
+    'http://cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css'%}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock %}
@@ -12,13 +13,15 @@
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js'
     'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.min.js'
     '@AppBundle/Resources/public/js/validationImplementation.js'
-    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js' %}
+    'http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-beta.3/js/select2.min.js'
+    'http://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js'%}
     <script type="application/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type="application/javascript">
         var $stationform = $('#stationform');
         var $placeform = $('#placeform');
         var $placeselectors = $("#stationstype_pceSeqno, #placestype_pceSeqno");
+        var $table = $("#stationstable");
         $(document).ready(function () {
             $placeselectors.select2();
             $stationform.validate({
@@ -53,8 +56,19 @@
                     $.each(errorList, createError);
                 }
             });
+            $table.DataTable(
+                    {
+                        "defaultContent": "",
+                        "paging": false,
+                        "ordering": true,
+                        "info": true,
+                        "order": [[1, "asc"]]
+                    }
+            );
+            //$table.tablesorter({sortList: [[4, 1], [5, 0]], locale: 'de', widgets: ['zebra'], useUI: true});
         });
     </script>
+
 {% endblock %}
 {% block main_content %}
     <div class="col-lg-6">

@@ -20,7 +20,7 @@ $db = $this->db;
 date_default_timezone_set('Europe/Paris');
 
 $year = idate('Y');
-$months = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'october', 'november', 'december');
+$months = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
 
 // VALIDATION RULES
 $val = $this->validation;
@@ -188,7 +188,7 @@ if ($this->getThread() != false && !isset($_POST['year_date'])) {
 
 }
 // Fill the select
-$months = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'october', 'november', 'december');
+$months = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
 $year_select = "";
 
 for ($i = $year; $i > $year - 100; $i--) {

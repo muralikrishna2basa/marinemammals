@@ -162,7 +162,7 @@ class ObservationsProvider// implements ContainerAwareInterface
         }
         $osnType = null;
         if ($country) {
-            $filterBuilder->andWhere('p1.name=:country or p2.name=:country or p3.name=:country or p4.name=:country');
+            $filterBuilder->andWhere('st is null or p1.name=:country or p2.name=:country or p3.name=:country or p4.name=:country');
             $filterBuilder->setParameter('country', $country);
         }
         if ($topNLatest) {

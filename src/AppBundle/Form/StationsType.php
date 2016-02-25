@@ -19,16 +19,13 @@ class StationsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('code', 'text',array(
-            'required' => true
-        ));
         $builder->add('areaType', 'choice', array(
             'empty_value' => 'Select...',
             'required' => true,
             'choice_list'=>new CgRefChoiceList($this->doctrine,'STN_AREA_TYPE')
         ));
         $builder->add('description', 'text',array(
-            'required' => false
+            'required' => true
         ));
         $builder->add('latDec', 'text',array(
             'required' => true,

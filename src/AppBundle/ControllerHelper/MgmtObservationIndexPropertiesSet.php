@@ -50,6 +50,22 @@ Class MgmtObservationIndexPropertiesSet extends GettablePropertiesSet
             'decimalLongitude' => function ($observation) {
                 return $observation->getLonDec();
             },
+            'locationDecimalLatitude' => function ($observation) {
+                $stn= $observation->getStnSeqno();
+                if( isset($stn) ) {
+                    return $stn->getLatDec();
+                } else {
+                    return '';
+                }
+            },
+            'locationDecimalLongitude' => function ($observation) {
+                $stn= $observation->getStnSeqno();
+                if( isset($stn) ) {
+                    return $stn->getLonDec();
+                } else {
+                    return '';
+                }
+            },
             'eventDate' => function ($observation) {
                 return $observation->getEseSeqno()->getEventDatetime()->format("d/m/Y");
             },

@@ -31,7 +31,6 @@ class StationsController extends Controller
         $sform->handleRequest($request);
         if ($sform->isSubmitted()) {
             if ($sform->isValid()) {
-
                 $em = $this->getDoctrine()
                     ->getManager();
                 $em->persist($station);
