@@ -5,7 +5,7 @@ namespace AppBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-require '/home/thomas/PhpstormProjects/mm/src/AppBundle/Resources/views/Legacy/functions/getAuthDb.php';
+require '../../Resources/views/Legacy/functions/getAuthDb.php';
 
 
 class NecropsiesRepository extends EntityRepository
