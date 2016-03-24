@@ -640,7 +640,7 @@ class Specimens
      * @return array
      *
      */
-    private function getNearestEventAndSpec2EventsBefore(\DateTime $m)
+    public function getNearestEventAndSpec2EventsBefore(\DateTime $m)
     {
         foreach ($this->getSpec2Events() as $se) {
             $ese = $se->getEseSeqno();
@@ -660,7 +660,7 @@ class Specimens
      * @return array
      *
      */
-    private function getNearestEventAndSpec2EventsAfter(\DateTime $m)
+    public function getNearestEventAndSpec2EventsAfter(\DateTime $m)
     {
         $s2eL = $this->getSpec2Events();
         for ($i = $s2eL->count(); $i >= 0; $i--) {

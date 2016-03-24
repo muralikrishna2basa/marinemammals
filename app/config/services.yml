@@ -152,3 +152,6 @@ services:
         class: AppBundle\ControllerHelper\SamplesProvider
         arguments: [@doctrine.orm.entity_manager]
 
+    necropsies_provider:
+        class: AppBundle\ControllerHelper\NecropsiesProvider
+        arguments: [@doctrine.orm.entity_manager,@knp_paginator,@request_stack]

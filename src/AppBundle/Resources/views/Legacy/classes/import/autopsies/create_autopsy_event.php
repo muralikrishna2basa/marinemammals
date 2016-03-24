@@ -199,7 +199,7 @@ for ($i = $year; $i > $year - 100; $i--) {
     }
 }
 $month_select = "";
-for ($i = 0; $i < 11; $i++) {
+for ($i = 0; $i < 12; $i++) {
     if ($months[$i] == $val->getValue("month_date")) {
         $month_select .= '<option selected="selected" value="' . $months[$i] . '">' . $months[$i] . '</option>';
     } else {

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Necropsies
  *
  * @ORM\Table(name="NECROPSIES")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\NecropsiesRepository")
  */
 class Necropsies
 {
@@ -319,5 +319,11 @@ class Necropsies
             return $refLab;
         }
         return $refAut;
+    }
+
+    public function getDateFound(){
+        $date=$this->getEseSeqno()->getEventDatetime();
+        return $this->getEseSeqno()->getSpecimen()->getNearestEventAndSpec2EventsBefore($date)['EventStates']->getEventDatetime();
+
     }
 }

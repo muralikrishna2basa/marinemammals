@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
+    'Viocon' => array($vendorDir . '/usmanhalalit/viocon/src'),
     'Twig_Extensions_' => array($vendorDir . '/twig/extensions/lib'),
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Symfony\\' => array($vendorDir . '/symfony/symfony/src'),
@@ -16,6 +17,7 @@ return array(
     'SensioLabs\\Security' => array($vendorDir . '/sensiolabs/security-checker'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'Pixie' => array($vendorDir . '/usmanhalalit/pixie/src'),
     'Pagerfanta\\' => array($vendorDir . '/pagerfanta/pagerfanta/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'PEAR' => array($vendorDir . '/pear/pear_exception'),

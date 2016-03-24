@@ -555,8 +555,8 @@ include(WebFunctions . 'autopsy_specimen_link.php');
             <tr>
                 <th rowspan="2">Organ</th>
                 <th rowspan="2">Process</th>
-                <th colspan="5">Morphologic Diagnosis</th>
-                <th rowspan="2">Description</th>
+                <th colspan="5">Description</th>
+                <th rowspan="2">Morphologic Diagnosis</th>
                 <th rowspan="2"></th>
             </tr>
             <tr>

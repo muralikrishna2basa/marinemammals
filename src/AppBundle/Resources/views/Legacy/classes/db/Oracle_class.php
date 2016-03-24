@@ -106,8 +106,7 @@ class ORACLE
             return false;
         }
         // Make connection to ORACLE server & connect to Database
-        if (!$this->dbConn = oci_connect($this->dbUser,
-            $this->dbPass, $this->dbAlias, 'AL32UTF8')
+        if (!$this->dbConn = oci_connect($this->dbUser, $this->dbPass, $this->dbAlias, 'AL32UTF8')
         ) {
 //            trigger_error('Could not connect to server');
 

@@ -33,9 +33,10 @@
 	"pagerfanta/pagerfanta": "1.0.*@dev",
 	"lexik/form-filter-bundle": "3.*@dev",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-	"liuggio/excelbundle": "~2.0",
+	"liuggio/excelbundle": "2.0.4",
 	"pear/html_quickform2": "dev-trunk",
-        "phpunit/phpunit": "~5.1"
+        "phpunit/phpunit": "~5.1",
+	"usmanhalalit/pixie": "1.*@dev"
     },
     "autoload": {
 	"psr-0": {"AppBundle": "src/"}

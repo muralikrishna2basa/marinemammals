@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 
+use SebastianBergmann\CodeUnitReverseLookup\Wizard;
 use SebastianBergmann\Environment\Runtime;
 
 /**
@@ -28,6 +29,11 @@ class PHP_CodeCoverage
     private $filter;
 
     /**
+     * @var Wizard
+     */
+    private $wizard;
+
+    /**
      * @var bool
      */
     private $cacheTokens = false;
@@ -46,6 +52,11 @@ class PHP_CodeCoverage
      * @var bool
      */
     private $checkForUnexecutedCoveredCode = false;
+
+    /**
+     * @var bool
+     */
+    private $checkForMissingCoversAnnotation = false;
 
     /**
      * @var bool
@@ -92,6 +103,11 @@ class PHP_CodeCoverage
     private $tests = [];
 
     /**
+     * @var string[]
+     */
+    private $unintentionallyCoveredSubclassesWhitelist = [];
+
+    /**
      * Constructor.
      *
      * @param  PHP_CodeCoverage_Driver           $driver
@@ -110,6 +126,8 @@ class PHP_CodeCoverage
 
         $this->driver = $driver;
         $this->filter = $filter;
+
+        $this->wizard = new Wizard;
     }
 
     /**
@@ -430,6 +448,23 @@ class PHP_CodeCoverage
     /**
      * @param  bool                                      $flag
      * @throws PHP_CodeCoverage_InvalidArgumentException
+     * @since  Method available since Release 3.2.0
+     */
+    public function setCheckForMissingCoversAnnotation($flag)
+    {
+        if (!is_bool($flag)) {
+            throw PHP_CodeCoverage_InvalidArgumentException::create(
+                1,
+                'boolean'
+            );
+        }
+
+        $this->checkForMissingCoversAnnotation = $flag;
+    }
+
+    /**
+     * @param  bool                                      $flag
+     * @throws PHP_CodeCoverage_InvalidArgumentException
      */
     public function setCheckForUnexecutedCoveredCode($flag)
     {
@@ -518,17 +553,31 @@ class PHP_CodeCoverage
     }
 
     /**
+     * @param array $whitelist
+     * @since Method available since Release 3.3.0
+     */
+    public function setUnintentionallyCoveredSubclassesWhitelist(array $whitelist)
+    {
+        $this->unintentionallyCoveredSubclassesWhitelist = $whitelist;
+    }
+
+    /**
      * Applies the @covers annotation filtering.
      *
      * @param  array                                                $data
      * @param  mixed                                                $linesToBeCovered
      * @param  array                                                $linesToBeUsed
+     * @throws PHP_CodeCoverage_MissingCoversAnnotationException
      * @throws PHP_CodeCoverage_UnintentionallyCoveredCodeException
      */
     private function applyCoversAnnotationFilter(array &$data, $linesToBeCovered, array $linesToBeUsed)
     {
         if ($linesToBeCovered === false ||
             ($this->forceCoversAnnotation && empty($linesToBeCovered))) {
+            if ($this->checkForMissingCoversAnnotation) {
+                throw new PHP_CodeCoverage_MissingCoversAnnotationException;
+            }
+
             $data = [];
 
             return;
@@ -860,25 +909,21 @@ class PHP_CodeCoverage
             $linesToBeUsed
         );
 
-        $message = '';
+        $unintentionallyCoveredUnits = [];
 
         foreach ($data as $file => $_data) {
             foreach ($_data as $line => $flag) {
-                if ($flag == 1 &&
-                    (!isset($allowedLines[$file]) ||
-                        !isset($allowedLines[$file][$line]))) {
-                    $message .= sprintf(
-                        '- %s:%d' . PHP_EOL,
-                        $file,
-                        $line
-                    );
+                if ($flag == 1 && !isset($allowedLines[$file][$line])) {
+                    $unintentionallyCoveredUnits[] = $this->wizard->lookup($file, $line);
                 }
             }
         }
 
-        if (!empty($message)) {
+        $unintentionallyCoveredUnits = $this->processUnintentionallyCoveredUnits($unintentionallyCoveredUnits);
+
+        if (!empty($unintentionallyCoveredUnits)) {
             throw new PHP_CodeCoverage_UnintentionallyCoveredCodeException(
-                $message
+                $unintentionallyCoveredUnits
             );
         }
     }
@@ -984,5 +1029,35 @@ class PHP_CodeCoverage
         } else {
             return new PHP_CodeCoverage_Driver_Xdebug;
         }
+    }
+
+    /**
+     * @param array $unintentionallyCoveredUnits
+     *
+     * @return array
+     */
+    private function processUnintentionallyCoveredUnits(array $unintentionallyCoveredUnits)
+    {
+        $unintentionallyCoveredUnits = array_unique($unintentionallyCoveredUnits);
+        sort($unintentionallyCoveredUnits);
+
+        foreach (array_keys($unintentionallyCoveredUnits) as $k => $v) {
+            $unit = explode('::', $unintentionallyCoveredUnits[$k]);
+
+            if (count($unit) != 2) {
+                continue;
+            }
+
+            $class = new ReflectionClass($unit[0]);
+
+            foreach ($this->unintentionallyCoveredSubclassesWhitelist as $whitelisted) {
+                if ($class->isSubclassOf($whitelisted)) {
+                    unset($unintentionallyCoveredUnits[$k]);
+                    break;
+                }
+            }
+        }
+
+        return array_values($unintentionallyCoveredUnits);
     }
 }
