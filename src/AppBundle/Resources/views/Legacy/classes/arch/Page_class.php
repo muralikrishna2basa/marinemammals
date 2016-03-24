@@ -245,11 +245,11 @@ class Page
             <img src="/images/head.jpg" alt="photo banner"/>
 
             <div class="tagline">
-                <span class="acronym">Belgian Marine Mammals</span>
+                <span class="acronym">Marine mammals in Belgium</span>
             </div>
         </div>
         <div class="showcase-mobile">
-            <span class="acronym">Belgian Marine Mammals</span>
+            <span class="acronym">Marine mammals in Belgium</span>
         </div>
     </header>
 
