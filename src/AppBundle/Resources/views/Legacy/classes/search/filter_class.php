@@ -635,8 +635,8 @@ class Filter_Ref_Aut_Necropsy extends BLP_Filter
 {
     public function initName()
     {
-        $this->name = 'Ref_Aut';
-        $this->allowedgrouplevel = 3;
+        $this->name = 'Autopsy reference';
+        //$this->allowedgrouplevel = 3;
 
     }
 
