@@ -288,7 +288,7 @@ SELECT
 g.SEQNO "Specimen ID",
 nvl(h.VERNACULAR_NAME_EN,' ') "Species",
 g.SCN_NUMBER "Number",
-nvl(g.NECROPSY_TAG,' ') "RBINS Collection tag",
+nvl(g.COLLECTION_TAG,' ') "RBINS Collection tag",
 nvl(g.SEX,' ') "Sex" 
 FROM 
 (Specimens) g, 

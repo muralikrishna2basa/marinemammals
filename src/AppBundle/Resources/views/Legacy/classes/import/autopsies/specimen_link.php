@@ -29,21 +29,21 @@ $necropsy_seqno = $this->getThread();
 if (!$necropsy_seqno) {
     $val->setError('globalerror', $this->FLOW_WARNING);
 } else {
-    $sql = "select s2e.scn_seqno, s.necropsy_tag from spec2events s2e left join specimens s on s.seqno=s2e.scn_seqno where s2e.ese_seqno = $necropsy_seqno";
+    $sql = "select s2e.scn_seqno, s.collection_tag from spec2events s2e left join specimens s on s.seqno=s2e.scn_seqno where s2e.ese_seqno = $necropsy_seqno";
     $res = $db->query($sql);
     if ($res->isError()) {
         $val->setError('globalerror', $res->errormessage());
     }
     $row = $res->fetch();
     $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
-    $specimenTaglink = $row == false ? '' : $row['NECROPSY_TAG'];
+    $specimenTaglink = $row == false ? '' : $row['COLLECTION_TAG'];
 
 
     if ($val->getStatus() == false) {
         $specimen_link = $val->getValue('specimenlink');
         $specimen_tag_link = $val->getValue('specimenTaglink');
         if (isset($specimen_tag_link) && $specimen_tag_link != '') {
-            $sql = "select s.seqno from specimens s where s.necropsy_tag = '$specimen_tag_link'";
+            $sql = "select s.seqno from specimens s where s.collection_tag = '$specimen_tag_link'";
 
             $res = $db->query($sql);
             if ($res->isError()) {

@@ -66,7 +66,7 @@ class Specimens
      * The tag added when a dead animal is taken from the location to the ULg lab. Is identical to the name "collection tag".
      * @var string
      *
-     * @ORM\Column(name="NECROPSY_TAG", type="string", length=14, nullable=true)
+     * @ORM\Column(name="COLLECTION_TAG", type="string", length=14, nullable=true)
      */
     private $necropsyTag;
 

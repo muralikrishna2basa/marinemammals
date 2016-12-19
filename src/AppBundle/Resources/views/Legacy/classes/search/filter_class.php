@@ -394,7 +394,7 @@ class Filter_Specimen_Collection_Tag extends BLP_Filter
 
     public function initName()
     {
-        $this->name = 'Filter_Specimen_Collection_Tag';
+        $this->name = 'Specimen collection tag (including SeaLife tag)';
 
     }
 
@@ -432,9 +432,10 @@ class Filter_Specimen_Collection_Tag extends BLP_Filter
 
         $date = $tbl1_alias . ".EVENT_DATETIME";
 
-        $collectionTag= $tbl2_alias.".NECROPSY_TAG";
+        $collectionTag= $tbl2_alias.".COLLECTION_TAG";
+        $rbinsTag= $tbl2_alias.".RBINS_TAG";
         $this->query->addWhere(array("$collectionTag " . $token, array($item1)));
-        $a=5;
+        $this->query->addWhere(array("$rbinsTag " . $token, array($item1)));
     }
 
 }

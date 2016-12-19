@@ -26,6 +26,7 @@
  *          convertNoticesToExceptions="true"
  *          convertWarningsToExceptions="true"
  *          forceCoversAnnotation="false"
+ *          mapTestClassNameToCoveredClassName="false"
  *          printerClass="PHPUnit_TextUI_ResultPrinter"
  *          processIsolation="false"
  *          stopOnError="false"
@@ -34,11 +35,8 @@
  *          stopOnIncomplete="false"
  *          stopOnRisky="false"
  *          stopOnSkipped="false"
- *          failOnWarning="false"
- *          failOnRisky="false"
  *          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
  *          beStrictAboutChangesToGlobalState="false"
- *          beStrictAboutCoversAnnotation="false"
  *          beStrictAboutOutputDuringTests="false"
  *          beStrictAboutResourceUsageDuringSmallTests="false"
  *          beStrictAboutTestsThatDoNotTestAnything="false"
@@ -612,9 +610,9 @@ class PHPUnit_Util_Configuration
             );
         }
 
-        if ($root->hasAttribute('disableCodeCoverageIgnore')) {
-            $result['disableCodeCoverageIgnore'] = $this->getBoolean(
-                (string) $root->getAttribute('disableCodeCoverageIgnore'),
+        if ($root->hasAttribute('mapTestClassNameToCoveredClassName')) {
+            $result['mapTestClassNameToCoveredClassName'] = $this->getBoolean(
+                (string) $root->getAttribute('mapTestClassNameToCoveredClassName'),
                 false
             );
         }
@@ -664,20 +662,6 @@ class PHPUnit_Util_Configuration
         if ($root->hasAttribute('stopOnSkipped')) {
             $result['stopOnSkipped'] = $this->getBoolean(
                 (string) $root->getAttribute('stopOnSkipped'),
-                false
-            );
-        }
-
-        if ($root->hasAttribute('failOnWarning')) {
-            $result['failOnWarning'] = $this->getBoolean(
-                (string) $root->getAttribute('failOnWarning'),
-                false
-            );
-        }
-
-        if ($root->hasAttribute('failOnRisky')) {
-            $result['failOnRisky'] = $this->getBoolean(
-                (string) $root->getAttribute('failOnRisky'),
                 false
             );
         }
@@ -741,18 +725,11 @@ class PHPUnit_Util_Configuration
             );
         }
 
-        if ($root->hasAttribute('beStrictAboutCoversAnnotation')) {
-            $result['strictCoverage'] = $this->getBoolean(
-                (string) $root->getAttribute('beStrictAboutCoversAnnotation'),
-                false
-            );
-        } elseif ($root->hasAttribute('checkForUnintentionallyCoveredCode')) {
+        if ($root->hasAttribute('checkForUnintentionallyCoveredCode')) {
             $result['strictCoverage'] = $this->getBoolean(
                 (string) $root->getAttribute('checkForUnintentionallyCoveredCode'),
                 false
             );
-
-            $result['deprecatedCheckForUnintentionallyCoveredCodeSettingUsed'] = true;
         }
 
         if ($root->hasAttribute('enforceTimeLimit')) {
@@ -1048,7 +1025,6 @@ class PHPUnit_Util_Configuration
 
         foreach ($this->xpath->query($query) as $file) {
             $filePath = (string) $file->textContent;
-
             if ($filePath) {
                 $files[] = $this->toAbsolutePath($filePath);
             }
@@ -1067,8 +1043,6 @@ class PHPUnit_Util_Configuration
      */
     protected function toAbsolutePath($path, $useIncludePath = false)
     {
-        $path = trim($path);
-
         if ($path[0] === '/') {
             return $path;
         }

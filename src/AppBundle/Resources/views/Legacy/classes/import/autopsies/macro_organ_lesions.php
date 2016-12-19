@@ -523,7 +523,7 @@ while ($row = $res->fetch()) {
 
 // get process 
 
-$res = $db->query("select rv_meaning,rv_low_value from cg_ref_codes where rv_domain = 'PROCESSUS'");
+$res = $db->query("select rv_meaning,rv_low_value from cg_ref_codes where rv_domain = 'PROCESSUS' order by rv_meaning");
 $html_process = '<select class="Process"><option></option>';
 $process_array = array();
 while ($row = $res->fetch()) {

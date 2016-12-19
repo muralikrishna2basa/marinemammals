@@ -42,8 +42,8 @@ $codParamsStr = "'" . implode("','", $codParams) . "'";
 
 $externalPathParams = array('LEBITE', 'LEBROB', 'LECUTS', 'LEENLE', 'LEFINA', 'LEHBIT', 'LEHCUT', 'LEHNET', 'LEHOPW', 'LEHPOX', 'LEHYPO', 'LENETM', 'LENETP', 'LENETS', 'LENETT', 'LEOPEN', 'LEOTH', 'LESCBI', 'LESCPI', 'LESTAB', 'OTHEXT', 'OTHFIS', 'OTHFRO', 'OTHOIL', 'OTHPRE', 'OTHREM', 'REMA');
 
-$allParams = array_merge($basicParams, $externalPathParams, $codParams);
-$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else case when a.code in (" . $codParamsStr . ") then 'Cause of Death' else 'External examination' end end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name";
+$allParams = array_merge($basicParams, $codParams, $externalPathParams);
+$sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,case when a.code in (" . $basicParamsStr . ") then 'Measurements' else case when a.code in (" . $codParamsStr . ") then 'Summary' else 'External examination' end end as type  from parameter_methods a,parameter_domains b where b.pmd_seqno (+)= a.seqno and a.origin = 'SCN' order by a.name";
 
 $res = $db->query($sql);
 
@@ -307,7 +307,7 @@ include(WebFunctions . 'autopsy_specimen_link.php');
         <?php
         // write all static parameters out of the specimen table
         ?>
-        <legend>Global Parameter(s)</legend>
+        <legend>General information</legend>
         <?php
 
 

@@ -34,9 +34,10 @@ class PHP_CodeCoverage_Report_Crap4j
     }
 
     /**
-     * @param  PHP_CodeCoverage $coverage
-     * @param  string           $target
-     * @param  string           $name
+     * @param PHP_CodeCoverage $coverage
+     * @param string           $target
+     * @param string           $name
+     *
      * @return string
      */
     public function process(PHP_CodeCoverage $coverage, $target = null, $name = null)
@@ -124,21 +125,24 @@ class PHP_CodeCoverage_Report_Crap4j
         $root->appendChild($stats);
         $root->appendChild($methodsNode);
 
+        $buffer = $document->saveXML();
+
         if ($target !== null) {
             if (!is_dir(dirname($target))) {
                 mkdir(dirname($target), 0777, true);
             }
 
-            return $document->save($target);
-        } else {
-            return $document->saveXML();
+            file_put_contents($target, $buffer);
         }
+
+        return $buffer;
     }
 
     /**
-     * @param  float $crapValue
-     * @param  int   $cyclomaticComplexity
-     * @param  float $coveragePercent
+     * @param float $crapValue
+     * @param int   $cyclomaticComplexity
+     * @param float $coveragePercent
+     *
      * @return float
      */
     private function getCrapLoad($crapValue, $cyclomaticComplexity, $coveragePercent)
@@ -154,7 +158,8 @@ class PHP_CodeCoverage_Report_Crap4j
     }
 
     /**
-     * @param  float $value
+     * @param float $value
+     *
      * @return float
      */
     private function roundValue($value)

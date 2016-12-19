@@ -19,7 +19,7 @@ if(isset($_POST['specimenTagLink'])){ $specimenTagLink = $_POST['specimenTagLink
 $samples = new Search_Specimen($db);
 $samples->FilterbyName('Filter_Specimen_Collection_Tag','=',$specimenTagLink);
 
-$id=$samples->getIdentifiers(array("NECROPSY_TAG"=>$specimenTagLink));
+$id=$samples->getIdentifiers(array("COLLECTION_TAG"=>$specimenTagLink));
 if($id !=false){
     echo new Specimen_record($db,$id);
 }

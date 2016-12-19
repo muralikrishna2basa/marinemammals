@@ -105,7 +105,6 @@ class Util_ConfigurationTest extends PHPUnit_Framework_TestCase
                 'file' =>
                 [
                   0 => '/path/to/file',
-                  1 => '/path/to/file',
                 ],
               ],
               'exclude' =>
@@ -322,6 +321,7 @@ class Util_ConfigurationTest extends PHPUnit_Framework_TestCase
             'convertNoticesToExceptions'                 => true,
             'convertWarningsToExceptions'                => true,
             'forceCoversAnnotation'                      => false,
+            'mapTestClassNameToCoveredClassName'         => false,
             'printerClass'                               => 'PHPUnit_TextUI_ResultPrinter',
             'stopOnFailure'                              => false,
             'stopOnWarning'                              => false,
@@ -335,9 +335,7 @@ class Util_ConfigurationTest extends PHPUnit_Framework_TestCase
             'timeoutForMediumTests'                      => 10,
             'timeoutForLargeTests'                       => 60,
             'beStrictAboutResourceUsageDuringSmallTests' => false,
-            'disallowTodoAnnotatedTests'                 => false,
-            'failOnWarning'                              => false,
-            'failOnRisky'                                => false
+            'disallowTodoAnnotatedTests'                 => false
             ],
             $this->configuration->getPHPUnitConfiguration()
         );

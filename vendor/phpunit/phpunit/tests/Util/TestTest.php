@@ -165,19 +165,9 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
                 'extensions' => [
                   'testExtOne',
                   'testExtTwo',
-                  'testExtThree',
-                ],
-                'extension_versions' => [
-                    'testExtThree' => '2.0'
                 ]
               ]
-            ],
-            ['testSpecificExtensionVersion',
-                [
-                    'extension_versions' => ['testExt' => '1.8.0'],
-                    'extensions'         => ['testExt']
-                ]
-            ],
+            ]
         ];
     }
 
@@ -235,7 +225,6 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
               'Function testFuncTwo is required.',
               'Extension testExtOne is required.',
               'Extension testExtTwo is required.',
-              'Extension testExtThree 2.0 (or later) is required.',
             ]],
         ];
     }

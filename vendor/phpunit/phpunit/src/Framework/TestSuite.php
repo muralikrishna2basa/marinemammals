@@ -905,10 +905,10 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
 
         // @scenario on TestCase::testMethod()
         // @test     on TestCase::testMethod()
-        $docComment = $method->getDocComment();
+        $doc_comment = $method->getDocComment();
 
-        return strpos($docComment, '@test')     !== false ||
-               strpos($docComment, '@scenario') !== false;
+        return strpos($doc_comment, '@test')     !== false ||
+               strpos($doc_comment, '@scenario') !== false;
     }
 
     /**

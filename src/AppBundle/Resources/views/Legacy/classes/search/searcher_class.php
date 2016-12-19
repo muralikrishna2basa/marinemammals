@@ -444,7 +444,7 @@ class Search_Specimen extends BLP_Search
             'Identification certainty' => $aliastable . '.IDENTIFICATION_CERTAINTY',
             'Number' => $aliastable . '.SCN_NUMBER',
             'Sex' => $aliastable . '.SEX',
-            'Collection tag' => $aliastable . '.NECROPSY_TAG',
+            'Collection tag' => $aliastable . '.COLLECTION_TAG',
             'Species' => $aliastable1 . '.CANONICAL_NAME');
 
         foreach ($basecolumns as $column => $alias) {
@@ -692,7 +692,7 @@ class Search_Spec2events_autopsies extends BLP_Search
             'Species' => $alias7 . '.VERNACULAR_NAME_EN',
             'Number' => $alias6 . '.SCN_NUMBER',
             'Sex' => $alias6 . '.SEX',
-            'ODN Collection tag' => $alias6 . '.NECROPSY_TAG',
+            'ODN Collection tag' => $alias6 . '.COLLECTION_TAG',
             'Specimen ID' => $alias6 . '.SEQNO');
 
         foreach ($basecolumns as $column => $alias) {
@@ -753,7 +753,7 @@ class Search_Spec2events extends BLP_Search
             'Species' => $alias7 . '.VERNACULAR_NAME_EN',
             'Number' => $alias6 . '.SCN_NUMBER',
             'Sex' => $alias6 . '.SEX',
-            'Collection tag' => $alias6 . '.NECROPSY_TAG',
+            'ODN Collection tag' => $alias6 . '.COLLECTION_TAG',
             'Specimen ID' => $alias6 . '.SEQNO');
 
         foreach ($basecolumns as $column => $alias) {
