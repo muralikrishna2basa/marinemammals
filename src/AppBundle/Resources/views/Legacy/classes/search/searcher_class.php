@@ -667,7 +667,7 @@ class Search_Spec2events_autopsies extends BLP_Search
 {
     public function __construct($db, $grouplevel = false)
     {
-        $this->columns = array('Date', 'Place', 'Obs. Type', 'Species', 'Sex', 'Number', 'Specimen ID', 'ODN Collection tag');
+        $this->columns = array('Date', 'Place', 'Obs. Type', 'Species', 'Sex', 'Number', 'Specimen ID', 'RBINS+SeaLife collection tag');
 
         $this->cssclass = 'tab_output';
 
