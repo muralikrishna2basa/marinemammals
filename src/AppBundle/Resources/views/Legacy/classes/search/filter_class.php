@@ -213,7 +213,7 @@ class Filter_Date extends BLP_Filter
 {
     public function initName()
     {
-        $this->name = 'date';
+        $this->name = 'Date';
 
     }
 
@@ -256,7 +256,7 @@ class Filter_Date_Necropsy extends BLP_Filter
 {
     public function initName()
     {
-        $this->name = 'date';
+        $this->name = 'Date';
 
     }
 
@@ -297,7 +297,7 @@ class Filter_Specimen_Taxa extends BLP_Filter
 {
     public function initName()
     {
-        $this->name = 'species';
+        $this->name = 'Species';
     }
 
     public function initTokens()
@@ -344,7 +344,7 @@ class Filter_Specimen_Date extends BLP_Filter
 
     public function initName()
     {
-        $this->name = 'date';
+        $this->name = 'Date';
 
     }
 
@@ -394,7 +394,7 @@ class Filter_Specimen_Collection_Tag extends BLP_Filter
 
     public function initName()
     {
-        $this->name = 'Specimen collection tag (including SeaLife tag)';
+        $this->name = 'Specimen collection tag';
 
     }
 
@@ -433,8 +433,55 @@ class Filter_Specimen_Collection_Tag extends BLP_Filter
         $date = $tbl1_alias . ".EVENT_DATETIME";
 
         $collectionTag= $tbl2_alias.".COLLECTION_TAG";
-        $rbinsTag= $tbl2_alias.".RBINS_TAG";
         $this->query->addWhere(array("$collectionTag " . $token, array($item1)));
+    }
+
+}
+
+class Filter_Specimen_RBINS_Tag extends BLP_Filter
+{
+
+    public function initName()
+    {
+        $this->name = 'Specimen SeaLife tag';
+
+    }
+
+    public function initTokens()
+    {
+        $this->addTokens(array('=', 'LIKE','&ne;'));
+    }
+
+    /**
+     *
+     *
+     * @param token ( search operator), $item1,$item2 operator values
+     */
+    public function process($token, $item1 = false, $item2 = null)
+    {
+
+
+        // Add the table join
+        $tbl1_alias = $this->query->setTable('Event_states');
+        $tbl2_alias = $this->query->setTable('Specimens');
+        $tbl3_alias = $this->query->setTable('Spec2events');
+
+        if (!in_array($token, $this->tokens)) {
+            $token = $this->tokens[0];
+        }  // if the operator is unknown, then choose the first one
+
+
+        $this->query->addJoin($tbl3_alias . '.SCN_SEQNO = ' . $tbl2_alias . '.SEQNO');
+        $this->query->addJoin($tbl1_alias . '.SEQNO = ' . $tbl3_alias . '.ESE_SEQNO');
+
+        if (!$item1) {
+            return;
+        }
+
+
+        $date = $tbl1_alias . ".EVENT_DATETIME";
+
+        $rbinsTag= $tbl2_alias.".RBINS_TAG";
         $this->query->addWhere(array("$rbinsTag " . $token, array($item1)));
     }
 

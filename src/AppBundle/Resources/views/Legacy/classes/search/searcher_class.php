@@ -706,7 +706,7 @@ class Search_Spec2events_autopsies extends BLP_Search
         $this->query->addJoin($alias2 . '.OSN_TYPE_REF = ' . $alias5 . '.SEQNO');
         $this->query->addJoin($alias6 . '.SEQNO = ' . $alias0 . '.SCN_SEQNO');
         $this->query->addJoin($alias7 . '.SEQNO = ' . $alias6 . '.TXN_SEQNO');
-        $filter = array('Filter_Specimen_Date', 'Filter_Specimen_Taxa', 'Filter_Specimen_Collection_Tag');
+        $filter = array('Filter_Specimen_Date', 'Filter_Specimen_Taxa', 'Filter_Specimen_Collection_Tag','Filter_Specimen_RBINS_Tag');
         $this->addFilter($filter);
     }
 }
