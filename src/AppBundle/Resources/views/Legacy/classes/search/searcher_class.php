@@ -692,9 +692,8 @@ class Search_Spec2events_autopsies extends BLP_Search
             'Species' => $alias7 . '.VERNACULAR_NAME_EN',
             'Number' => $alias6 . '.SCN_NUMBER',
             'Sex' => $alias6 . '.SEX',
-            'RBINS+SeaLife collection tag' => 'case when '.$alias6.'.rbins_tag is null then '.$alias6 . '.COLLECTION_TAG when '.$alias6 . '.COLLECTION_TAG is null then '.$alias6.'rbins_tag else '.$alias6.'.rbins_tag ||\'-\'|| '.$alias6 . '.COLLECTION_TAG end',
+            'RBINS+SeaLife collection tag' => 'case when '.$alias6.'.rbins_tag is null then '.$alias6 . '.COLLECTION_TAG when '.$alias6 . '.COLLECTION_TAG is null then '.$alias6.'.rbins_tag else '.$alias6.'.rbins_tag ||\'-\'|| '.$alias6 . '.COLLECTION_TAG end',
             'Specimen ID' => $alias6 . '.SEQNO');
-        echo 'case when '.$alias6.'.rbins_tag is null then '.$alias6 . '.COLLECTION_TAG when '.$alias6 . '.COLLECTION_TAG is null then '.$alias6.'.rbins_tag else '.$alias6.'.rbins_tag ||\'-\'|| '.$alias6 . '.COLLECTION_TAG end';
 
         foreach ($basecolumns as $column => $alias) {
             $this->query->addColumn($column, $alias);
