@@ -338,7 +338,7 @@ class BLP_Query
         }
 
         $this->sqlquery = "SELECT $columns FROM $tables $where_clause";
-
+echo $this->sqlquery;
         if ($this->orders) {
             $ordercomplete = array();
             foreach ($this->orders as $ordername => $ordertype) {
