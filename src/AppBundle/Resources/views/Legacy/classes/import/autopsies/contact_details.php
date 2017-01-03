@@ -234,7 +234,7 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
                                     $autopsiersQ = new QueryEaser($this->db, $sql, $personDataArray, $bind_persons);
 
                                     if ($autopsiersQ->error) {
-                                        $val->setError('globalerror', $autopsiersQ->error);
+                                        $val->setError('autopsier_opt', $autopsiersQ->error);
                                     } else {
                                         $inputs_autopsiers = "";
                                         foreach ($autopsiersQ->resultArray as $person) {
@@ -269,7 +269,7 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
                                     $assistantsQ = new QueryEaser($this->db, $sql, $personDataArray, $bind_persons);
 
                                     if ($assistantsQ->error) {
-                                        $val->setError('globalerror', $assistantsQ->error);
+                                        $val->setError('assistant_opt', $assistantsQ->error);
                                     } else {
                                         foreach ($assistantsQ->resultArray as $person) {
                                             $seqno = $person['SEQNO'];
@@ -297,7 +297,7 @@ echo "<div class ='autopsy_hidden_collectors' style = 'display:none;'>" . json_e
                                     $collectorsQ = new QueryEaser($this->db, $sql, $personDataArray, $bind_persons);
 
                                     if ($collectorsQ->error) {
-                                        $val->setError('globalerror', $collectorsQ->error . ' ' . $collectorsQ->sql);
+                                        $val->setError('collector_opt', $collectorsQ->error . ' ' . $collectorsQ->sql);
                                     } else {
                                         foreach ($collectorsQ->resultArray as $person) {
                                             $seqno = $person['SEQNO'];
