@@ -83,7 +83,7 @@ if (!$necropsy_seqno) {
                     $sql = "update spec2events set scn_seqno = '$specimen_link' where ese_seqno = '$necropsy_seqno'";
                     $db->query($sql);
                     if ($db->isError()) {
-                        $val->setError('globalerror', $db->errormessage());
+                        $val->setError('globalerror', $db->errormessage()+" for query: "+$sql);
                     } else {
                         $val->setStatus(true);
                     }
