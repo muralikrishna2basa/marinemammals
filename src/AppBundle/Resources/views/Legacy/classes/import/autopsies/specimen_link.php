@@ -32,7 +32,7 @@ if (!$necropsy_seqno) {
     $sql = "select s2e.scn_seqno, s.collection_tag from spec2events s2e left join specimens s on s.seqno=s2e.scn_seqno where s2e.ese_seqno = $necropsy_seqno";
     $res = $db->query($sql);
     if ($res->isError()) {
-        $val->setError('globalerror', $res->errormessage());
+        $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
     }
     $row = $res->fetch();
     $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
@@ -47,7 +47,7 @@ if (!$necropsy_seqno) {
 
             $res = $db->query($sql);
             if ($res->isError()) {
-                $val->setError('globalerror', $res->errormessage());
+                $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
             }
             $row = $res->fetch();
             $specimenlink = $row == false ? 'no_such_tag' : $row['SEQNO'];
@@ -62,7 +62,7 @@ if (!$necropsy_seqno) {
             $sql = "insert into spec2events (scn_seqno,ese_seqno) values ('$specimen_link','$necropsy_seqno') ";
             $res = $db->query($sql);
             if ($res->isError()) {
-                $val->setError('globalerror', $res->errormessage());
+                $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
             } else {
                 $val->setStatus(true);
             }
@@ -75,7 +75,7 @@ if (!$necropsy_seqno) {
             $bind = array(':seqno' => $specimen_link);
             $res = $db->query($sql, $bind);
             if ($res->isError()) {
-                $val->setError('globalerror', $res->errormessage());
+                $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
             } else {
                 $row = $res->fetch();
 

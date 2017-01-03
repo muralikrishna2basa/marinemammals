@@ -84,7 +84,7 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
                 $bind = array(':ese_seqno' => $necropsy_seqno, ':e2p_type' => $e2pType);
                 $res = $db->query($sql, $bind);
                 if ($res->isError()) {
-                    $val->setError('globalerror', $res->errormessage());
+                    $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
                 } else {
                     $row = $res->fetchAll(OCI_FETCHSTATEMENT_BY_COLUMN);
                     $psn_seqno = isset($row['PSN_SEQNO']) ? $row['PSN_SEQNO'] : array();
@@ -109,7 +109,7 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
                             $sql = "insert into event2persons(ese_seqno,psn_seqno,e2p_type) values (:ese_seqno,:toinsert,'" . $e2pType . "')";
                             $res = $db->query($sql, $binds);
                             if ($res->isError()) {
-                                $val->setError('globalerror', $res->errormessage());
+                                $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
                             }
                         }
                     }
@@ -129,7 +129,7 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
         $bind = array(':ese_seqno' => $necropsy_seqno);
         $res = $db->query($sql, $bind);
         if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage());
+            $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
         } else {
 
             while ($row = $res->fetch()) {
@@ -144,7 +144,7 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
             $bind = array(':ese_seqno' => $necropsy_seqno);
             $res = $db->query($sql, $bind);
             if ($res->isError()) {
-                $val->setError('globalerror', $res->errormessage());
+                $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
             } else {
 
                 while ($row = $res->fetch()) {
@@ -160,7 +160,7 @@ where a.seqno = c.psn_seqno and b.name = c.grp_name and b.name in ('COLLECTOR')"
             $bind = array(':ese_seqno' => $necropsy_seqno);
             $res = $db->query($sql, $bind);
             if ($res->isError()) {
-                $val->setError('globalerror', $res->errormessage());
+                $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
             } else {
 
                 while ($row = $res->fetch()) {
