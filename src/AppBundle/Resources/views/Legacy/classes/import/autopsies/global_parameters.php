@@ -48,7 +48,7 @@ $sql = "select a.name,a.unit,a.code as code, b.code as domcode,a.description,cas
 $res = $db->query($sql);
 
 if ($res->isError()) {
-    $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+    $val->setError('globalerror', $res->errormessage());
 }
 
 $results = $res->fetchAll(OCI_FETCHSTATEMENT_BY_COLUMN);
@@ -113,7 +113,7 @@ move_item($res_mod_code, 'LESCPI', 'down', 'LENETT');
 $sql = "select scn_seqno from spec2events where ese_seqno = $necropsy_seqno";
 $res = $db->query($sql);
 if ($res->isError()) {
-    $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+    $val->setError('globalerror', $res->errormessage());
 }
 $row = $res->fetch();
 $specimenlink = $row == false ? 'init' : $row['SCN_SEQNO'];
@@ -133,7 +133,7 @@ $binds = array(':necropsy_seqno' => $necropsy_seqno, ':scn_seqno' => $specimenli
 $res = $db->query($sql, $binds);
 
 if ($res->isError()) {
-    $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+    $val->setError('globalerror', $res->errormessage());
 }
 
 while ($row = $res->fetch()) {
@@ -171,7 +171,7 @@ if ($this->isSubmitted()) {
         $res = $db->query($sql, $bind);
 
         if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+            $val->setError('globalerror', $res->errormessage());
             continue;
         }
 
@@ -202,7 +202,7 @@ and b.code = :parameter_code group by a.pmd_seqno";
                     $res = $db->query($sql, $binds);
 
                     if ($res->isError()) {
-                        $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+                        $val->setError('globalerror', $res->errormessage());
                     }
                     continue;
                 }
@@ -215,7 +215,7 @@ and b.code = :parameter_code group by a.pmd_seqno";
                 $res = $db->query($sql, $binds);
 
                 if ($res->isError()) {
-                    $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+                    $val->setError('globalerror', $res->errormessage());
                 }
                 // update corresponding parameter value flag
                 $sql = "update specimen_values set VALUE_FLAG_REF = (select seqno from cg_ref_codes where rv_domain='VALUE_FLAG' and rv_low_value=:value_flag) where pmd_seqno = :pmd_seqno and s2e_ese_seqno = :ese_seqno and
@@ -226,7 +226,7 @@ and b.code = :parameter_code group by a.pmd_seqno";
                 $res = $db->query($sql, $binds);
 
                 if ($res->isError()) {
-                    $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+                    $val->setError('globalerror', $res->errormessage());
                 }
             } elseif (strlen($parameter_value) > 0) {
                 if (!isset($parameter_value_flag) || $parameter_value_flag === '') {
@@ -243,12 +243,12 @@ and b.code = :parameter_code group by a.pmd_seqno";
                 $res = $db->query($sql, $binds);
 
                 if ($res->isError()) {
-                    $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+                    $val->setError('globalerror', $res->errormessage());
                 }
 
             }
         } else {
-            $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
+            $val->setError('globalerror', $res->errormessage());
         }
     }
     if ($val->getStatus()) {
