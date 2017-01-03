@@ -35,6 +35,8 @@ class NecropsiesController extends Controller
 
         $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
         return $response;*/
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
         return $this->render('AppBundle::import.html.php');
         //return new RedirectResponse('/legacy/Import.php',301);
     }
