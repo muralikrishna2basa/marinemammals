@@ -99,7 +99,7 @@ if ($val->getStatus()) {
         $res = $db->query($sql, $bind_event);
 
         if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage());
+            $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
         }
 
         // THREAD REGISTRATION
@@ -119,7 +119,7 @@ if ($val->getStatus()) {
 
         $res = $db->query($sql, $bind_necropsy);
         if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage());
+            $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
         }
 
     } else // => update
@@ -132,7 +132,7 @@ if ($val->getStatus()) {
         $res = $db->query($sql, $bind_event);
 
         if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage());
+            $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
         }
 
         // UPDATE OBSERVATION
@@ -140,7 +140,7 @@ if ($val->getStatus()) {
 
         $res = $db->query($sql, $bind_necropsy);
         if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage());
+            $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
         }
 
     }
@@ -160,7 +160,7 @@ if ($this->getThread() != false && !isset($_POST['year_date'])) {
     $row = array();
     $res = $db->query($sql);
     if ($res->isError()) {
-        $val->setError('globalerror', $res->errormessage());
+        $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
     } else {
         $row = $res->fetch();
     }
@@ -177,7 +177,7 @@ if ($this->getThread() != false && !isset($_POST['year_date'])) {
     $sql = "select ref_labo,ref_aut,program from necropsies where ese_seqno='$eventthread'";
     $res = $db->query($sql);
     if ($res->isError()) {
-        $val->setError('globalerror', $res->errormessage());
+        $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
     } else {
         $row = $res->fetch();
         $_POST['ref_labo'] = $row['REF_LABO'];
