@@ -37,6 +37,7 @@ class NecropsiesController extends Controller
         return $response;*/
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
+        echo 'error';
         return $this->render('AppBundle::import.html.php');
         //return new RedirectResponse('/legacy/Import.php',301);
     }
