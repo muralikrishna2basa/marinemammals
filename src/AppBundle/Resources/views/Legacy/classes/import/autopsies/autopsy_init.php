@@ -40,7 +40,7 @@ if ($val->getStatus() == false) {
         $bind = array(':ese_seqno' => $seqno);
         $res = $db->query($sql, $bind);
         if ($res->isError()) {
-            $val->setError('globalerror', $res->errormessage()+" for query: "+$sql);
+            $val->setError('globalerror', $res->errormessage()." for query: ".$sql);
         } else {
             $row = $res->fetch();
 
