@@ -11,15 +11,21 @@
 
 namespace Symfony\Component\Security\Core\Util;
 
+@trigger_error('The '.__NAMESPACE__.'\\StringUtils class is deprecated since version 2.8 and will be removed in 3.0. Use hash_equals() instead.', E_USER_DEPRECATED);
+
+use Symfony\Component\Polyfill\Util\Binary;
+
 /**
  * String utility functions.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @deprecated since 2.8, to be removed in 3.0.
  */
 class StringUtils
 {
     /**
-     * This class should not be instantiated
+     * This class should not be instantiated.
      */
     private function __construct()
     {
@@ -38,29 +44,27 @@ class StringUtils
      */
     public static function equals($knownString, $userInput)
     {
-        $knownString = (string) $knownString;
-        $userInput = (string) $userInput;
-
-        if (function_exists('hash_equals')) {
-            return hash_equals($knownString, $userInput);
+        // Avoid making unnecessary duplications of secret data
+        if (!is_string($knownString)) {
+            $knownString = (string) $knownString;
         }
 
-        $knownLen = strlen($knownString);
-        $userLen = strlen($userInput);
-
-        // Extend the known string to avoid uninitialized string offsets
-        $knownString .= $userInput;
-
-        // Set the result to the difference between the lengths
-        $result = $knownLen - $userLen;
-
-        // Note that we ALWAYS iterate over the user-supplied length
-        // This is to mitigate leaking length information
-        for ($i = 0; $i < $userLen; $i++) {
-            $result |= (ord($knownString[$i]) ^ ord($userInput[$i]));
+        if (!is_string($userInput)) {
+            $userInput = (string) $userInput;
         }
 
-        // They are only identical strings if $result is exactly 0...
-        return 0 === $result;
+        return hash_equals($knownString, $userInput);
+    }
+
+    /**
+     * Returns the number of bytes in a string.
+     *
+     * @param string $string The string whose length we wish to obtain
+     *
+     * @return int
+     */
+    public static function safeStrlen($string)
+    {
+        return Binary::strlen($string);
     }
 }

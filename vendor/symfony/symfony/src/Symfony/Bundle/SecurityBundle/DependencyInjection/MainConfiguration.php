@@ -16,9 +16,12 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy;
 
 /**
- * This class contains the configuration information for the following tags:
+ * This class contains the configuration information.
+ *
+ * This information is for the following tags:
  *
  *   * security.config
  *   * security.acl
@@ -48,7 +51,7 @@ class MainConfiguration implements ConfigurationInterface
     /**
      * Generates the configuration tree builder.
      *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * @return TreeBuilder The tree builder
      */
     public function getConfigTreeBuilder()
     {
@@ -58,14 +61,20 @@ class MainConfiguration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('access_denied_url')->defaultNull()->example('/foo/error403')->end()
-                ->scalarNode('session_fixation_strategy')->cannotBeEmpty()->info('strategy can be: none, migrate, invalidate')->defaultValue('migrate')->end()
+                ->enumNode('session_fixation_strategy')
+                    ->values(array(SessionAuthenticationStrategy::NONE, SessionAuthenticationStrategy::MIGRATE, SessionAuthenticationStrategy::INVALIDATE))
+                    ->defaultValue(SessionAuthenticationStrategy::MIGRATE)
+                ->end()
                 ->booleanNode('hide_user_not_found')->defaultTrue()->end()
                 ->booleanNode('always_authenticate_before_granting')->defaultFalse()->end()
                 ->booleanNode('erase_credentials')->defaultTrue()->end()
                 ->arrayNode('access_decision_manager')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('strategy')->defaultValue(AccessDecisionManager::STRATEGY_AFFIRMATIVE)->end()
+                        ->enumNode('strategy')
+                            ->values(array(AccessDecisionManager::STRATEGY_AFFIRMATIVE, AccessDecisionManager::STRATEGY_CONSENSUS, AccessDecisionManager::STRATEGY_UNANIMOUS))
+                            ->defaultValue(AccessDecisionManager::STRATEGY_AFFIRMATIVE)
+                        ->end()
                         ->booleanNode('allow_if_all_abstain')->defaultFalse()->end()
                         ->booleanNode('allow_if_equal_granted_denied')->defaultTrue()->end()
                     ->end()
@@ -153,6 +162,7 @@ class MainConfiguration implements ConfigurationInterface
                     ->cannotBeOverwritten()
                     ->prototype('array')
                         ->fixXmlConfig('ip')
+                        ->fixXmlConfig('method')
                         ->children()
                             ->scalarNode('requires_channel')->defaultNull()->end()
                             ->scalarNode('path')
@@ -206,6 +216,11 @@ class MainConfiguration implements ConfigurationInterface
                 ->prototype('scalar')->end()
             ->end()
             ->booleanNode('security')->defaultTrue()->end()
+            ->scalarNode('user_checker')
+                ->defaultValue('security.user_checker')
+                ->treatNullLike('security.user_checker')
+                ->info('The UserChecker to use when authenticating users in this firewall.')
+            ->end()
             ->scalarNode('request_matcher')->end()
             ->scalarNode('access_denied_url')->end()
             ->scalarNode('access_denied_handler')->end()
@@ -227,6 +242,8 @@ class MainConfiguration implements ConfigurationInterface
                 ->beforeNormalization()
                     ->ifTrue(function ($v) { return isset($v['csrf_provider']); })
                     ->then(function ($v) {
+                        @trigger_error("Setting the 'csrf_provider' configuration key on a security firewall is deprecated since version 2.8 and will be removed in 3.0. Use the 'csrf_token_generator' configuration key instead.", E_USER_DEPRECATED);
+
                         $v['csrf_token_generator'] = $v['csrf_provider'];
                         unset($v['csrf_provider']);
 
@@ -236,6 +253,8 @@ class MainConfiguration implements ConfigurationInterface
                 ->beforeNormalization()
                     ->ifTrue(function ($v) { return isset($v['intention']); })
                     ->then(function ($v) {
+                        @trigger_error("Setting the 'intention' configuration key on a security firewall is deprecated since version 2.8 and will be removed in 3.0. Use the 'csrf_token_id' key instead.", E_USER_DEPRECATED);
+
                         $v['csrf_token_id'] = $v['intention'];
                         unset($v['intention']);
 
@@ -276,8 +295,22 @@ class MainConfiguration implements ConfigurationInterface
             ->end()
             ->arrayNode('anonymous')
                 ->canBeUnset()
+                ->beforeNormalization()
+                    ->ifTrue(function ($v) { return isset($v['key']); })
+                    ->then(function ($v) {
+                        if (isset($v['secret'])) {
+                            throw new \LogicException('Cannot set both key and secret options for security.firewall.anonymous, use only secret instead.');
+                        }
+
+                        @trigger_error('security.firewall.anonymous.key is deprecated since version 2.8 and will be removed in 3.0. Use security.firewall.anonymous.secret instead.', E_USER_DEPRECATED);
+
+                        $v['secret'] = $v['key'];
+
+                        unset($v['key']);
+                    })
+                ->end()
                 ->children()
-                    ->scalarNode('key')->defaultValue(uniqid())->end()
+                    ->scalarNode('secret')->defaultValue(uniqid('', true))->end()
                 ->end()
             ->end()
             ->arrayNode('switch_user')
@@ -347,7 +380,6 @@ class MainConfiguration implements ConfigurationInterface
                         ),
                         'my_entity_provider' => array('entity' => array('class' => 'SecurityBundle:User', 'property' => 'username')),
                     ))
-                    ->disallowNewKeysInSubsequentConfigs()
                     ->isRequired()
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('name')

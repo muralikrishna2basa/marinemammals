@@ -48,11 +48,11 @@ class Inline
 
         $value = trim($value);
 
-        if (0 == strlen($value)) {
+        if ('' === $value) {
             return '';
         }
 
-        if (function_exists('mb_internal_encoding') && ((int) ini_get('mbstring.func_overload')) & 2) {
+        if (2 /* MB_OVERLOAD_STRING */ & (int) ini_get('mbstring.func_overload')) {
             $mbEncoding = mb_internal_encoding();
             mb_internal_encoding('ASCII');
         }
@@ -129,7 +129,7 @@ class Inline
                     setlocale(LC_NUMERIC, 'C');
                 }
                 if (is_float($value)) {
-                    $repr = strval($value);
+                    $repr = (string) $value;
                     if (is_infinite($value)) {
                         $repr = str_ireplace('INF', '.Inf', $repr);
                     } elseif (floor($value) == $value && $repr == $value) {
@@ -137,22 +137,21 @@ class Inline
                         $repr = '!!float '.$repr;
                     }
                 } else {
-                    $repr = is_string($value) ? "'$value'" : strval($value);
+                    $repr = is_string($value) ? "'$value'" : (string) $value;
                 }
                 if (false !== $locale) {
                     setlocale(LC_NUMERIC, $locale);
                 }
 
                 return $repr;
+            case '' == $value:
+                return "''";
             case Escaper::requiresDoubleQuoting($value):
                 return Escaper::escapeWithDoubleQuotes($value);
             case Escaper::requiresSingleQuoting($value):
-                return Escaper::escapeWithSingleQuotes($value);
-            case '' == $value:
-                return "''";
+            case preg_match(self::getHexRegex(), $value):
             case preg_match(self::getTimestampRegex(), $value):
-            case in_array(strtolower($value), array('null', '~', 'true', 'false')):
-                return "'$value'";
+                return Escaper::escapeWithSingleQuotes($value);
             default:
                 return $value;
         }
@@ -171,8 +170,9 @@ class Inline
     {
         // array
         $keys = array_keys($value);
-        if ((1 == count($keys) && '0' == $keys[0])
-            || (count($keys) > 1 && array_reduce($keys, function ($v, $w) { return (int) $v + $w; }, 0) == count($keys) * (count($keys) - 1) / 2)
+        $keysCount = count($keys);
+        if ((1 === $keysCount && '0' == $keys[0])
+            || ($keysCount > 1 && array_reduce($keys, function ($v, $w) { return (int) $v + $w; }, 0) === $keysCount * ($keysCount - 1) / 2)
         ) {
             $output = array();
             foreach ($value as $val) {
@@ -194,7 +194,7 @@ class Inline
     /**
      * Parses a scalar to a YAML string.
      *
-     * @param scalar $scalar
+     * @param string $scalar
      * @param string $delimiters
      * @param array  $stringDelimiters
      * @param int    &$i
@@ -204,6 +204,8 @@ class Inline
      * @return string A YAML string
      *
      * @throws ParseException When malformed inline YAML string is parsed
+     *
+     * @internal
      */
     public static function parseScalar($scalar, $delimiters = null, $stringDelimiters = array('"', "'"), &$i = 0, $evaluate = true, $references = array())
     {
@@ -224,14 +226,22 @@ class Inline
                 $i += strlen($output);
 
                 // remove comments
-                if (false !== $strpos = strpos($output, ' #')) {
-                    $output = rtrim(substr($output, 0, $strpos));
+                if (preg_match('/[ \t]+#/', $output, $match, PREG_OFFSET_CAPTURE)) {
+                    $output = substr($output, 0, $match[0][1]);
                 }
             } elseif (preg_match('/^(.+?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match)) {
                 $output = $match[1];
                 $i += strlen($output);
             } else {
                 throw new ParseException(sprintf('Malformed inline YAML string (%s).', $scalar));
+            }
+
+            // a non-quoted string cannot start with @ or ` (reserved) nor with a scalar indicator (| or >)
+            if ($output && ('@' === $output[0] || '`' === $output[0] || '|' === $output[0] || '>' === $output[0])) {
+                @trigger_error(sprintf('Not quoting a scalar starting with "%s" is deprecated since Symfony 2.8 and will throw a ParseException in 3.0.', $output[0]), E_USER_DEPRECATED);
+
+                // to be thrown in 3.0
+                // throw new ParseException(sprintf('The reserved indicator "%s" cannot start a plain scalar; you need to quote the scalar.', $output[0]));
             }
 
             if ($evaluate) {
@@ -287,7 +297,7 @@ class Inline
     {
         $output = array();
         $len = strlen($sequence);
-        $i += 1;
+        ++$i;
 
         // [foo, bar, ...]
         while ($i < $len) {
@@ -346,7 +356,7 @@ class Inline
     {
         $output = array();
         $len = strlen($mapping);
-        $i += 1;
+        ++$i;
 
         // {foo: bar, bar:foo, ...}
         while ($i < $len) {
@@ -468,7 +478,7 @@ class Inline
                     case 0 === strpos($scalar, '!str'):
                         return (string) substr($scalar, 5);
                     case 0 === strpos($scalar, '! '):
-                        return intval(self::parseScalar(substr($scalar, 2)));
+                        return (int) self::parseScalar(substr($scalar, 2));
                     case 0 === strpos($scalar, '!!php/object:'):
                         if (self::$objectSupport) {
                             return unserialize(substr($scalar, 13));
@@ -483,23 +493,24 @@ class Inline
                         return (float) substr($scalar, 8);
                     case ctype_digit($scalar):
                         $raw = $scalar;
-                        $cast = intval($scalar);
+                        $cast = (int) $scalar;
 
                         return '0' == $scalar[0] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
                     case '-' === $scalar[0] && ctype_digit(substr($scalar, 1)):
                         $raw = $scalar;
-                        $cast = intval($scalar);
+                        $cast = (int) $scalar;
 
-                        return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
+                        return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw === (string) $cast) ? $cast : $raw);
                     case is_numeric($scalar):
-                        return '0x' == $scalar[0].$scalar[1] ? hexdec($scalar) : floatval($scalar);
+                    case preg_match(self::getHexRegex(), $scalar):
+                        return '0x' === $scalar[0].$scalar[1] ? hexdec($scalar) : (float) $scalar;
                     case '.inf' === $scalarLower:
                     case '.nan' === $scalarLower:
                         return -log(0);
                     case '-.inf' === $scalarLower:
                         return log(0);
                     case preg_match('/^(-|\+)?[0-9,]+(\.[0-9]+)?$/', $scalar):
-                        return floatval(str_replace(',', '', $scalar));
+                        return (float) str_replace(',', '', $scalar);
                     case preg_match(self::getTimestampRegex(), $scalar):
                         return strtotime($scalar);
                 }
@@ -531,5 +542,15 @@ class Inline
         (?::(?P<tz_minute>[0-9][0-9]))?))?)?
         $~x
 EOF;
+    }
+
+    /**
+     * Gets a regex that matches a YAML number in hexadecimal notation.
+     *
+     * @return string
+     */
+    private static function getHexRegex()
+    {
+        return '~^0x[0-9a-f]++$~i';
     }
 }

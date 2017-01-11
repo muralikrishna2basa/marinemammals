@@ -11,10 +11,11 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
-use Symfony\Component\Form\Extension\Core\View\ChoiceView;
+use Symfony\Component\Form\Test\TypeTestCase as TestCase;
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Intl\Util\IntlTestHelper;
 
-class LanguageTypeTest extends TypeTestCase
+class LanguageTypeTest extends TestCase
 {
     protected function setUp()
     {
@@ -23,9 +24,19 @@ class LanguageTypeTest extends TypeTestCase
         parent::setUp();
     }
 
-    public function testCountriesAreSelectable()
+    /**
+     * @group legacy
+     */
+    public function testLegacyName()
     {
         $form = $this->factory->create('language');
+
+        $this->assertSame('language', $form->getConfig()->getType()->getName());
+    }
+
+    public function testCountriesAreSelectable()
+    {
+        $form = $this->factory->create('Symfony\Component\Form\Extension\Core\Type\LanguageType');
         $view = $form->createView();
         $choices = $view->vars['choices'];
 
@@ -38,7 +49,7 @@ class LanguageTypeTest extends TypeTestCase
 
     public function testMultipleLanguagesIsNotIncluded()
     {
-        $form = $this->factory->create('language', 'language');
+        $form = $this->factory->create('Symfony\Component\Form\Extension\Core\Type\LanguageType', 'Symfony\Component\Form\Extension\Core\Type\LanguageType');
         $view = $form->createView();
         $choices = $view->vars['choices'];
 

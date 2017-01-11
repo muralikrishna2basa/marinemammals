@@ -11,10 +11,14 @@
 
 namespace Symfony\Component\Finder\Adapter;
 
+@trigger_error('The '.__NAMESPACE__.'\AbstractAdapter class is deprecated since version 2.8 and will be removed in 3.0. Use directly the Finder class instead.', E_USER_DEPRECATED);
+
 /**
  * Interface for finder engine implementations.
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
+ *
+ * @deprecated since 2.8, to be removed in 3.0. Use Finder instead.
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
@@ -228,7 +232,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * isSupported in the adapters as the generic implementation provides a cache
      * layer.
      *
-     * @see isSupported
+     * @see isSupported()
      *
      * @return bool Whether the adapter is supported
      */

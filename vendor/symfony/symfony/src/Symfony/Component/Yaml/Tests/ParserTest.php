@@ -136,6 +136,14 @@ EOF;
         $tests['Literal block chomping strip with multiple trailing newlines'] = array($expected, $yaml);
 
         $yaml = <<<'EOF'
+{}
+
+
+EOF;
+        $expected = array();
+        $tests['Literal block chomping strip with multiple trailing newlines after a 1-liner'] = array($expected, $yaml);
+
+        $yaml = <<<'EOF'
 foo: |-
     one
     two
@@ -251,8 +259,8 @@ bar: >-
 
 EOF;
         $expected = array(
-            'foo' => "one two",
-            'bar' => "one two",
+            'foo' => 'one two',
+            'bar' => 'one two',
         );
         $tests['Folded block chomping strip with single trailing newline'] = array($expected, $yaml);
 
@@ -268,8 +276,8 @@ bar: >-
 
 EOF;
         $expected = array(
-            'foo' => "one two",
-            'bar' => "one two",
+            'foo' => 'one two',
+            'bar' => 'one two',
         );
         $tests['Folded block chomping strip with multiple trailing newlines'] = array($expected, $yaml);
 
@@ -282,8 +290,8 @@ bar: >-
     two
 EOF;
         $expected = array(
-            'foo' => "one two",
-            'bar' => "one two",
+            'foo' => 'one two',
+            'bar' => 'one two',
         );
         $tests['Folded block chomping strip without trailing newline'] = array($expected, $yaml);
 
@@ -329,7 +337,7 @@ bar: >
 EOF;
         $expected = array(
             'foo' => "one two\n",
-            'bar' => "one two",
+            'bar' => 'one two',
         );
         $tests['Folded block chomping clip without trailing newline'] = array($expected, $yaml);
 
@@ -375,7 +383,7 @@ bar: >+
 EOF;
         $expected = array(
             'foo' => "one two\n",
-            'bar' => "one two",
+            'bar' => 'one two',
         );
         $tests['Folded block chomping keep without trailing newline'] = array($expected, $yaml);
 
@@ -438,18 +446,15 @@ EOF;
         $this->parser->parse('foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}', true, false);
     }
 
+    /**
+     * @requires extension iconv
+     */
     public function testNonUtf8Exception()
     {
-        if (!function_exists('iconv')) {
-            $this->markTestSkipped('Exceptions for non-utf8 charsets require the iconv() function.');
-
-            return;
-        }
-
         $yamls = array(
-            iconv("UTF-8", "ISO-8859-1", "foo: 'äöüß'"),
-            iconv("UTF-8", "ISO-8859-15", "euro: '€'"),
-            iconv("UTF-8", "CP1252", "cp1252: '©ÉÇáñ'"),
+            iconv('UTF-8', 'ISO-8859-1', "foo: 'äöüß'"),
+            iconv('UTF-8', 'ISO-8859-15', "euro: '€'"),
+            iconv('UTF-8', 'CP1252', "cp1252: '©ÉÇáñ'"),
         );
 
         foreach ($yamls as $yaml) {
@@ -464,9 +469,7 @@ EOF;
     }
 
     /**
-     *
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     *
      */
     public function testUnindentedCollectionException()
     {
@@ -476,6 +479,22 @@ collection:
 -item1
 -item2
 -item3
+
+EOF;
+
+        $this->parser->parse($yaml);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
+     */
+    public function testShortcutKeyUnindentedCollectionException()
+    {
+        $yaml = <<<EOF
+
+collection:
+-  key: foo
+  foo: bar
 
 EOF;
 
@@ -530,6 +549,21 @@ EOF
     }
 
     /**
+     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
+     * @expectedExceptionMessage missing colon
+     */
+    public function testScalarInSequence()
+    {
+        Yaml::parse(<<<EOF
+foo:
+    - bar
+"missing colon"
+    foo: bar
+EOF
+        );
+    }
+
+    /**
      * > It is an error for two equal keys to appear in the same mapping node.
      * > In such a case the YAML processor may continue, ignoring the second
      * > `key: value` pair and issuing an appropriate warning. This strategy
@@ -538,8 +572,6 @@ EOF
      *
      * @see http://yaml.org/spec/1.2/spec.html#id2759572
      * @see http://yaml.org/spec/1.1/#id932806
-     *
-     * @covers \Symfony\Component\Yaml\Parser::parse
      */
     public function testMappingDuplicateKeyBlock()
     {
@@ -559,9 +591,6 @@ EOD;
         $this->assertSame($expected, Yaml::parse($input));
     }
 
-    /**
-     * @covers \Symfony\Component\Yaml\Inline::parseMapping
-     */
     public function testMappingDuplicateKeyFlow()
     {
         $input = <<<EOD
@@ -583,6 +612,32 @@ hash:
 EOF;
 
         $this->assertEquals(array('hash' => null), Yaml::parse($input));
+    }
+
+    public function testCommentAtTheRootIndent()
+    {
+        $this->assertEquals(array(
+            'services' => array(
+                'app.foo_service' => array(
+                    'class' => 'Foo',
+                ),
+                'app/bar_service' => array(
+                    'class' => 'Bar',
+                ),
+            ),
+        ), Yaml::parse(<<<EOF
+# comment 1
+services:
+# comment 2
+    # comment 3
+    app.foo_service:
+        class: Foo
+# comment 4
+    # comment 5
+    app/bar_service:
+        class: Bar
+EOF
+        ));
     }
 
     public function testStringBlockWithComments()
@@ -698,6 +753,70 @@ list_in_map: { key: [*var] }
 map_in_map: { foo: { bar: *var } }
 EOF
         ));
+    }
+
+    public function testYamlDirective()
+    {
+        $yaml = <<<EOF
+%YAML 1.2
+---
+foo: 1
+bar: 2
+EOF;
+        $this->assertEquals(array('foo' => 1, 'bar' => 2), $this->parser->parse($yaml));
+    }
+
+    public function testFloatKeys()
+    {
+        $yaml = <<<EOF
+foo:
+    1.2: "bar"
+    1.3: "baz"
+EOF;
+
+        $expected = array(
+            'foo' => array(
+                '1.2' => 'bar',
+                '1.3' => 'baz',
+            ),
+        );
+
+        $this->assertEquals($expected, $this->parser->parse($yaml));
+    }
+
+    /**
+     * @group legacy
+     * throw ParseException in Symfony 3.0
+     */
+    public function testColonInMappingValueException()
+    {
+        $yaml = <<<EOF
+foo: bar: baz
+EOF;
+
+        $deprecations = array();
+        set_error_handler(function ($type, $msg) use (&$deprecations) {
+            if (E_USER_DEPRECATED === $type) {
+                $deprecations[] = $msg;
+            }
+        });
+
+        $this->parser->parse($yaml);
+
+        $this->assertCount(1, $deprecations);
+        $this->assertContains('Using a colon in an unquoted mapping value in line 1 is deprecated since Symfony 2.8 and will throw a ParseException in 3.0.', $deprecations[0]);
+
+        restore_error_handler();
+    }
+
+    public function testColonInMappingValueExceptionNotTriggeredByColonInComment()
+    {
+        $yaml = <<<EOT
+foo:
+    bar: foobar # Note: a comment after a colon
+EOT;
+
+        $this->assertSame(array('foo' => array('bar' => 'foobar')), $this->parser->parse($yaml));
     }
 }
 

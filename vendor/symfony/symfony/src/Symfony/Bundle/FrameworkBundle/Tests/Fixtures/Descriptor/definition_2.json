@@ -3,7 +3,13 @@
     "scope": "container",
     "public": false,
     "synthetic": true,
+    "lazy": false,
+    "shared": true,
+    "synchronized": false,
+    "abstract": false,
     "file": "\/path\/to\/file",
+    "factory_service": "factory.service",
+    "factory_method": "get",
     "tags": [
         {
             "name": "tag1",
@@ -24,5 +30,7 @@
 
             ]
         }
-    ]
+    ],
+    "autowire": false,
+    "autowiring_types": []
 }

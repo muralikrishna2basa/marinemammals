@@ -43,7 +43,7 @@ abstract class Helper implements HelperInterface
     }
 
     /**
-     * Returns the length of a string, using mb_strlen if it is available.
+     * Returns the length of a string, using mb_strwidth if it is available.
      *
      * @param string $string The string to check its length
      *
@@ -51,11 +51,7 @@ abstract class Helper implements HelperInterface
      */
     public static function strlen($string)
     {
-        if (!function_exists('mb_strwidth')) {
-            return strlen($string);
-        }
-
-        if (false === $encoding = mb_detect_encoding($string)) {
+        if (false === $encoding = mb_detect_encoding($string, null, true)) {
             return strlen($string);
         }
 

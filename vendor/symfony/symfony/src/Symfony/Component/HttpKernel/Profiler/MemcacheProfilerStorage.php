@@ -11,10 +11,15 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
+@trigger_error('The '.__NAMESPACE__.'\MemcacheProfilerStorage class is deprecated since Symfony 2.8 and will be removed in 3.0. Use FileProfilerStorage instead.', E_USER_DEPRECATED);
+
 /**
- * Memcache Profiler Storage
+ * Memcache Profiler Storage.
  *
  * @author Andrej Hudec <pulzarraider@gmail.com>
+ *
+ * @deprecated Deprecated since Symfony 2.8, to be removed in Symfony 3.0.
+ *             Use {@link FileProfilerStorage} instead.
  */
 class MemcacheProfilerStorage extends BaseMemcacheProfilerStorage
 {
@@ -24,7 +29,7 @@ class MemcacheProfilerStorage extends BaseMemcacheProfilerStorage
     private $memcache;
 
     /**
-     * Internal convenience method that returns the instance of the Memcache
+     * Internal convenience method that returns the instance of the Memcache.
      *
      * @return \Memcache
      *
@@ -41,7 +46,7 @@ class MemcacheProfilerStorage extends BaseMemcacheProfilerStorage
             $port = $matches[3];
 
             $memcache = new \Memcache();
-            $memcache->addServer($host, $port);
+            $memcache->addserver($host, $port);
 
             $this->memcache = $memcache;
         }
@@ -50,7 +55,7 @@ class MemcacheProfilerStorage extends BaseMemcacheProfilerStorage
     }
 
     /**
-     * Set instance of the Memcache
+     * Set instance of the Memcache.
      *
      * @param \Memcache $memcache
      */

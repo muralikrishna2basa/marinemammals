@@ -30,27 +30,39 @@ use Symfony\Component\Debug\Exception\OutOfMemoryException;
 class ExceptionHandler
 {
     private $debug;
+    private $charset;
     private $handler;
     private $caughtBuffer;
     private $caughtLength;
     private $fileLinkFormat;
 
-    public function __construct($debug = true, $fileLinkFormat = null)
+    public function __construct($debug = true, $charset = null, $fileLinkFormat = null)
     {
+        if (false !== strpos($charset, '%')) {
+            @trigger_error('Providing $fileLinkFormat as second argument to '.__METHOD__.' is deprecated since version 2.8 and will be unsupported in 3.0. Please provide it as third argument, after $charset.', E_USER_DEPRECATED);
+
+            // Swap $charset and $fileLinkFormat for BC reasons
+            $pivot = $fileLinkFormat;
+            $fileLinkFormat = $charset;
+            $charset = $pivot;
+        }
         $this->debug = $debug;
+        $this->charset = $charset ?: ini_get('default_charset') ?: 'UTF-8';
         $this->fileLinkFormat = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
     }
 
     /**
      * Registers the exception handler.
      *
-     * @param bool $debug
+     * @param bool        $debug          Enable/disable debug mode, where the stack trace is displayed
+     * @param string|null $charset        The charset used by exception messages
+     * @param string|null $fileLinkFormat The IDE link template
      *
      * @return ExceptionHandler The registered exception handler
      */
-    public static function register($debug = true, $fileLinkFormat = null)
+    public static function register($debug = true, $charset = null, $fileLinkFormat = null)
     {
-        $handler = new static($debug, $fileLinkFormat = null);
+        $handler = new static($debug, $charset, $fileLinkFormat);
 
         $prev = set_exception_handler(array($handler, 'handle'));
         if (is_array($prev) && $prev[0] instanceof ErrorHandler) {
@@ -142,18 +154,24 @@ class ExceptionHandler
      * this method will use it to create and send the response. If not,
      * it will fallback to plain PHP functions.
      *
-     * @see sendPhpResponse
-     * @see createResponse
+     * @param \Exception $exception An \Exception instance
      */
     private function failSafeHandle(\Exception $exception)
     {
-        if (class_exists('Symfony\Component\HttpFoundation\Response', false)) {
+        if (class_exists('Symfony\Component\HttpFoundation\Response', false)
+            && __CLASS__ !== get_class($this)
+            && ($reflector = new \ReflectionMethod($this, 'createResponse'))
+            && __CLASS__ !== $reflector->class
+        ) {
             $response = $this->createResponse($exception);
             $response->sendHeaders();
             $response->sendContent();
-        } else {
-            $this->sendPhpResponse($exception);
+            @trigger_error(sprintf("The %s::createResponse method is deprecated since 2.8 and won't be called anymore when handling an exception in 3.0.", $reflector->class), E_USER_DEPRECATED);
+
+            return;
         }
+
+        $this->sendPhpResponse($exception);
     }
 
     /**
@@ -162,7 +180,7 @@ class ExceptionHandler
      * This method uses plain PHP functions like header() and echo to output
      * the response.
      *
-     * @param \Exception|FlattenException $exception An \Exception instance
+     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
      */
     public function sendPhpResponse($exception)
     {
@@ -175,6 +193,7 @@ class ExceptionHandler
             foreach ($exception->getHeaders() as $name => $value) {
                 header($name.': '.$value, false);
             }
+            header('Content-Type: text/html; charset='.$this->charset);
         }
 
         echo $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
@@ -183,17 +202,37 @@ class ExceptionHandler
     /**
      * Creates the error Response associated with the given Exception.
      *
-     * @param \Exception|FlattenException $exception An \Exception instance
+     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
      *
      * @return Response A Response instance
+     *
+     * @deprecated since 2.8, to be removed in 3.0.
      */
     public function createResponse($exception)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+
+        if (!$exception instanceof FlattenException) {
+            $exception = FlattenException::create($exception);
+        }
+
+        return Response::create($this->getHtml($exception), $exception->getStatusCode(), $exception->getHeaders())->setCharset($this->charset);
+    }
+
+    /**
+     * Gets the full HTML content associated with the given exception.
+     *
+     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
+     *
+     * @return string The HTML content as a string
+     */
+    public function getHtml($exception)
     {
         if (!$exception instanceof FlattenException) {
             $exception = FlattenException::create($exception);
         }
 
-        return new Response($this->decorate($this->getContent($exception), $this->getStylesheet($exception)), $exception->getStatusCode(), $exception->getHeaders());
+        return $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
     }
 
     /**
@@ -221,7 +260,7 @@ class ExceptionHandler
                 foreach ($exception->toArray() as $position => $e) {
                     $ind = $count - $position + 1;
                     $class = $this->formatClass($e['class']);
-                    $message = nl2br(self::utf8Htmlize($e['message']));
+                    $message = nl2br($this->escapeHtml($e['message']));
                     $content .= sprintf(<<<EOF
                         <h2 class="block_exception clear_fix">
                             <span class="exception_counter">%d/%d</span>
@@ -249,7 +288,7 @@ EOF
             } catch (\Exception $e) {
                 // something nasty happened and we cannot throw an exception anymore
                 if ($this->debug) {
-                    $title = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($e), $e->getMessage());
+                    $title = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($e), $this->escapeHtml($e->getMessage()));
                 } else {
                     $title = 'Whoops, looks like something went wrong.';
                 }
@@ -335,7 +374,7 @@ EOF;
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="{$this->charset}" />
         <meta name="robots" content="noindex,nofollow" />
         <style>
             /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */
@@ -358,16 +397,16 @@ EOF;
     {
         $parts = explode('\\', $class);
 
-        return sprintf("<abbr title=\"%s\">%s</abbr>", $class, array_pop($parts));
+        return sprintf('<abbr title="%s">%s</abbr>', $class, array_pop($parts));
     }
 
     private function formatPath($path, $line)
     {
-        $path = self::utf8Htmlize($path);
+        $path = $this->escapeHtml($path);
         $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
 
         if ($linkFormat = $this->fileLinkFormat) {
-            $link = str_replace(array('%f', '%l'), array($path, $line), $linkFormat);
+            $link = strtr($this->escapeHtml($linkFormat), array('%f' => $path, '%l' => (int) $line));
 
             return sprintf(' in <a href="%s" title="Go to source">%s line %d</a>', $link, $file, $line);
         }
@@ -387,11 +426,11 @@ EOF;
         $result = array();
         foreach ($args as $key => $item) {
             if ('object' === $item[0]) {
-                $formattedValue = sprintf("<em>object</em>(%s)", $this->formatClass($item[1]));
+                $formattedValue = sprintf('<em>object</em>(%s)', $this->formatClass($item[1]));
             } elseif ('array' === $item[0]) {
-                $formattedValue = sprintf("<em>array</em>(%s)", is_array($item[1]) ? $this->formatArgs($item[1]) : $item[1]);
+                $formattedValue = sprintf('<em>array</em>(%s)', is_array($item[1]) ? $this->formatArgs($item[1]) : $item[1]);
             } elseif ('string' === $item[0]) {
-                $formattedValue = sprintf("'%s'", self::utf8Htmlize($item[1]));
+                $formattedValue = sprintf("'%s'", $this->escapeHtml($item[1]));
             } elseif ('null' === $item[0]) {
                 $formattedValue = '<em>null</em>';
             } elseif ('boolean' === $item[0]) {
@@ -399,7 +438,7 @@ EOF;
             } elseif ('resource' === $item[0]) {
                 $formattedValue = '<em>resource</em>';
             } else {
-                $formattedValue = str_replace("\n", '', var_export(self::utf8Htmlize((string) $item[1]), true));
+                $formattedValue = str_replace("\n", '', var_export($this->escapeHtml((string) $item[1]), true));
             }
 
             $result[] = is_int($key) ? $formattedValue : sprintf("'%s' => %s", $key, $formattedValue);
@@ -409,22 +448,23 @@ EOF;
     }
 
     /**
-     * Returns an UTF-8 and HTML encoded string
+     * Returns an UTF-8 and HTML encoded string.
+     *
+     * @deprecated since version 2.7, to be removed in 3.0.
      */
     protected static function utf8Htmlize($str)
     {
-        if (!preg_match('//u', $str) && function_exists('iconv')) {
-            set_error_handler('var_dump', 0);
-            $charset = ini_get('default_charset');
-            if ('UTF-8' === $charset || $str !== @iconv($charset, $charset, $str)) {
-                $charset = 'CP1252';
-            }
-            restore_error_handler();
-
-            $str = iconv($charset, 'UTF-8', $str);
-        }
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.7 and will be removed in 3.0.', E_USER_DEPRECATED);
 
         return htmlspecialchars($str, ENT_QUOTES | (PHP_VERSION_ID >= 50400 ? ENT_SUBSTITUTE : 0), 'UTF-8');
+    }
+
+    /**
+     * HTML-encodes a string.
+     */
+    private function escapeHtml($str)
+    {
+        return htmlspecialchars($str, ENT_QUOTES | (PHP_VERSION_ID >= 50400 ? ENT_SUBSTITUTE : 0), $this->charset);
     }
 
     /**

@@ -20,13 +20,16 @@ class GlobalVariablesTest extends TestCase
     private $container;
     private $globals;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->container = new Container();
         $this->globals = new GlobalVariables($this->container);
     }
 
-    public function testGetSecurity()
+    /**
+     * @group legacy
+     */
+    public function testLegacyGetSecurity()
     {
         $securityContext = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
 

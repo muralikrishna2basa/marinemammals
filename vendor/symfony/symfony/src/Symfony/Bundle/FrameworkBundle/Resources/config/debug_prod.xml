@@ -14,9 +14,9 @@
         <service id="debug.debug_handlers_listener" class="%debug.debug_handlers_listener.class%">
             <tag name="kernel.event_subscriber" />
             <tag name="monolog.logger" channel="php" />
-            <argument /><!-- Exception handler -->
+            <argument>null</argument><!-- Exception handler -->
             <argument type="service" id="logger" on-invalid="null" />
-            <argument /><!-- Log levels map for enabled error levels -->
+            <argument>null</argument><!-- Log levels map for enabled error levels -->
             <argument>null</argument>
             <argument>true</argument>
             <argument>null</argument><!-- %templating.helper.code.file_link_format% -->

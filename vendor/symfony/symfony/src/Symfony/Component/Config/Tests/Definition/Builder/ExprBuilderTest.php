@@ -114,7 +114,7 @@ class ExprBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertFinalizedValueIs('new_value', $test);
 
         $test = $this->getTestBuilder()
-            ->ifNotInArray(array('foo', 'bar', 'value_from_config' ))
+            ->ifNotInArray(array('foo', 'bar', 'value_from_config'))
             ->then($this->returnClosure('new_value'))
         ->end();
         $this->assertFinalizedValueIs('new_value', $test);
@@ -192,7 +192,7 @@ class ExprBuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @param mixed $val The value that the closure must return
      *
-     * @return Closure
+     * @return \Closure
      */
     protected function returnClosure($val)
     {
@@ -202,12 +202,11 @@ class ExprBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert that the given test builder, will return the given value
+     * Assert that the given test builder, will return the given value.
      *
      * @param mixed       $value       The value to test
      * @param TreeBuilder $treeBuilder The tree builder to finalize
-     *
-     * @param mixed $config The config values that new to be finalized
+     * @param mixed       $config      The config values that new to be finalized
      */
     protected function assertFinalizedValueIs($value, $treeBuilder, $config = null)
     {

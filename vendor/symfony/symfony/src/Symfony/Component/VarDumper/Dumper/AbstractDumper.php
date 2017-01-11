@@ -29,11 +29,15 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     protected $decimalPoint; // This is locale dependent
     protected $indentPad = '  ';
 
+    private $charset;
+
     /**
-     * @param callable|resource|string|null $output A line dumper callable, an opened stream or an output path, defaults to static::$defaultOutput.
+     * @param callable|resource|string|null $output  A line dumper callable, an opened stream or an output path, defaults to static::$defaultOutput.
+     * @param string                        $charset The default character encoding to use for non-UTF8 strings.
      */
-    public function __construct($output = null)
+    public function __construct($output = null, $charset = null)
     {
+        $this->setCharset($charset ?: ini_get('php.output_encoding') ?: ini_get('default_charset') ?: 'UTF-8');
         $this->decimalPoint = (string) 0.5;
         $this->decimalPoint = $this->decimalPoint[1];
         $this->setOutput($output ?: static::$defaultOutput);
@@ -63,6 +67,25 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
             $this->outputStream = $output;
             $this->lineDumper = array($this, 'echoLine');
         }
+
+        return $prev;
+    }
+
+    /**
+     * Sets the default character encoding to use for non-UTF8 strings.
+     *
+     * @param string $charset The default character encoding to use for non-UTF8 strings.
+     *
+     * @return string The previous charset.
+     */
+    public function setCharset($charset)
+    {
+        $prev = $this->charset;
+
+        $charset = strtoupper($charset);
+        $charset = null === $charset || 'UTF-8' === $charset || 'UTF8' === $charset ? 'CP1252' : $charset;
+
+        $this->charset = $charset;
 
         return $prev;
     }
@@ -130,5 +153,24 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         if (-1 !== $depth) {
             fwrite($this->outputStream, str_repeat($indentPad, $depth).$line."\n");
         }
+    }
+
+    /**
+     * Converts a non-UTF-8 string to UTF-8.
+     *
+     * @param string $s The non-UTF-8 string to convert.
+     *
+     * @return string The string converted to UTF-8.
+     */
+    protected function utf8Encode($s)
+    {
+        if (false !== $c = @iconv($this->charset, 'UTF-8', $s)) {
+            return $c;
+        }
+        if ('CP1252' !== $this->charset && false !== $c = @iconv('CP1252', 'UTF-8', $s)) {
+            return $c;
+        }
+
+        return iconv('CP850', 'UTF-8', $s);
     }
 }

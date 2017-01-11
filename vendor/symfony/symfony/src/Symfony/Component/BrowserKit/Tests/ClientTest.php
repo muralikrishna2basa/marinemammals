@@ -14,7 +14,6 @@ namespace Symfony\Component\BrowserKit\Tests;
 use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\CookieJar;
-use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 
 class SpecialResponse extends Response
@@ -74,27 +73,18 @@ EOF;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Symfony\Component\BrowserKit\Client::getHistory
-     */
     public function testGetHistory()
     {
         $client = new TestClient(array(), $history = new History());
         $this->assertSame($history, $client->getHistory(), '->getHistory() returns the History');
     }
 
-    /**
-     * @covers Symfony\Component\BrowserKit\Client::getCookieJar
-     */
     public function testGetCookieJar()
     {
         $client = new TestClient(array(), null, $cookieJar = new CookieJar());
         $this->assertSame($cookieJar, $client->getCookieJar(), '->getCookieJar() returns the CookieJar');
     }
 
-    /**
-     * @covers Symfony\Component\BrowserKit\Client::getRequest
-     */
     public function testGetRequest()
     {
         $client = new TestClient();
@@ -141,9 +131,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($json, $client->getRequest()->getContent());
     }
 
-    /**
-     * @covers Symfony\Component\BrowserKit\Client::getCrawler
-     */
     public function testGetCrawler()
     {
         $client = new TestClient();
@@ -208,6 +195,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->request('GET', 'http://www.example.com/foo/foobar');
         $client->request('GET', 'bar');
         $this->assertEquals('http://www.example.com/foo/bar', $client->getRequest()->getUri(), '->request() uses the previous request for relative URLs');
+
+        $client = new TestClient();
+        $client->request('GET', 'http://www.example.com/foo/');
+        $client->request('GET', 'http');
+        $this->assertEquals('http://www.example.com/foo/http', $client->getRequest()->getUri(), '->request() uses the previous request for relative URLs');
+
+        $client = new TestClient();
+        $client->request('GET', 'http://www.example.com/foo');
+        $client->request('GET', 'http/bar');
+        $this->assertEquals('http://www.example.com/http/bar', $client->getRequest()->getUri(), '->request() uses the previous request for relative URLs');
+
+        $client = new TestClient();
+        $client->request('GET', 'http://www.example.com/');
+        $client->request('GET', 'http');
+        $this->assertEquals('http://www.example.com/http', $client->getRequest()->getUri(), '->request() uses the previous request for relative URLs');
     }
 
     public function testRequestURIConversionByServerHost()
@@ -333,7 +335,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $client->followRedirect();
             $this->fail('->followRedirect() throws a \LogicException if the request was not redirected');
         } catch (\Exception $e) {
-            $this->assertInstanceof('LogicException', $e, '->followRedirect() throws a \LogicException if the request was not redirected');
+            $this->assertInstanceOf('LogicException', $e, '->followRedirect() throws a \LogicException if the request was not redirected');
         }
 
         $client->setNextResponse(new Response('', 302, array('Location' => 'http://www.example.com/redirected')));
@@ -363,7 +365,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $client->followRedirect();
             $this->fail('->followRedirect() throws a \LogicException if the request did not respond with 30x HTTP Code');
         } catch (\Exception $e) {
-            $this->assertInstanceof('LogicException', $e, '->followRedirect() throws a \LogicException if the request did not respond with 30x HTTP Code');
+            $this->assertInstanceOf('LogicException', $e, '->followRedirect() throws a \LogicException if the request did not respond with 30x HTTP Code');
         }
     }
 
@@ -393,7 +395,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $client->followRedirect();
             $this->fail('->followRedirect() throws a \LogicException if the request was redirected and limit of redirections was reached');
         } catch (\Exception $e) {
-            $this->assertInstanceof('LogicException', $e, '->followRedirect() throws a \LogicException if the request was redirected and limit of redirections was reached');
+            $this->assertInstanceOf('LogicException', $e, '->followRedirect() throws a \LogicException if the request was redirected and limit of redirections was reached');
         }
 
         $client->setNextResponse(new Response('', 302, array('Location' => 'http://www.example.com/redirected')));
@@ -476,6 +478,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->request('GET', 'http://www.example.com:8080/');
 
         $this->assertEquals($headers, $client->getRequest()->getServer());
+    }
+
+    public function testIsFollowingRedirects()
+    {
+        $client = new TestClient();
+        $this->assertTrue($client->isFollowingRedirects(), '->getFollowRedirects() returns default value');
+        $client->followRedirects(false);
+        $this->assertFalse($client->isFollowingRedirects(), '->getFollowRedirects() returns assigned value');
+    }
+
+    public function testGetMaxRedirects()
+    {
+        $client = new TestClient();
+        $this->assertEquals(-1, $client->getMaxRedirects(), '->getMaxRedirects() returns default value');
+        $client->setMaxRedirects(3);
+        $this->assertEquals(3, $client->getMaxRedirects(), '->getMaxRedirects() returns assigned value');
     }
 
     public function testBack()
@@ -563,7 +581,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $client->request('GET', 'http://www.example.com/foo/foobar');
             $this->fail('->request() throws a \RuntimeException if the script has an error');
         } catch (\Exception $e) {
-            $this->assertInstanceof('RuntimeException', $e, '->request() throws a \RuntimeException if the script has an error');
+            $this->assertInstanceOf('RuntimeException', $e, '->request() throws a \RuntimeException if the script has an error');
         }
     }
 

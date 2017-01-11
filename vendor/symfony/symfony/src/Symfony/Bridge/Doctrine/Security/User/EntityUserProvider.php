@@ -54,8 +54,12 @@ class EntityUserProvider implements UserProviderInterface
         if (null !== $this->property) {
             $user = $this->repository->findOneBy(array($this->property => $username));
         } else {
-            if (!$this->repository instanceof UserProviderInterface) {
-                throw new \InvalidArgumentException(sprintf('The Doctrine repository "%s" must implement UserProviderInterface.', get_class($this->repository)));
+            if (!$this->repository instanceof UserLoaderInterface) {
+                if (!$this->repository instanceof UserProviderInterface) {
+                    throw new \InvalidArgumentException(sprintf('The Doctrine repository "%s" must implement Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface.', get_class($this->repository)));
+                }
+
+                @trigger_error('Implementing loadUserByUsername from Symfony\Component\Security\Core\User\UserProviderInterface is deprecated since version 2.8 and will be removed in 3.0. Implement the Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface instead.', E_USER_DEPRECATED);
             }
 
             $user = $this->repository->loadUserByUsername($username);
@@ -85,10 +89,10 @@ class EntityUserProvider implements UserProviderInterface
             // That's the case when the user has been changed by a form with
             // validation errors.
             if (!$id = $this->metadata->getIdentifierValues($user)) {
-                throw new \InvalidArgumentException("You cannot refresh a user ".
-                    "from the EntityUserProvider that does not contain an identifier. ".
-                    "The user object has to be serialized with its own identifier ".
-                    "mapped by Doctrine."
+                throw new \InvalidArgumentException('You cannot refresh a user '.
+                    'from the EntityUserProvider that does not contain an identifier. '.
+                    'The user object has to be serialized with its own identifier '.
+                    'mapped by Doctrine.'
                 );
             }
 

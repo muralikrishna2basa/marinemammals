@@ -17,6 +17,8 @@ use Symfony\Bundle\TwigBundle\Node\RenderNode;
  * Token Parser for the render tag.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @deprecated since version 2.2, to be removed in 3.0.
  */
 class RenderTokenParser extends \Twig_TokenParser
 {
@@ -25,7 +27,7 @@ class RenderTokenParser extends \Twig_TokenParser
      *
      * @param \Twig_Token $token A \Twig_Token instance
      *
-     * @return \Twig_NodeInterface A \Twig_NodeInterface instance
+     * @return \Twig_Node A \Twig_Node instance
      */
     public function parse(\Twig_Token $token)
     {

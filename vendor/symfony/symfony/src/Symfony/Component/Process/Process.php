@@ -26,8 +26,6 @@ use Symfony\Component\Process\Pipes\WindowsPipes;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Romain Neutron <imprec@gmail.com>
- *
- * @api
  */
 class Process
 {
@@ -133,14 +131,12 @@ class Process
      *
      * @param string         $commandline The command line to run
      * @param string|null    $cwd         The working directory or null to use the working dir of the current PHP process
-     * @param array|null     $env         The environment variables or null to inherit
+     * @param array|null     $env         The environment variables or null to use the same environment as the current PHP process
      * @param string|null    $input       The input
      * @param int|float|null $timeout     The timeout in seconds or null to disable
      * @param array          $options     An array of options for proc_open
      *
      * @throws RuntimeException When proc_open is not installed
-     *
-     * @api
      */
     public function __construct($commandline, $cwd = null, array $env = null, $input = null, $timeout = 60, array $options = array())
     {
@@ -155,7 +151,7 @@ class Process
         // on Gnu/Linux, PHP builds with --enable-maintainer-zts are also affected
         // @see : https://bugs.php.net/bug.php?id=51800
         // @see : https://bugs.php.net/bug.php?id=50524
-        if (null === $this->cwd && (defined('ZEND_THREAD_SAFE') || defined('PHP_WINDOWS_VERSION_BUILD'))) {
+        if (null === $this->cwd && (defined('ZEND_THREAD_SAFE') || '\\' === DIRECTORY_SEPARATOR)) {
             $this->cwd = getcwd();
         }
         if (null !== $env) {
@@ -164,10 +160,10 @@ class Process
 
         $this->input = $input;
         $this->setTimeout($timeout);
-        $this->useFileHandles = defined('PHP_WINDOWS_VERSION_BUILD');
+        $this->useFileHandles = '\\' === DIRECTORY_SEPARATOR;
         $this->pty = false;
         $this->enhanceWindowsCompatibility = true;
-        $this->enhanceSigchildCompatibility = !defined('PHP_WINDOWS_VERSION_BUILD') && $this->isSigchildEnabled();
+        $this->enhanceSigchildCompatibility = '\\' !== DIRECTORY_SEPARATOR && $this->isSigchildEnabled();
         $this->options = array_replace(array('suppress_errors' => true, 'binary_pipes' => true), $options);
     }
 
@@ -200,8 +196,6 @@ class Process
      * @throws RuntimeException When process can't be launched
      * @throws RuntimeException When process stopped after receiving signal
      * @throws LogicException   In case a callback is provided and output has been disabled
-     *
-     * @api
      */
     public function run($callback = null)
     {
@@ -254,8 +248,6 @@ class Process
      * @param callable|null $callback A PHP callback to run whenever there is some
      *                                output available on STDOUT or STDERR
      *
-     * @return Process The process itself
-     *
      * @throws RuntimeException When process can't be launched
      * @throws RuntimeException When process is already running
      * @throws LogicException   In case a callback is provided and output has been disabled
@@ -276,8 +268,8 @@ class Process
 
         $commandline = $this->commandline;
 
-        if (defined('PHP_WINDOWS_VERSION_BUILD') && $this->enhanceWindowsCompatibility) {
-            $commandline = 'cmd /V:ON /E:ON /C "('.$commandline.')';
+        if ('\\' === DIRECTORY_SEPARATOR && $this->enhanceWindowsCompatibility) {
+            $commandline = 'cmd /V:ON /E:ON /D /C "('.$commandline.')';
             foreach ($this->processPipes->getFiles() as $offset => $filename) {
                 $commandline .= ' '.$offset.'>'.ProcessUtils::escapeArgument($filename);
             }
@@ -288,7 +280,19 @@ class Process
             }
         }
 
+        $ptsWorkaround = null;
+
+        if (!$this->useFileHandles && $this->enhanceSigchildCompatibility && $this->isSigchildEnabled()) {
+            // Workaround for the bug, when PTS functionality is enabled.
+            // @see : https://bugs.php.net/69442
+            $ptsWorkaround = fopen(__FILE__, 'r');
+        }
+
         $this->process = proc_open($commandline, $descriptors, $this->processPipes->pipes, $this->cwd, $this->env, $this->options);
+
+        if ($ptsWorkaround) {
+            fclose($ptsWorkaround);
+        }
 
         if (!is_resource($this->process)) {
             throw new RuntimeException('Unable to launch a new process.');
@@ -356,8 +360,8 @@ class Process
 
         do {
             $this->checkTimeout();
-            $running = defined('PHP_WINDOWS_VERSION_BUILD') ? $this->isRunning() : $this->processPipes->areOpen();
-            $close = !defined('PHP_WINDOWS_VERSION_BUILD') || !$running;
+            $running = '\\' === DIRECTORY_SEPARATOR ? $this->isRunning() : $this->processPipes->areOpen();
+            $close = '\\' !== DIRECTORY_SEPARATOR || !$running;
             $this->readPipes(true, $close);
         } while ($running);
 
@@ -465,8 +469,6 @@ class Process
      *
      * @throws LogicException in case the output has been disabled
      * @throws LogicException In case the process is not started
-     *
-     * @api
      */
     public function getOutput()
     {
@@ -476,7 +478,7 @@ class Process
 
         $this->requireProcessIsStarted(__FUNCTION__);
 
-        $this->readPipes(false, defined('PHP_WINDOWS_VERSION_BUILD') ? !$this->processInformation['running'] : true);
+        $this->readPipes(false, '\\' === DIRECTORY_SEPARATOR ? !$this->processInformation['running'] : true);
 
         return $this->stdout;
     }
@@ -499,6 +501,11 @@ class Process
         $data = $this->getOutput();
 
         $latest = substr($data, $this->incrementalOutputOffset);
+
+        if (false === $latest) {
+            return '';
+        }
+
         $this->incrementalOutputOffset = strlen($data);
 
         return $latest;
@@ -524,8 +531,6 @@ class Process
      *
      * @throws LogicException in case the output has been disabled
      * @throws LogicException In case the process is not started
-     *
-     * @api
      */
     public function getErrorOutput()
     {
@@ -535,7 +540,7 @@ class Process
 
         $this->requireProcessIsStarted(__FUNCTION__);
 
-        $this->readPipes(false, defined('PHP_WINDOWS_VERSION_BUILD') ? !$this->processInformation['running'] : true);
+        $this->readPipes(false, '\\' === DIRECTORY_SEPARATOR ? !$this->processInformation['running'] : true);
 
         return $this->stderr;
     }
@@ -559,6 +564,11 @@ class Process
         $data = $this->getErrorOutput();
 
         $latest = substr($data, $this->incrementalErrorOutputOffset);
+
+        if (false === $latest) {
+            return '';
+        }
+
         $this->incrementalErrorOutputOffset = strlen($data);
 
         return $latest;
@@ -583,8 +593,6 @@ class Process
      * @return null|int The exit status code, null if the Process is not terminated
      *
      * @throws RuntimeException In case --enable-sigchild is activated and the sigchild compatibility mode is disabled
-     *
-     * @api
      */
     public function getExitCode()
     {
@@ -623,8 +631,6 @@ class Process
      * Checks if the process ended successfully.
      *
      * @return bool true if the process ended successfully, false otherwise
-     *
-     * @api
      */
     public function isSuccessful()
     {
@@ -640,8 +646,6 @@ class Process
      *
      * @throws RuntimeException In case --enable-sigchild is activated
      * @throws LogicException   In case the process is not terminated
-     *
-     * @api
      */
     public function hasBeenSignaled()
     {
@@ -665,8 +669,6 @@ class Process
      *
      * @throws RuntimeException In case --enable-sigchild is activated
      * @throws LogicException   In case the process is not terminated
-     *
-     * @api
      */
     public function getTermSignal()
     {
@@ -689,8 +691,6 @@ class Process
      * @return bool
      *
      * @throws LogicException In case the process is not terminated
-     *
-     * @api
      */
     public function hasBeenStopped()
     {
@@ -709,8 +709,6 @@ class Process
      * @return int
      *
      * @throws LogicException In case the process is not terminated
-     *
-     * @api
      */
     public function getStopSignal()
     {
@@ -777,22 +775,14 @@ class Process
      * Stops the process.
      *
      * @param int|float $timeout The timeout in seconds
-     * @param int       $signal  A POSIX signal to send in case the process has not stop at timeout, default is SIGKILL
+     * @param int       $signal  A POSIX signal to send in case the process has not stop at timeout, default is SIGKILL (9)
      *
      * @return int The exit-code of the process
-     *
-     * @throws RuntimeException if the process got signaled
      */
     public function stop($timeout = 10, $signal = null)
     {
         $timeoutMicro = microtime(true) + $timeout;
         if ($this->isRunning()) {
-            if (defined('PHP_WINDOWS_VERSION_BUILD') && !$this->isSigchildEnabled()) {
-                exec(sprintf("taskkill /F /T /PID %d 2>&1", $this->getPid()), $output, $exitCode);
-                if ($exitCode > 0) {
-                    throw new RuntimeException('Unable to kill the process');
-                }
-            }
             // given `SIGTERM` may not be defined and that `proc_terminate` uses the constant value and not the constant itself, we use the same here
             $this->doSignal(15, false);
             do {
@@ -800,13 +790,9 @@ class Process
             } while ($this->isRunning() && microtime(true) < $timeoutMicro);
 
             if ($this->isRunning() && !$this->isSigchildEnabled()) {
-                if (null !== $signal || defined('SIGKILL')) {
-                    // avoid exception here :
-                    // process is supposed to be running, but it might have stop
-                    // just after this line.
-                    // in any case, let's silently discard the error, we can not do anything
-                    $this->doSignal($signal ?: SIGKILL, false);
-                }
+                // Avoid exception here: process is supposed to be running, but it might have stopped just
+                // after this line. In any case, let's silently discard the error, we cannot do anything.
+                $this->doSignal($signal ?: 9, false);
             }
         }
 
@@ -907,7 +893,7 @@ class Process
      *
      * To disable the timeout, set this value to null.
      *
-     * @param int|float|null     $timeout The timeout in seconds
+     * @param int|float|null $timeout The timeout in seconds
      *
      * @return self The current Process instance.
      *
@@ -936,8 +922,11 @@ class Process
      */
     public function setTty($tty)
     {
-        if (defined('PHP_WINDOWS_VERSION_BUILD') && $tty) {
+        if ('\\' === DIRECTORY_SEPARATOR && $tty) {
             throw new RuntimeException('TTY mode is not supported on Windows platform.');
+        }
+        if ($tty && (!file_exists('/dev/tty') || !is_readable('/dev/tty'))) {
+            throw new RuntimeException('TTY mode requires /dev/tty to be readable.');
         }
 
         $this->tty = (bool) $tty;
@@ -958,7 +947,7 @@ class Process
     /**
      * Sets PTY mode.
      *
-     * @param bool    $bool
+     * @param bool $bool
      *
      * @return self
      */
@@ -1041,7 +1030,7 @@ class Process
 
         $this->env = array();
         foreach ($env as $key => $value) {
-            $this->env[(binary) $key] = (binary) $value;
+            $this->env[$key] = (string) $value;
         }
 
         return $this;
@@ -1052,11 +1041,14 @@ class Process
      *
      * @return string|null The current contents
      *
-     * @deprecated Deprecated since version 2.5, to be removed in 3.0.
+     * @deprecated since version 2.5, to be removed in 3.0.
+     *             Use setInput() instead.
      *             This method is deprecated in favor of getInput.
      */
     public function getStdin()
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.5 and will be removed in 3.0. Use the getInput() method instead.', E_USER_DEPRECATED);
+
         return $this->getInput();
     }
 
@@ -1077,14 +1069,16 @@ class Process
      *
      * @return self The current Process instance
      *
-     * @deprecated Deprecated since version 2.5, to be removed in 3.0.
-     *             This method is deprecated in favor of setInput.
+     * @deprecated since version 2.5, to be removed in 3.0.
+     *             Use setInput() instead.
      *
      * @throws LogicException           In case the process is running
      * @throws InvalidArgumentException In case the argument is invalid
      */
     public function setStdin($stdin)
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.5 and will be removed in 3.0. Use the setInput() method instead.', E_USER_DEPRECATED);
+
         return $this->setInput($stdin);
     }
 
@@ -1093,11 +1087,13 @@ class Process
      *
      * This content will be passed to the underlying process standard input.
      *
-     * @param string|null $input The content
+     * @param mixed $input The content
      *
      * @return self The current Process instance
      *
      * @throws LogicException In case the process is running
+     *
+     * Passing an object as an input is deprecated since version 2.5 and will be removed in 3.0.
      */
     public function setInput($input)
     {
@@ -1228,7 +1224,7 @@ class Process
             return $result;
         }
 
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+        if ('\\' === DIRECTORY_SEPARATOR) {
             return $result = false;
         }
 
@@ -1249,7 +1245,7 @@ class Process
      */
     private function getDescriptors()
     {
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+        if ('\\' === DIRECTORY_SEPARATOR) {
             $this->processPipes = WindowsPipes::create($this, $this->input);
         } else {
             $this->processPipes = UnixPipes::create($this, $this->input);
@@ -1274,14 +1270,13 @@ class Process
      *
      * @param callable|null $callback The user defined PHP callback
      *
-     * @return callable A PHP callable
+     * @return \Closure A PHP closure
      */
     protected function buildCallback($callback)
     {
         $that = $this;
         $out = self::OUT;
-        $err = self::ERR;
-        $callback = function ($type, $data) use ($that, $callback, $out, $err) {
+        $callback = function ($type, $data) use ($that, $callback, $out) {
             if ($out == $type) {
                 $that->addOutput($data);
             } else {
@@ -1310,7 +1305,7 @@ class Process
         $this->processInformation = proc_get_status($this->process);
         $this->captureExitCode();
 
-        $this->readPipes($blocking, defined('PHP_WINDOWS_VERSION_BUILD') ? !$this->processInformation['running'] : true);
+        $this->readPipes($blocking, '\\' === DIRECTORY_SEPARATOR ? !$this->processInformation['running'] : true);
 
         if (!$this->processInformation['running']) {
             $this->close();
@@ -1341,7 +1336,7 @@ class Process
     /**
      * Validates and returns the filtered timeout.
      *
-     * @param int|float|null     $timeout
+     * @param int|float|null $timeout
      *
      * @return float|null
      *
@@ -1370,11 +1365,12 @@ class Process
     {
         $result = $this->processPipes->readAndWrite($blocking, $close);
 
+        $callback = $this->callback;
         foreach ($result as $type => $data) {
             if (3 == $type) {
                 $this->fallbackExitcode = (int) $data;
             } else {
-                call_user_func($this->callback, $type === self::STDOUT ? self::OUT : self::ERR, $data);
+                $callback($type === self::STDOUT ? self::OUT : self::ERR, $data);
             }
         }
     }
@@ -1465,7 +1461,18 @@ class Process
             return false;
         }
 
-        if (true !== @proc_terminate($this->process, $signal)) {
+        if ('\\' === DIRECTORY_SEPARATOR) {
+            exec(sprintf('taskkill /F /T /PID %d 2>&1', $this->getPid()), $output, $exitCode);
+            if ($exitCode) {
+                if ($throwException) {
+                    throw new RuntimeException(sprintf('Unable to kill the process (%s).', implode(' ', $output)));
+                }
+
+                return false;
+            }
+        }
+
+        if (true !== @proc_terminate($this->process, $signal) && '\\' !== DIRECTORY_SEPARATOR) {
             if ($throwException) {
                 throw new RuntimeException(sprintf('Error while sending signal `%s`.', $signal));
             }

@@ -17,6 +17,7 @@ namespace Symfony\Component\DependencyInjection;
  *
  * @author Evan Villemez <evillemez@gmail.com>
  *
+ * @deprecated since version 2.8, to be merged with ContainerInterface in 3.0.
  */
 interface IntrospectableContainerInterface extends ContainerInterface
 {
@@ -26,7 +27,6 @@ interface IntrospectableContainerInterface extends ContainerInterface
      * @param string $id
      *
      * @return bool true if the service has been initialized, false otherwise
-     *
      */
     public function initialized($id);
 }

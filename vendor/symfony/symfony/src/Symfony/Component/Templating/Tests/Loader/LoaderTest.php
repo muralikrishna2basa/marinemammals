@@ -24,7 +24,10 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($logger, $loader->getLogger(), '->setLogger() sets the logger instance');
     }
 
-    public function testGetSetDebugger()
+    /**
+     * @group legacy
+     */
+    public function testLegacyGetSetDebugger()
     {
         $loader = new ProjectTemplateLoader4();
         $debugger = $this->getMock('Symfony\Component\Templating\DebuggerInterface');

@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 /**
- * ProjectServiceContainer
+ * ProjectServiceContainer.
  *
  * This class has been auto-generated
  * by the Symfony Dependency Injection Component.
@@ -17,19 +17,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 class ProjectServiceContainer extends Container
 {
     private $parameters;
+    private $targetDirs = array();
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->parameters = array(
-            'baz_class' => 'BazClass',
-            'foo_class' => 'Bar\\FooClass',
-            'foo' => 'bar',
-        );
-
-        parent::__construct(new ParameterBag($this->parameters));
+        parent::__construct(new ParameterBag($this->getDefaultParameters()));
         $this->methodMap = array(
             'bar' => 'getBarService',
             'baz' => 'getBazService',
@@ -38,7 +33,7 @@ class ProjectServiceContainer extends Container
             'decorated' => 'getDecoratedService',
             'decorator_service' => 'getDecoratorServiceService',
             'decorator_service_with_name' => 'getDecoratorServiceWithNameService',
-            'depends_on_request' => 'getDependsOnRequestService',
+            'deprecated_service' => 'getDeprecatedServiceService',
             'factory_service' => 'getFactoryServiceService',
             'foo' => 'getFooService',
             'foo.baz' => 'getFoo_BazService',
@@ -150,20 +145,20 @@ class ProjectServiceContainer extends Container
     }
 
     /**
-     * Gets the 'depends_on_request' service.
+     * Gets the 'deprecated_service' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
      *
      * @return \stdClass A stdClass instance.
+     *
+     * @deprecated The "deprecated_service" service is deprecated. You should stop using it, as it will soon be removed.
      */
-    protected function getDependsOnRequestService()
+    protected function getDeprecatedServiceService()
     {
-        $this->services['depends_on_request'] = $instance = new \stdClass();
+        @trigger_error('The "deprecated_service" service is deprecated. You should stop using it, as it will soon be removed.', E_USER_DEPRECATED);
 
-        $instance->setRequest($this->get('request', ContainerInterface::NULL_ON_INVALID_REFERENCE));
-
-        return $instance;
+        return $this->services['deprecated_service'] = new \stdClass();
     }
 
     /**
@@ -320,16 +315,6 @@ class ProjectServiceContainer extends Container
     }
 
     /**
-     * Updates the 'request' service.
-     */
-    protected function synchronizeRequestService()
-    {
-        if ($this->initialized('depends_on_request')) {
-            $this->get('depends_on_request')->setRequest($this->get('request', ContainerInterface::NULL_ON_INVALID_REFERENCE));
-        }
-    }
-
-    /**
      * Gets the 'configurator_service' service.
      *
      * This service is shared.
@@ -391,5 +376,19 @@ class ProjectServiceContainer extends Container
         $instance->foo = 'bar';
 
         return $instance;
+    }
+
+    /**
+     * Gets the default parameters.
+     *
+     * @return array An array of the default parameters
+     */
+    protected function getDefaultParameters()
+    {
+        return array(
+            'baz_class' => 'BazClass',
+            'foo_class' => 'Bar\\FooClass',
+            'foo' => 'bar',
+        );
     }
 }

@@ -15,12 +15,15 @@ use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+ *
+ * @internal
  */
 class XmlDescriptor extends Descriptor
 {
@@ -328,24 +331,53 @@ class XmlDescriptor extends Descriptor
 
         $serviceXML->setAttribute('class', $definition->getClass());
 
-        if ($definition->getFactoryClass()) {
-            $serviceXML->setAttribute('factory-class', $definition->getFactoryClass());
+        if (method_exists($definition, 'getFactoryMethod')) {
+            if ($definition->getFactoryClass(false)) {
+                $serviceXML->setAttribute('factory-class', $definition->getFactoryClass(false));
+            }
+
+            if ($definition->getFactoryService(false)) {
+                $serviceXML->setAttribute('factory-service', $definition->getFactoryService(false));
+            }
+
+            if ($definition->getFactoryMethod(false)) {
+                $serviceXML->setAttribute('factory-method', $definition->getFactoryMethod(false));
+            }
         }
 
-        if ($definition->getFactoryService()) {
-            $serviceXML->setAttribute('factory-service', $definition->getFactoryService());
+        if ($factory = $definition->getFactory()) {
+            $serviceXML->appendChild($factoryXML = $dom->createElement('factory'));
+
+            if (is_array($factory)) {
+                if ($factory[0] instanceof Reference) {
+                    $factoryXML->setAttribute('service', (string) $factory[0]);
+                } elseif ($factory[0] instanceof Definition) {
+                    throw new \InvalidArgumentException('Factory is not describable.');
+                } else {
+                    $factoryXML->setAttribute('class', $factory[0]);
+                }
+                $factoryXML->setAttribute('method', $factory[1]);
+            } else {
+                $factoryXML->setAttribute('function', $factory);
+            }
         }
 
-        if ($definition->getFactoryMethod()) {
-            $serviceXML->setAttribute('factory-method', $definition->getFactoryMethod());
-        }
-
-        $serviceXML->setAttribute('scope', $definition->getScope());
+        $serviceXML->setAttribute('scope', $definition->getScope(false));
         $serviceXML->setAttribute('public', $definition->isPublic() ? 'true' : 'false');
         $serviceXML->setAttribute('synthetic', $definition->isSynthetic() ? 'true' : 'false');
         $serviceXML->setAttribute('lazy', $definition->isLazy() ? 'true' : 'false');
-        $serviceXML->setAttribute('synchronized', $definition->isSynchronized() ? 'true' : 'false');
+        if (method_exists($definition, 'isShared')) {
+            $serviceXML->setAttribute('shared', $definition->isShared() ? 'true' : 'false');
+        }
+        if (method_exists($definition, 'isSynchronized')) {
+            $serviceXML->setAttribute('synchronized', $definition->isSynchronized(false) ? 'true' : 'false');
+        }
         $serviceXML->setAttribute('abstract', $definition->isAbstract() ? 'true' : 'false');
+
+        if (method_exists($definition, 'isAutowired')) {
+            $serviceXML->setAttribute('autowired', $definition->isAutowired() ? 'true' : 'false');
+        }
+
         $serviceXML->setAttribute('file', $definition->getFile());
 
         if (!$omitTags) {
@@ -412,8 +444,8 @@ class XmlDescriptor extends Descriptor
     }
 
     /**
-     * @param EventDispatcherInterface  $eventDispatcher
-     * @param string|null               $event
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param string|null              $event
      *
      * @return \DOMDocument
      */
@@ -424,11 +456,7 @@ class XmlDescriptor extends Descriptor
 
         $registeredListeners = $eventDispatcher->getListeners($event);
         if (null !== $event) {
-            foreach ($registeredListeners as $listener) {
-                $callableXML = $this->getCallableDocument($listener);
-
-                $eventDispatcherXML->appendChild($eventDispatcherXML->ownerDocument->importNode($callableXML->childNodes->item(0), true));
-            }
+            $this->appendEventListenerDocument($eventDispatcher, $event, $eventDispatcherXML, $registeredListeners);
         } else {
             ksort($registeredListeners);
 
@@ -436,15 +464,25 @@ class XmlDescriptor extends Descriptor
                 $eventDispatcherXML->appendChild($eventXML = $dom->createElement('event'));
                 $eventXML->setAttribute('name', $eventListened);
 
-                foreach ($eventListeners as $eventListener) {
-                    $callableXML = $this->getCallableDocument($eventListener);
-
-                    $eventXML->appendChild($eventXML->ownerDocument->importNode($callableXML->childNodes->item(0), true));
-                }
+                $this->appendEventListenerDocument($eventDispatcher, $eventListened, $eventXML, $eventListeners);
             }
         }
 
         return $dom;
+    }
+
+    /**
+     * @param \DOMElement $element
+     * @param array       $eventListeners
+     */
+    private function appendEventListenerDocument(EventDispatcherInterface $eventDispatcher, $event, \DOMElement $element, array $eventListeners)
+    {
+        foreach ($eventListeners as $listener) {
+            $callableXML = $this->getCallableDocument($listener);
+            $callableXML->childNodes->item(0)->setAttribute('priority', $eventDispatcher->getListenerPriority($event, $listener));
+
+            $element->appendChild($element->ownerDocument->importNode($callableXML->childNodes->item(0), true));
+        }
     }
 
     /**

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\Tests\EventListener;
 
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\EventListener\ProfilerListener;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -22,11 +23,11 @@ use Symfony\Component\HttpKernel\Kernel;
 class ProfilerListenerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test to ensure BC without RequestStack
+     * Test to ensure BC without RequestStack.
      *
-     * @deprecated Deprecated since version 2.4, to be removed in 3.0.
+     * @group legacy
      */
-    public function testEventsWithoutRequestStack()
+    public function testLegacyEventsWithoutRequestStack()
     {
         $profile = $this->getMockBuilder('Symfony\Component\HttpKernel\Profiler\Profile')
             ->disableOriginalConstructor()
@@ -78,7 +79,7 @@ class ProfilerListenerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $subRequest =  $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+        $subRequest = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -86,15 +87,16 @@ class ProfilerListenerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $requestStack = new RequestStack();
+        $requestStack->push($masterRequest);
+
         $onlyException = true;
-        $listener = new ProfilerListener($profiler, null, $onlyException);
+        $listener = new ProfilerListener($profiler, $requestStack, null, $onlyException);
 
         // master request
-        $listener->onKernelRequest(new GetResponseEvent($kernel, $masterRequest, Kernel::MASTER_REQUEST));
         $listener->onKernelResponse(new FilterResponseEvent($kernel, $masterRequest, Kernel::MASTER_REQUEST, $response));
 
         // sub request
-        $listener->onKernelRequest(new GetResponseEvent($kernel, $subRequest, Kernel::SUB_REQUEST));
         $listener->onKernelException(new GetResponseForExceptionEvent($kernel, $subRequest, Kernel::SUB_REQUEST, new HttpException(404)));
         $listener->onKernelResponse(new FilterResponseEvent($kernel, $subRequest, Kernel::SUB_REQUEST, $response));
 

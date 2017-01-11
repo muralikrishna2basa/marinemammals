@@ -11,6 +11,7 @@
 
 namespace Symfony\Bundle\FrameworkBundle\Test;
 
+use Symfony\Component\DependencyInjection\ResettableContainerInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -117,7 +118,7 @@ abstract class KernelTestCase extends \PHPUnit_Framework_TestCase
         $finder->name('*Kernel.php')->depth(0)->in($dir);
         $results = iterator_to_array($finder);
         if (!count($results)) {
-            throw new \RuntimeException('Either set KERNEL_DIR in your phpunit.xml according to http://symfony.com/doc/current/book/testing.html#your-first-functional-test or override the WebTestCase::createKernel() method.');
+            throw new \RuntimeException('Either set KERNEL_DIR in your phpunit.xml according to https://symfony.com/doc/current/book/testing.html#your-first-functional-test or override the WebTestCase::createKernel() method.');
         }
 
         $file = current($results);
@@ -141,7 +142,7 @@ abstract class KernelTestCase extends \PHPUnit_Framework_TestCase
         static::$kernel->boot();
     }
 
-   /**
+    /**
      * Creates a Kernel.
      *
      * Available options:
@@ -171,7 +172,11 @@ abstract class KernelTestCase extends \PHPUnit_Framework_TestCase
     protected static function ensureKernelShutdown()
     {
         if (null !== static::$kernel) {
+            $container = static::$kernel->getContainer();
             static::$kernel->shutdown();
+            if ($container instanceof ResettableContainerInterface) {
+                $container->reset();
+            }
         }
     }
 

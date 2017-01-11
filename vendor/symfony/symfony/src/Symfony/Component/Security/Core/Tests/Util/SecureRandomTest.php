@@ -13,58 +13,58 @@ namespace Symfony\Component\Security\Core\Tests\Util;
 
 use Symfony\Component\Security\Core\Util\SecureRandom;
 
+/**
+ * @group legacy
+ */
 class SecureRandomTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * T1: Monobit test
-     *
-     * @dataProvider getSecureRandoms
+     * T1: Monobit test.
      */
-    public function testMonobit($secureRandom)
+    public function testMonobit()
     {
+        $secureRandom = new SecureRandom();
         $nbOnBits = substr_count($this->getBitSequence($secureRandom, 20000), '1');
         $this->assertTrue($nbOnBits > 9654 && $nbOnBits < 10346, 'Monobit test failed, number of turned on bits: '.$nbOnBits);
     }
 
     /**
-     * T2: Chi-square test with 15 degrees of freedom (chi-Quadrat-Anpassungstest)
-     *
-     * @dataProvider getSecureRandoms
+     * T2: Chi-square test with 15 degrees of freedom (chi-Quadrat-Anpassungstest).
      */
-    public function testPoker($secureRandom)
+    public function testPoker()
     {
+        $secureRandom = new SecureRandom();
         $b = $this->getBitSequence($secureRandom, 20000);
         $c = array();
-        for ($i = 0; $i <= 15; $i++) {
+        for ($i = 0; $i <= 15; ++$i) {
             $c[$i] = 0;
         }
 
-        for ($j = 1; $j <= 5000; $j++) {
+        for ($j = 1; $j <= 5000; ++$j) {
             $k = 4 * $j - 1;
-            $c[8 * $b[$k - 3] + 4 * $b[$k - 2] + 2 * $b[$k - 1] + $b[$k]] += 1;
+            ++$c[8 * $b[$k - 3] + 4 * $b[$k - 2] + 2 * $b[$k - 1] + $b[$k]];
         }
 
         $f = 0;
-        for ($i = 0; $i <= 15; $i++) {
+        for ($i = 0; $i <= 15; ++$i) {
             $f += $c[$i] * $c[$i];
         }
 
-        $Y = 16/5000 * $f - 5000;
+        $Y = 16 / 5000 * $f - 5000;
 
         $this->assertTrue($Y > 1.03 && $Y < 57.4, 'Poker test failed, Y = '.$Y);
     }
 
     /**
-     * Run test
-     *
-     * @dataProvider getSecureRandoms
+     * Run test.
      */
-    public function testRun($secureRandom)
+    public function testRun()
     {
+        $secureRandom = new SecureRandom();
         $b = $this->getBitSequence($secureRandom, 20000);
 
         $runs = array();
-        for ($i = 1; $i <= 6; $i++) {
+        for ($i = 1; $i <= 6; ++$i) {
             $runs[$i] = 0;
         }
 
@@ -73,14 +73,14 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase
                 $run = 6;
             }
 
-            $runs[$run] += 1;
+            ++$runs[$run];
         };
 
         $currentRun = 0;
         $lastBit = null;
-        for ($i = 0; $i < 20000; $i++) {
+        for ($i = 0; $i < 20000; ++$i) {
             if ($lastBit === $b[$i]) {
-                $currentRun += 1;
+                ++$currentRun;
             } else {
                 if ($currentRun > 0) {
                     $addRun($currentRun);
@@ -103,19 +103,18 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Long-run test
-     *
-     * @dataProvider getSecureRandoms
+     * Long-run test.
      */
-    public function testLongRun($secureRandom)
+    public function testLongRun()
     {
+        $secureRandom = new SecureRandom();
         $b = $this->getBitSequence($secureRandom, 20000);
 
         $longestRun = $currentRun = 0;
         $lastBit = null;
-        for ($i = 0; $i < 20000; $i++) {
+        for ($i = 0; $i < 20000; ++$i) {
             if ($lastBit === $b[$i]) {
-                $currentRun += 1;
+                ++$currentRun;
             } else {
                 if ($currentRun > $longestRun) {
                     $longestRun = $currentRun;
@@ -132,59 +131,20 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Serial Correlation (Autokorrelationstest)
-     *
-     * @dataProvider getSecureRandoms
+     * Serial Correlation (Autokorrelationstest).
      */
-    public function testSerialCorrelation($secureRandom)
+    public function testSerialCorrelation()
     {
-        $shift = rand(1, 5000);
+        $secureRandom = new SecureRandom();
+        $shift = mt_rand(1, 5000);
         $b = $this->getBitSequence($secureRandom, 20000);
 
         $Z = 0;
-        for ($i = 0; $i < 5000; $i++) {
+        for ($i = 0; $i < 5000; ++$i) {
             $Z += $b[$i] === $b[$i + $shift] ? 1 : 0;
         }
 
         $this->assertTrue($Z > 2326 && $Z < 2674, 'Failed serial correlation test: '.$Z);
-    }
-
-    public function getSecureRandoms()
-    {
-        $secureRandoms = array();
-
-        // only add if openssl is indeed present
-        $secureRandom = new SecureRandom();
-        if ($this->hasOpenSsl($secureRandom)) {
-            $secureRandoms[] = array($secureRandom);
-        }
-
-        // no-openssl with custom seed provider
-        $secureRandom = new SecureRandom(sys_get_temp_dir().'/_sf2.seed');
-        $this->disableOpenSsl($secureRandom);
-        $secureRandoms[] = array($secureRandom);
-
-        return $secureRandoms;
-    }
-
-    protected function disableOpenSsl($secureRandom)
-    {
-        $ref = new \ReflectionProperty($secureRandom, 'useOpenSsl');
-        $ref->setAccessible(true);
-        $ref->setValue($secureRandom, false);
-        $ref->setAccessible(false);
-    }
-
-    protected function hasOpenSsl($secureRandom)
-    {
-        $ref = new \ReflectionProperty($secureRandom, 'useOpenSsl');
-        $ref->setAccessible(true);
-
-        $ret = $ref->getValue($secureRandom);
-
-        $ref->setAccessible(false);
-
-        return $ret;
     }
 
     private function getBitSequence($secureRandom, $length)

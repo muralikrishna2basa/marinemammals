@@ -95,12 +95,57 @@ UPGRADE FROM 2.x to 3.0
    been removed in favor of `Definition::setFactory()`. Services defined using
    YAML or XML use the same syntax as configurators.
 
+ * Synchronized services are deprecated and the following methods have been
+   removed: `ContainerBuilder::synchronize()`, `Definition::isSynchronized()`,
+   and `Definition::setSynchronized()`.
+
 ### EventDispatcher
 
  * The interface `Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface`
    extends `Symfony\Component\EventDispatcher\EventDispatcherInterface`.
 
 ### Form
+
+ * The option "precision" was renamed to "scale".
+
+   Before:
+
+   ```php
+   $builder->add('length', 'number', array(
+      'precision' => 3,
+   ));
+   ```
+
+   After:
+
+   ```php
+   $builder->add('length', 'number', array(
+      'scale' => 3,
+   ));
+   ```
+
+ * The option "`virtual`" was renamed to "`inherit_data`".
+
+   Before:
+
+   ```php
+   $builder->add('address', 'form', array(
+       'virtual' => true,
+   ));
+   ```
+
+   After:
+
+   ```php
+   $builder->add('address', 'form', array(
+       'inherit_data' => true,
+   ));
+   ```
+
+ * The method `AbstractType::setDefaultOptions(OptionsResolverInterface $resolver)` and
+   `AbstractTypeExtension::setDefaultOptions(OptionsResolverInterface $resolver)` have been
+   renamed. You should use `AbstractType::configureOptions(OptionsResolver $resolver)` and
+   `AbstractTypeExtension::configureOptions(OptionsResolver $resolver)` instead.
 
  * The methods `Form::bind()` and `Form::isBound()` were removed. You should
    use `Form::submit()` and `Form::isSubmitted()` instead.
@@ -178,24 +223,6 @@ UPGRADE FROM 2.x to 3.0
    });
    ```
 
- * The option "`virtual`" was renamed to "`inherit_data`".
-
-   Before:
-
-   ```php
-   $builder->add('address', 'form', array(
-       'virtual' => true,
-   ));
-   ```
-
-   After:
-
-   ```php
-   $builder->add('address', 'form', array(
-       'inherit_data' => true,
-   ));
-   ```
-
  * The class `VirtualFormAwareIterator` was renamed to `InheritDataAwareIterator`.
 
    Before:
@@ -237,6 +264,12 @@ UPGRADE FROM 2.x to 3.0
        // ...
    }
    ```
+   
+ * The option "options" of the CollectionType has been renamed to "entry_options".
+
+ * The option "type" of the CollectionType has been renamed to "entry_type".
+   As a value for the option you must provide the fully-qualified class name (FQCN) 
+   now as well.   
 
  * The `FormIntegrationTestCase` and `FormPerformanceTestCase` classes were moved form the `Symfony\Component\Form\Tests` namespace to the `Symfony\Component\Form\Test` namespace.
 
@@ -273,11 +306,30 @@ UPGRADE FROM 2.x to 3.0
    echo $form->getErrors(true, false);
    ```
 
-   ```php
-   echo $form->getErrors(true, false);
-   ```
+ * The `Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList` class has been removed in
+   favor of `Symfony\Component\Form\ChoiceList\ArrayChoiceList`.
+
+ * The `Symfony\Component\Form\Extension\Core\ChoiceList\LazyChoiceList` class has been removed in
+   favor of `Symfony\Component\Form\ChoiceList\LazyChoiceList`.
+
+ * The `Symfony\Component\Form\Extension\Core\ChoiceList\ObjectChoiceList` class has been removed in
+   favor of `Symfony\Component\Form\ChoiceList\ArrayChoiceList`.
+
+ * The `Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList` class has been removed in
+   favor of `Symfony\Component\Form\ChoiceList\ArrayChoiceList`.
+   
+ * The `TimezoneType::getTimezones()` method was removed. You should not use 
+   this method.
+
+ * The `Symfony\Component\Form\ChoiceList\ArrayKeyChoiceList` class has been removed in
+   favor of `Symfony\Component\Form\ChoiceList\ArrayChoiceList`.
 
 ### FrameworkBundle
+
+ * The `config:debug`, `container:debug`, `router:debug`, `translation:debug`
+   and `yaml:lint` commands have been deprecated since Symfony 2.7 and will
+   be removed in Symfony 3.0. Use the `debug:config`, `debug:container`,
+   `debug:router`, `debug:translation` and `lint:yaml` commands instead.
 
  * The `getRequest` method of the base `Controller` class has been deprecated
    since Symfony 2.4 and must be therefore removed in 3.0. The only reliable
@@ -316,6 +368,51 @@ UPGRADE FROM 2.x to 3.0
 
  * The `request` service was removed. You must inject the `request_stack`
    service instead.
+
+ * The `templating.helper.assets` was removed in Symfony 3.0. You should
+   use the `assets.package` service instead.
+
+   Before:
+
+   ```php
+   use Symfony\Component\Templating\Helper\CoreAssetsHelper;
+
+   class DemoService
+   {
+       private $assetsHelper;
+
+       public function __construct(CoreAssetsHelper $assetsHelper)
+       {
+           $this->assetsHelper = $assetsHelper;
+       }
+
+       public function testMethod()
+       {
+           return $this->assetsHelper->getUrl('thumbnail.png', null, $this->assetsHelper->getVersion());
+       }
+   }
+   ```
+
+   After:
+
+   ```php
+   use Symfony\Component\Asset\Packages;
+
+   class DemoService
+   {
+       private $assetPackages;
+
+       public function __construct(Packages $assetPackages)
+       {
+           $this->assetPackages = $assetPackages;
+       }
+
+       public function testMethod()
+       {
+           return $this->assetPackages->getUrl('thumbnail.png').$this->assetPackages->getVersion();
+       }
+   }
+   ```
 
  * The `enctype` method of the `form` helper was removed. You should use the
    new method `start` instead.
@@ -368,6 +465,21 @@ UPGRADE FROM 2.x to 3.0
    ```
 
  * The `RouterApacheDumperCommand` was removed.
+
+ * The `templating.helper.router` service was moved to `templating_php.xml`. You
+   have to ensure that the PHP templating engine is enabled to be able to use it:
+
+   ```yaml
+   framework:
+       templating:
+           engines: ['php']
+   ```
+
+ * The `form.csrf_provider` service is removed as it implements an adapter for
+   the new token manager to the deprecated
+   `Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface`
+   interface.
+   The `security.csrf.token_manager` should be used instead.
 
 ### HttpKernel
 
@@ -501,12 +613,140 @@ UPGRADE FROM 2.x to 3.0
 
  * The `Resources/` directory was moved to `Core/Resources/`
 
+ * The `key` settings of `anonymous`, `remember_me` and `http_digest` are
+   renamed to `secret`.
+
+   Before:
+
+   ```yaml
+   security:
+       # ...
+       firewalls:
+           default:
+               # ...
+               anonymous: { key: "%secret%" }
+               remember_me:
+                   key: "%secret%"
+               http_digest:
+                   key: "%secret%"
+   ```
+
+   ```xml
+   <!-- ... -->
+   <config>
+       <!-- ... -->
+
+       <firewall>
+           <!-- ... -->
+
+           <anonymous key="%secret%"/>
+           <remember-me key="%secret%"/>
+           <http-digest key="%secret%"/>
+       </firewall>
+   </config>
+   ```
+
+   ```php
+   // ...
+   $container->loadFromExtension('security', array(
+       // ...
+       'firewalls' => array(
+           // ...
+           'anonymous' => array('key' => '%secret%'),
+           'remember_me' => array('key' => '%secret%'),
+           'http_digest' => array('key' => '%secret%'),
+       ),
+   ));
+   ```
+
+   After:
+
+   ```yaml
+   security:
+       # ...
+       firewalls:
+           default:
+               # ...
+               anonymous: { secret: "%secret%" }
+               remember_me:
+                   secret: "%secret%"
+               http_digest:
+                   secret: "%secret%"
+   ```
+
+   ```xml
+   <!-- ... -->
+   <config>
+       <!-- ... -->
+
+       <firewall>
+           <!-- ... -->
+
+           <anonymous secret="%secret%"/>
+           <remember-me secret="%secret%"/>
+           <http-digest secret="%secret%"/>
+       </firewall>
+   </config>
+   ```
+
+   ```php
+   // ...
+   $container->loadFromExtension('security', array(
+       // ...
+       'firewalls' => array(
+           // ...
+           'anonymous' => array('secret' => '%secret%'),
+           'remember_me' => array('secret' => '%secret%'),
+           'http_digest' => array('secret' => '%secret%'),
+       ),
+   ));
+  ```
+
+ * The `AbstractVoter::getSupportedAttributes()` and `AbstractVoter::getSupportedClasses()`
+   methods have been removed in favor of `AbstractVoter::supports()`.
+
+   Before:
+
+   ```php
+   class MyVoter extends AbstractVoter
+   {
+       protected function getSupportedAttributes()
+       {
+           return array('CREATE', 'EDIT');
+       }
+
+       protected function getSupportedClasses()
+       {
+           return array('AppBundle\Entity\Post');
+       }
+
+       // ...
+   }
+   ```
+
+   After:
+
+   ```php
+   class MyVoter extends AbstractVoter
+   {
+       protected function supports($attribute, $object)
+       {
+           return $object instanceof Post && in_array($attribute, array('CREATE', 'EDIT'));
+       }
+
+       // ...
+   }
+   ```
+
 ### Translator
 
  * The `Translator::setFallbackLocale()` method has been removed in favor of
    `Translator::setFallbackLocales()`.
 
 ### Twig Bridge
+
+ * The `twig:lint` command has been deprecated since Symfony 2.7 and will be
+   removed in Symfony 3.0. Use the `lint:twig` command instead.
 
  * The `render` tag is deprecated in favor of the `render` function.
 
@@ -559,6 +799,11 @@ UPGRADE FROM 2.x to 3.0
        ...
    {{ form_end(form) }}
    ```
+
+### TwigBundle
+
+ * The `twig:debug` command has been deprecated since Symfony 2.7 and will be
+   removed in Symfony 3.0. Use the `debug:twig` command instead.
 
 ### Validator
 
@@ -977,7 +1222,41 @@ UPGRADE FROM 2.x to 3.0
    $plural = $violation->getPlural();
    ```
 
+ * The class `Symfony\Component\Validator\DefaultTranslator` was removed. You
+   should use `Symfony\Component\Translation\IdentityTranslator` instead.
+
+   Before:
+
+   ```php
+   $translator = new \Symfony\Component\Validator\DefaultTranslator();
+   ```
+
+   After:
+
+   ```php
+   $translator = new \Symfony\Component\Translation\IdentityTranslator();
+   $translator->setLocale('en');
+   ```
+
 ### Yaml
+
+ * Using a colon in an unquoted mapping value leads to a `ParseException`.
+ * Starting an unquoted string with `@`, `` ` ``, `|`, or `>` leads to a `ParseException`.
+ * When surrounding strings with double-quotes, you must now escape `\` characters. Not
+   escaping those characters (when surrounded by double-quotes) leads to a `ParseException`.
+
+   Before:
+
+   ```yml
+   class: "Foo\Var"
+   ```
+
+   After:
+
+   ```yml
+   class: "Foo\\Var"
+   ```
+
 
  * The ability to pass file names to `Yaml::parse()` has been removed.
 
@@ -998,3 +1277,10 @@ UPGRADE FROM 2.x to 3.0
  * `Process::setStdin()` and `Process::getStdin()` have been removed. Use
    `Process::setInput()` and `Process::getInput()` that works the same way.
  * `Process::setInput()` and `ProcessBuilder::setInput()` do not accept non-scalar types.
+
+### Config
+
+ * `\Symfony\Component\Config\Resource\ResourceInterface::isFresh()` has been removed. Also,
+   cache validation through this method (which was still supported in 2.8 for BC) does no longer
+   work because the `\Symfony\Component\Config\Resource\BCResourceInterfaceChecker` helper class
+   has been removed as well.

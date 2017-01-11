@@ -11,10 +11,15 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
+@trigger_error('The '.__NAMESPACE__.'\BaseMemcacheProfilerStorage class is deprecated since Symfony 2.8 and will be removed in 3.0. Use FileProfilerStorage instead.', E_USER_DEPRECATED);
+
 /**
  * Base Memcache storage for profiling information in a Memcache.
  *
  * @author Andrej Hudec <pulzarraider@gmail.com>
+ *
+ * @deprecated Deprecated since Symfony 2.8, to be removed in Symfony 3.0.
+ *             Use {@link FileProfilerStorage} instead.
  */
 abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
 {
@@ -61,7 +66,9 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
                 continue;
             }
 
-            list($itemToken, $itemIp, $itemMethod, $itemUrl, $itemTime, $itemParent) = explode("\t", $item, 6);
+            $values = explode("\t", $item, 7);
+            list($itemToken, $itemIp, $itemMethod, $itemUrl, $itemTime, $itemParent) = $values;
+            $statusCode = isset($values[6]) ? $values[6] : null;
 
             $itemTime = (int) $itemTime;
 
@@ -84,6 +91,7 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
                 'url' => $itemUrl,
                 'time' => $itemTime,
                 'parent' => $itemParent,
+                'status_code' => $statusCode,
             );
             --$limit;
         }
@@ -176,6 +184,7 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
                     $profile->getUrl(),
                     $profile->getTime(),
                     $profile->getParentToken(),
+                    $profile->getStatusCode(),
                 ))."\n";
 
                 return $this->appendValue($indexName, $indexRow, $this->lifetime);
@@ -188,7 +197,7 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
     }
 
     /**
-     * Retrieve item from the memcache server
+     * Retrieve item from the memcache server.
      *
      * @param string $key
      *
@@ -197,7 +206,7 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
     abstract protected function getValue($key);
 
     /**
-     * Store an item on the memcache server under the specified key
+     * Store an item on the memcache server under the specified key.
      *
      * @param string $key
      * @param mixed  $value
@@ -208,7 +217,7 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
     abstract protected function setValue($key, $value, $expiration = 0);
 
     /**
-     * Delete item from the memcache server
+     * Delete item from the memcache server.
      *
      * @param string $key
      *
@@ -217,7 +226,8 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
     abstract protected function delete($key);
 
     /**
-     * Append data to an existing item on the memcache server
+     * Append data to an existing item on the memcache server.
+     *
      * @param string $key
      * @param string $value
      * @param int    $expiration
@@ -259,7 +269,7 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
     }
 
     /**
-     * Get item name
+     * Get item name.
      *
      * @param string $token
      *
@@ -277,7 +287,7 @@ abstract class BaseMemcacheProfilerStorage implements ProfilerStorageInterface
     }
 
     /**
-     * Get name of index
+     * Get name of index.
      *
      * @return string
      */

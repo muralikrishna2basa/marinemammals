@@ -12,11 +12,12 @@
 namespace Symfony\Component\HttpKernel\Tests\HttpCache;
 
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
-use Symfony\Component\HttpKernel\HttpCache\StoreInterface;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @group time-sensitive
+ */
 class HttpCacheTest extends HttpCacheTestCase
 {
     public function testTerminateDelegatesTerminationOnlyForTerminableInterface()
@@ -127,7 +128,7 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testRespondsWith304WhenIfModifiedSinceMatchesLastModified()
     {
-        $time = new \DateTime();
+        $time = \DateTime::createFromFormat('U', time());
 
         $this->setNextResponse(200, array('Cache-Control' => 'public', 'Last-Modified' => $time->format(DATE_RFC2822), 'Content-Type' => 'text/plain'), 'Hello World');
         $this->request('GET', '/', array('HTTP_IF_MODIFIED_SINCE' => $time->format(DATE_RFC2822)));
@@ -156,7 +157,7 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testRespondsWith304OnlyIfIfNoneMatchAndIfModifiedSinceBothMatch()
     {
-        $time = new \DateTime();
+        $time = \DateTime::createFromFormat('U', time());
 
         $this->setNextResponse(200, array(), '', function ($request, $response) use ($time) {
             $response->setStatusCode(200);
@@ -595,7 +596,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->assertTraceContains('miss');
         $this->assertTraceContains('store');
         $this->assertEquals('Hello World', $this->response->getContent());
-        $this->assertRegExp('/s-maxage=(?:2|3)/', $this->response->headers->get('Cache-Control'));
+        $this->assertRegExp('/s-maxage=2/', $this->response->headers->get('Cache-Control'));
 
         $this->request('GET', '/');
         $this->assertHttpKernelIsNotCalled();
@@ -609,7 +610,8 @@ class HttpCacheTest extends HttpCacheTestCase
         $values = $this->getMetaStorageValues();
         $this->assertCount(1, $values);
         $tmp = unserialize($values[0]);
-        $tmp[0][1]['date'] = \DateTime::createFromFormat('U', time() - 5)->format(DATE_RFC2822);
+        $time = \DateTime::createFromFormat('U', time() - 5);
+        $tmp[0][1]['date'] = $time->format(DATE_RFC2822);
         $r = new \ReflectionObject($this->store);
         $m = $r->getMethod('save');
         $m->setAccessible(true);
@@ -658,7 +660,8 @@ class HttpCacheTest extends HttpCacheTestCase
         $values = $this->getMetaStorageValues();
         $this->assertCount(1, $values);
         $tmp = unserialize($values[0]);
-        $tmp[0][1]['date'] = \DateTime::createFromFormat('U', time() - 5)->format(DATE_RFC2822);
+        $time = \DateTime::createFromFormat('U', time() - 5);
+        $tmp[0][1]['date'] = $time->format(DATE_RFC2822);
         $r = new \ReflectionObject($this->store);
         $m = $r->getMethod('save');
         $m->setAccessible(true);
@@ -1069,7 +1072,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->setNextResponses($responses);
 
         $this->request('GET', '/', array(), array(), true);
-        $this->assertEquals("Hello World! My name is Bobby.", $this->response->getContent());
+        $this->assertEquals('Hello World! My name is Bobby.', $this->response->getContent());
 
         // check for 100 or 99 as the test can be executed after a second change
         $this->assertTrue(in_array($this->response->getTtl(), array(99, 100)));
@@ -1199,7 +1202,7 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testEsiCacheRemoveValidationHeadersIfEmbeddedResponses()
     {
-        $time = new \DateTime();
+        $time = \DateTime::createFromFormat('U', time());
 
         $responses = array(
             array(

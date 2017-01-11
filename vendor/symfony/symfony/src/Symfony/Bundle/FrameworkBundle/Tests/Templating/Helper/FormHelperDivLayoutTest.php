@@ -18,8 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Tests\Templating\Helper\Fixtures\StubTemplate
 use Symfony\Bundle\FrameworkBundle\Tests\Templating\Helper\Fixtures\StubTranslator;
 use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\Loader\FilesystemLoader;
-
-// should probably be moved to the Translation component
 use Symfony\Bundle\FrameworkBundle\Templating\Helper\TranslatorHelper;
 
 class FormHelperDivLayoutTest extends AbstractDivLayoutTest
@@ -28,6 +26,10 @@ class FormHelperDivLayoutTest extends AbstractDivLayoutTest
      * @var PhpEngine
      */
     protected $engine;
+
+    protected $testableFeatures = array(
+        'choice_attr',
+    );
 
     protected function getExtensions()
     {
@@ -59,6 +61,30 @@ class FormHelperDivLayoutTest extends AbstractDivLayoutTest
         parent::tearDown();
     }
 
+    public function testStartTagHasNoActionAttributeWhenActionIsEmpty()
+    {
+        $form = $this->factory->create('Symfony\Component\Form\Extension\Core\Type\FormType', null, array(
+            'method' => 'get',
+            'action' => '',
+        ));
+
+        $html = $this->renderStart($form->createView());
+
+        $this->assertSame('<form name="form" method="get">', $html);
+    }
+
+    public function testStartTagHasActionAttributeWhenActionIsZero()
+    {
+        $form = $this->factory->create('Symfony\Component\Form\Extension\Core\Type\FormType', null, array(
+            'method' => 'get',
+            'action' => '0',
+        ));
+
+        $html = $this->renderStart($form->createView());
+
+        $this->assertSame('<form name="form" method="get" action="0">', $html);
+    }
+
     protected function renderForm(FormView $view, array $vars = array())
     {
         return (string) $this->engine->get('form')->form($view, $vars);
@@ -66,7 +92,11 @@ class FormHelperDivLayoutTest extends AbstractDivLayoutTest
 
     protected function renderEnctype(FormView $view)
     {
-        return (string) $this->engine->get('form')->enctype($view);
+        if (!method_exists($form = $this->engine->get('form'), 'enctype')) {
+            $this->markTestSkipped(sprintf('Deprecated method %s->enctype() is not implemented.', get_class($form)));
+        }
+
+        return (string) $form->enctype($view);
     }
 
     protected function renderLabel(FormView $view, $label = null, array $vars = array())

@@ -14,9 +14,11 @@ namespace Symfony\Component\Intl\DateFormatter\DateFormat;
 use Symfony\Component\Intl\Exception\NotImplementedException;
 
 /**
- * Parser and formatter for time zone format
+ * Parser and formatter for time zone format.
  *
  * @author Igor Wiedler <igor@wiedler.ch>
+ *
+ * @internal
  */
 class TimeZoneTransformer extends Transformer
 {
@@ -29,7 +31,7 @@ class TimeZoneTransformer extends Transformer
     {
         $timeZone = substr($dateTime->getTimezone()->getName(), 0, 3);
 
-        if (!in_array($timeZone, array('Etc', 'UTC'))) {
+        if (!in_array($timeZone, array('Etc', 'UTC', 'GMT'))) {
             throw new NotImplementedException('Time zone different than GMT or UTC is not supported as a formatting output.');
         }
 
@@ -58,7 +60,7 @@ class TimeZoneTransformer extends Transformer
     }
 
     /**
-     * Get an Etc/GMT timezone identifier for the specified timezone
+     * Get an Etc/GMT timezone identifier for the specified timezone.
      *
      * The PHP documentation for timezones states to not use the 'Other' time zones because them exists
      * "for backwards compatibility". However all Etc/GMT time zones are in the tz database 'etcetera' file,

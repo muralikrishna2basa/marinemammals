@@ -137,8 +137,8 @@ class ClassCollectionLoader
     public static function fixNamespaceDeclarations($source)
     {
         if (!function_exists('token_get_all') || !self::$useTokenizer) {
-            if (preg_match('/namespace(.*?)\s*;/', $source)) {
-                $source = preg_replace('/namespace(.*?)\s*;/', "namespace$1\n{", $source)."}\n";
+            if (preg_match('/(^|\s)namespace(.*?)\s*;/', $source)) {
+                $source = preg_replace('/(^|\s)namespace(.*?)\s*;/', "$1namespace$2\n{", $source)."}\n";
             }
 
             return $source;
@@ -283,7 +283,7 @@ class ClassCollectionLoader
 
         $traits = array();
 
-        if (function_exists('get_declared_traits')) {
+        if (method_exists('ReflectionClass', 'getTraits')) {
             foreach ($classes as $c) {
                 foreach (self::resolveDependencies(self::computeTraitDeps($c), $c) as $trait) {
                     if ($trait !== $c) {
@@ -353,14 +353,17 @@ class ClassCollectionLoader
             $unresolved = new \ArrayObject();
         }
         $nodeName = $node->getName();
-        $unresolved[$nodeName] = $node;
-        foreach ($tree[$nodeName] as $dependency) {
-            if (!$resolved->offsetExists($dependency->getName())) {
-                self::resolveDependencies($tree, $dependency, $resolved, $unresolved);
+
+        if (isset($tree[$nodeName])) {
+            $unresolved[$nodeName] = $node;
+            foreach ($tree[$nodeName] as $dependency) {
+                if (!$resolved->offsetExists($dependency->getName())) {
+                    self::resolveDependencies($tree, $dependency, $resolved, $unresolved);
+                }
             }
+            $resolved[$nodeName] = $node;
+            unset($unresolved[$nodeName]);
         }
-        $resolved[$nodeName] = $node;
-        unset($unresolved[$nodeName]);
 
         return $resolved;
     }

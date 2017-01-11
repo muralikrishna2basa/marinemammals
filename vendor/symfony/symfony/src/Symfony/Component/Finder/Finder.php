@@ -15,7 +15,17 @@ use Symfony\Component\Finder\Adapter\AdapterInterface;
 use Symfony\Component\Finder\Adapter\GnuFindAdapter;
 use Symfony\Component\Finder\Adapter\BsdFindAdapter;
 use Symfony\Component\Finder\Adapter\PhpAdapter;
+use Symfony\Component\Finder\Comparator\DateComparator;
+use Symfony\Component\Finder\Comparator\NumberComparator;
 use Symfony\Component\Finder\Exception\ExceptionInterface;
+use Symfony\Component\Finder\Iterator\CustomFilterIterator;
+use Symfony\Component\Finder\Iterator\DateRangeFilterIterator;
+use Symfony\Component\Finder\Iterator\DepthRangeFilterIterator;
+use Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator;
+use Symfony\Component\Finder\Iterator\FilecontentFilterIterator;
+use Symfony\Component\Finder\Iterator\FilenameFilterIterator;
+use Symfony\Component\Finder\Iterator\SizeRangeFilterIterator;
+use Symfony\Component\Finder\Iterator\SortableIterator;
 
 /**
  * Finder allows to build rules to find files and directories.
@@ -29,8 +39,6 @@ use Symfony\Component\Finder\Exception\ExceptionInterface;
  * $finder = Finder::create()->files()->name('*.php')->in(__DIR__);
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class Finder implements \IteratorAggregate, \Countable
 {
@@ -52,7 +60,7 @@ class Finder implements \IteratorAggregate, \Countable
     private $iterators = array();
     private $contains = array();
     private $notContains = array();
-    private $adapters = array();
+    private $adapters = null;
     private $paths = array();
     private $notPaths = array();
     private $ignoreUnreadableDirs = false;
@@ -65,21 +73,12 @@ class Finder implements \IteratorAggregate, \Countable
     public function __construct()
     {
         $this->ignore = static::IGNORE_VCS_FILES | static::IGNORE_DOT_FILES;
-
-        $this
-            ->addAdapter(new GnuFindAdapter())
-            ->addAdapter(new BsdFindAdapter())
-            ->addAdapter(new PhpAdapter(), -50)
-            ->setAdapter('php')
-        ;
     }
 
     /**
      * Creates a new Finder.
      *
      * @return Finder A new Finder instance
-     *
-     * @api
      */
     public static function create()
     {
@@ -93,9 +92,15 @@ class Finder implements \IteratorAggregate, \Countable
      * @param int              $priority Highest is selected first
      *
      * @return Finder The current Finder instance
+     *
+     * @deprecated since 2.8, to be removed in 3.0.
      */
     public function addAdapter(AdapterInterface $adapter, $priority = 0)
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+
+        $this->initDefaultAdapters();
+
         $this->adapters[$adapter->getName()] = array(
             'adapter' => $adapter,
             'priority' => $priority,
@@ -109,9 +114,15 @@ class Finder implements \IteratorAggregate, \Countable
      * Sets the selected adapter to the best one according to the current platform the code is run on.
      *
      * @return Finder The current Finder instance
+     *
+     * @deprecated since 2.8, to be removed in 3.0.
      */
     public function useBestAdapter()
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+
+        $this->initDefaultAdapters();
+
         $this->resetAdapterSelection();
 
         return $this->sortAdapters();
@@ -125,9 +136,15 @@ class Finder implements \IteratorAggregate, \Countable
      * @throws \InvalidArgumentException
      *
      * @return Finder The current Finder instance
+     *
+     * @deprecated since 2.8, to be removed in 3.0.
      */
     public function setAdapter($name)
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+
+        $this->initDefaultAdapters();
+
         if (!isset($this->adapters[$name])) {
             throw new \InvalidArgumentException(sprintf('Adapter "%s" does not exist.', $name));
         }
@@ -142,9 +159,13 @@ class Finder implements \IteratorAggregate, \Countable
      * Removes all adapters registered in the finder.
      *
      * @return Finder The current Finder instance
+     *
+     * @deprecated since 2.8, to be removed in 3.0.
      */
     public function removeAdapters()
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+
         $this->adapters = array();
 
         return $this;
@@ -154,9 +175,15 @@ class Finder implements \IteratorAggregate, \Countable
      * Returns registered adapters ordered by priority without extra information.
      *
      * @return AdapterInterface[]
+     *
+     * @deprecated since 2.8, to be removed in 3.0.
      */
     public function getAdapters()
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+
+        $this->initDefaultAdapters();
+
         return array_values(array_map(function (array $adapter) {
             return $adapter['adapter'];
         }, $this->adapters));
@@ -166,8 +193,6 @@ class Finder implements \IteratorAggregate, \Countable
      * Restricts the matching to directories only.
      *
      * @return Finder The current Finder instance
-     *
-     * @api
      */
     public function directories()
     {
@@ -180,8 +205,6 @@ class Finder implements \IteratorAggregate, \Countable
      * Restricts the matching to files only.
      *
      * @return Finder The current Finder instance
-     *
-     * @api
      */
     public function files()
     {
@@ -202,10 +225,8 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\DepthRangeFilterIterator
-     * @see Symfony\Component\Finder\Comparator\NumberComparator
-     *
-     * @api
+     * @see DepthRangeFilterIterator
+     * @see NumberComparator
      */
     public function depth($level)
     {
@@ -224,15 +245,13 @@ class Finder implements \IteratorAggregate, \Countable
      *   $finder->date('> now - 2 hours');
      *   $finder->date('>= 2005-10-15');
      *
-     * @param string $date A date rage string
+     * @param string $date A date range string
      *
      * @return Finder The current Finder instance
      *
      * @see strtotime
-     * @see Symfony\Component\Finder\Iterator\DateRangeFilterIterator
-     * @see Symfony\Component\Finder\Comparator\DateComparator
-     *
-     * @api
+     * @see DateRangeFilterIterator
+     * @see DateComparator
      */
     public function date($date)
     {
@@ -254,9 +273,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\FilenameFilterIterator
-     *
-     * @api
+     * @see FilenameFilterIterator
      */
     public function name($pattern)
     {
@@ -272,9 +289,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\FilenameFilterIterator
-     *
-     * @api
+     * @see FilenameFilterIterator
      */
     public function notName($pattern)
     {
@@ -295,7 +310,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\FilecontentFilterIterator
+     * @see FilecontentFilterIterator
      */
     public function contains($pattern)
     {
@@ -316,7 +331,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\FilecontentFilterIterator
+     * @see FilecontentFilterIterator
      */
     public function notContains($pattern)
     {
@@ -339,7 +354,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\FilenameFilterIterator
+     * @see FilenameFilterIterator
      */
     public function path($pattern)
     {
@@ -362,7 +377,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\FilenameFilterIterator
+     * @see FilenameFilterIterator
      */
     public function notPath($pattern)
     {
@@ -382,10 +397,8 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\SizeRangeFilterIterator
-     * @see Symfony\Component\Finder\Comparator\NumberComparator
-     *
-     * @api
+     * @see SizeRangeFilterIterator
+     * @see NumberComparator
      */
     public function size($size)
     {
@@ -401,9 +414,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
-     *
-     * @api
+     * @see ExcludeDirectoryFilterIterator
      */
     public function exclude($dirs)
     {
@@ -419,16 +430,14 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
-     *
-     * @api
+     * @see ExcludeDirectoryFilterIterator
      */
     public function ignoreDotFiles($ignoreDotFiles)
     {
         if ($ignoreDotFiles) {
-            $this->ignore = $this->ignore | static::IGNORE_DOT_FILES;
+            $this->ignore |= static::IGNORE_DOT_FILES;
         } else {
-            $this->ignore = $this->ignore & ~static::IGNORE_DOT_FILES;
+            $this->ignore &= ~static::IGNORE_DOT_FILES;
         }
 
         return $this;
@@ -441,16 +450,14 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
-     *
-     * @api
+     * @see ExcludeDirectoryFilterIterator
      */
     public function ignoreVCS($ignoreVCS)
     {
         if ($ignoreVCS) {
-            $this->ignore = $this->ignore | static::IGNORE_VCS_FILES;
+            $this->ignore |= static::IGNORE_VCS_FILES;
         } else {
-            $this->ignore = $this->ignore & ~static::IGNORE_VCS_FILES;
+            $this->ignore &= ~static::IGNORE_VCS_FILES;
         }
 
         return $this;
@@ -459,7 +466,7 @@ class Finder implements \IteratorAggregate, \Countable
     /**
      * Adds VCS patterns.
      *
-     * @see ignoreVCS
+     * @see ignoreVCS()
      *
      * @param string|string[] $pattern VCS patterns to ignore
      */
@@ -483,9 +490,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\SortableIterator
-     *
-     * @api
+     * @see SortableIterator
      */
     public function sort(\Closure $closure)
     {
@@ -501,9 +506,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\SortableIterator
-     *
-     * @api
+     * @see SortableIterator
      */
     public function sortByName()
     {
@@ -519,9 +522,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\SortableIterator
-     *
-     * @api
+     * @see SortableIterator
      */
     public function sortByType()
     {
@@ -539,9 +540,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\SortableIterator
-     *
-     * @api
+     * @see SortableIterator
      */
     public function sortByAccessedTime()
     {
@@ -561,9 +560,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\SortableIterator
-     *
-     * @api
+     * @see SortableIterator
      */
     public function sortByChangedTime()
     {
@@ -581,9 +578,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\SortableIterator
-     *
-     * @api
+     * @see SortableIterator
      */
     public function sortByModifiedTime()
     {
@@ -602,9 +597,7 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @return Finder The current Finder instance
      *
-     * @see Symfony\Component\Finder\Iterator\CustomFilterIterator
-     *
-     * @api
+     * @see CustomFilterIterator
      */
     public function filter(\Closure $closure)
     {
@@ -617,8 +610,6 @@ class Finder implements \IteratorAggregate, \Countable
      * Forces the following of symlinks.
      *
      * @return Finder The current Finder instance
-     *
-     * @api
      */
     public function followLinks()
     {
@@ -651,8 +642,6 @@ class Finder implements \IteratorAggregate, \Countable
      * @return Finder The current Finder instance
      *
      * @throws \InvalidArgumentException if one of the directories does not exist
-     *
-     * @api
      */
     public function in($dirs)
     {
@@ -661,7 +650,7 @@ class Finder implements \IteratorAggregate, \Countable
         foreach ((array) $dirs as $dir) {
             if (is_dir($dir)) {
                 $resolvedDirs[] = $dir;
-            } elseif ($glob = glob($dir, GLOB_BRACE | GLOB_ONLYDIR)) {
+            } elseif ($glob = glob($dir, (defined('GLOB_BRACE') ? GLOB_BRACE : 0) | GLOB_ONLYDIR)) {
                 $resolvedDirs = array_merge($resolvedDirs, $glob);
             } else {
                 throw new \InvalidArgumentException(sprintf('The "%s" directory does not exist.', $dir));
@@ -764,8 +753,6 @@ class Finder implements \IteratorAggregate, \Countable
      * @param $dir
      *
      * @return \Iterator
-     *
-     * @throws \RuntimeException When none of the adapters are supported
      */
     private function searchInDirectory($dir)
     {
@@ -777,18 +764,93 @@ class Finder implements \IteratorAggregate, \Countable
             $this->notPaths[] = '#(^|/)\..+(/|$)#';
         }
 
-        foreach ($this->adapters as $adapter) {
-            if ($adapter['adapter']->isSupported()) {
-                try {
-                    return $this
-                        ->buildAdapter($adapter['adapter'])
-                        ->searchInDirectory($dir);
-                } catch (ExceptionInterface $e) {
+        if ($this->adapters) {
+            foreach ($this->adapters as $adapter) {
+                if ($adapter['adapter']->isSupported()) {
+                    try {
+                        return $this
+                            ->buildAdapter($adapter['adapter'])
+                            ->searchInDirectory($dir);
+                    } catch (ExceptionInterface $e) {
+                    }
                 }
             }
         }
 
-        throw new \RuntimeException('No supported adapter found.');
+        $minDepth = 0;
+        $maxDepth = PHP_INT_MAX;
+
+        foreach ($this->depths as $comparator) {
+            switch ($comparator->getOperator()) {
+                case '>':
+                    $minDepth = $comparator->getTarget() + 1;
+                    break;
+                case '>=':
+                    $minDepth = $comparator->getTarget();
+                    break;
+                case '<':
+                    $maxDepth = $comparator->getTarget() - 1;
+                    break;
+                case '<=':
+                    $maxDepth = $comparator->getTarget();
+                    break;
+                default:
+                    $minDepth = $maxDepth = $comparator->getTarget();
+            }
+        }
+
+        $flags = \RecursiveDirectoryIterator::SKIP_DOTS;
+
+        if ($this->followLinks) {
+            $flags |= \RecursiveDirectoryIterator::FOLLOW_SYMLINKS;
+        }
+
+        $iterator = new Iterator\RecursiveDirectoryIterator($dir, $flags, $this->ignoreUnreadableDirs);
+
+        if ($this->exclude) {
+            $iterator = new Iterator\ExcludeDirectoryFilterIterator($iterator, $this->exclude);
+        }
+
+        $iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+        if ($minDepth > 0 || $maxDepth < PHP_INT_MAX) {
+            $iterator = new Iterator\DepthRangeFilterIterator($iterator, $minDepth, $maxDepth);
+        }
+
+        if ($this->mode) {
+            $iterator = new Iterator\FileTypeFilterIterator($iterator, $this->mode);
+        }
+
+        if ($this->names || $this->notNames) {
+            $iterator = new Iterator\FilenameFilterIterator($iterator, $this->names, $this->notNames);
+        }
+
+        if ($this->contains || $this->notContains) {
+            $iterator = new Iterator\FilecontentFilterIterator($iterator, $this->contains, $this->notContains);
+        }
+
+        if ($this->sizes) {
+            $iterator = new Iterator\SizeRangeFilterIterator($iterator, $this->sizes);
+        }
+
+        if ($this->dates) {
+            $iterator = new Iterator\DateRangeFilterIterator($iterator, $this->dates);
+        }
+
+        if ($this->filters) {
+            $iterator = new Iterator\CustomFilterIterator($iterator, $this->filters);
+        }
+
+        if ($this->paths || $this->notPaths) {
+            $iterator = new Iterator\PathFilterIterator($iterator, $this->paths, $this->notPaths);
+        }
+
+        if ($this->sort) {
+            $iteratorAggregate = new Iterator\SortableIterator($iterator, $this->sort);
+            $iterator = $iteratorAggregate->getIterator();
+        }
+
+        return $iterator;
     }
 
     /**
@@ -826,5 +888,18 @@ class Finder implements \IteratorAggregate, \Countable
 
             return $properties;
         }, $this->adapters);
+    }
+
+    private function initDefaultAdapters()
+    {
+        if (null === $this->adapters) {
+            $this->adapters = array();
+            $this
+                ->addAdapter(new GnuFindAdapter())
+                ->addAdapter(new BsdFindAdapter())
+                ->addAdapter(new PhpAdapter(), -50)
+                ->setAdapter('php')
+            ;
+        }
     }
 }

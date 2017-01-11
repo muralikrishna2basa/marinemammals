@@ -29,6 +29,9 @@ class ObjectChoiceListTest_EntityWithToString
     }
 }
 
+/**
+ * @group legacy
+ */
 class ObjectChoiceListTest extends AbstractChoiceListTest
 {
     private $obj1;

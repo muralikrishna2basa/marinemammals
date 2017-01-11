@@ -11,8 +11,12 @@
 
 namespace Symfony\Component\Finder\Shell;
 
+@trigger_error('The '.__NAMESPACE__.'\Command class is deprecated since version 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+
 /**
  * @author Jean-François Simon <contact@jfsimon.fr>
+ *
+ * @deprecated since 2.8, to be removed in 3.0.
  */
 class Command
 {
@@ -168,7 +172,7 @@ class Command
         }
 
         $this->bits[] = self::create($this);
-        $this->labels[$label] = count($this->bits)-1;
+        $this->labels[$label] = count($this->bits) - 1;
 
         return $this->bits[$this->labels[$label]];
     }
@@ -246,14 +250,14 @@ class Command
      */
     public function execute()
     {
-        if (null === $this->errorHandler) {
+        if (null === $errorHandler = $this->errorHandler) {
             exec($this->join(), $output);
         } else {
             $process = proc_open($this->join(), array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w')), $pipes);
             $output = preg_split('~(\r\n|\r|\n)~', stream_get_contents($pipes[1]), -1, PREG_SPLIT_NO_EMPTY);
 
             if ($error = stream_get_contents($pipes[2])) {
-                call_user_func($this->errorHandler, $error);
+                $errorHandler($error);
             }
 
             proc_close($process);
@@ -287,7 +291,7 @@ class Command
      */
     public function addAtIndex($bit, $index)
     {
-        array_splice($this->bits, $index, 0, $bit);
+        array_splice($this->bits, $index, 0, $bit instanceof self ? array($bit) : $bit);
 
         return $this;
     }

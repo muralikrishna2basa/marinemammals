@@ -2,3 +2,10 @@
 - Scope: `container`
 - Public: yes
 - Synthetic: no
+- Lazy: yes
+- Shared: yes
+- Synchronized: no
+- Abstract: yes
+- Autowired: no
+- Factory Class: `Full\Qualified\FactoryClass`
+- Factory Method: `get`

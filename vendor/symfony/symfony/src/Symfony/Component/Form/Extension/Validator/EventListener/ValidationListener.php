@@ -46,6 +46,10 @@ class ValidationListener implements EventSubscriberInterface
             throw new \InvalidArgumentException('Validator must be instance of Symfony\Component\Validator\Validator\ValidatorInterface or Symfony\Component\Validator\ValidatorInterface');
         }
 
+        if (!$validator instanceof ValidatorInterface) {
+            @trigger_error('Passing an instance of Symfony\Component\Validator\ValidatorInterface as argument to the '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0. Use an implementation of Symfony\Component\Validator\Validator\ValidatorInterface instead', E_USER_DEPRECATED);
+        }
+
         $this->validator = $validator;
         $this->violationMapper = $violationMapper;
     }
@@ -66,7 +70,8 @@ class ValidationListener implements EventSubscriberInterface
             foreach ($violations as $violation) {
                 // Allow the "invalid" constraint to be put onto
                 // non-synchronized forms
-                $allowNonSynchronized = $violation->getConstraint() instanceof Form && Form::NOT_SYNCHRONIZED_ERROR === $violation->getCode();
+                // ConstraintViolation::getConstraint() must not expect to provide a constraint as long as Symfony\Component\Validator\ExecutionContext exists (before 3.0)
+                $allowNonSynchronized = (null === $violation->getConstraint() || $violation->getConstraint() instanceof Form) && Form::NOT_SYNCHRONIZED_ERROR === $violation->getCode();
 
                 $this->violationMapper->mapViolation($violation, $form, $allowNonSynchronized);
             }

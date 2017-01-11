@@ -13,10 +13,6 @@ namespace Symfony\Component\Translation\Dumper;
 
 use Symfony\Component\Translation\MessageCatalogue;
 
-if (!defined('JSON_PRETTY_PRINT')) {
-    define('JSON_PRETTY_PRINT', 128);
-}
-
 /**
  * JsonFileDumper generates an json formatted string representation of a message catalogue.
  *
@@ -29,7 +25,23 @@ class JsonFileDumper extends FileDumper
      */
     public function format(MessageCatalogue $messages, $domain = 'messages')
     {
-        return json_encode($messages->all($domain), JSON_PRETTY_PRINT);
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0. Use the formatCatalogue() method instead.', E_USER_DEPRECATED);
+
+        return $this->formatCatalogue($messages, $domain);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
+    {
+        if (isset($options['json_encoding'])) {
+            $flags = $options['json_encoding'];
+        } else {
+            $flags = defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0;
+        }
+
+        return json_encode($messages->all($domain), $flags);
     }
 
     /**

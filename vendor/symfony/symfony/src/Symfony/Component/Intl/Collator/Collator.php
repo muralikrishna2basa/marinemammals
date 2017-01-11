@@ -30,6 +30,8 @@ use Symfony\Component\Intl\Locale\Locale;
  *
  * @author Igor Wiedler <igor@wiedler.ch>
  * @author Bernhard Schussek <bschussek@gmail.com>
+ *
+ * @internal
  */
 class Collator
 {
@@ -68,27 +70,27 @@ class Collator
     const SORT_STRING = 1;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $locale The locale code. The only currently supported locale is "en".
+     * @param string $locale The locale code. The only currently supported locale is "en" (or null using the default locale, i.e. "en").
      *
-     * @throws MethodArgumentValueNotImplementedException When $locale different than "en" is passed
+     * @throws MethodArgumentValueNotImplementedException When $locale different than "en" or null is passed
      */
     public function __construct($locale)
     {
-        if ('en' != $locale) {
+        if ('en' !== $locale && null !== $locale) {
             throw new MethodArgumentValueNotImplementedException(__METHOD__, 'locale', $locale, 'Only the locale "en" is supported');
         }
     }
 
     /**
-     * Static constructor
+     * Static constructor.
      *
-     * @param string $locale The locale code. The only currently supported locale is "en".
+     * @param string $locale The locale code. The only currently supported locale is "en" (or null using the default locale, i.e. "en").
      *
      * @return Collator
      *
-     * @throws MethodArgumentValueNotImplementedException When $locale different than "en" is passed
+     * @throws MethodArgumentValueNotImplementedException When $locale different than "en" or null is passed
      */
     public static function create($locale)
     {
@@ -96,7 +98,7 @@ class Collator
     }
 
     /**
-     * Sort array maintaining index association
+     * Sort array maintaining index association.
      *
      * @param array &$array   Input array
      * @param int   $sortFlag Flags for sorting, can be one of the following:
@@ -120,7 +122,7 @@ class Collator
     }
 
     /**
-     * Not supported. Compare two Unicode strings
+     * Not supported. Compare two Unicode strings.
      *
      * @param string $str1 The first string to compare
      * @param string $str2 The second string to compare
@@ -140,7 +142,7 @@ class Collator
     }
 
     /**
-     * Not supported. Get a value of an integer collator attribute
+     * Not supported. Get a value of an integer collator attribute.
      *
      * @param int $attr An attribute specifier, one of the attribute constants
      *
@@ -156,7 +158,7 @@ class Collator
     }
 
     /**
-     * Returns collator's last error code. Always returns the U_ZERO_ERROR class constant value
+     * Returns collator's last error code. Always returns the U_ZERO_ERROR class constant value.
      *
      * @return int The error code from last collator call
      */
@@ -166,7 +168,7 @@ class Collator
     }
 
     /**
-     * Returns collator's last error message. Always returns the U_ZERO_ERROR_MESSAGE class constant value
+     * Returns collator's last error message. Always returns the U_ZERO_ERROR_MESSAGE class constant value.
      *
      * @return string The error message from last collator call
      */
@@ -176,7 +178,7 @@ class Collator
     }
 
     /**
-     * Returns the collator's locale
+     * Returns the collator's locale.
      *
      * @param int $type Not supported. The locale name type to return (Locale::VALID_LOCALE or Locale::ACTUAL_LOCALE)
      *
@@ -189,7 +191,7 @@ class Collator
     }
 
     /**
-     * Not supported. Get sorting key for a string
+     * Not supported. Get sorting key for a string.
      *
      * @param string $string The string to produce the key from
      *
@@ -205,7 +207,7 @@ class Collator
     }
 
     /**
-     * Not supported. Get current collator's strength
+     * Not supported. Get current collator's strength.
      *
      * @return bool|int The current collator's strength or false on failure
      *
@@ -219,7 +221,7 @@ class Collator
     }
 
     /**
-     * Not supported. Set a collator's attribute
+     * Not supported. Set a collator's attribute.
      *
      * @param int $attr An attribute specifier, one of the attribute constants
      * @param int $val  The attribute value, one of the attribute value constants
@@ -236,7 +238,7 @@ class Collator
     }
 
     /**
-     * Not supported. Set the collator's strength
+     * Not supported. Set the collator's strength.
      *
      * @param int $strength Strength to set, possible values:
      *                      Collator::PRIMARY
@@ -258,7 +260,7 @@ class Collator
     }
 
     /**
-     * Not supported. Sort array using specified collator and sort keys
+     * Not supported. Sort array using specified collator and sort keys.
      *
      * @param array &$arr Array of strings to sort
      *
@@ -274,7 +276,7 @@ class Collator
     }
 
     /**
-     * Not supported. Sort array using specified collator
+     * Not supported. Sort array using specified collator.
      *
      * @param array &$arr     Array of string to sort
      * @param int   $sortFlag Optional sorting type, one of the following:

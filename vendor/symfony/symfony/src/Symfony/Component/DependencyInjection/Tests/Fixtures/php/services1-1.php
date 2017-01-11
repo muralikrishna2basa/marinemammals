@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 /**
- * Container
+ * Container.
  *
  * This class has been auto-generated
  * by the Symfony Dependency Injection Component.
@@ -18,16 +18,13 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 class Container extends AbstractContainer
 {
     private $parameters;
+    private $targetDirs = array();
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->parameters = array(
-
-        );
-
-        parent::__construct(new ParameterBag($this->parameters));
+        parent::__construct();
     }
 }

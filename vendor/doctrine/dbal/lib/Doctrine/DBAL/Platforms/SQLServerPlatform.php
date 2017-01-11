@@ -561,7 +561,7 @@ class SQLServerPlatform extends AbstractPlatform
                 JOIN sys.index_columns AS idxcol ON idx.object_id = idxcol.object_id AND idx.index_id = idxcol.index_id
                 JOIN sys.columns AS col ON idxcol.object_id = col.object_id AND idxcol.column_id = col.column_id
                 WHERE tbl.name = '$table'
-                ORDER BY idx.index_id ASC, idxcol.index_column_id ASC";
+                ORDER BY idx.index_id ASC, idxcol.key_ordinal ASC";
     }
 
     /**
@@ -675,7 +675,7 @@ class SQLServerPlatform extends AbstractPlatform
      */
     public function getListDatabasesSQL()
     {
-        return 'SELECT * FROM SYS.DATABASES';
+        return 'SELECT * FROM sys.databases';
     }
 
     /**
@@ -848,7 +848,7 @@ class SQLServerPlatform extends AbstractPlatform
 
                 $pattern    = sprintf('/%s\.(%s)\s*(AS)?\s*([^,\s\)]*)/i', $column['table'], $column['column']);
                 $overColumn = preg_match($pattern, $query, $matches)
-                    ? ($column['hasTable'] ? $column['table']  . '.' : '') . $column['column'] 
+                    ? ($column['hasTable'] ? $column['table']  . '.' : '') . $column['column']
                     : $column['column'];
 
                 if (isset($column['sort'])) {

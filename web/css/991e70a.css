@@ -9982,6 +9982,10 @@ pre code {
   content: "\f23a";
 }
 
+h2{
+    text-decoration: underline;
+}
+
 input:focus::-webkit-input-placeholder {
     color: transparent;
 }

@@ -14,7 +14,9 @@ namespace Symfony\Component\Security\Core\Tests\Util;
 use Symfony\Component\Security\Core\Util\StringUtils;
 
 /**
- * Data from PHP.net's hash_equals tests
+ * Data from PHP.net's hash_equals tests.
+ *
+ * @group legacy
  */
 class StringUtilsTest extends \PHPUnit_Framework_TestCase
 {
