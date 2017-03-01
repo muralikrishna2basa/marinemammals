@@ -60,3 +60,9 @@ Allow from all
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+<FilesMatch "\.(ttf|otf|eot|woff)$">
+  <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "fonts.gstatic.com"
+  </IfModule>
+</FilesMatch>
