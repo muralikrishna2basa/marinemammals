@@ -63,6 +63,6 @@ Allow from all
 
 <FilesMatch "\.(ttf|otf|eot|woff)$">
   <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "fonts.gstatic.com"
+    Header set Access-Control-Allow-Origin "http://fonts.gstatic.com"
   </IfModule>
 </FilesMatch>
