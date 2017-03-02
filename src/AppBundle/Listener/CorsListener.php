@@ -1,5 +1,5 @@
 <?php
-namespace MyCorp\MyBundle\Listener;
+namespace AppBundle\Listener;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
