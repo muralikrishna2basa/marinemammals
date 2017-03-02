@@ -11,6 +11,12 @@ AddType application/x-font-woff              woff
 Satisfy Any
 Allow from all
 
+<IfModule mod_headers.c>
+  <FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css|css|js)$">
+    Header set Access-Control-Allow-Origin "http://fonts.gstatic.com"
+  </FilesMatch>
+</IfModule>
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
@@ -60,9 +66,3 @@ Allow from all
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
-
-<FilesMatch "\.(ttf|otf|eot|woff)$">
-  <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "http://fonts.gstatic.com"
-  </IfModule>
-</FilesMatch>
