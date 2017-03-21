@@ -66,3 +66,4 @@ app/logs/test.log
 *.gif
 web/legacy/img/*
 web/legacy/video/*
+static-img/*
