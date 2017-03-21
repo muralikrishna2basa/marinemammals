@@ -52,9 +52,10 @@ parameters.yml
 parameters.yml*
 parameters*.yml
 db_credentials.ini
-.sh
-app/cache/
-app/logs/
+*.sh
+app/cache/*
+app/logs/*
+app/spool/*
 app/logs/dev.log
 app/logs/prog.log
 app/logs/test.log
@@ -63,3 +64,5 @@ app/logs/test.log
 *.jpg
 *.png
 *.gif
+web/legacy/img/*
+web/legacy/video/*
