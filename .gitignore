@@ -52,6 +52,7 @@ parameters.yml
 parameters.yml*
 parameters*.yml
 db_credentials.ini
+.sh
 app/cache/
 app/logs/
 app/logs/dev.log
