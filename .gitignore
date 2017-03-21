@@ -50,6 +50,8 @@ crashlytics-build.properties
 
 parameters.yml
 parameters.yml*
+parameters*.yml
+db_credentials.ini
 app/cache/
 app/logs/
 app/logs/dev.log
@@ -57,3 +59,6 @@ app/logs/prog.log
 app/logs/test.log
 *.log
 *~
+*.jpg
+*.png
+*.gif
