@@ -51,8 +51,12 @@ crashlytics-build.properties
 parameters.yml
 parameters.yml*
 parameters*.yml
+parameters_dev.yml
+parameters_prod.yml
 db_credentials.ini
+db_credentials.ini*
 *.sh
+*.sh*
 app/cache/*
 app/logs/*
 app/spool/*
